@@ -4,6 +4,11 @@ project(GravSim)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Silence OpenGL deprecation warnings on macOS
+if(APPLE)
+    add_definitions(-DGL_SILENCE_DEPRECATION)
+endif()
+
 # Add GLFW submodule
 add_subdirectory(libraries/glfw)
 
@@ -14,6 +19,7 @@ add_executable(GravSim
         libraries/imgui/imgui_draw.cpp
         libraries/imgui/imgui_widgets.cpp
         libraries/imgui/imgui_tables.cpp
+        libraries/imgui/imgui_demo.cpp
         libraries/imgui/backends/imgui_impl_glfw.cpp
         libraries/imgui/backends/imgui_impl_opengl3.cpp
 )
