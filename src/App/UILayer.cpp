@@ -13,8 +13,14 @@
 void UILayer::OnInit() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    const ImGuiIO &io = ImGui::GetIO();
+    ImGuiIO &io = ImGui::GetIO();
     (void) io;
+
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;    // enable docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // enable multi-viewport
+
+    // allow transparent background for platform windows
+    io.ConfigViewportsNoTaskBarIcon = false;
 
     ImGui::StyleColorsDark();
 
@@ -46,8 +52,17 @@ void UILayer::OnRender() {
     const auto size = m_Window->GetFramebufferSize();
     glViewport(0, 0, size.x, size.y);
     glClear(GL_COLOR_BUFFER_BIT);
-
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    const ImGuiIO& io = ImGui::GetIO();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
+    }
+
 }
 
 UILayer::~UILayer() {
