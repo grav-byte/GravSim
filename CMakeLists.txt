@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.16)
 project(GravSim)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -22,6 +22,16 @@ add_executable(GravSim
         libraries/imgui/imgui_demo.cpp
         libraries/imgui/backends/imgui_impl_glfw.cpp
         libraries/imgui/backends/imgui_impl_opengl3.cpp
+        src/core/Application.cpp
+        src/core/Application.h
+        src/core/AppLayer.h
+        src/core/Event.h
+        src/core/InputEvents.h
+        src/core/WindowEvents.h
+        src/core/Window.cpp
+        src/core/Window.h
+        src/app/UILayer.cpp
+        src/app/UILayer.h
 )
 
 # Include directories
@@ -30,6 +40,7 @@ target_include_directories(GravSim PRIVATE
         libraries/glfw/include
         libraries/imgui
         libraries/imgui/backends
+        libraries/glm
 )
 
 # Link libraries
