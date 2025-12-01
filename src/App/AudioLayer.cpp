@@ -2,7 +2,7 @@
 // Created by Lorenz Saalmann on 01.12.25.
 //
 
-#include "AudioSystem.h"
+#include "AudioLayer.h"
 
 #include <filesystem>
 #include <iostream>
@@ -10,8 +10,10 @@
 
 #include "miniaudio.h"
 
-AudioSystem::AudioSystem() {
+AudioLayer::AudioLayer() : AppLayer() {
     musicDirectory = "../assets/audio/portal2_soundtrack";
+    currentSongTitle = "";
+    shouldPlayNextSong = false;
     currentSong = ma_sound();
     engine = ma_engine();
     ma_result result = ma_engine_init(nullptr, &engine);
@@ -20,26 +22,37 @@ AudioSystem::AudioSystem() {
     }
 }
 
-AudioSystem::~AudioSystem() {
+AudioLayer::~AudioLayer() {
     if (ma_sound_is_playing(&currentSong)) {
         ma_sound_uninit(&currentSong);
     }
     ma_engine_uninit(&engine);
 }
 
-void AudioSystem::PlaySound(const char* path) {
+void AudioLayer::PlaySound(const char* path) {
     ma_engine_play_sound(&engine, path, nullptr);
 }
 
-void AudioSystem::SetVolume(float volume) {
+void AudioLayer::SetVolume(float volume) {
     ma_engine_set_volume(&engine, volume);
 }
 
-float AudioSystem::GetVolume() {
+float AudioLayer::GetVolume() {
     return ma_engine_get_volume(&engine);
 }
 
-void AudioSystem::PlaySong(const char *soundFilePath, ma_sound_end_proc onEndCallback) {
+void AudioLayer::OnInit() {
+    NextSong();
+}
+
+void AudioLayer::OnUpdate(float deltaTime) {
+    if (shouldPlayNextSong) {
+        shouldPlayNextSong = false;
+        NextSong();
+    }
+}
+
+void AudioLayer::PlaySong(const char *soundFilePath, ma_sound_end_proc onEndCallback) {
     ma_sound_uninit(&currentSong);
     ma_result result = ma_sound_init_from_file(&engine, soundFilePath, 0, nullptr, nullptr, &currentSong);
     if (result != MA_SUCCESS) {
@@ -51,12 +64,11 @@ void AudioSystem::PlaySong(const char *soundFilePath, ma_sound_end_proc onEndCal
     }
 }
 
-void AudioSystem::StartMusic() {
+void AudioLayer::NextSong() {
     PlayRandomSongFromDirectory(musicDirectory, OnSongFinished);
 }
 
-
-void AudioSystem::PlayRandomSongFromDirectory(const char *directoryPath, ma_sound_end_proc onEndCallback) {
+void AudioLayer::PlayRandomSongFromDirectory(const char *directoryPath, ma_sound_end_proc onEndCallback) {
     namespace fs = std::filesystem;
 
     std::vector<fs::path> audioFiles;
@@ -64,7 +76,7 @@ void AudioSystem::PlayRandomSongFromDirectory(const char *directoryPath, ma_soun
     // Collect all files in the directory
     try {
         for (const auto &entry : fs::directory_iterator(directoryPath)) {
-            if (entry.is_regular_file()) {
+            if (entry.is_regular_file() && entry.path().extension() == ".mp3") {
                 audioFiles.push_back(entry.path());
             }
         }
@@ -84,6 +96,14 @@ void AudioSystem::PlayRandomSongFromDirectory(const char *directoryPath, ma_soun
     std::uniform_int_distribution<size_t> dist(0, audioFiles.size() - 1);
     fs::path randomFile = audioFiles[dist(gen)];
 
+    currentSongTitle = randomFile.filename().string();
+
     // Play it
     PlaySong(randomFile.string().c_str(), onEndCallback);
+}
+
+void AudioLayer::OnEvent(Core::Event &event) {
+}
+
+void AudioLayer::OnRender() {
 }

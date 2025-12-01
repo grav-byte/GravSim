@@ -5,8 +5,6 @@
 #include "EngineLayer.h"
 
 EngineLayer::EngineLayer() : AppLayer() {
-    audioSystem = std::make_shared<AudioSystem>();
-    audioSystem->StartMusic();
 }
 
 EngineLayer::~EngineLayer() {

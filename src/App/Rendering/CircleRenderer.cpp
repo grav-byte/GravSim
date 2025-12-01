@@ -53,10 +53,6 @@ void CircleRenderer::SetScale(const glm::vec2& scale) {
     m_scale = scale;
 }
 
-// -----------------------------------------------------
-// Rendering
-// -----------------------------------------------------
-
 void CircleRenderer::Render() {
     // Build model matrix from position, rotation, and scale
     glm::mat4 model(1.0f);
@@ -90,9 +86,6 @@ void CircleRenderer::Render() {
     glBindVertexArray(m_vao);
     glDrawArrays(GL_TRIANGLE_FAN, 0, static_cast<GLsizei>(m_vertices.size()));
     glBindVertexArray(0);
-
-    // Optional: reset program
-    // glUseProgram(0);
 }
 
 void CircleRenderer::BuildVertices() {

@@ -11,11 +11,9 @@
 
 SettingsUI::SettingsUI() {
     auto engineLayer = Core::Application::Get().GetLayer<EngineLayer>();
-    audioSystem = std::weak_ptr(engineLayer->audioSystem);
-    if (auto sys = audioSystem.lock()) {
-        // access safely
-        volume = sys->GetVolume();
-    }
+    auto audioLayer = Core::Application::Get().GetLayer<AudioLayer>();
+    audioSystem = audioLayer;
+    volume = audioSystem->GetVolume();
 }
 
 SettingsUI::~SettingsUI() = default;
@@ -23,13 +21,13 @@ SettingsUI::~SettingsUI() = default;
 void SettingsUI::Render() {
 
     ImGui::Begin("Settings");
-
-    ImGui::Text("Audio Settings");
+    ImGui::SeparatorText("Audio");
     if (ImGui::SliderFloat("Volume", &volume, 0.0f, 1.0f)) {
-        if (auto sys = audioSystem.lock()) {
-            // access safely
-            sys->SetVolume(volume);
-        }
+        audioSystem->SetVolume(volume);
+    }
+    ImGui::Text("Now Playing: %s", audioSystem->currentSongTitle.c_str());
+    if (ImGui::Button("Skip Song")) {
+        audioSystem->NextSong();
     }
     ImGui::End();
 }

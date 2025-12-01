@@ -1,6 +1,6 @@
-#include "App/EngineLayer.h"
-#include "App/UILayer.h"
-#include "Core/Application.h"
+#include "EngineLayer.h"
+#include "UILayer.h"
+#include "../Core/Application.h"
 
 int main() {
     Core::AppConfig config;
@@ -10,5 +10,6 @@ int main() {
     Core::Application app(config);
     app.PushLayer<UILayer>();
     app.PushLayer<EngineLayer>();
+    app.PushLayer<AudioLayer>();
     app.Run();
 }

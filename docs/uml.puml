@@ -28,6 +28,18 @@ ICollider "many" --* "1" SceneObject
 EngineLayer --|> AppLayer
 IPhysicsSolver --* EngineLayer
 
+class SettingsUI {
+    void Render();
+}
+
+interface IUserInterface {
+    +void Render();
+}
+
+SettingsUI <|-- IUserInterface
+IUserInterface "many" --* "1" UILayer
+AudioSystem --* EngineLayer
+
 class SceneObject {
     +uint id
     +float size

@@ -23,7 +23,7 @@ target_compile_definitions(glew PUBLIC GLEW_STATIC)
 
 # Add executable
 add_executable(GravSim
-        src/main.cpp
+        src/App/main.cpp
         libraries/imgui/imgui.cpp
         libraries/imgui/imgui_draw.cpp
         libraries/imgui/imgui_widgets.cpp
@@ -35,7 +35,7 @@ add_executable(GravSim
         src/core/Application.cpp
         src/core/Window.cpp
         src/app/UILayer.cpp
-        src/App/AudioSystem.cpp
+        src/App/AudioLayer.cpp
         src/App/EngineLayer.cpp
         src/App/UI/SettingsUI.cpp
         src/App/Rendering/CircleRenderer.cpp

@@ -48,6 +48,7 @@ void UILayer::OnUpdate(float deltaTime) {
 
     ImGui::NewFrame();
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID);
+    ImGui::PushItemWidth(-1);
 
     settingsUI->Render();
 

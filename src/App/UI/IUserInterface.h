@@ -4,8 +4,8 @@
 
 #pragma once
 
-class IUserInterfaceWindow {
+class IUserInterface {
 public:
-    virtual ~IUserInterfaceWindow() = default;
+    virtual ~IUserInterface() = default;
     virtual void Render() = 0;
 };

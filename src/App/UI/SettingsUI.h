@@ -5,11 +5,11 @@
 #pragma once
 #include <memory>
 
-#include "IUserInterfaceWindow.h"
-#include "App/AudioSystem.h"
+#include "IUserInterface.h"
+#include "App/AudioLayer.h"
 
 
-class SettingsUI : public IUserInterfaceWindow {
+class SettingsUI : public IUserInterface {
 public:
     SettingsUI();
     ~SettingsUI() override;
@@ -17,7 +17,7 @@ public:
     void Render() override;
 
 private:
-    std::weak_ptr<AudioSystem> audioSystem;
+    AudioLayer* audioSystem;
 
     float volume;
 };

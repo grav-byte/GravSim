@@ -3,7 +3,6 @@
 //
 
 #pragma once
-#include "AudioSystem.h"
 #include "Core/AppLayer.h"
 
 
@@ -11,8 +10,6 @@ class EngineLayer : public Core::AppLayer{
 public:
     EngineLayer();
     ~EngineLayer() override;
-
-    std::shared_ptr<AudioSystem> audioSystem;
 
     void OnInit() override;
 
