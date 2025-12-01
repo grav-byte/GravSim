@@ -2,12 +2,13 @@
 // Created by Lorenz Saalmann on 01.12.25.
 //
 
-#include "ShaderLoader.h"
-
+#define IMGUI_IMPL_OPENGL_LOADER_GLEW
 #include <alloca.h>
 
-#include "imgui_impl_opengl3_loader.h"
 #include "GL/glew.h"
+
+#include "ShaderLoader.h"
+
 
 GLuint ShaderLoader::LoadShader(const std::string &vertexPath, const std::string &fragmentPath) {
     // Create shader program and compile & attach shaders
@@ -52,7 +53,7 @@ char* ShaderLoader::LoadSource(std::string path) {
     return buffer;
 }
 
-unsigned int ShaderLoader::CompileShader(unsigned int type, const char* source) {
+unsigned int ShaderLoader::CompileShader(const unsigned int type, const char* source) {
     // Create and compile shader
     const unsigned int id = glCreateShader(type);
     glShaderSource(id, 1, &source, nullptr);

@@ -5,13 +5,15 @@
 #pragma once
 #include "ICollider.h"
 #include "glm/vec2.hpp"
+#include <memory>
+#include <vector>
 
 
 class IRenderer;
 
 class SceneObject {
 public:
-    uint id;
+    uint32_t id;
     float size;
     float mass;
 
