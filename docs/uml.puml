@@ -1,6 +1,6 @@
 @startuml
 
-class Engine {
+class EngineLayer {
     +Scene scene
     +AudioSystem audioSystem
     +IPhysicsSolver physicsSolver
@@ -21,12 +21,12 @@ class Scene {
   +PhysicsObject[] objects
 }
 
-Scene --* Engine
+Scene --* EngineLayer
 Object "many" --* "1" Scene
 IRenderer --* Object
 ICollider "many" --* "1" Object
-Engine --|> AppLayer
-IPhysicsSolver --* Engine
+EngineLayer --|> AppLayer
+IPhysicsSolver --* EngineLayer
 
 class Object {
     +uint id
@@ -75,5 +75,23 @@ interface ICollider {
 ICollider <|.. CircleCollider
 IRenderer <|.. CircleRenderer
 IRenderer <|.. SpriteRenderer
+
+class UILayer {
+    +void OnInit()
+    +void OnUpdate(float deltaTime)
+    +void OnEvent(Event& event)
+    +void OnRender()
+}
+
+UILayer --|> AppLayer
+
+class Application {
+    +std::vector<std::unique_ptr<AppLayer>> m_LayerStack;
+    +void Run()
+    +void PushLayer(std::shared_ptr<AppLayer> layer)
+    +std::shared_ptr<Window> GetWindow()
+}
+
+AppLayer "many" --* "1" Application
 
 @enduml

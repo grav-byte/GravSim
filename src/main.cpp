@@ -1,3 +1,4 @@
+#include "App/EngineLayer.h"
 #include "App/UILayer.h"
 #include "Core/Application.h"
 
@@ -8,6 +9,7 @@ int main() {
     config.WindowConfig.Height = 720;
     Core::Application app(config);
     app.PushLayer<UILayer>();
+    app.PushLayer<EngineLayer>();
     app.Run();
 
     return 0;

@@ -23,7 +23,7 @@ add_executable(GravSim
         libraries/imgui/backends/imgui_impl_glfw.cpp
         libraries/imgui/backends/imgui_impl_opengl3.cpp
         libraries/miniaudio/miniaudio.h
-        libraries/miniaudio/miniaudio.cpp
+        libraries/miniaudio/miniaudio.c
         src/core/Application.cpp
         src/core/Application.h
         src/core/AppLayer.h
@@ -34,6 +34,10 @@ add_executable(GravSim
         src/core/Window.h
         src/app/UILayer.cpp
         src/app/UILayer.h
+        src/App/AudioSystem.h
+        src/App/AudioSystem.cpp
+        src/App/EngineLayer.cpp
+        src/App/EngineLayer.h
 )
 
 # Include directories
@@ -43,6 +47,7 @@ target_include_directories(GravSim PRIVATE
         libraries/imgui
         libraries/imgui/backends
         libraries/glm
+        libraries/miniaudio
 )
 
 # Link libraries
