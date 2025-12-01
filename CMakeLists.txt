@@ -27,8 +27,8 @@ add_executable(GravSim
         src/core/AppLayer.h
         src/core/Event.h
         src/core/InputEvents.h
-        src/core/WindowEvents.h
         src/core/Window.cpp
+        src/core/WindowEvents.h
         src/core/Window.h
         src/app/UILayer.cpp
         src/app/UILayer.h

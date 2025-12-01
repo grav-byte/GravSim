@@ -1,0 +1,79 @@
+@startuml
+
+class Engine {
+    +Scene scene
+    +AudioSystem audioSystem
+    +IPhysicsSolver physicsSolver
+
+    +override void OnInit()
+    +override void OnUpdate(float deltaTime)
+    +override void OnEvent(Event& event)
+    +override void OnRender()
+}
+
+interface IPhysicsSolver {
+    +void SolvePhysics(Scene& scene, float deltaTime)
+}
+
+IPhysicsSolver <|.. VerletSolver
+
+class Scene {
+  +PhysicsObject[] objects
+}
+
+Scene --* Engine
+Object "many" --* "1" Scene
+IRenderer --* Object
+ICollider "many" --* "1" Object
+Engine --|> AppLayer
+IPhysicsSolver --* Engine
+
+class Object {
+    +uint id
+    +float size
+    +float mass
+
+    +vec2 position
+    +vec2 velocity
+
+    +float rotation
+    +float angularVelocity
+
+    +IRenderer renderer
+    +ICollider[] collider
+
+    +applyForce(vec2 force, vec2 localPosition)
+}
+
+class AppLayer {
+    +AppLayer()
+    +void SetWindow(std::shared_ptr<Window> window)
+    +virtual void OnInit() = 0;
+    +virtual void OnUpdate(float deltaTime) = 0;
+    +virtual void OnEvent(Event& event) = 0;
+    +virtual void OnRender() = 0;
+}
+
+class CircleCollider {
+    +float radius
+}
+
+class CircleRenderer {
+    +float radius
+    +Color color
+}
+class SpriteRenderer {
+    +Texture texture
+    +float size
+}
+interface IRenderer {
+    +void Render(Object& object)
+}
+interface ICollider {
+    +bool CheckCollision(const ICollider& obj1, const ICollider& obj2)
+}
+ICollider <|.. CircleCollider
+IRenderer <|.. CircleRenderer
+IRenderer <|.. SpriteRenderer
+
+@enduml
