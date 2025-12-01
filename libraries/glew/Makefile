@@ -128,11 +128,11 @@ ifneq ($(STRIP),)
 	$(STRIP) -x $@
 endif
 
-tmp/$(SYSTEM)/default/static/glew.o: src/glew.c include/GL/glew.h include/GL/wglew.h include/GL/glxew.h
+tmp/$(SYSTEM)/default/static/glew.o: src/glew.c include include include
 	@mkdir -p $(dir $@)
 	$(CC) -DGLEW_NO_GLU -DGLEW_STATIC $(CFLAGS) $(CFLAGS.SO) -o $@ -c $<
 
-tmp/$(SYSTEM)/default/shared/glew.o: src/glew.c include/GL/glew.h include/GL/wglew.h include/GL/glxew.h
+tmp/$(SYSTEM)/default/shared/glew.o: src/glew.c include include include
 	@mkdir -p $(dir $@)
 	$(CC) -DGLEW_NO_GLU -DGLEW_BUILD $(CFLAGS) $(CFLAGS.SO) -o $@ -c $<
 
@@ -189,11 +189,11 @@ ifneq ($(STRIP),)
 	$(STRIP) -x $@
 endif
 
-$(GLEWINFO.BIN.OBJ): $(GLEWINFO.BIN.SRC) include/GL/glew.h include/GL/wglew.h include/GL/glxew.h
+$(GLEWINFO.BIN.OBJ): $(GLEWINFO.BIN.SRC) include/GL/glew.h include include
 	@mkdir -p $(dir $@)
 	$(CC) -DGLEW_NO_GLU $(CFLAGS) $(CFLAGS.SO) -o $@ -c $<
 
-$(VISUALINFO.BIN.OBJ): $(VISUALINFO.BIN.SRC) include/GL/glew.h include/GL/wglew.h include/GL/glxew.h
+$(VISUALINFO.BIN.OBJ): $(VISUALINFO.BIN.SRC) include/GL/glew.h include include
 	@mkdir -p $(dir $@)
 	$(CC) -DGLEW_NO_GLU $(CFLAGS) $(CFLAGS.SO) -o $@ -c $<
 

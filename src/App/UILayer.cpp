@@ -47,6 +47,7 @@ void UILayer::OnUpdate(float deltaTime) {
     ImGui_ImplGlfw_NewFrame();
 
     ImGui::NewFrame();
+    ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID);
 
     settingsUI->Render();
 
