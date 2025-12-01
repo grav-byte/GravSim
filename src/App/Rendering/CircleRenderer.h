@@ -1,16 +1,15 @@
 #pragma once
 
-#include "RenderingInterface.h"
+#include "IRenderer.h"
 
 #include <vector>
-#include <cstdint>
 #include <glm/glm.hpp>
 
 // Avoid hard dependency on GL headers in the header file.
 // GLuint is an unsigned 32-bit integer in OpenGL.
 using GLuint = std::uint32_t;
 
-class CircleRenderer : public RenderingInterface {
+class CircleRenderer : public IRenderer {
 public:
     // shaderProgram: ID of an already compiled & linked OpenGL shader program
     // color: RGBA color

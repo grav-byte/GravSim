@@ -1,13 +1,8 @@
 #include "CircleRenderer.h"
 
-#define GLEW_STATIC
 #include <GL/glew.h>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
-// -----------------------------------------------------
-// Constructor / Destructor
-// -----------------------------------------------------
 
 CircleRenderer::CircleRenderer(const float radius,
                                const glm::vec4& color,
@@ -35,10 +30,6 @@ CircleRenderer::~CircleRenderer() {
         glDeleteVertexArrays(1, &m_vao);
     }
 }
-
-// -----------------------------------------------------
-// Configuration
-// -----------------------------------------------------
 
 void CircleRenderer::SetRadius(float radius) {
     m_radius = radius;
@@ -103,10 +94,6 @@ void CircleRenderer::Render() {
     // Optional: reset program
     // glUseProgram(0);
 }
-
-// -----------------------------------------------------
-// Internal helpers
-// -----------------------------------------------------
 
 void CircleRenderer::BuildVertices() {
     m_vertices.clear();

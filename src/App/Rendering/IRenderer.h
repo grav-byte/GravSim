@@ -4,9 +4,9 @@
 
 #pragma once
 
-class RenderingInterface {
+class IRenderer {
 public:
-    virtual ~RenderingInterface() = default;
+    virtual ~IRenderer() = default;
 
     virtual void Render() = 0;
 };

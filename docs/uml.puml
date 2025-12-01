@@ -40,7 +40,7 @@ class SceneObject {
     +float angularVelocity
 
     +IRenderer renderer
-    +ICollider[] collider
+    +ICollider[] colliders
 
     +applyForce(vec2 force, vec2 localPosition)
 }
