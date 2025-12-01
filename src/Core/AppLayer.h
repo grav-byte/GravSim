@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "memory"
 #include "Window.h"
 #include "WindowEvents.h"
 
@@ -14,9 +15,10 @@ namespace Core {
     class AppLayer {
     public:
         AppLayer() = default;
+        virtual ~AppLayer() = default;
 
-        void SetWindow(Window* window) {
-            m_Window = std::shared_ptr<Window>(window);
+        void SetWindow(std::shared_ptr<Window> window) {
+            m_Window = std::shared_ptr(window);
         }
 
         virtual void OnInit() = 0;

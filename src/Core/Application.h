@@ -33,7 +33,7 @@ namespace Core {
         {
             static_assert(std::is_base_of_v<AppLayer, TLayer>, "TLayer must inherit from AppLayer");
             auto newLayer = std::make_unique<TLayer>();
-            newLayer->SetWindow(m_Window.get());
+            newLayer->SetWindow(m_Window);
             m_LayerStack.push_back(std::move(newLayer));
         }
 

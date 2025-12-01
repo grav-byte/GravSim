@@ -9,4 +9,6 @@ int main() {
     Core::Application app(config);
     app.PushLayer<UILayer>();
     app.Run();
+
+    return 0;
 }
