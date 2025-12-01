@@ -38,6 +38,9 @@ add_executable(GravSim
         src/App/AudioSystem.cpp
         src/App/EngineLayer.cpp
         src/App/EngineLayer.h
+        src/App/UI/IUserInterfaceWindow.h
+        src/App/UI/SettingsUI.cpp
+        src/App/UI/SettingsUI.h
 )
 
 # Include directories

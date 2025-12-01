@@ -49,6 +49,7 @@ namespace Core {
     void Application::Run() {
         m_Running = true;
 
+        printf("OnInit");
         for (const std::unique_ptr<AppLayer>& layer : m_LayerStack)
             layer->OnInit();
 

@@ -5,7 +5,8 @@
 #include "EngineLayer.h"
 
 EngineLayer::EngineLayer() : AppLayer() {
-    audioSystem.PlayRandomFileFromDirectory("../assets/audio/portal2_soundtrack");
+    audioSystem = std::make_shared<AudioSystem>();
+    audioSystem->StartMusic();
 }
 
 EngineLayer::~EngineLayer() {

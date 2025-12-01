@@ -4,10 +4,12 @@
 
 #pragma once
 #include "Core/AppLayer.h"
+#include "UI/SettingsUI.h"
 
 
 class UILayer: public Core::AppLayer {
 public:
+    UILayer();
     ~UILayer();
 
     void OnInit() override;
@@ -16,4 +18,6 @@ public:
     void OnRender() override;
 private:
     bool m_ShowDemo = false;
+
+    std::unique_ptr<SettingsUI> settingsUI;
 };
