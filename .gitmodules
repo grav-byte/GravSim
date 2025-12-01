@@ -10,3 +10,6 @@
 [submodule "libraries/miniaudio"]
 	path = libraries/miniaudio
 	url = https://github.com/mackron/miniaudio.git
+[submodule "libraries/glew"]
+	path = libraries/glew
+	url = https://github.com/nigels-com/glew.git

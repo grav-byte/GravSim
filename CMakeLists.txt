@@ -12,6 +12,15 @@ endif()
 # Add GLFW submodule
 add_subdirectory(libraries/glfw)
 
+# Add GLEW STATIC lib
+add_library(glew STATIC
+        libraries/glew/src/glew.c
+)
+target_include_directories(glew PUBLIC
+        ${CMAKE_SOURCE_DIR}/libraries/glew/include
+)
+target_compile_definitions(glew PUBLIC GLEW_STATIC)
+
 # Add executable
 add_executable(GravSim
         src/main.cpp
@@ -22,22 +31,14 @@ add_executable(GravSim
         libraries/imgui/imgui_demo.cpp
         libraries/imgui/backends/imgui_impl_glfw.cpp
         libraries/imgui/backends/imgui_impl_opengl3.cpp
-        libraries/miniaudio/miniaudio.h
         libraries/miniaudio/miniaudio.c
         src/core/Application.cpp
-        src/core/Application.h
-        src/core/AppLayer.h
-        src/core/Event.h
-        src/core/InputEvents.h
         src/core/Window.cpp
-        src/core/WindowEvents.h
-        src/core/Window.h
         src/app/UILayer.cpp
-        src/app/UILayer.h
-        src/App/AudioSystem.h
         src/App/AudioSystem.cpp
         src/App/EngineLayer.cpp
-        src/App/EngineLayer.h
+        src/App/Renderer/RenderingInterface.cpp
+        src/App/Renderer/CircleRenderer.cpp
 )
 
 # Include directories
@@ -48,14 +49,15 @@ target_include_directories(GravSim PRIVATE
         libraries/imgui/backends
         libraries/glm
         libraries/miniaudio
+        libraries/glew/include
 )
 
-# Link libraries
+# link libraries
 if(WIN32)
-    target_link_libraries(GravSim PRIVATE glfw opengl32)
+    target_link_libraries(GravSim PRIVATE glfw glew opengl32)
 elseif(APPLE)
     find_library(OpenGL_LIBRARY OpenGL)
-    target_link_libraries(GravSim PRIVATE glfw ${OpenGL_LIBRARY} "-framework Cocoa" "-framework IOKit" "-framework CoreVideo")
+    target_link_libraries(GravSim PRIVATE glfw glew ${OpenGL_LIBRARY} "-framework Cocoa" "-framework IOKit" "-framework CoreVideo")
 else()
-    target_link_libraries(GravSim PRIVATE glfw GL)
+    target_link_libraries(GravSim PRIVATE glfw glew GL)
 endif()
