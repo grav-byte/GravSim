@@ -12,6 +12,8 @@ public:
     EngineLayer();
     ~EngineLayer() override;
 
+    std::shared_ptr<AudioSystem> audioSystem;
+
     void OnInit() override;
 
     void OnUpdate(float deltaTime) override;
@@ -20,6 +22,4 @@ public:
 
     void OnRender() override;
 
-private:
-    AudioSystem audioSystem;
 };

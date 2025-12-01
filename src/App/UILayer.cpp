@@ -10,6 +10,17 @@
 
 #include "UILayer.h"
 
+UILayer::UILayer() {
+
+}
+
+UILayer::~UILayer() {
+    // Cleanup
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+}
+
 void UILayer::OnInit() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -26,17 +37,22 @@ void UILayer::OnInit() {
 
     ImGui_ImplGlfw_InitForOpenGL(m_Window->GetHandle(), true);
     ImGui_ImplOpenGL3_Init("#version 150");
+
+    settingsUI = std::make_unique<SettingsUI>();
 }
 
 void UILayer::OnUpdate(float deltaTime) {
     // Start ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
+
     ImGui::NewFrame();
+
+    settingsUI->Render();
 
     // --------- TEST UI ----------
     ImGui::Begin("ImGui Working!");
-    ImGui::Text("✅ If you see this, ImGui works!");
+    ImGui::Text("If you see this, ImGui works!");
     ImGui::Checkbox("Show Demo Window", &m_ShowDemo);
     ImGui::End();
 
@@ -63,11 +79,4 @@ void UILayer::OnRender() {
         glfwMakeContextCurrent(backup_current_context);
     }
 
-}
-
-UILayer::~UILayer() {
-    // Cleanup
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
 }

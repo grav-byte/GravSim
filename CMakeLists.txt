@@ -37,6 +37,7 @@ add_executable(GravSim
         src/app/UILayer.cpp
         src/App/AudioSystem.cpp
         src/App/EngineLayer.cpp
+        src/App/UI/SettingsUI.cpp
         src/App/Renderer/RenderingInterface.cpp
         src/App/Renderer/CircleRenderer.cpp
 )

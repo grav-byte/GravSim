@@ -41,11 +41,14 @@ namespace Core {
         TLayer* GetLayer()
         {
             static_assert(std::is_base_of_v<AppLayer, TLayer>, "TLayer must inherit from AppLayer");
+
             for (const auto& layer : m_LayerStack)
             {
+                // dynamic_cast checks runtime type; returns nullptr if not TLayer
                 if (auto casted = dynamic_cast<TLayer*>(layer.get()))
                     return casted;
             }
+
             return nullptr;
         }
 
