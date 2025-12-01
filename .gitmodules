@@ -7,3 +7,6 @@
 [submodule "libraries/glm"]
 	path = libraries/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "libraries/miniaudio"]
+	path = libraries/miniaudio
+	url = https://github.com/mackron/miniaudio.git
