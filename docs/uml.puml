@@ -18,17 +18,17 @@ interface IPhysicsSolver {
 IPhysicsSolver <|.. VerletSolver
 
 class Scene {
-  +PhysicsObject[] objects
+  +SceneObject[] objects
 }
 
 Scene --* EngineLayer
-Object "many" --* "1" Scene
-IRenderer --* Object
-ICollider "many" --* "1" Object
+SceneObject "many" --* "1" Scene
+IRenderer --* SceneObject
+ICollider "many" --* "1" SceneObject
 EngineLayer --|> AppLayer
 IPhysicsSolver --* EngineLayer
 
-class Object {
+class SceneObject {
     +uint id
     +float size
     +float mass
@@ -89,9 +89,19 @@ class Application {
     +std::vector<std::unique_ptr<AppLayer>> m_LayerStack;
     +void Run()
     +void PushLayer(std::shared_ptr<AppLayer> layer)
+    +void RaiseEvent(Event& event)
     +std::shared_ptr<Window> GetWindow()
 }
 
 AppLayer "many" --* "1" Application
+
+Event --> Application
+
+KeyEvent --|> Event
+
+class Event {
++EventType type
++bool handled
+}
 
 @enduml

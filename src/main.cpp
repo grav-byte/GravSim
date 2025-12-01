@@ -11,6 +11,4 @@ int main() {
     app.PushLayer<UILayer>();
     app.PushLayer<EngineLayer>();
     app.Run();
-
-    return 0;
 }
