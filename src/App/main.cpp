@@ -8,8 +8,8 @@ int main() {
     config.WindowConfig.Width = 1280;
     config.WindowConfig.Height = 720;
     Core::Application app(config);
-    app.PushLayer<UILayer>();
     app.PushLayer<EngineLayer>();
     app.PushLayer<AudioLayer>();
+    app.PushLayer<UILayer>();
     app.Run();
 }
