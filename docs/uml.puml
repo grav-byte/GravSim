@@ -2,7 +2,6 @@
 
 class EngineLayer {
     +Scene scene
-    +AudioSystem audioSystem
     +IPhysicsSolver physicsSolver
 
     +override void OnInit()
@@ -11,19 +10,38 @@ class EngineLayer {
     +override void OnRender()
 }
 
+class AudioLayer {
+    +void OnInit()
+    +void OnUpdate(float deltaTime)
+}
+
+AudioLayer --|> AppLayer
+
 interface IPhysicsSolver {
     +void SolvePhysics(Scene& scene, float deltaTime)
 }
 
-IPhysicsSolver <|.. VerletSolver
+RenderingSystem <-- Application
+RenderingSystem <-- CircleRenderer
+RenderingSystem <-- SpriteRenderer
+
+VerletSolver ..|> IPhysicsSolver
 
 class Scene {
   +SceneObject[] objects
+  +Camera camera
 }
+
+class Camera {
++vec2 position
+}
+
+Camera --* Scene
+
 
 Scene --* EngineLayer
 SceneObject "many" --* "1" Scene
-IRenderer --* SceneObject
+IRenderer --> SceneObject
 ICollider "many" --* "1" SceneObject
 EngineLayer --|> AppLayer
 IPhysicsSolver --* EngineLayer
@@ -36,7 +54,7 @@ interface IUserInterface {
     +void Render();
 }
 
-SettingsUI <|-- IUserInterface
+SettingsUI ..|> IUserInterface
 IUserInterface "many" --* "1" UILayer
 AudioSystem --* EngineLayer
 
@@ -75,7 +93,7 @@ class CircleRenderer {
     +Color color
 }
 class SpriteRenderer {
-    +Texture texture
+    +string texturePath
     +float size
 }
 interface IRenderer {
@@ -84,9 +102,9 @@ interface IRenderer {
 interface ICollider {
     +bool CheckCollision(const ICollider& obj1, const ICollider& obj2)
 }
-ICollider <|.. CircleCollider
-IRenderer <|.. CircleRenderer
-IRenderer <|.. SpriteRenderer
+CircleCollider ..|> ICollider
+CircleRenderer ..|> IRenderer
+SpriteRenderer ..|> IRenderer
 
 class UILayer {
     +void OnInit()
@@ -99,6 +117,9 @@ UILayer --|> AppLayer
 
 class Application {
     +std::vector<std::unique_ptr<AppLayer>> m_LayerStack;
+
+    static Application& Get();
+
     +void Run()
     +void PushLayer(std::shared_ptr<AppLayer> layer)
     +void RaiseEvent(Event& event)
@@ -107,7 +128,7 @@ class Application {
 
 AppLayer "many" --* "1" Application
 
-Event --> Application
+Event <-- Application
 
 KeyEvent --|> Event
 

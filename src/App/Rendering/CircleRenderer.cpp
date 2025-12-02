@@ -7,26 +7,15 @@
 
 #include "Core/Application.h"
 
-CircleRenderer::CircleRenderer(const float radius,
-                               const glm::vec4& color,
-                               const GLuint shaderProgram,
+CircleRenderer::CircleRenderer(const unsigned int shaderProgram,
                                const int segments)
-    : m_radius(radius),
-      m_color(color),
-      m_position(0.0f, 0.0f),
-      m_scale(1.0f, 1.0f),
-      m_rotation(0.0f),
-      m_segments(std::max(3, segments)),
+    : m_segments(std::max(3, segments)),
       m_vao(0),
       m_vbo(0),
-      m_shaderProgram(shaderProgram),
-      m_transform(glm::mat4(1.0f))
+      m_shaderProgram(shaderProgram)
 {
-    std::cout << "CircleRenderer created, shader=" << shaderProgram << std::endl;
-
     BuildVertices();
     UploadToGPU();
-    UpdateTransform();
 }
 
 CircleRenderer::~CircleRenderer() {
@@ -38,32 +27,11 @@ CircleRenderer::~CircleRenderer() {
     }
 }
 
-void CircleRenderer::SetRadius(float radius) {
-    m_radius = radius;
-    BuildVertices();
-    UploadToGPU();
-}
-
-void CircleRenderer::SetColor(const glm::vec4& color) {
-    m_color = color;
-}
-
-void CircleRenderer::SetPosition(const glm::vec2& position) {
-    m_position = position;
-    UpdateTransform();
-}
-
-void CircleRenderer::SetRotation(float radians) {
-    m_rotation = radians;
-    UpdateTransform();
-}
-
-void CircleRenderer::SetScale(const glm::vec2& scale) {
-    m_scale = scale;
-    UpdateTransform();
-}
-
-void CircleRenderer::Render() {
+void CircleRenderer::RenderCircle(const glm::vec2 &position,
+                                  const float rotation,
+                                  const glm::vec2 &scale,
+                                  const glm::vec4 &color,
+                                  const float radius) const {
     if (!m_shaderProgram)
         return;
 
@@ -75,11 +43,24 @@ void CircleRenderer::Render() {
 
     // use a projection to maintain aspect ratio
     glm::mat4 projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f);
-    glm::mat4 finalTransform = projection * m_transform;
+
+    // build transform matrix
+    glm::mat4 transform = glm::mat4(1.0f);
+
+    // position
+    transform = glm::translate(transform, glm::vec3(position, 0.0f));
+
+    // rotation
+    transform = glm::rotate(transform, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+
+    // scale: scale by radius and scale vector
+    transform = glm::scale(transform, glm::vec3(scale * radius, 1.0f));
+
+    glm::mat4 finalTransform = projection * transform;
 
     // set uniforms
     GLint colorLoc = glGetUniformLocation(m_shaderProgram, "uColor");
-    glUniform4fv(colorLoc, 1, glm::value_ptr(m_color));
+    glUniform4fv(colorLoc, 1, glm::value_ptr(color));
 
     GLint transformLoc = glGetUniformLocation(m_shaderProgram, "uTransform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
@@ -97,12 +78,12 @@ void CircleRenderer::BuildVertices() {
     // center
     m_vertices.emplace_back(0.0f, 0.0f);
 
-    // edges
+    // edges (unit circle, radius = 1)
     for(int i = 0; i <= m_segments; ++i)
     {
         const float angle = static_cast<float>(i) / static_cast<float>(m_segments) * 2.0f * M_PI;
-        float x = cos(angle) * m_radius;
-        float y = sin(angle) * m_radius;
+        float x = cos(angle);
+        float y = sin(angle);
         m_vertices.emplace_back(x, y);
     }
 }
@@ -138,17 +119,4 @@ void CircleRenderer::UploadToGPU() {
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-}
-
-void CircleRenderer::UpdateTransform() {
-    m_transform = glm::mat4(1.0f);
-
-    // Position
-    m_transform = glm::translate(m_transform, glm::vec3(m_position, 0.0f));
-
-    // Rotation (um Z-Achse)
-    m_transform = glm::rotate(m_transform, m_rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-
-    // Scale
-    m_transform = glm::scale(m_transform, glm::vec3(m_scale, 1.0f));
 }

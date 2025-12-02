@@ -27,18 +27,9 @@ EngineLayer::~EngineLayer() {
 void EngineLayer::OnInit() {
     glewInit();
 
-    std::cout << "ENTER OnInit()" << std::endl;
     circleShader = ShaderLoader::LoadShader("simple.vert", "simple.frag");
-    std::cout << "circleShader = " << circleShader << std::endl;
 
-    m_Circle = std::make_unique<CircleRenderer>(
-        0.1f,
-        glm::vec4(1, 0, 0, 1),
-        circleShader,
-        64                      // optional: Segmente
-    );
-    std::cout << "After CircleRenderer creation" << std::endl;
-
+    m_Circle = std::make_unique<CircleRenderer>(circleShader, 64);
 }
 
 void EngineLayer::OnUpdate(float deltaTime) {
@@ -52,6 +43,19 @@ void EngineLayer::OnRender() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     if (m_Circle) {
-        m_Circle->Render();
+        m_Circle->RenderCircle(
+            glm::vec2(0.0f, 0.0f),    // position
+            0.0f,                    // rotation
+            glm::vec2(0.5f, 0.5f),   // scale
+            glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), // color (green)
+            0.5f                     // radius
+        );
+        m_Circle->RenderCircle(
+            glm::vec2(1.0f, 0.0f),    // position
+            0.0f,                    // rotation
+            glm::vec2(0.5f, 0.5f),   // scale
+            glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), // color (red)
+            0.5f                     // radius
+        );
     }
 }

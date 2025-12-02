@@ -60,6 +60,8 @@ void UILayer::OnUpdate(float deltaTime) {
     ImGui::Checkbox("Show Demo Window", &m_ShowDemo);
     ImGui::End();
 
+    ImGui::PopStyleColor(2);
+
     if (m_ShowDemo)
         ImGui::ShowDemoWindow(&m_ShowDemo);
 }
