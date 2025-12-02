@@ -4,6 +4,8 @@
 
 #include <vector>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 // Avoid hard dependency on GL headers in the header file.
 // GLuint is an unsigned 32-bit integer in OpenGL.
@@ -35,8 +37,8 @@ public:
 private:
     void BuildVertices();
     void UploadToGPU();
+    void UpdateTransform();
 
-private:
     float                  m_radius;
     glm::vec4              m_color;
 
@@ -50,4 +52,6 @@ private:
     GLuint                 m_vao;
     GLuint                 m_vbo;
     GLuint                 m_shaderProgram;
+
+    glm::mat4 m_transform;
 };

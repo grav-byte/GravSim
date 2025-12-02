@@ -4,7 +4,9 @@
 
 #pragma once
 #include "Core/AppLayer.h"
+#include <memory>
 
+class CircleRenderer;
 
 class EngineLayer : public Core::AppLayer{
 public:
@@ -19,4 +21,7 @@ public:
 
     void OnRender() override;
 
+private:
+    unsigned int circleShader = 0;                   // Shader-Program-ID
+    std::unique_ptr<CircleRenderer> m_Circle;        // unser Kreis-Renderer
 };

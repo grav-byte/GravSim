@@ -3,12 +3,7 @@
 //
 
 #define IMGUI_IMPL_OPENGL_LOADER_GLEW
-#if defined(_MSC_VER)
-    #include <malloc.h>
-    #define alloca _alloca
-#else
-    #include <alloca.h>
-#endif
+
 
 #include "GL/glew.h"
 #include "ShaderLoader.h"
@@ -69,10 +64,10 @@ unsigned int ShaderLoader::CompileShader(const unsigned int type, const char* so
     if (result == GL_FALSE) {
         int length;
         glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-        const auto message = static_cast<char*>(alloca(length * sizeof(char)));
-        glGetShaderInfoLog(id, length, &length, message);
+        std::string message(length, '\0');
+        glGetShaderInfoLog(id, length, &length, message.data());
         const char* shaderType = type == GL_VERTEX_SHADER ? "vertex" : "fragment";
-        printf("Failed to compile %s shader!\n%s\n", shaderType, message);
+        printf("Failed to compile %s shader!\n%s\n", shaderType, message.c_str());
         glDeleteShader(id);
         return 0;
     }
