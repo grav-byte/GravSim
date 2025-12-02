@@ -3,7 +3,12 @@
 //
 
 #define IMGUI_IMPL_OPENGL_LOADER_GLEW
-#include <alloca.h>
+#if defined(_MSC_VER)
+    #include <malloc.h>
+    #define alloca _alloca
+#else
+    #include <alloca.h>
+#endif
 
 #include "GL/glew.h"
 
