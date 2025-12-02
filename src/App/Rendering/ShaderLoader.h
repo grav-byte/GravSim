@@ -4,7 +4,7 @@
 
 #pragma once
 #include "CircleRenderer.h"
-
+#include <string>
 
 class ShaderLoader {
 public:

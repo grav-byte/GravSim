@@ -11,7 +11,6 @@
 #endif
 
 #include "GL/glew.h"
-
 #include "ShaderLoader.h"
 
 
