@@ -28,7 +28,7 @@ void EngineLayer::OnInit() {
     glewInit();
 
     std::cout << "ENTER OnInit()" << std::endl;
-    circleShader = ShaderLoader::LoadShader("circle.vert", "circle.frag");
+    circleShader = ShaderLoader::LoadShader("simple.vert", "simple.frag");
     std::cout << "circleShader = " << circleShader << std::endl;
 
     m_Circle = std::make_unique<CircleRenderer>(

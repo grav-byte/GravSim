@@ -52,6 +52,8 @@ namespace Core {
             return nullptr;
         }
 
+        std::shared_ptr<Window> GetWindow() const { return m_Window; }
+
         static float GetTime();
 
     private:

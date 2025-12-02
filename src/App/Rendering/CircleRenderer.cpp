@@ -3,8 +3,9 @@
 #include <iostream>
 #include <ostream>
 #include <GL/glew.h>
-#include <glm/gtc/constants.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "Core/Application.h"
 
 CircleRenderer::CircleRenderer(const float radius,
                                const glm::vec4& color,
@@ -68,31 +69,22 @@ void CircleRenderer::Render() {
 
     glUseProgram(m_shaderProgram);
 
-    // --- Aspect Ratio aus dem aktuellen Viewport holen ---
-    GLint viewport[4];
-    glGetIntegerv(GL_VIEWPORT, viewport);
-    const int vpWidth  = viewport[2];
-    const int vpHeight = viewport[3];
+    // get aspect
+    const auto bufferSize = Core::Application::Get().GetWindow()->GetFramebufferSize();
+    float aspect = static_cast<float>(bufferSize.x) / static_cast<float>(bufferSize.y);
 
-    float aspect = 1.0f;
-    if (vpHeight > 0) {
-        aspect = static_cast<float>(vpWidth) / static_cast<float>(vpHeight);
-    }
+    // use a projection to maintain aspect ratio
+    glm::mat4 projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f);
+    glm::mat4 finalTransform = projection * m_transform;
 
-    // Wir kompensieren die horizontale Streckung: X um 1/aspect skalieren.
-    glm::mat4 aspectFix = glm::scale(glm::mat4(1.0f),
-                                     glm::vec3(1.0f / aspect, 1.0f, 1.0f));
-
-    glm::mat4 finalTransform = aspectFix * m_transform;
-
-    // --- Uniforms setzen ---
+    // set uniforms
     GLint colorLoc = glGetUniformLocation(m_shaderProgram, "uColor");
     glUniform4fv(colorLoc, 1, glm::value_ptr(m_color));
 
     GLint transformLoc = glGetUniformLocation(m_shaderProgram, "uTransform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
 
-    // --- Zeichnen ---
+    // draw
     glBindVertexArray(m_vao);
     glDrawArrays(GL_TRIANGLE_FAN, 0, static_cast<GLsizei>(m_vertices.size()));
     glBindVertexArray(0);
@@ -102,13 +94,13 @@ void CircleRenderer::BuildVertices() {
     m_vertices.clear();
     m_vertices.reserve(m_segments + 2);
 
-    // Mittelpunkt
+    // center
     m_vertices.emplace_back(0.0f, 0.0f);
 
-    // Randpunkte
+    // edges
     for(int i = 0; i <= m_segments; ++i)
     {
-        float angle = (float)i / m_segments * 2.0f * M_PI;
+        const float angle = static_cast<float>(i) / static_cast<float>(m_segments) * 2.0f * M_PI;
         float x = cos(angle) * m_radius;
         float y = sin(angle) * m_radius;
         m_vertices.emplace_back(x, y);
