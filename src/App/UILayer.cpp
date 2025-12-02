@@ -45,10 +45,10 @@ void UILayer::OnUpdate(float deltaTime) {
     // Start ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
+    ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, ImVec4(0, 0, 0, 0)); // <-- dockspace bg
 
     ImGui::NewFrame();
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID);
-    ImGui::PushItemWidth(-1);
 
     settingsUI->Render();
 
@@ -66,19 +66,17 @@ void UILayer::OnEvent(Core::Event &event) {
 }
 
 void UILayer::OnRender() {
-    ImGui::Render();
     const auto size = m_Window->GetFramebufferSize();
     glViewport(0, 0, size.x, size.y);
-    glClear(GL_COLOR_BUFFER_BIT);
+
+    ImGui::Render();
+
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    const ImGuiIO& io = ImGui::GetIO();
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-    {
-        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+    if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+        GLFWwindow* backup = glfwGetCurrentContext();
         ImGui::UpdatePlatformWindows();
         ImGui::RenderPlatformWindowsDefault();
-        glfwMakeContextCurrent(backup_current_context);
+        glfwMakeContextCurrent(backup);
     }
-
 }
