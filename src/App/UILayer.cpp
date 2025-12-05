@@ -37,6 +37,10 @@ void UILayer::OnInit() {
     io.ConfigViewportsNoTaskBarIcon = false;
 
     ImGui::StyleColorsDark();
+    ImGuiStyle& style = ImGui::GetStyle();
+
+    style.Alpha = 1.0f;
+    style.FrameRounding = 2.0f;
 
     ImGui_ImplGlfw_InitForOpenGL(window_->GetHandle(), true);
     ImGui_ImplOpenGL3_Init("#version 150");

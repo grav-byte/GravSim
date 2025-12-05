@@ -31,6 +31,7 @@ add_executable(GravSim
         libraries/imgui/imgui_demo.cpp
         libraries/imgui/backends/imgui_impl_glfw.cpp
         libraries/imgui/backends/imgui_impl_opengl3.cpp
+        libraries/imgui/misc/cpp/imgui_stdlib.cpp
         libraries/miniaudio/miniaudio.c
         src/core/Application.cpp
         src/core/Window.cpp

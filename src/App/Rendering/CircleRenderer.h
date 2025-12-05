@@ -12,6 +12,4 @@ public:
     CircleRenderer(glm::vec4 color);
     ~CircleRenderer() override;
     void Render(RenderingSystem& rendering, Transform transform) override;
-private:
-    glm::vec4 color_;
 };

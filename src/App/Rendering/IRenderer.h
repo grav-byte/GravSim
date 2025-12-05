@@ -10,6 +10,7 @@ class RenderingSystem;
 class IRenderer {
 public:
     virtual ~IRenderer() = default;
+    glm::vec4 color;
 
     virtual void Render(RenderingSystem& rendering, Transform transform) = 0;
 };

@@ -9,16 +9,16 @@
 
 CircleRenderer::CircleRenderer() {
     // default white color
-    color_ = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-CircleRenderer::CircleRenderer(glm::vec4 color)
-    : color_(color) {
+CircleRenderer::CircleRenderer(const glm::vec4 color){
+    this->color = color;
 }
 
 CircleRenderer::~CircleRenderer() = default;
 
 void CircleRenderer::Render(RenderingSystem &rendering, const Transform transform) {
-    rendering.RenderCircle(transform.GetMatrix(), color_);
+    rendering.RenderCircle(transform.GetMatrix(), color);
 }
 
