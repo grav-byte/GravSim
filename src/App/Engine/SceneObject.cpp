@@ -6,9 +6,10 @@
 
 #include "App/Rendering/CircleRenderer.h"
 
-SceneObject::SceneObject() {
+SceneObject::SceneObject(uint32_t objectId, const std::string& objectName) {
     transform = Transform();
-    id = 0;
+    id = objectId;
+    name = objectName;
     mass = 1.0f;
     velocity = glm::vec2(0.0f, 0.0f);
     angularVelocity = 0.0f;

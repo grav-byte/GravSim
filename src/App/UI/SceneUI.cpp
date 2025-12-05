@@ -3,6 +3,9 @@
 //
 
 #include "SceneUI.h"
+
+#include <iostream>
+
 #include "imgui.h"
 #include "App/EngineLayer.h"
 #include "Core/Application.h"
@@ -28,7 +31,22 @@ void SceneUI::Render() {
     ImGui::Begin("Scene");
     ImGui::SeparatorText("Objects");
     for (const SceneObject *obj : scene_->GetAllObjects()) {
-        ImGui::TextWrapped("Object ID: %d", obj->id);
+        DrawObjectUI(obj);
+    }
+
+    if (ImGui::Button("Add Object")) {
+        scene_->CreateObject();
     }
     ImGui::End();
+}
+
+void SceneUI::DrawObjectUI(const SceneObject* obj) {
+    bool keepAlive = true;
+    const std::string text = "[" + std::to_string(obj->id) + "] " + obj->name;
+    if (ImGui::CollapsingHeader(text.c_str(), &keepAlive))
+    {
+
+    }
+    if (!keepAlive)
+        scene_->DeleteObject(obj->id);
 }

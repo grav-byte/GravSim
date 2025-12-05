@@ -19,4 +19,6 @@ public:
 private:
     EngineLayer* engine_;
     Scene* scene_;
+
+    void DrawObjectUI(const SceneObject *obj);
 };

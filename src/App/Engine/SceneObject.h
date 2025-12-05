@@ -14,9 +14,10 @@
 
 class SceneObject {
 public:
-    SceneObject();
+    SceneObject(uint32_t objectId, const std::string &objectName);
 
     uint32_t id;
+    std::string name;
 
     Transform transform;
 

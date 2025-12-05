@@ -10,7 +10,7 @@
 
 Camera::Camera() {
     transform = Transform();
-    zoom = 1.0f;
+    zoom = 1;
 }
 
 glm::mat4 Camera::GetProjectionMatrix() const {
@@ -21,7 +21,7 @@ glm::mat4 Camera::GetProjectionMatrix() const {
     // use a projection to maintain aspect ratio
     glm::mat4 projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f);
     // apply zoom
-    projection = glm::scale(projection, glm::vec3(zoom, zoom, 1.0f));
+    projection = glm::scale(projection, glm::vec3(zoom * .1f, zoom * .1f, 1.0f));
     // apply position
     projection = glm::translate(projection, glm::vec3(-transform.position, 0.0f));
     return projection;

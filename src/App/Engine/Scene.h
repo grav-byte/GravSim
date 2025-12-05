@@ -15,11 +15,16 @@ public:
 
     const Camera& GetCamera() const;
 
+    void CreateObject();
+
     void AddObject(std::unique_ptr<SceneObject> obj);
 
     std::vector<SceneObject*> GetAllObjects() const;
 
+    void DeleteObject(uint32_t id);
+
 private:
     std::unique_ptr<Camera> camera_; // scene owns the camera
     std::vector<std::unique_ptr<SceneObject>> sceneObjects_; // scene owns objects
+    uint32_t nextID_;
 };
