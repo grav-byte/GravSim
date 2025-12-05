@@ -15,8 +15,8 @@ public:
 
     ~RenderingSystem();
 
-void SetActiveCamera(const Camera &camera) {
-        activeCamera_ = &camera;
+void SetActiveCamera(const Camera* camera) {
+        activeCamera_ = camera;
     }
 
     void RenderCircle(const glm::mat4 &transformMatrix, const glm::vec4 &color) const;

@@ -41,7 +41,9 @@ void SceneUI::Render() {
     }
 
     ImGui::SeparatorText("Camera");
-
+    auto cam = scene_->GetCamera();
+    DrawFloat2Control("Position", &cam->transform.position);
+    ImGui::DragFloat("Zoom", &cam->zoom, .1f);
 
     ImGui::End();
 }

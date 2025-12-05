@@ -13,7 +13,7 @@ class Scene {
 public:
     Scene();
 
-    const Camera& GetCamera() const;
+    Camera* GetCamera() const;
 
     void CreateObject();
 

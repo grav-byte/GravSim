@@ -11,7 +11,7 @@ Scene::Scene() {
     sceneObjects_.push_back(std::make_unique<SceneObject>(nextID_++, "Circle"));
 }
 
-const Camera & Scene::GetCamera() const { return *camera_; }
+Camera* Scene::GetCamera() const { return camera_.get(); }
 
 void Scene::CreateObject() {
     sceneObjects_.push_back(std::make_unique<SceneObject>(nextID_++, "Circle"));
