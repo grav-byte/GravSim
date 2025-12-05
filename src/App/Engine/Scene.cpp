@@ -7,6 +7,7 @@
 Scene::Scene() {
     sceneObjects_ = std::vector<std::unique_ptr<SceneObject>>();
     camera_ = std::make_unique<Camera>();
+    sceneObjects_.push_back(std::make_unique<SceneObject>());
 }
 
 const Camera & Scene::GetCamera() const { return *camera_; }

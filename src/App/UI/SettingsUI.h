@@ -3,7 +3,6 @@
 //
 
 #pragma once
-#include <memory>
 
 #include "IUserInterface.h"
 #include "App/AudioLayer.h"
@@ -15,9 +14,9 @@ public:
     ~SettingsUI() override;
 
     void Render() override;
+    void OnEvent(Core::Event &event) override;
 
 private:
     AudioLayer* audioSystem_;
-
     float volume_;
 };

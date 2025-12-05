@@ -14,6 +14,8 @@
 
 class SceneObject {
 public:
+    SceneObject();
+
     uint32_t id;
 
     Transform transform;
@@ -24,7 +26,4 @@ public:
 
     std::unique_ptr<IRenderer> renderer;
     std::vector<std::unique_ptr<ICollider>> colliders;
-
-    SceneObject();
-
 };

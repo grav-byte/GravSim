@@ -4,6 +4,7 @@
 
 #pragma once
 #include "Core/AppLayer.h"
+#include "UI/SceneUI.h"
 #include "UI/SettingsUI.h"
 
 
@@ -20,4 +21,5 @@ private:
     bool showDemo_;
 
     std::unique_ptr<SettingsUI> settingsUI_;
+    std::unique_ptr<SceneUI> sceneUI_;
 };

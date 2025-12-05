@@ -10,8 +10,11 @@
 
 #include "UILayer.h"
 
-UILayer::UILayer() {
+#include "UI/SceneUI.h"
 
+UILayer::UILayer() {
+    settingsUI_ = std::make_unique<SettingsUI>();
+    sceneUI_ = std::make_unique<SceneUI>();
 }
 
 UILayer::~UILayer() {
@@ -37,8 +40,6 @@ void UILayer::OnInit() {
 
     ImGui_ImplGlfw_InitForOpenGL(window_->GetHandle(), true);
     ImGui_ImplOpenGL3_Init("#version 150");
-
-    settingsUI_ = std::make_unique<SettingsUI>();
 }
 
 void UILayer::OnUpdate(float deltaTime) {
@@ -53,6 +54,7 @@ void UILayer::OnUpdate(float deltaTime) {
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID);
 
     settingsUI_->Render();
+    sceneUI_->Render();
 
     // --------- TEST UI ----------
     ImGui::Begin("ImGui Working!");
@@ -67,6 +69,8 @@ void UILayer::OnUpdate(float deltaTime) {
 }
 
 void UILayer::OnEvent(Core::Event &event) {
+    settingsUI_->OnEvent(event);
+    sceneUI_->OnEvent(event);
 }
 
 void UILayer::OnRender() {

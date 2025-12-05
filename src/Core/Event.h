@@ -10,7 +10,8 @@ namespace Core {
         None = 0,
         WindowClosed, WindowResized,
         KeyPressed, KeyReleased,
-        MouseButtonPressed, MouseMoved
+        MouseButtonPressed, MouseMoved,
+        SceneLoaded
     };
 
     class Event {

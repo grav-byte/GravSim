@@ -8,7 +8,10 @@
 
 class CircleRenderer: public IRenderer {
 public:
+    CircleRenderer();
+    CircleRenderer(glm::vec4 color);
     ~CircleRenderer() override;
-protected:
     void Render(RenderingSystem& rendering, Transform transform) override;
+private:
+    glm::vec4 color_;
 };

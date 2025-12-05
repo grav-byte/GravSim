@@ -5,12 +5,9 @@
 #include "SettingsUI.h"
 
 #include "imgui.h"
-#include "imgui_internal.h"
-#include "App/EngineLayer.h"
 #include "Core/Application.h"
 
 SettingsUI::SettingsUI() {
-    auto engineLayer = Core::Application::Get().GetLayer<EngineLayer>();
     auto audioLayer = Core::Application::Get().GetLayer<AudioLayer>();
     audioSystem_ = audioLayer;
     volume_ = .7f;
@@ -31,4 +28,9 @@ void SettingsUI::Render() {
         audioSystem_->NextSong();
     }
     ImGui::End();
+}
+
+void SettingsUI::OnEvent(Core::Event &event) {
+    // No event handling needed for settings currently
+
 }

@@ -15,6 +15,8 @@ public:
     EngineLayer();
     ~EngineLayer() override;
 
+    void LoadScene(std::unique_ptr<Scene> scene);
+
     void OnInit() override;
 
     void OnUpdate(float deltaTime) override;

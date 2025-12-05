@@ -51,6 +51,9 @@ add_executable(GravSim
         src/App/Rendering/CircleRenderer.cpp
         src/App/Rendering/CircleRenderer.h
         src/App/Engine/Transform.h
+        src/App/UI/SceneUI.cpp
+        src/App/UI/SceneUI.h
+        src/App/Engine/EngineEvents.h
 )
 
 # Include directories
