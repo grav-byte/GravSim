@@ -2,6 +2,7 @@
 
 class EngineLayer {
     +Scene scene
+    +RenderingSystem renderingSystem
     +IPhysicsSolver physicsSolver
 
     +override void OnInit()
@@ -21,19 +22,26 @@ interface IPhysicsSolver {
     +void SolvePhysics(Scene& scene, float deltaTime)
 }
 
-RenderingSystem <-- Application
+class RenderingSystem {
+    +void SetActiveCamera(Camera& camera)
+}
+
+RenderingSystem --* EngineLayer
 RenderingSystem <-- CircleRenderer
 RenderingSystem <-- SpriteRenderer
 
 VerletSolver ..|> IPhysicsSolver
 
 class Scene {
-  +SceneObject[] objects
-  +Camera camera
+  + std::vector<SceneObject*> GetAllObjects()
+  + void AddObject(std::unique_ptr<SceneObject> object)
+  -std::vector<unique_ptr<SceneObject>> objects
+  -Camera camera
 }
 
 class Camera {
-+vec2 position
++Transform transform
++float zoom
 }
 
 Camera --* Scene
@@ -54,19 +62,26 @@ interface IUserInterface {
     +void Render();
 }
 
+struct Transform {
+    vec2 position
+    float rotation
+    vec2 scale
+}
+
+Transform --* SceneObject
+Transform --* Camera
+
 SettingsUI ..|> IUserInterface
 IUserInterface "many" --* "1" UILayer
-AudioSystem --* EngineLayer
+
 
 class SceneObject {
     +uint id
-    +float size
+
+    +Transform transform
+
     +float mass
-
-    +vec2 position
     +vec2 velocity
-
-    +float rotation
     +float angularVelocity
 
     +IRenderer renderer

@@ -35,10 +35,10 @@ void UILayer::OnInit() {
 
     ImGui::StyleColorsDark();
 
-    ImGui_ImplGlfw_InitForOpenGL(m_Window->GetHandle(), true);
+    ImGui_ImplGlfw_InitForOpenGL(window_->GetHandle(), true);
     ImGui_ImplOpenGL3_Init("#version 150");
 
-    settingsUI = std::make_unique<SettingsUI>();
+    settingsUI_ = std::make_unique<SettingsUI>();
 }
 
 void UILayer::OnUpdate(float deltaTime) {
@@ -52,25 +52,25 @@ void UILayer::OnUpdate(float deltaTime) {
     ImGui::NewFrame();
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID);
 
-    settingsUI->Render();
+    settingsUI_->Render();
 
     // --------- TEST UI ----------
     ImGui::Begin("ImGui Working!");
     ImGui::Text("If you see this, ImGui works!");
-    ImGui::Checkbox("Show Demo Window", &m_ShowDemo);
+    ImGui::Checkbox("Show Demo Window", &showDemo_);
     ImGui::End();
 
     ImGui::PopStyleColor(2);
 
-    if (m_ShowDemo)
-        ImGui::ShowDemoWindow(&m_ShowDemo);
+    if (showDemo_)
+        ImGui::ShowDemoWindow(&showDemo_);
 }
 
 void UILayer::OnEvent(Core::Event &event) {
 }
 
 void UILayer::OnRender() {
-    const auto size = m_Window->GetFramebufferSize();
+    const auto size = window_->GetFramebufferSize();
     glViewport(0, 0, size.x, size.y);
 
     ImGui::Render();

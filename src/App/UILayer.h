@@ -17,7 +17,7 @@ public:
     void OnEvent(Core::Event &event) override;
     void OnRender() override;
 private:
-    bool m_ShowDemo = false;
+    bool showDemo_;
 
-    std::unique_ptr<SettingsUI> settingsUI;
+    std::unique_ptr<SettingsUI> settingsUI_;
 };

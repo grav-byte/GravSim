@@ -8,19 +8,18 @@
 #include <memory>
 #include <vector>
 
+#include "Transform.h"
+#include "App/Rendering/IRenderer.h"
 
-class IRenderer;
 
 class SceneObject {
 public:
     uint32_t id;
-    float size;
+
+    Transform transform;
+
     float mass;
-
-    glm::vec2 position;
     glm::vec2 velocity;
-
-    float rotation;
     float angularVelocity;
 
     std::unique_ptr<IRenderer> renderer;

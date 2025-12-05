@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "CircleRenderer.h"
+#include "RenderingSystem.h"
 #include <string>
 
 class ShaderLoader {

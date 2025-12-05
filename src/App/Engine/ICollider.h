@@ -6,6 +6,7 @@
 
 
 class ICollider {
+public:
     virtual ~ICollider() = default;
     virtual bool CheckCollision(const ICollider& other);
 };

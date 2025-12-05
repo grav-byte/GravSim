@@ -5,9 +5,21 @@
 #pragma once
 #include <vector>
 
+#include "Camera.h"
 #include "SceneObject.h"
 
 
 class Scene {
-    std::vector<std::unique_ptr<SceneObject>> sceneObjects;
+public:
+    Scene();
+
+    const Camera& GetCamera() const;
+
+    void AddObject(std::unique_ptr<SceneObject> obj);
+
+    std::vector<SceneObject*> GetAllObjects() const;
+
+private:
+    std::unique_ptr<Camera> camera_; // scene owns the camera
+    std::vector<std::unique_ptr<SceneObject>> sceneObjects_; // scene owns objects
 };

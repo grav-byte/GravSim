@@ -10,7 +10,7 @@
 #include "WindowEvents.h"
 
 namespace Core {
-    Window::Window(const WindowConfig& config): m_Config(config) {}
+    Window::Window(const WindowConfig& config): config_(config) {}
 
     Window::~Window() {
         Destroy();
@@ -27,18 +27,18 @@ namespace Core {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // macOS compatibility
 #endif
 
-        m_Handle = glfwCreateWindow(m_Config.Width, m_Config.Height, m_Config.Title, nullptr, nullptr);
-        if (!m_Handle) {
+        handle_ = glfwCreateWindow(config_.Width, config_.Height, config_.Title, nullptr, nullptr);
+        if (!handle_) {
             glfwTerminate();
             throw std::runtime_error("Failed to create GLFW window");
         }
 
-        glfwMakeContextCurrent(m_Handle);
-        glfwSwapInterval(m_Config.VSync ? 1 : 0);
+        glfwMakeContextCurrent(handle_);
+        glfwSwapInterval(config_.VSync ? 1 : 0);
 
-        glfwSetWindowUserPointer(m_Handle, this);
+        glfwSetWindowUserPointer(handle_, this);
 
-        glfwSetWindowCloseCallback(m_Handle, [](GLFWwindow* handle)
+        glfwSetWindowCloseCallback(handle_, [](GLFWwindow* handle)
         {
             Window& window = *static_cast<Window *>(glfwGetWindowUserPointer(handle));
 
@@ -46,7 +46,7 @@ namespace Core {
             window.RaiseEvent(event);
         });
 
-        glfwSetWindowSizeCallback(m_Handle, [](GLFWwindow* handle, int width, int height)
+        glfwSetWindowSizeCallback(handle_, [](GLFWwindow* handle, int width, int height)
         {
             Window& window = *static_cast<Window *>(glfwGetWindowUserPointer(handle));
 
@@ -54,7 +54,7 @@ namespace Core {
             window.RaiseEvent(event);
         });
 
-        glfwSetKeyCallback(m_Handle, [](GLFWwindow* handle, int key, int scancode, int action, int mods)
+        glfwSetKeyCallback(handle_, [](GLFWwindow* handle, int key, int scancode, int action, int mods)
         {
             Window& window = *static_cast<Window *>(glfwGetWindowUserPointer(handle));
 
@@ -76,7 +76,7 @@ namespace Core {
             }
         });
 
-        glfwSetMouseButtonCallback(m_Handle, [](GLFWwindow* handle, int button, int action, int mods)
+        glfwSetMouseButtonCallback(handle_, [](GLFWwindow* handle, int button, int action, int mods)
         {
             Window& window = *((Window*)glfwGetWindowUserPointer(handle));
 
@@ -91,7 +91,7 @@ namespace Core {
             }
         });
 
-        glfwSetCursorPosCallback(m_Handle, [](GLFWwindow* handle, double x, double y)
+        glfwSetCursorPosCallback(handle_, [](GLFWwindow* handle, double x, double y)
         {
             Window& window = *((Window*)glfwGetWindowUserPointer(handle));
 
@@ -101,30 +101,30 @@ namespace Core {
     }
 
     void Window::Destroy() {
-        if (m_Handle) {
-            glfwDestroyWindow(m_Handle);
-            m_Handle = nullptr;
+        if (handle_) {
+            glfwDestroyWindow(handle_);
+            handle_ = nullptr;
         }
     }
 
     void Window::RaiseEvent(Event& event) const {
-        if (m_Config.EventCallback)
-            m_Config.EventCallback(event);
+        if (config_.EventCallback)
+            config_.EventCallback(event);
     }
 
     void Window::SwapBuffers() const {
-        if (!m_Handle) return;
-        glfwSwapBuffers(m_Handle);
+        if (!handle_) return;
+        glfwSwapBuffers(handle_);
     }
 
     bool Window::ShouldClose() const {
-        return m_Handle ? glfwWindowShouldClose(m_Handle) : true;
+        return handle_ ? glfwWindowShouldClose(handle_) : true;
     }
 
     glm::ivec2 Window::GetFramebufferSize() const {
-        if (!m_Handle) return {0, 0};
+        if (!handle_) return {0, 0};
         int width, height;
-        glfwGetFramebufferSize(m_Handle, &width, &height);
+        glfwGetFramebufferSize(handle_, &width, &height);
         return {width, height};
     }
 }

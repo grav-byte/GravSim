@@ -18,7 +18,7 @@ namespace Core {
         virtual ~AppLayer() = default;
 
         void SetWindow(std::shared_ptr<Window> window) {
-            m_Window = std::shared_ptr(window);
+            window_ = std::shared_ptr(window);
         }
 
         virtual void OnInit() = 0;
@@ -27,6 +27,6 @@ namespace Core {
         virtual void OnRender() = 0;
 
     protected:
-        std::shared_ptr<Window> m_Window;
+        std::shared_ptr<Window> window_;
     };
 }

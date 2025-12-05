@@ -22,8 +22,8 @@ public:
 
 
     static void OnSongFinished(void * data, ma_sound * p_sound) {
-        AudioLayer* audioSystem = static_cast<AudioLayer*>(data);
-        audioSystem->shouldPlayNextSong = true;
+        auto* audioSystem = static_cast<AudioLayer*>(data);
+        audioSystem->shouldPlayNextSong_ = true;
     }
 
     void OnInit() override;
@@ -38,8 +38,8 @@ public:
     void OnRender() override;
 
 private:
-    bool shouldPlayNextSong;
-    ma_engine engine;
-    ma_sound currentSong;
-    const char* musicDirectory;
+    bool shouldPlayNextSong_;
+    ma_engine engine_;
+    ma_sound currentSong_;
+    const char* musicDirectory_;
 };

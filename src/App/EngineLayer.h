@@ -6,7 +6,9 @@
 #include "Core/AppLayer.h"
 #include <memory>
 
-class CircleRenderer;
+#include "Engine/Scene.h"
+
+class RenderingSystem;
 
 class EngineLayer : public Core::AppLayer{
 public:
@@ -21,7 +23,9 @@ public:
 
     void OnRender() override;
 
+    Scene* GetScene() const { return scene_.get(); }
+
 private:
-    unsigned int circleShader = 0;                   // Shader-Program-ID
-    std::unique_ptr<CircleRenderer> m_Circle;        // unser Kreis-Renderer
+    std::unique_ptr<RenderingSystem> renderingSystem_;
+    std::unique_ptr<Scene> scene_;
 };

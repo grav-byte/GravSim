@@ -38,7 +38,7 @@ add_executable(GravSim
         src/App/AudioLayer.cpp
         src/App/EngineLayer.cpp
         src/App/UI/SettingsUI.cpp
-        src/App/Rendering/CircleRenderer.cpp
+        src/App/Rendering/RenderingSystem.cpp
         src/App/Engine/Scene.cpp
         src/App/Engine/Scene.h
         src/App/Engine/SceneObject.cpp
@@ -46,6 +46,11 @@ add_executable(GravSim
         src/App/Engine/ICollider.h
         src/App/Rendering/ShaderLoader.cpp
         src/App/Rendering/ShaderLoader.h
+        src/App/Engine/Camera.cpp
+        src/App/Engine/Camera.h
+        src/App/Rendering/CircleRenderer.cpp
+        src/App/Rendering/CircleRenderer.h
+        src/App/Engine/Transform.h
 )
 
 # Include directories

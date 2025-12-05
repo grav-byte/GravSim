@@ -3,10 +3,13 @@
 //
 
 #pragma once
+#include "App/Engine/Transform.h"
+
+class RenderingSystem;
 
 class IRenderer {
 public:
     virtual ~IRenderer() = default;
 
-    virtual void Render() = 0;
+    virtual void Render(RenderingSystem& rendering, Transform transform) = 0;
 };

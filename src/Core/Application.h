@@ -33,8 +33,8 @@ namespace Core {
         {
             static_assert(std::is_base_of_v<AppLayer, TLayer>, "TLayer must inherit from AppLayer");
             auto newLayer = std::make_unique<TLayer>();
-            newLayer->SetWindow(m_Window);
-            m_LayerStack.push_back(std::move(newLayer));
+            newLayer->SetWindow(window_);
+            layerStack_.push_back(std::move(newLayer));
         }
 
         template<typename TLayer>
@@ -42,7 +42,7 @@ namespace Core {
         {
             static_assert(std::is_base_of_v<AppLayer, TLayer>, "TLayer must inherit from AppLayer");
 
-            for (const auto& layer : m_LayerStack)
+            for (const auto& layer : layerStack_)
             {
                 // dynamic_cast checks runtime type; returns nullptr if not TLayer
                 if (auto casted = dynamic_cast<TLayer*>(layer.get()))
@@ -52,15 +52,15 @@ namespace Core {
             return nullptr;
         }
 
-        std::shared_ptr<Window> GetWindow() const { return m_Window; }
+        std::shared_ptr<Window> GetWindow() const { return window_; }
 
         static float GetTime();
 
     private:
-        AppConfig m_Config;
-        std::shared_ptr<Window> m_Window;
-        bool m_Running = false;
+        AppConfig config_;
+        std::shared_ptr<Window> window_;
+        bool running_ = false;
 
-        std::vector<std::unique_ptr<AppLayer>> m_LayerStack;
+        std::vector<std::unique_ptr<AppLayer>> layerStack_;
     };
 }

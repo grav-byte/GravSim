@@ -14,7 +14,7 @@ namespace Core {
         std::cerr << "[GLFW Error]: " << description << std::endl;
     }
 
-    Application::Application(const AppConfig &app_config): m_Config(app_config) {
+    Application::Application(const AppConfig &app_config): config_(app_config) {
         if (s_Application) {
             throw std::runtime_error("Application already exists!");
         }
@@ -23,19 +23,19 @@ namespace Core {
         glfwSetErrorCallback(GLFWErrorCallback);
         glfwInit();
 
-        m_Config.WindowConfig.EventCallback = [this](Event& event) { RaiseEvent(event); };
+        config_.WindowConfig.EventCallback = [this](Event& event) { RaiseEvent(event); };
 
-        m_Window = std::make_shared<Window>(m_Config.WindowConfig);
-        m_Window->Create();
+        window_ = std::make_shared<Window>(config_.WindowConfig);
+        window_->Create();
     }
 
     Application::~Application() {
         // destroy all layers first
-        m_LayerStack.clear();
+        layerStack_.clear();
 
         // destroy the window
-        if (m_Window)
-            m_Window->Destroy();
+        if (window_)
+            window_->Destroy();
 
         // terminate
         glfwTerminate();
@@ -47,20 +47,20 @@ namespace Core {
     }
 
     void Application::Run() {
-        m_Running = true;
+        running_ = true;
 
         printf("OnInit");
-        for (const std::unique_ptr<AppLayer>& layer : m_LayerStack)
+        for (const std::unique_ptr<AppLayer>& layer : layerStack_)
             layer->OnInit();
 
         float lastTime = GetTime();
 
         // Main Application loop
-        while (m_Running)
+        while (running_)
         {
             glfwPollEvents();
 
-            if (m_Window->ShouldClose())
+            if (window_->ShouldClose())
             {
                 Stop();
                 break;
@@ -71,26 +71,26 @@ namespace Core {
             lastTime = currentTime;
 
             // Main layer update here
-            for (const std::unique_ptr<AppLayer>& layer : m_LayerStack)
+            for (const std::unique_ptr<AppLayer>& layer : layerStack_)
                 layer->OnUpdate(timestep);
 
             // NOTE: rendering can be done elsewhere (eg. render thread)
-            for (const std::unique_ptr<AppLayer>& layer : m_LayerStack)
+            for (const std::unique_ptr<AppLayer>& layer : layerStack_)
                 layer->OnRender();
 
-            m_Window->SwapBuffers();
+            window_->SwapBuffers();
         }
     }
 
     void Application::Stop() {
-        m_Running = false;
+        running_ = false;
     }
 
     void Application::RaiseEvent(Event &event) const {
         // go through in reverse
-        for (int i = static_cast<int>(m_LayerStack.size()) - 1; i >= 0; --i)
+        for (int i = static_cast<int>(layerStack_.size()) - 1; i >= 0; --i)
         {
-            m_LayerStack[i]->OnEvent(event);
+            layerStack_[i]->OnEvent(event);
             if (event.Handled)
                 break;
         }

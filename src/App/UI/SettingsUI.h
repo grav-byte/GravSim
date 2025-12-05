@@ -17,7 +17,7 @@ public:
     void Render() override;
 
 private:
-    AudioLayer* audioSystem;
+    AudioLayer* audioSystem_;
 
-    float volume;
+    float volume_;
 };

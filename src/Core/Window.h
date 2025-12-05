@@ -37,11 +37,11 @@ namespace Core {
 
         glm::ivec2 GetFramebufferSize() const;
 
-        GLFWwindow* GetHandle() const { return m_Handle; }
+        GLFWwindow* GetHandle() const { return handle_; }
 
-    private:
-        WindowConfig m_Config;
-        GLFWwindow* m_Handle = nullptr;
+private:
+        WindowConfig config_;
+        GLFWwindow* handle_ = nullptr;
     };
 
 }

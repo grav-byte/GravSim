@@ -12,9 +12,9 @@
 SettingsUI::SettingsUI() {
     auto engineLayer = Core::Application::Get().GetLayer<EngineLayer>();
     auto audioLayer = Core::Application::Get().GetLayer<AudioLayer>();
-    audioSystem = audioLayer;
-    volume = .7f;
-    audioSystem->SetVolume(.7f);
+    audioSystem_ = audioLayer;
+    volume_ = .7f;
+    audioSystem_->SetVolume(.7f);
 }
 
 SettingsUI::~SettingsUI() = default;
@@ -23,12 +23,12 @@ void SettingsUI::Render() {
 
     ImGui::Begin("Settings");
     ImGui::SeparatorText("Audio");
-    if (ImGui::SliderFloat("Volume", &volume, 0.0f, 1.0f)) {
-        audioSystem->SetVolume(volume);
+    if (ImGui::SliderFloat("Volume", &volume_, 0.0f, 1.0f)) {
+        audioSystem_->SetVolume(volume_);
     }
-    ImGui::TextWrapped("Now Playing: \n%s", audioSystem->currentSongTitle.c_str());
+    ImGui::TextWrapped("Now Playing: \n%s", audioSystem_->currentSongTitle.c_str());
     if (ImGui::Button("Skip Song")) {
-        audioSystem->NextSong();
+        audioSystem_->NextSong();
     }
     ImGui::End();
 }
