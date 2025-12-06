@@ -10,3 +10,6 @@
 [submodule "libraries/miniaudio"]
 	path = libraries/miniaudio
 	url = https://github.com/mackron/miniaudio.git
+[submodule "libraries/json"]
+	path = libraries/json
+	url = https://github.com/nlohmann/json.git
