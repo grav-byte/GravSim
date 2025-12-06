@@ -35,9 +35,9 @@ add_executable(GravSim
         libraries/miniaudio/miniaudio.c
         src/core/Application.cpp
         src/core/Window.cpp
-        src/app/UILayer.cpp
-        src/App/AudioLayer.cpp
-        src/App/EngineLayer.cpp
+        src/App/Layers/UILayer.cpp
+        src/App/Layers/AudioLayer.cpp
+        src/App/Layers/EngineLayer.cpp
         src/App/UI/SettingsUI.cpp
         src/App/Rendering/RenderingSystem.cpp
         src/App/Engine/Scene.cpp
@@ -55,6 +55,8 @@ add_executable(GravSim
         src/App/UI/SceneUI.cpp
         src/App/UI/SceneUI.h
         src/App/Engine/EngineEvents.h
+        src/App/Engine/CameraController.cpp
+        src/App/Engine/CameraController.h
 )
 
 # Include directories

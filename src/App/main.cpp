@@ -1,6 +1,7 @@
-#include "EngineLayer.h"
-#include "UILayer.h"
+#include "Layers/EngineLayer.h"
 #include "../Core/Application.h"
+#include "Layers/AudioLayer.h"
+#include "Layers/UILayer.h"
 
 int main() {
     Core::AppConfig config;

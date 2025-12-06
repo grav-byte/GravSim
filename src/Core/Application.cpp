@@ -70,7 +70,7 @@ namespace Core {
             float timestep = glm::clamp(currentTime - lastTime, 0.001f, 0.1f);
             lastTime = currentTime;
 
-            // Main layer update here
+            // Main layer update
             for (const std::unique_ptr<AppLayer>& layer : layerStack_)
                 layer->OnUpdate(timestep);
 

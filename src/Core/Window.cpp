@@ -6,8 +6,11 @@
 #include <stdexcept>
 #include <iostream>
 
+#include "imgui.h"
 #include "InputEvents.h"
 #include "WindowEvents.h"
+
+struct ImGuiContext;
 
 namespace Core {
     Window::Window(const WindowConfig& config): config_(config) {}
@@ -77,25 +80,39 @@ namespace Core {
         });
 
         glfwSetMouseButtonCallback(handle_, [](GLFWwindow* handle, int button, int action, int mods)
-        {
-            Window& window = *((Window*)glfwGetWindowUserPointer(handle));
+         {
+             Window& window = *((Window*)glfwGetWindowUserPointer(handle));
 
-            switch (action)
-            {
-                case GLFW_PRESS:
-                {
-                    MouseButtonEvent event(button);
-                    window.RaiseEvent(event);
-                    break;
-                }
-            }
+             switch (action)
+             {
+                 case GLFW_PRESS:
+                 {
+                     MouseButtonPressedEvent event(button);
+                     window.RaiseEvent(event);
+                     break;
+                 }
+                 case GLFW_RELEASE:
+                 {
+                     MouseButtonReleasedEvent event(button);
+                     window.RaiseEvent(event);
+                     break;
+                 }
+
+             }
+         });
+
+        glfwSetScrollCallback(handle_, [](GLFWwindow* handle, double, double yOffset) {
+            const Window& window = *static_cast<Window*>(glfwGetWindowUserPointer(handle));
+
+            MouseScrolledEvent event(static_cast<float>(yOffset));
+            window.RaiseEvent(event);
         });
 
         glfwSetCursorPosCallback(handle_, [](GLFWwindow* handle, double x, double y)
         {
             Window& window = *((Window*)glfwGetWindowUserPointer(handle));
 
-            MouseMovedEvent event(x, y);
+            MouseMovedEvent event(static_cast<float>(x), static_cast<float>(y));
             window.RaiseEvent(event);
         });
     }
@@ -122,9 +139,26 @@ namespace Core {
     }
 
     glm::ivec2 Window::GetFramebufferSize() const {
-        if (!handle_) return {0, 0};
-        int width, height;
+        if (!handle_)
+            return {0, 0};
+
+        // if imgui is initialized, use its viewport because of multiviewport support
+        ImGuiContext* ctx = ImGui::GetCurrentContext();
+        if (ctx != nullptr) {
+            ImGuiViewport* vp = ImGui::GetMainViewport();
+            if (vp != nullptr) {
+
+                // Convert ImGui units -> framebuffer pixels using DPI scale
+                float fbWidth  = vp->Size.x * vp->DpiScale;
+                float fbHeight = vp->Size.y * vp->DpiScale;
+
+                return { static_cast<int>(fbWidth), static_cast<int>(fbHeight) };
+            }
+        }
+
+        // Fallback: raw GLFW framebuffer size
+        int width = 0, height = 0;
         glfwGetFramebufferSize(handle_, &width, &height);
-        return {width, height};
+        return { width, height };
     }
 }

@@ -3,16 +3,17 @@
 //
 
 #include <GL/glew.h>
-#include "EngineLayer.h"
 #include <sstream>
 
+#include "EngineLayer.h"
 #include "Core/Application.h"
-#include "Engine/EngineEvents.h"
-#include "Rendering/RenderingSystem.h"
-#include "Rendering/ShaderLoader.h"
+#include "../Engine/EngineEvents.h"
+#include "../Rendering/RenderingSystem.h"
+#include "../Rendering/ShaderLoader.h"
 
 EngineLayer::EngineLayer() : AppLayer() {
     scene_ = nullptr;
+    cameraController_ = CameraController();
 }
 
 EngineLayer::~EngineLayer() = default;
@@ -38,6 +39,7 @@ void EngineLayer::OnUpdate(float deltaTime) {
 }
 
 void EngineLayer::OnEvent(Core::Event &event) {
+    cameraController_.OnEvent(event);
 }
 
 void EngineLayer::OnRender() {

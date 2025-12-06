@@ -2,19 +2,17 @@
 // Created by Lorenz Saalmann on 27.11.25.
 //
 
-#include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "Core/Application.h"
 #include "GLFW/glfw3.h"
-
 #include "UILayer.h"
-
-#include "UI/SceneUI.h"
+#include "../UI/SceneUI.h"
 
 UILayer::UILayer() {
     settingsUI_ = std::make_unique<SettingsUI>();
     sceneUI_ = std::make_unique<SceneUI>();
+    showDemo_ = false;
+    io_ = nullptr;
 }
 
 UILayer::~UILayer() {
@@ -27,14 +25,13 @@ UILayer::~UILayer() {
 void UILayer::OnInit() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    (void) io;
+    io_ = &ImGui::GetIO();
 
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;    // enable docking
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // enable multi-viewport
+    io_->ConfigFlags |= ImGuiConfigFlags_DockingEnable;    // enable docking
+    io_->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // enable multi-viewport
 
     // allow transparent background for platform windows
-    io.ConfigViewportsNoTaskBarIcon = false;
+    io_->ConfigViewportsNoTaskBarIcon = false;
 
     ImGui::StyleColorsDark();
     ImGuiStyle& style = ImGui::GetStyle();
@@ -75,12 +72,21 @@ void UILayer::OnUpdate(float deltaTime) {
 void UILayer::OnEvent(Core::Event &event) {
     settingsUI_->OnEvent(event);
     sceneUI_->OnEvent(event);
+
+    if (!io_)
+       return;
+
+    // Stop mouse event propagation if the mouse is over any ImGui window and ImGui wants to capture the mouse
+    if (io_->WantCaptureMouse  && ImGui::IsAnyItemHovered()) {
+        const Core::EventType type = event.GetEventType();
+        if (type == Core::MouseButtonPressed || type == Core::MouseButtonReleased || type == Core::MouseMoved) {
+            event.Handled = true;
+        }
+    }
 }
 
-void UILayer::OnRender() {
-    const auto size = window_->GetFramebufferSize();
-    glViewport(0, 0, size.x, size.y);
 
+void UILayer::OnRender() {
     ImGui::Render();
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

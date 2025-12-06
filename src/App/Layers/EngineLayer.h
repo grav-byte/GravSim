@@ -6,7 +6,8 @@
 #include "Core/AppLayer.h"
 #include <memory>
 
-#include "Engine/Scene.h"
+#include "../Engine/Scene.h"
+#include "App/Engine/CameraController.h"
 
 class RenderingSystem;
 
@@ -30,4 +31,5 @@ public:
 private:
     std::unique_ptr<RenderingSystem> renderingSystem_;
     std::unique_ptr<Scene> scene_;
+    CameraController cameraController_;
 };

@@ -3,9 +3,10 @@
 //
 
 #pragma once
+#include "imgui.h"
 #include "Core/AppLayer.h"
-#include "UI/SceneUI.h"
-#include "UI/SettingsUI.h"
+#include "../UI/SceneUI.h"
+#include "../UI/SettingsUI.h"
 
 
 class UILayer: public Core::AppLayer {
@@ -19,6 +20,7 @@ public:
     void OnRender() override;
 private:
     bool showDemo_;
+    ImGuiIO* io_;
 
     std::unique_ptr<SettingsUI> settingsUI_;
     std::unique_ptr<SceneUI> sceneUI_;

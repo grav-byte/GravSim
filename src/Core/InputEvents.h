@@ -9,12 +9,12 @@
 namespace Core {
     class KeyEvent : public Event {
     public:
-        int GetKeyCode() const { return m_KeyCode; }
+        int GetKeyCode() const { return keyCode_; }
         EventType GetEventType() const override { return KeyPressed; }
     protected:
-        explicit KeyEvent(const int keycode): m_KeyCode(keycode) {}
+        explicit KeyEvent(const int keycode): keyCode_(keycode) {}
 
-        int m_KeyCode;
+        int keyCode_;
     };
 
     class KeyReleasedEvent : public KeyEvent {
@@ -39,24 +39,48 @@ namespace Core {
     public:
         EventType GetEventType() const override { return MouseMoved; }
 
-        MouseMovedEvent(const double x, const double y): m_MouseX(x), m_MouseY(y) {}
+        MouseMovedEvent(const float x, const float y): mouseX_(x), mouseY_(y) {}
 
-        double GetX() const { return m_MouseX; }
-        double GetY() const { return m_MouseY; }
+        float GetX() const { return mouseX_; }
+        float GetY() const { return mouseY_; }
 
     private:
-        double m_MouseX, m_MouseY;
+        float mouseX_, mouseY_;
+    };
+
+    class MouseScrolledEvent : public Event
+    {
+    public:
+        EventType GetEventType() const override { return MouseScrolled; }
+
+        MouseScrolledEvent(const float amount): scrollAmount_(amount) {}
+
+        float GetAmount() const { return scrollAmount_; }
+
+    private:
+        float scrollAmount_;
     };
 
     class MouseButtonEvent : public Event
     {
     public:
-        explicit MouseButtonEvent(const int button): m_Button(button) {}
-
-        EventType GetEventType() const override { return MouseButtonPressed; }
-
-        int GetMouseButton() const { return m_Button; }
+        int GetMouseButton() const { return button_; }
     protected:
-        int m_Button;
+        explicit MouseButtonEvent(const int button) : button_(button) {}
+        int button_;
+    };
+
+    class MouseButtonPressedEvent : public MouseButtonEvent
+    {
+    public:
+        explicit MouseButtonPressedEvent(const int button): MouseButtonEvent(button) {}
+        EventType GetEventType() const override { return MouseButtonPressed; }
+    };
+
+    class MouseButtonReleasedEvent : public MouseButtonEvent
+    {
+    public:
+        MouseButtonReleasedEvent(int button): MouseButtonEvent(button) {}
+        EventType GetEventType() const override { return MouseButtonReleased; }
     };
 }

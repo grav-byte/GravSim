@@ -7,7 +7,7 @@
 #include <iostream>
 
 #include "imgui.h"
-#include "App/EngineLayer.h"
+#include "../Layers/EngineLayer.h"
 #include "Core/AppLayer.h"
 #include "Core/AppLayer.h"
 #include "misc/cpp/imgui_stdlib.h"
@@ -43,7 +43,7 @@ void SceneUI::Render() {
     ImGui::SeparatorText("Camera");
     auto cam = scene_->GetCamera();
     DrawFloat2Control("Position", &cam->transform.position);
-    ImGui::DragFloat("Zoom", &cam->zoom, .1f);
+    ImGui::DragFloat("Zoom", &cam->zoom, .02f, 0.1f, 20.0f);
 
     ImGui::End();
 }

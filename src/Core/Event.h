@@ -10,7 +10,7 @@ namespace Core {
         None = 0,
         WindowClosed, WindowResized,
         KeyPressed, KeyReleased,
-        MouseButtonPressed, MouseMoved,
+        MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
         SceneLoaded
     };
 
