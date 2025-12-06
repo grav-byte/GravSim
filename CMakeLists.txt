@@ -33,6 +33,9 @@ add_executable(GravSim
         libraries/imgui/backends/imgui_impl_opengl3.cpp
         libraries/imgui/misc/cpp/imgui_stdlib.cpp
         libraries/miniaudio/miniaudio.c
+        libraries/cereal/include
+        libraries/tinyfiledialogs/tinyfiledialogs.h
+        libraries/tinyfiledialogs/tinyfiledialogs.c
         src/core/Application.cpp
         src/core/Window.cpp
         src/App/Layers/UILayer.cpp
@@ -57,6 +60,8 @@ add_executable(GravSim
         src/App/Engine/EngineEvents.h
         src/App/Engine/CameraController.cpp
         src/App/Engine/CameraController.h
+        src/App/Engine/SceneLoader.cpp
+        src/App/Engine/SceneLoader.h
 )
 
 # Include directories
@@ -65,6 +70,8 @@ target_include_directories(GravSim PRIVATE
         libraries/glfw/include
         libraries/imgui
         libraries/imgui/backends
+        libraries/cereal/include
+        libraries/tinyfiledialogs
         libraries/glm
         libraries/miniaudio
         libraries/glew/include

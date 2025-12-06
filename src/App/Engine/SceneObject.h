@@ -14,6 +14,8 @@
 
 class SceneObject {
 public:
+    SceneObject() : id(0), transform(Transform()), mass(0.0f), velocity(glm::vec2(0,0)), angularVelocity(0.0f), renderer(nullptr) {}
+
     SceneObject(uint32_t objectId, const std::string &objectName);
 
     uint32_t id;
@@ -26,5 +28,14 @@ public:
     float angularVelocity;
 
     std::unique_ptr<IRenderer> renderer;
+    // not yet serialized
     std::vector<std::unique_ptr<ICollider>> colliders;
+
+    // Cereal serialization
+    template<class Archive>
+    void serialize(Archive& ar) {
+        ar(id, name, transform, mass, velocity, angularVelocity, renderer);
+    }
 };
+
+

@@ -10,6 +10,9 @@
 [submodule "libraries/miniaudio"]
 	path = libraries/miniaudio
 	url = https://github.com/mackron/miniaudio.git
-[submodule "libraries/json"]
-	path = libraries/json
-	url = https://github.com/nlohmann/json.git
+[submodule "libraries/cereal"]
+	path = libraries/cereal
+	url = https://github.com/USCiLab/cereal.git
+[submodule "libraries/tinyfiledialogs"]
+	path = libraries/tinyfiledialogs
+	url = https://github.com/native-toolkit/libtinyfiledialogs.git

@@ -10,6 +10,7 @@
 #include "../Engine/EngineEvents.h"
 #include "../Rendering/RenderingSystem.h"
 #include "../Rendering/ShaderLoader.h"
+#include "App/Engine/SceneLoader.h"
 
 EngineLayer::EngineLayer() : AppLayer() {
     scene_ = nullptr;
@@ -18,12 +19,27 @@ EngineLayer::EngineLayer() : AppLayer() {
 
 EngineLayer::~EngineLayer() = default;
 
-void EngineLayer::LoadScene(std::unique_ptr<Scene> scene) {
-    scene_ = std::move(scene);
+void EngineLayer::NewScene() {
+    scene_ = std::make_unique<Scene>();
+    OnSceneLoaded();
+}
+
+void EngineLayer::LoadScene(const std::string &filePath) {
+    scene_ = std::move(SceneLoader::LoadScene(filePath));
+    if (!scene_)
+        return;
+    OnSceneLoaded();
+}
+
+void EngineLayer::OnSceneLoaded() const {
     renderingSystem_->SetActiveCamera(scene_->GetCamera());
 
     SceneLoadedEvent event(scene_.get());
     Core::Application::Get().RaiseEvent(event);
+}
+
+bool EngineLayer::SaveScene(const std::string &filePath) const {
+    return SceneLoader::SaveScene(*scene_, filePath);
 }
 
 void EngineLayer::OnInit() {
@@ -32,7 +48,7 @@ void EngineLayer::OnInit() {
 
     renderingSystem_ = std::make_unique<RenderingSystem>(shader, 64);
 
-    LoadScene(std::make_unique<Scene>());
+    LoadScene("scene.json");
 }
 
 void EngineLayer::OnUpdate(float deltaTime) {

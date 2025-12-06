@@ -9,6 +9,7 @@
 #include "imgui.h"
 #include "../Layers/EngineLayer.h"
 #include "Core/AppLayer.h"
+#include "tinyfiledialogs.h"
 #include "Core/AppLayer.h"
 #include "misc/cpp/imgui_stdlib.h"
 #include "Core/Application.h"
@@ -31,6 +32,15 @@ void SceneUI::Render() {
     if (!scene_)
         return;
 
+    if (ImGui::BeginMainMenuBar()) {
+        if (ImGui::BeginMenu("File"))
+        {
+            FileMenu();
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
+
     ImGui::Begin("Scene");
     ImGui::SeparatorText("Objects");
     if (ImGui::Button("Add Object")) {
@@ -45,7 +55,41 @@ void SceneUI::Render() {
     DrawFloat2Control("Position", &cam->transform.position);
     ImGui::DragFloat("Zoom", &cam->zoom, .02f, 0.1f, 20.0f);
 
+    if (ImGui::Button("Save")) {
+        engine_->SaveScene("scene.json");
+    }
+
+    if (ImGui::Button("Load")) {
+        engine_->LoadScene("scene.json");
+    }
+
     ImGui::End();
+}
+
+void SceneUI::FileMenu() {
+    if (ImGui::MenuItem("New Scene")) {
+        engine_->NewScene();
+    }
+    if (ImGui::MenuItem("Open Scene")) {
+        engine_->LoadScene(OpenFileDialog());
+    }
+    if (ImGui::MenuItem("Save Scene")) {
+
+    }
+}
+
+const char* SceneUI::OpenFileDialog() {
+    const char* filters[] = { "*.public.json" };
+    const char* filename = tinyfd_openFileDialog(
+        "Open Scene",
+        "",
+        1,           // number of filters
+        filters,
+        "Scene files",
+        0             // allow multiple selections?
+    );
+
+    return filename;
 }
 
 void SceneUI::DrawObjectUI(SceneObject* obj) {

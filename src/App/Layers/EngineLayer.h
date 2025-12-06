@@ -16,7 +16,9 @@ public:
     EngineLayer();
     ~EngineLayer() override;
 
-    void LoadScene(std::unique_ptr<Scene> scene);
+    void NewScene();
+
+    void LoadScene(const std::string &filePath);
 
     void OnInit() override;
 
@@ -26,9 +28,13 @@ public:
 
     void OnRender() override;
 
+    bool SaveScene(const std::string &filePath) const;
+
     Scene* GetScene() const { return scene_.get(); }
 
 private:
+    void OnSceneLoaded() const;
+
     std::unique_ptr<RenderingSystem> renderingSystem_;
     std::unique_ptr<Scene> scene_;
     CameraController cameraController_;

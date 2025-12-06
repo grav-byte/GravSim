@@ -16,6 +16,10 @@ public:
     void OnEvent(Core::Event &event) override;
     void Render() override;
 
+    void FileMenu();
+
+    static const char *OpenFileDialog();
+
 private:
     EngineLayer* engine_;
     Scene* scene_;

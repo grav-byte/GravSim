@@ -25,4 +25,10 @@ struct Transform {
         transform = glm::scale(transform, glm::vec3(scale, 1.0f));
         return transform;
     }
+
+    // Cereal serialization
+    template<class Archive>
+    void serialize(Archive& ar) {
+        ar(position, rotation, scale);
+    }
 };
