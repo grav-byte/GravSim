@@ -48,7 +48,7 @@ void EngineLayer::OnInit() {
 
     renderingSystem_ = std::make_unique<RenderingSystem>(shader, 64);
 
-    LoadScene("scene.json");
+    NewScene();
 }
 
 void EngineLayer::OnUpdate(float deltaTime) {
