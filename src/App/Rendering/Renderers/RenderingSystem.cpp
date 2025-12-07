@@ -5,16 +5,14 @@
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "App/Rendering/TextureLoader.h"
+
 RenderingSystem::RenderingSystem(const unsigned int circleShaderProgram,
                                  const unsigned int spriteShaderProgram,
                                  const int segments)
     : activeCamera_(nullptr),
       circleSegments_(std::max(3, segments)),
-      circleVao_(0),
-      circleVbo_(0),
       circleShaderProgram_(circleShaderProgram),
-      quadVao_(0),
-      quadVbo_(0),
       spriteShaderProgram_(spriteShaderProgram)
 {
     BuildCircleVertices();
@@ -29,6 +27,7 @@ RenderingSystem::~RenderingSystem() {
     if (circleVao_ != 0) glDeleteVertexArrays(1, &circleVao_);
     if (quadVbo_ != 0)   glDeleteBuffers(1, &quadVbo_);
     if (quadVao_ != 0)   glDeleteVertexArrays(1, &quadVao_);
+    TextureLoader::Clear();
 }
 
 void RenderingSystem::RenderCircle(const glm::mat4 &transformMatrix,
@@ -142,6 +141,7 @@ void RenderingSystem::UploadQuadToGPU() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
+
 
 void RenderingSystem::RenderSprite(unsigned int textureId, const glm::mat4& transformMatrix) const {
 

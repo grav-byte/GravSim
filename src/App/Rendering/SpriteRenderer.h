@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IRenderer.h"
+#include "Renderers/IRenderer.h"
 #include "cereal/types/base_class.hpp"
 #include <string>
 
@@ -25,6 +25,4 @@ private:
     std::string path_;
 
     float aspectRatio_ = 1.0f;
-
-    void LoadTexture();
 };

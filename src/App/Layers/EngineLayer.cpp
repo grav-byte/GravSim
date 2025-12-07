@@ -8,7 +8,7 @@
 #include "EngineLayer.h"
 #include "Core/Application.h"
 #include "../Engine/EngineEvents.h"
-#include "../Rendering/RenderingSystem.h"
+#include "../Rendering/Renderers/RenderingSystem.h"
 #include "../Rendering/ShaderLoader.h"
 #include "App/Engine/SceneLoader.h"
 

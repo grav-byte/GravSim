@@ -4,7 +4,7 @@
 
 #include "SceneObject.h"
 
-#include "App/Rendering/CircleRenderer.h"
+#include "../Rendering/Renderers/CircleRenderer.h"
 #include "App/Rendering/SpriteRenderer.h"
 
 SceneObject::SceneObject(const uint32_t objectId, const std::string& objectName)

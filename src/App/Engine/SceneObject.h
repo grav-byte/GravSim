@@ -10,7 +10,7 @@
 #include <string>
 
 #include "Transform.h"
-#include "App/Rendering/IRenderer.h"
+#include "../Rendering/Renderers/IRenderer.h"
 
 
 class SceneObject {

@@ -19,7 +19,7 @@ struct Transform {
         transform = glm::translate(transform, glm::vec3(position, 0.0f));
 
         // rotation
-        transform = glm::rotate(transform, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+        transform = glm::rotate(transform, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
 
         // scale: scale by radius and scale vector
         transform = glm::scale(transform, glm::vec3(scale, 1.0f));
