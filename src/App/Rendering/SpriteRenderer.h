@@ -24,5 +24,7 @@ private:
     unsigned int textureId_ = 0;
     std::string path_;
 
+    float aspectRatio_ = 1.0f;
+
     void LoadTexture();
 };

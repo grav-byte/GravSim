@@ -51,6 +51,9 @@ bool EngineLayer::SaveScene() const {
 void EngineLayer::OnInit() {
     glewInit();
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     auto circleShader = ShaderLoader::LoadShader("simple.vert", "simple.frag");
     auto spriteShader = ShaderLoader::LoadShader("sprite.vert", "sprite.frag");
 
