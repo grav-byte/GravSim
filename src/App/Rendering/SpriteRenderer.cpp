@@ -10,7 +10,7 @@
 SpriteRenderer::SpriteRenderer(const std::string& path)
     : path_(path)
 {
-    color = glm::vec4(1.0f); // falls du später z.B. Tint-Farbe nutzen willst
+    color = glm::vec4(1.0f);
     LoadTexture();
 }
 
@@ -28,6 +28,12 @@ void SpriteRenderer::LoadTexture() {
     if (!data) {
         std::printf("Failed to load texture: %s\n", path_.c_str());
         return;
+    }
+
+    if (height != 0) {
+        aspectRatio_ = static_cast<float>(width) / static_cast<float>(height);
+    } else {
+        aspectRatio_ = 1.0f;
     }
 
     glGenTextures(1, &textureId_);
@@ -50,6 +56,8 @@ void SpriteRenderer::LoadTexture() {
 
 void SpriteRenderer::Render(RenderingSystem& rendering, Transform transform) {
     if (textureId_ == 0) return;
+
+    transform.scale.x *= aspectRatio_;
 
     rendering.RenderSprite(textureId_, transform.GetMatrix());
 }
