@@ -7,8 +7,8 @@
 Scene::Scene() {
     nextID_ = 0;
     sceneObjects_ = std::vector<std::unique_ptr<SceneObject>>();
+    name_ = std::string("New Scene");
     camera_ = std::make_unique<Camera>();
-    sceneObjects_.push_back(std::make_unique<SceneObject>(nextID_++, "Circle"));
 }
 
 Camera* Scene::GetCamera() const { return camera_.get(); }
@@ -40,4 +40,8 @@ void Scene::DeleteObject(uint32_t id) {
                 ),
                 sceneObjects_.end()
             );
+}
+
+std::string* Scene::GetName() {
+    return &name_;
 }

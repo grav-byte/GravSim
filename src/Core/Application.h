@@ -6,6 +6,9 @@
 #include <memory>
 #include <vector>
 
+#include <filesystem>
+namespace fs = std::filesystem;
+
 #include "AppLayer.h"
 #include "Window.h"
 
@@ -55,6 +58,8 @@ namespace Core {
         std::shared_ptr<Window> GetWindow() const { return window_; }
 
         static float GetTime();
+
+        static fs::path GetAppDataFolder();
 
     private:
         AppConfig config_;

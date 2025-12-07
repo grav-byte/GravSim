@@ -5,6 +5,7 @@
 #include "SceneLoader.h"
 
 #include <fstream>
+#include <filesystem>
 #include "../Rendering/CircleRenderer.h"
 #include "../Rendering/IRenderer.h"
 #include <cereal/types/polymorphic.hpp>
@@ -12,7 +13,10 @@
 #include <cereal/types/vector.hpp>
 #include <cereal/types/memory.hpp>
 
+#include "Core/Application.h"
+
 CEREAL_REGISTER_TYPE(CircleRenderer)
+
 CEREAL_REGISTER_POLYMORPHIC_RELATION(IRenderer, CircleRenderer)
 
 namespace cereal {
@@ -22,16 +26,22 @@ namespace cereal {
     void serialize(Archive& ar, glm::vec4& v) { ar(v.x, v.y, v.z, v.w); }
 }
 
-bool SceneLoader::SaveScene(const Scene &scene, const std::string &filepath) {
+std::string SceneLoader::sceneFolder = "scenes";
+
+void SceneLoader::EnsureSceneFolderExists() {
+    const std::filesystem::path fullPath = Core::Application::GetAppDataFolder() / sceneFolder;
+    std::filesystem::create_directories(fullPath);
+}
+
+bool SceneLoader::SaveScene(Scene &scene) {
     try {
-        std::ofstream os(filepath);
-        if (!os.is_open()) {
-            return false;
-        }
+        std::filesystem::path filePath = Core::Application::GetAppDataFolder() / sceneFolder / *scene.GetName();
+        filePath += ".json";
+        std::ofstream os(filePath);
 
         cereal::JSONOutputArchive archive(os);
         archive (scene);
-        std::cout << "Saved scene to " << std::filesystem::current_path() << std::endl;
+        std::cout << "Saved scene to " << filePath << std::endl;
         return true;
     } catch (const std::exception& e) {
         std::cerr << "Failed to save scene: " << e.what() << std::endl;

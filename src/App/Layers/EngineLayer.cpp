@@ -13,6 +13,7 @@
 #include "App/Engine/SceneLoader.h"
 
 EngineLayer::EngineLayer() : AppLayer() {
+    SceneLoader::EnsureSceneFolderExists();
     scene_ = nullptr;
     cameraController_ = CameraController();
 }
@@ -38,8 +39,8 @@ void EngineLayer::OnSceneLoaded() const {
     Core::Application::Get().RaiseEvent(event);
 }
 
-bool EngineLayer::SaveScene(const std::string &filePath) const {
-    return SceneLoader::SaveScene(*scene_, filePath);
+bool EngineLayer::SaveScene() const {
+    return SceneLoader::SaveScene(*scene_);
 }
 
 void EngineLayer::OnInit() {

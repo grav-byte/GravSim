@@ -8,16 +8,17 @@
 
 #include "imgui.h"
 #include "../Layers/EngineLayer.h"
-#include "Core/AppLayer.h"
 #include "tinyfiledialogs.h"
-#include "Core/AppLayer.h"
 #include "misc/cpp/imgui_stdlib.h"
 #include "Core/Application.h"
 
 SceneUI::SceneUI() {
     scene_ = nullptr;
+    sceneSelector_ = std::make_unique<FileSelector>(Core::Application::GetAppDataFolder() / "scenes", "All Scenes");
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
 }
+
+#include <filesystem>
 
 SceneUI::~SceneUI() = default;
 
@@ -32,16 +33,42 @@ void SceneUI::Draw() {
     if (!scene_)
         return;
 
-    if (ImGui::BeginMainMenuBar()) {
-        if (ImGui::BeginMenu("File"))
-        {
-            FileMenu();
-            ImGui::EndMenu();
+    ImGui::Begin("Scene");
+    ImGui::Spacing();
+
+    sceneSelector_->Draw();
+
+    if (sceneSelector_->GetSelectedFile() != "") {
+        if (ImGui::Button("Load Scene")) {
+            engine_->LoadScene(sceneSelector_->GetSelectedFile());
         }
-        ImGui::EndMainMenuBar();
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Delete Scene")) {
+            const auto filePath = sceneSelector_->GetSelectedFile();
+            try {
+                if (std::filesystem::exists(filePath)) {
+                    std::filesystem::remove(filePath);
+                    sceneSelector_->RefreshFiles(); // update list
+                }
+            } catch (const std::filesystem::filesystem_error& e) {
+                std::cerr << "Failed to delete scene: " << e.what() << std::endl;
+            }
+        }
     }
 
-    ImGui::Begin("Scene");
+    ImGui::Spacing();
+
+    ImGui::SeparatorText("Current Scene");
+
+    ImGui::InputText("Name", scene_->GetName());
+    if (ImGui::Button("Save")) {
+        if (!engine_->SaveScene()) {
+
+        }
+    }
+
     ImGui::SeparatorText("Objects");
     if (ImGui::Button("Add Object")) {
         scene_->CreateObject();
@@ -55,27 +82,11 @@ void SceneUI::Draw() {
     DrawFloat2Control("Position", &cam->transform.position);
     ImGui::DragFloat("Zoom", &cam->zoom, .02f, 0.1f, 20.0f);
 
-    if (ImGui::Button("Save")) {
-        engine_->SaveScene("scene.json");
-    }
-
     if (ImGui::Button("Load")) {
         engine_->LoadScene("scene.json");
     }
 
     ImGui::End();
-}
-
-void SceneUI::FileMenu() {
-    if (ImGui::MenuItem("New Scene")) {
-        engine_->NewScene();
-    }
-    if (ImGui::MenuItem("Open Scene")) {
-        engine_->LoadScene(OpenFileDialog());
-    }
-    if (ImGui::MenuItem("Save Scene")) {
-
-    }
 }
 
 const char* SceneUI::OpenFileDialog() {

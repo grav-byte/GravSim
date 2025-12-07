@@ -8,6 +8,10 @@
 
 class SceneLoader {
 public:
-    static bool SaveScene(const Scene& scene, const std::string& filepath);
+    static std::string sceneFolder;
+
+    static void EnsureSceneFolderExists();
+
+    static bool SaveScene(Scene &scene);
     static std::unique_ptr<Scene> LoadScene(const std::string& filepath);
 };

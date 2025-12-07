@@ -101,7 +101,7 @@ void UILayer::OnEvent(Core::Event &event) {
     // Stop mouse event propagation if the mouse is over any ImGui window and ImGui wants to capture the mouse
     if (io_->WantCaptureMouse  && ImGui::IsAnyItemHovered()) {
         const Core::EventType type = event.GetEventType();
-        if (type == Core::MouseButtonPressed || type == Core::MouseButtonReleased || type == Core::MouseMoved) {
+        if (type == Core::MouseButtonPressed || type == Core::MouseButtonReleased || type == Core::MouseMoved || type == Core::MouseScrolled) {
             event.Handled = true;
         }
     }

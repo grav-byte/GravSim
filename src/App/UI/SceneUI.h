@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "FileSelector.h"
 #include "IUserInterface.h"
 #include "../Layers/EngineLayer.h"
 #include "App/Engine/Scene.h"
@@ -23,6 +24,7 @@ public:
 private:
     EngineLayer* engine_;
     Scene* scene_;
+    std::unique_ptr<FileSelector> sceneSelector_;
 
     void DrawObjectUI(SceneObject *obj);
     void DrawColorControl(const char *title, glm::vec4 * color);

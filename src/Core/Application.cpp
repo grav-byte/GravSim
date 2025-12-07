@@ -20,6 +20,8 @@ namespace Core {
         }
         s_Application = this;
 
+        fs::create_directories(GetAppDataFolder());
+
         glfwSetErrorCallback(GLFWErrorCallback);
         glfwInit();
 
@@ -99,5 +101,23 @@ namespace Core {
     float Application::GetTime()
     {
         return static_cast<float>(glfwGetTime());
+    }
+
+    fs::path Application::GetAppDataFolder() {
+#ifdef _WIN32
+        char* appdata = std::getenv("APPDATA");
+        if (appdata) return fs::path(appdata) / "GravSim";
+        return fs::path(".") / "GravSim"; // fallback
+#elif __APPLE__
+        const char* home = std::getenv("HOME");
+        if (home) return fs::path(home) / "Library" / "Application Support" / "GravSim";
+        return fs::path(".") / "GravSim";
+#else // Linux/Unix
+        const char* xdg = std::getenv("XDG_CONFIG_HOME");
+        if (xdg) return fs::path(xdg) / "GravSim";
+        const char* home = std::getenv("HOME");
+        if (home) return fs::path(home) / ".config" / "GravSim";
+        return fs::path(".") / "GravSim";
+#endif
     }
 }

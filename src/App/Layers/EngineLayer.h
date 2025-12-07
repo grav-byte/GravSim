@@ -28,7 +28,7 @@ public:
 
     void OnRender() override;
 
-    bool SaveScene(const std::string &filePath) const;
+    bool SaveScene() const;
 
     Scene* GetScene() const { return scene_.get(); }
 

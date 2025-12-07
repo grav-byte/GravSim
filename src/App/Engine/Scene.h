@@ -23,8 +23,10 @@ public:
 
     void DeleteObject(uint32_t id);
 
+    std::string* GetName();
 
 private:
+    std::string name_;
     std::unique_ptr<Camera> camera_; // scene owns the camera
     std::vector<std::unique_ptr<SceneObject>> sceneObjects_; // scene owns objects
     uint32_t nextID_;
@@ -33,6 +35,6 @@ public:
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(camera_, sceneObjects_, nextID_);
+        ar(name_, camera_, sceneObjects_, nextID_);
     }
 };

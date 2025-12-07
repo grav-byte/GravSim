@@ -62,6 +62,8 @@ add_executable(GravSim
         src/App/Engine/CameraController.h
         src/App/Engine/SceneLoader.cpp
         src/App/Engine/SceneLoader.h
+        src/App/UI/FileSelector.cpp
+        src/App/UI/FileSelector.h
 )
 
 # Include directories
