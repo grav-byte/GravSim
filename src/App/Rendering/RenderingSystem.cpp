@@ -5,96 +5,90 @@
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Core/AppLayer.h"
-#include "Core/AppLayer.h"
-#include "Core/AppLayer.h"
-#include "Core/AppLayer.h"
-#include "Core/AppLayer.h"
-#include "Core/AppLayer.h"
-#include "Core/Application.h"
-
-RenderingSystem::RenderingSystem(const unsigned int shaderProgram,
-                               const int segments)
-    : segments_(std::max(3, segments)),
-      vao_(0),
-      vbo_(0),
-      shaderProgram_(shaderProgram)
+RenderingSystem::RenderingSystem(const unsigned int circleShaderProgram,
+                                 const unsigned int spriteShaderProgram,
+                                 const int segments)
+    : activeCamera_(nullptr),
+      circleSegments_(std::max(3, segments)),
+      circleVao_(0),
+      circleVbo_(0),
+      circleShaderProgram_(circleShaderProgram),
+      quadVao_(0),
+      quadVbo_(0),
+      spriteShaderProgram_(spriteShaderProgram)
 {
-    BuildVertices();
-    UploadToGPU();
+    BuildCircleVertices();
+    UploadCircleToGPU();
+
+    BuildQuadVertices();
+    UploadQuadToGPU();
 }
 
 RenderingSystem::~RenderingSystem() {
-    if (vbo_ != 0) {
-        glDeleteBuffers(1, &vbo_);
-    }
-    if (vao_ != 0) {
-        glDeleteVertexArrays(1, &vao_);
-    }
+    if (circleVbo_ != 0) glDeleteBuffers(1, &circleVbo_);
+    if (circleVao_ != 0) glDeleteVertexArrays(1, &circleVao_);
+    if (quadVbo_ != 0)   glDeleteBuffers(1, &quadVbo_);
+    if (quadVao_ != 0)   glDeleteVertexArrays(1, &quadVao_);
 }
 
-void RenderingSystem::RenderCircle(const glm::mat4 &transformMatrix, const glm::vec4 &color) const {
+void RenderingSystem::RenderCircle(const glm::mat4 &transformMatrix,
+                                   const glm::vec4 &color) const {
 
-    if (!shaderProgram_ || !activeCamera_) {
-        std::cout << "Trying to render circle without shader program or camera" << std::endl;
+    if (!circleShaderProgram_ || !activeCamera_) {
+        std::cout << "Trying to render circle without shader program or camera\n";
         return;
     }
 
-    glUseProgram(shaderProgram_);
+    glUseProgram(circleShaderProgram_);
 
     const auto projection = activeCamera_->GetProjectionMatrix();
-
     glm::mat4 finalTransform = projection * transformMatrix;
 
-    // set uniforms
-    GLint colorLoc = glGetUniformLocation(shaderProgram_, "uColor");
+    GLint colorLoc = glGetUniformLocation(circleShaderProgram_, "uColor");
     glUniform4fv(colorLoc, 1, glm::value_ptr(color));
 
-    GLint transformLoc = glGetUniformLocation(shaderProgram_, "uTransform");
+    GLint transformLoc = glGetUniformLocation(circleShaderProgram_, "uTransform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
 
-    // draw
-    glBindVertexArray(vao_);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, static_cast<GLsizei>(vertices_.size()));
+    glBindVertexArray(circleVao_);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, static_cast<GLsizei>(circleVertices_.size()));
     glBindVertexArray(0);
 }
 
-void RenderingSystem::BuildVertices() {
-    vertices_.clear();
-    vertices_.reserve(segments_ + 2);
+void RenderingSystem::BuildCircleVertices() {
+    circleVertices_.clear();
+    circleVertices_.reserve(circleSegments_ + 2);
 
     // center
-    vertices_.emplace_back(0.0f, 0.0f);
+    circleVertices_.emplace_back(0.0f, 0.0f);
 
     // edges (unit circle, radius = 1)
-    for(int i = 0; i <= segments_; ++i)
-    {
-        const float angle = static_cast<float>(i) / static_cast<float>(segments_) * 2.0f * M_PI;
-        float x = cos(angle);
-        float y = sin(angle);
-        vertices_.emplace_back(x, y);
+    const float twoPi = 2.0f * glm::pi<float>();
+    for (int i = 0; i <= circleSegments_; ++i) {
+        float angle = static_cast<float>(i) / static_cast<float>(circleSegments_) * twoPi;
+        float x = std::cos(angle);
+        float y = std::sin(angle);
+        circleVertices_.emplace_back(x, y);
     }
 }
 
-void RenderingSystem::UploadToGPU() {
-    // Create VAO and VBO if they don't exist yet
-    if (vao_ == 0) {
-        glGenVertexArrays(1, &vao_);
+void RenderingSystem::UploadCircleToGPU() {
+    if (circleVao_ == 0) {
+        glGenVertexArrays(1, &circleVao_);
     }
-    if (vbo_ == 0) {
-        glGenBuffers(1, &vbo_);
+    if (circleVbo_ == 0) {
+        glGenBuffers(1, &circleVbo_);
     }
 
-    glBindVertexArray(vao_);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+    glBindVertexArray(circleVao_);
+    glBindBuffer(GL_ARRAY_BUFFER, circleVbo_);
 
-    // Upload vertex data
     glBufferData(GL_ARRAY_BUFFER,
-                 vertices_.size() * sizeof(glm::vec2),
-                 vertices_.data(),
+                 circleVertices_.size() * sizeof(glm::vec2),
+                 circleVertices_.data(),
                  GL_STATIC_DRAW);
 
-    // Vertex attribute 0: vec2 position
+    // layout(location = 0) in vec2 aPos;
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(
         0,
@@ -107,4 +101,73 @@ void RenderingSystem::UploadToGPU() {
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+}
+
+void RenderingSystem::BuildQuadVertices() {
+    quadVertices_.clear();
+    quadVertices_.reserve(6);
+
+    // Zwei Dreiecke, centered (-0.5..0.5) um die Origin
+    quadVertices_.emplace_back(-0.5f, -0.5f, 0.0f, 0.0f);
+    quadVertices_.emplace_back( 0.5f, -0.5f, 1.0f, 0.0f);
+    quadVertices_.emplace_back( 0.5f,  0.5f, 1.0f, 1.0f);
+
+    quadVertices_.emplace_back(-0.5f, -0.5f, 0.0f, 0.0f);
+    quadVertices_.emplace_back( 0.5f,  0.5f, 1.0f, 1.0f);
+    quadVertices_.emplace_back(-0.5f,  0.5f, 0.0f, 1.0f);
+}
+
+void RenderingSystem::UploadQuadToGPU() {
+    if (quadVao_ == 0) glGenVertexArrays(1, &quadVao_);
+    if (quadVbo_ == 0) glGenBuffers(1, &quadVbo_);
+
+    glBindVertexArray(quadVao_);
+    glBindBuffer(GL_ARRAY_BUFFER, quadVbo_);
+
+    glBufferData(GL_ARRAY_BUFFER,
+                 quadVertices_.size() * sizeof(glm::vec4),
+                 quadVertices_.data(),
+                 GL_STATIC_DRAW);
+
+    // layout(location = 0) vec2 aPos;
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
+                          sizeof(glm::vec4), (void*)0);
+
+    // layout(location = 1) vec2 aTex;
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
+                          sizeof(glm::vec4), (void*)(2 * sizeof(float)));
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
+
+void RenderingSystem::RenderSprite(unsigned int textureId,
+                                   const glm::mat4& transformMatrix) const {
+
+    if (!spriteShaderProgram_ || !activeCamera_) {
+        std::cout << "Trying to render sprite without shader program or camera" << std::endl;
+        return;
+    }
+
+    glUseProgram(spriteShaderProgram_);
+
+    const auto projection = activeCamera_->GetProjectionMatrix();
+    glm::mat4 finalTransform = projection * transformMatrix;
+
+    GLint transformLoc = glGetUniformLocation(spriteShaderProgram_, "uTransform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
+
+    GLint texLoc = glGetUniformLocation(spriteShaderProgram_, "uTexture");
+    glUniform1i(texLoc, 0);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, textureId);
+
+    glBindVertexArray(quadVao_);
+    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(quadVertices_.size()));
+    glBindVertexArray(0);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

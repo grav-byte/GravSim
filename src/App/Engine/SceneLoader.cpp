@@ -7,17 +7,23 @@
 #include <fstream>
 #include <filesystem>
 #include "../Rendering/CircleRenderer.h"
+#include "../Rendering/SpriteRenderer.h"
 #include "../Rendering/IRenderer.h"
 #include <cereal/types/polymorphic.hpp>
 #include <cereal/archives/json.hpp>
 #include <cereal/types/vector.hpp>
 #include <cereal/types/memory.hpp>
+#include <filesystem>
+
 
 #include "Core/Application.h"
 
 CEREAL_REGISTER_TYPE(CircleRenderer)
 
 CEREAL_REGISTER_POLYMORPHIC_RELATION(IRenderer, CircleRenderer)
+
+CEREAL_REGISTER_TYPE(SpriteRenderer)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(IRenderer, SpriteRenderer)
 
 namespace cereal {
     template <class Archive>
