@@ -8,19 +8,25 @@
 
 #include "imgui.h"
 #include "../Layers/EngineLayer.h"
-#include "tinyfiledialogs.h"
 #include "misc/cpp/imgui_stdlib.h"
 #include "Core/Application.h"
 
 SceneUI::SceneUI() {
     scene_ = nullptr;
-    sceneSelector_ = std::make_unique<FileSelector>(Core::Application::GetAppDataFolder() / "scenes", "All Scenes");
+    sceneSelector_ = std::make_unique<FileSelector>(Core::Application::GetAppDataFolder() / "scenes");
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
+    statusMessage_ = "";
+    statusTimer_ = 0.0f;
 }
 
 #include <filesystem>
 
 SceneUI::~SceneUI() = default;
+
+void SceneUI::ShowStatusMessage(const std::string &msg, float duration = 5) {
+    statusMessage_ = msg;
+    statusTimer_ = duration;
+}
 
 void SceneUI::OnEvent(Core::Event &event) {
     // Listen for scene loaded events to update the scene pointer
@@ -34,13 +40,26 @@ void SceneUI::Draw() {
         return;
 
     ImGui::Begin("Scene");
+
+    if (statusTimer_ > 0.0f) {
+        ImGui::Text("%s", statusMessage_.c_str());
+        statusTimer_ -= ImGui::GetIO().DeltaTime;
+        if (statusTimer_ < 0.0f)
+            statusTimer_ = 0.0f;
+    }
+
     ImGui::Spacing();
+    ImGui::SeparatorText("All Scenes");
 
     sceneSelector_->Draw();
 
     if (sceneSelector_->GetSelectedFile() != "") {
         if (ImGui::Button("Load Scene")) {
-            engine_->LoadScene(sceneSelector_->GetSelectedFile());
+            if (engine_->LoadScene(sceneSelector_->GetSelectedFile())) {
+                ShowStatusMessage("Scene loaded successfully.");
+            } else {
+                ShowStatusMessage("Failed to load scene.");
+            }
         }
 
         ImGui::SameLine();
@@ -51,9 +70,13 @@ void SceneUI::Draw() {
                 if (std::filesystem::exists(filePath)) {
                     std::filesystem::remove(filePath);
                     sceneSelector_->RefreshFiles(); // update list
+                    ShowStatusMessage("Scene deleted successfully.");
+                } else {
+                    ShowStatusMessage("Scene file does not exist.");
                 }
             } catch (const std::filesystem::filesystem_error& e) {
                 std::cerr << "Failed to delete scene: " << e.what() << std::endl;
+                ShowStatusMessage("Failed to delete scene.");
             }
         }
     }
@@ -64,8 +87,10 @@ void SceneUI::Draw() {
 
     ImGui::InputText("Name", scene_->GetName());
     if (ImGui::Button("Save")) {
-        if (!engine_->SaveScene()) {
-
+        if (engine_->SaveScene()) {
+            ShowStatusMessage("Scene saved successfully.");
+        } else {
+            ShowStatusMessage("Failed to save scene.");
         }
     }
 
@@ -82,25 +107,7 @@ void SceneUI::Draw() {
     DrawFloat2Control("Position", &cam->transform.position);
     ImGui::DragFloat("Zoom", &cam->zoom, .02f, 0.1f, 20.0f);
 
-    if (ImGui::Button("Load")) {
-        engine_->LoadScene("scene.json");
-    }
-
     ImGui::End();
-}
-
-const char* SceneUI::OpenFileDialog() {
-    const char* filters[] = { "*.public.json" };
-    const char* filename = tinyfd_openFileDialog(
-        "Open Scene",
-        "",
-        1,           // number of filters
-        filters,
-        "Scene files",
-        0             // allow multiple selections?
-    );
-
-    return filename;
 }
 
 void SceneUI::DrawObjectUI(SceneObject* obj) {

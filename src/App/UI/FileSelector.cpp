@@ -6,7 +6,7 @@
 
 #include "imgui.h"
 
-FileSelector::FileSelector(std::string path, std::string title): directory_(std::move(path)), title_(std::move(title)), selectedIndex_(-1) {
+FileSelector::FileSelector(std::string path): directory_(std::move(path)), selectedIndex_(-1) {
     RefreshFiles();
 }
 
@@ -21,8 +21,6 @@ void FileSelector::RefreshFiles() {
 
 void FileSelector::Draw() {
     RefreshFiles();
-
-    ImGui::Text("%s", title_.c_str());
 
     const float itemHeight = ImGui::GetTextLineHeightWithSpacing();
     float height = files_.empty() ? itemHeight : files_.size() * itemHeight;

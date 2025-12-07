@@ -8,7 +8,7 @@ namespace fs = std::filesystem;
 
 class FileSelector {
 public:
-    explicit FileSelector(std::string  path, std::string title = "Select File");
+    explicit FileSelector(std::string  path);
 
     void RefreshFiles();
 
@@ -18,7 +18,6 @@ public:
 
 private:
     std::string directory_;
-    std::string title_;
     std::vector<std::string> files_;
     int selectedIndex_;
 };

@@ -25,11 +25,16 @@ void EngineLayer::NewScene() {
     OnSceneLoaded();
 }
 
-void EngineLayer::LoadScene(const std::string &filePath) {
-    scene_ = std::move(SceneLoader::LoadScene(filePath));
+bool EngineLayer::LoadScene(const std::string &filePath) {
+    auto loadedScene = SceneLoader::LoadScene(filePath);
+    if (!loadedScene)
+        return false;
+
+    scene_ = std::move(loadedScene);
     if (!scene_)
-        return;
+        return false;
     OnSceneLoaded();
+    return true;
 }
 
 void EngineLayer::OnSceneLoaded() const {

@@ -14,6 +14,8 @@ public:
     SceneUI();
     ~SceneUI() override;
 
+    void ShowStatusMessage(const std::string &msg, float duration);
+
     void OnEvent(Core::Event &event) override;
     void Draw() override;
 
@@ -25,6 +27,8 @@ private:
     EngineLayer* engine_;
     Scene* scene_;
     std::unique_ptr<FileSelector> sceneSelector_;
+    std::string statusMessage_;
+    float statusTimer_;
 
     void DrawObjectUI(SceneObject *obj);
     void DrawColorControl(const char *title, glm::vec4 * color);

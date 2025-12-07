@@ -39,6 +39,9 @@ bool SceneLoader::SaveScene(Scene &scene) {
         filePath += ".json";
         std::ofstream os(filePath);
 
+        if (!os.is_open())
+            return false;
+
         cereal::JSONOutputArchive archive(os);
         archive (scene);
         std::cout << "Saved scene to " << filePath << std::endl;

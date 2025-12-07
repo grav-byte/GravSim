@@ -18,7 +18,7 @@ public:
 
     void NewScene();
 
-    void LoadScene(const std::string &filePath);
+    bool LoadScene(const std::string &filePath);
 
     void OnInit() override;
 
