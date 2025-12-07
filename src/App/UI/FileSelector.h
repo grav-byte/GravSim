@@ -10,9 +10,7 @@ class FileSelector {
 public:
     explicit FileSelector(std::string  path);
 
-    explicit FileSelector(const std::filesystem::path& path,
-                      std::string title = "Select File")
-    : FileSelector(path.string(), std::move(title)) {}
+    explicit FileSelector(const std::filesystem::path& path): FileSelector(path.string()) {}
 
     void RefreshFiles();
 
