@@ -15,9 +15,13 @@ public:
     ~UILayer();
 
     void OnInit() override;
+
+
     void OnUpdate(float deltaTime) override;
     void OnEvent(Core::Event &event) override;
     void OnRender() override;
+
+    static void DockWindowsFirstFrame(ImGuiID mainId);
 private:
     bool showDemo_;
     ImGuiIO* io_;

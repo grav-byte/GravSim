@@ -13,7 +13,7 @@ public:
     SettingsUI();
     ~SettingsUI() override;
 
-    void Render() override;
+    void Draw() override;
     void OnEvent(Core::Event &event) override;
 
 private:

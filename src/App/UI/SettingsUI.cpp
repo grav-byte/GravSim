@@ -16,7 +16,7 @@ SettingsUI::SettingsUI() {
 
 SettingsUI::~SettingsUI() = default;
 
-void SettingsUI::Render() {
+void SettingsUI::Draw() {
 
     ImGui::Begin("Settings");
     ImGui::SeparatorText("Audio");

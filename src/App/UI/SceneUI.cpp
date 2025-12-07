@@ -28,7 +28,7 @@ void SceneUI::OnEvent(Core::Event &event) {
     }
 }
 
-void SceneUI::Render() {
+void SceneUI::Draw() {
     if (!scene_)
         return;
 

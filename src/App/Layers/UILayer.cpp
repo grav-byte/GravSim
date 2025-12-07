@@ -6,6 +6,8 @@
 #include "imgui_impl_opengl3.h"
 #include "GLFW/glfw3.h"
 #include "UILayer.h"
+
+#include "imgui_internal.h"
 #include "../UI/SceneUI.h"
 
 UILayer::UILayer() {
@@ -43,6 +45,24 @@ void UILayer::OnInit() {
     ImGui_ImplOpenGL3_Init("#version 150");
 }
 
+void UILayer::DockWindowsFirstFrame(ImGuiID mainId) {
+    // dock windows once
+    static bool firstFrame = true;
+    if (firstFrame) {
+        firstFrame = false;
+
+        ImGuiID dock_main_id = mainId;
+
+        ImGuiID dock_id_left  = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.2f, nullptr, &dock_main_id);
+        ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.2f, nullptr, &dock_main_id);
+
+        ImGui::DockBuilderDockWindow("Settings", dock_id_right);
+        ImGui::DockBuilderDockWindow("Scene", dock_id_left);
+
+        ImGui::DockBuilderFinish(mainId);
+    }
+}
+
 void UILayer::OnUpdate(float deltaTime) {
     // Start ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
@@ -52,10 +72,12 @@ void UILayer::OnUpdate(float deltaTime) {
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0,0,0,0));
 
     ImGui::NewFrame();
-    ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID);
+    auto mainId = ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID);
 
-    settingsUI_->Render();
-    sceneUI_->Render();
+    settingsUI_->Draw();
+    sceneUI_->Draw();
+
+    DockWindowsFirstFrame(mainId);
 
     // --------- TEST UI ----------
     ImGui::Begin("ImGui Working!");

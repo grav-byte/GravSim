@@ -14,7 +14,7 @@ public:
     ~SceneUI() override;
 
     void OnEvent(Core::Event &event) override;
-    void Render() override;
+    void Draw() override;
 
     void FileMenu();
 
