@@ -33,8 +33,6 @@ add_executable(GravSim
         libraries/imgui/backends/imgui_impl_opengl3.cpp
         libraries/imgui/misc/cpp/imgui_stdlib.cpp
         libraries/miniaudio/miniaudio.c
-        libraries/cereal/include
-        libraries/tinyfiledialogs/tinyfiledialogs.h
         libraries/tinyfiledialogs/tinyfiledialogs.c
         src/core/Application.cpp
         src/core/Window.cpp
@@ -64,6 +62,8 @@ add_executable(GravSim
         src/App/Engine/SceneLoader.h
         src/App/UI/FileSelector.cpp
         src/App/UI/FileSelector.h
+        src/App/Rendering/SpriteRenderer.cpp
+        src/App/Rendering/SpriteRenderer.h
 )
 
 # Include directories
@@ -77,9 +77,9 @@ target_include_directories(GravSim PRIVATE
         libraries/glm
         libraries/miniaudio
         libraries/glew/include
+        ${CMAKE_SOURCE_DIR}/libraries/stb
 )
 
-# link libraries
 if(WIN32)
     target_link_libraries(GravSim PRIVATE glfw glew opengl32)
 elseif(APPLE)

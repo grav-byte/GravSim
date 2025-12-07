@@ -16,3 +16,6 @@
 [submodule "libraries/tinyfiledialogs"]
 	path = libraries/tinyfiledialogs
 	url = https://github.com/native-toolkit/libtinyfiledialogs.git
+[submodule "libraries/stb"]
+	path = libraries/stb
+	url = https://github.com/nothings/stb

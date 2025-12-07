@@ -45,9 +45,11 @@ bool EngineLayer::SaveScene() const {
 
 void EngineLayer::OnInit() {
     glewInit();
-    auto shader = ShaderLoader::LoadShader("simple.vert", "simple.frag");
 
-    renderingSystem_ = std::make_unique<RenderingSystem>(shader, 64);
+    auto circleShader = ShaderLoader::LoadShader("simple.vert", "simple.frag");
+    auto spriteShader = ShaderLoader::LoadShader("sprite.vert", "sprite.frag");
+
+    renderingSystem_ = std::make_unique<RenderingSystem>(circleShader, spriteShader, 64);
 
     NewScene();
 }

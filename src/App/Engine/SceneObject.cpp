@@ -5,14 +5,16 @@
 #include "SceneObject.h"
 
 #include "App/Rendering/CircleRenderer.h"
+#include "App/Rendering/SpriteRenderer.h"
 
-SceneObject::SceneObject(uint32_t objectId, const std::string& objectName) {
-    transform = Transform();
-    id = objectId;
-    name = objectName;
-    mass = 1.0f;
-    velocity = glm::vec2(0.0f, 0.0f);
-    angularVelocity = 0.0f;
-    renderer = std::make_unique<CircleRenderer>();
-    colliders = std::vector<std::unique_ptr<ICollider>>();
+SceneObject::SceneObject(const uint32_t objectId, const std::string& objectName)
+    : id(objectId),
+      name(objectName),
+      transform(),
+      mass(1.0f),
+      velocity(0.0f, 0.0f),
+      angularVelocity(0.0f),
+      renderer(std::make_unique<SpriteRenderer>("../assets/sprites/rocket_main.png")),
+      colliders()
+{
 }

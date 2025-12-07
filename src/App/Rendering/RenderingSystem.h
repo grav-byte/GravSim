@@ -9,29 +9,43 @@
 
 class RenderingSystem {
 public:
-    // shaderProgram: ID of an already compiled & linked OpenGL shader program
+    // circleShaderProgram: ID of an already compiled & linked OpenGL shader program
+    // spriteShaderProgram: ID of an already compiled & linked OpenGL shader program
     // segments: number of segments used to approximate the circle
-    RenderingSystem(unsigned int shaderProgram, int segments);
+    RenderingSystem(unsigned int circleShaderProgram,
+                    unsigned int spriteShaderProgram,
+                    int segments);
 
     ~RenderingSystem();
 
-void SetActiveCamera(const Camera* camera) {
+    void SetActiveCamera(const Camera* camera) {
         activeCamera_ = camera;
     }
 
-    void RenderCircle(const glm::mat4 &transformMatrix, const glm::vec4 &color) const;
+    void RenderCircle(const glm::mat4& transformMatrix,
+                          const glm::vec4& color) const;
+
+    void RenderSprite(unsigned int textureId,
+                      const glm::mat4& transformMatrix) const;
+
 
 private:
-    void BuildVertices();
-    void UploadToGPU();
+    void BuildCircleVertices();
+    void UploadCircleToGPU();
+
+    void BuildQuadVertices();
+    void UploadQuadToGPU();
 
     const Camera* activeCamera_;
 
-    int segments_;
-    std::vector<glm::vec2> vertices_;
+    int circleSegments_;
+    std::vector<glm::vec2> circleVertices_;
+    unsigned int circleVao_ = 0;
+    unsigned int circleVbo_ = 0;
+    unsigned int circleShaderProgram_ = 0;
 
-    unsigned int vao_;
-    unsigned int vbo_;
-    unsigned int shaderProgram_;
-
+    std::vector<glm::vec4> quadVertices_;
+    unsigned int quadVao_ = 0;
+    unsigned int quadVbo_ = 0;
+    unsigned int spriteShaderProgram_ = 0;
 };

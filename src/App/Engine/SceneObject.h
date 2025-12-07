@@ -7,6 +7,7 @@
 #include "glm/vec2.hpp"
 #include <memory>
 #include <vector>
+#include <string>
 
 #include "Transform.h"
 #include "App/Rendering/IRenderer.h"
