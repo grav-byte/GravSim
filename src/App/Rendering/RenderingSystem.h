@@ -7,8 +7,6 @@
 #include "App/Engine/Camera.h"
 
 
-struct TextureInfo;
-
 class RenderingSystem {
 public:
     // circleShaderProgram: ID of an already compiled & linked OpenGL shader program

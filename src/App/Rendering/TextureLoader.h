@@ -5,6 +5,7 @@
 #pragma once
 #include <string>
 #include <unordered_map>
+#define STB_IMAGE_IMPLEMENTATION
 
 class TextureLoader {
 public:

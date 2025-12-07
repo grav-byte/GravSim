@@ -1,11 +1,6 @@
 #include "SpriteRenderer.h"
 #include "../RenderingSystem.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
-#include <GL/glew.h>
-
 #include "../TextureLoader.h"
 
 SpriteRenderer::SpriteRenderer(const std::string& path)
