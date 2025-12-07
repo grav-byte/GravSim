@@ -7,7 +7,7 @@
 #include <fstream>
 #include <filesystem>
 #include "../Rendering/Renderers/CircleRenderer.h"
-#include "../Rendering/SpriteRenderer.h"
+#include "../Rendering/Renderers/SpriteRenderer.h"
 #include "../Rendering/Renderers/IRenderer.h"
 #include <cereal/types/polymorphic.hpp>
 #include <cereal/archives/json.hpp>

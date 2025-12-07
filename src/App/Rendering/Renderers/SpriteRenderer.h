@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderers/IRenderer.h"
+#include "IRenderer.h"
 #include "cereal/types/base_class.hpp"
 #include <string>
 

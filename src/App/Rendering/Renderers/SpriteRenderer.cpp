@@ -1,25 +1,19 @@
 #include "SpriteRenderer.h"
-#include "Renderers/RenderingSystem.h"
+#include "../RenderingSystem.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 #include <GL/glew.h>
 
-#include "TextureLoader.h"
+#include "../TextureLoader.h"
 
 SpriteRenderer::SpriteRenderer(const std::string& path)
     : path_(path)
 {
 }
 
-SpriteRenderer::~SpriteRenderer() {
-    if (textureId_ != 0) {
-        glDeleteTextures(1, &textureId_);
-    }
-}
-
-
+SpriteRenderer::~SpriteRenderer() = default;
 
 void SpriteRenderer::Render(RenderingSystem& rendering, Transform transform) {
     if (textureId_ == 0) {

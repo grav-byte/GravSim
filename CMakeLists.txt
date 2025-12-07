@@ -40,7 +40,7 @@ add_executable(GravSim
         src/App/Layers/AudioLayer.cpp
         src/App/Layers/EngineLayer.cpp
         src/App/UI/SettingsUI.cpp
-        src/App/Rendering/Renderers/RenderingSystem.cpp
+        src/App/Rendering/RenderingSystem.cpp
         src/App/Engine/Scene.cpp
         src/App/Engine/Scene.h
         src/App/Engine/SceneObject.cpp
@@ -62,8 +62,8 @@ add_executable(GravSim
         src/App/Engine/SceneLoader.h
         src/App/UI/FileSelector.cpp
         src/App/UI/FileSelector.h
-        src/App/Rendering/SpriteRenderer.cpp
-        src/App/Rendering/SpriteRenderer.h
+        src/App/Rendering/Renderers/SpriteRenderer.cpp
+        src/App/Rendering/Renderers/SpriteRenderer.h
         src/App/Rendering/TextureLoader.cpp
         src/App/Rendering/TextureLoader.h
 )

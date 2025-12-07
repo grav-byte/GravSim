@@ -4,7 +4,7 @@
 
 #include "CircleRenderer.h"
 
-#include "RenderingSystem.h"
+#include "../RenderingSystem.h"
 
 
 CircleRenderer::CircleRenderer() {
