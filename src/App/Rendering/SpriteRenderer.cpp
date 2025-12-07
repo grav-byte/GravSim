@@ -5,7 +5,6 @@
 #include "stb_image.h"
 
 #include <GL/glew.h>
-#include <cstdio>
 
 SpriteRenderer::SpriteRenderer(const std::string& path)
     : path_(path)

@@ -1,1 +1,1 @@
-![description](documentation/project_description.png)
+![description](docs/project_description.png)

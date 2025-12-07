@@ -143,14 +143,12 @@ void RenderingSystem::UploadQuadToGPU() {
     glBindVertexArray(0);
 }
 
-void RenderingSystem::RenderSprite(unsigned int textureId,
-                                   const glm::mat4& transformMatrix) const {
+void RenderingSystem::RenderSprite(unsigned int textureId, const glm::mat4& transformMatrix) const {
 
     if (!spriteShaderProgram_ || !activeCamera_) {
         std::cout << "Trying to render sprite without shader program or camera" << std::endl;
         return;
     }
-
     glUseProgram(spriteShaderProgram_);
 
     const auto projection = activeCamera_->GetProjectionMatrix();
@@ -161,6 +159,7 @@ void RenderingSystem::RenderSprite(unsigned int textureId,
 
     GLint texLoc = glGetUniformLocation(spriteShaderProgram_, "uTexture");
     glUniform1i(texLoc, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureId);
