@@ -10,9 +10,12 @@
 class CameraController {
 public:
     CameraController();
+    void SetZoomToMouse(bool enabled);
+
     void OnEvent(Core::Event &event);
 private:
     Camera* camera_;
+    bool zoomToMouse_;
     glm::vec2 lastMouseWorldPos_;
     bool shouldMove_;
     glm::vec2 currentMouseScreenPos_;

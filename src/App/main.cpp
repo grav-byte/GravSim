@@ -7,8 +7,8 @@ int main() {
     Core::AppConfig config;
     config.Title = "Grav Sim";
     config.WindowConfig.Title = "Grav Sim";
-    config.WindowConfig.Width = 1280;
-    config.WindowConfig.Height = 720;
+    config.WindowConfig.Width = 1920;
+    config.WindowConfig.Height = 1080;
 
     Core::Application app(config);
 

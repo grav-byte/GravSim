@@ -7,11 +7,15 @@
 #include "imgui.h"
 #include "Core/Application.h"
 
+class EngineLayer;
+
 SettingsUI::SettingsUI() {
-    auto audioLayer = Core::Application::Get().GetLayer<AudioLayer>();
-    audioSystem_ = audioLayer;
-    volume_ = .7f;
-    audioSystem_->SetVolume(.7f);
+    audioLayer_ = Core::Application::Get().GetLayer<AudioLayer>();
+    engineLayer_ = Core::Application::Get().GetLayer<EngineLayer>();
+    volume_ = .5f;
+    zoomToMouse_ = true;
+    engineLayer_->GetCameraController()->SetZoomToMouse(zoomToMouse_);
+    audioLayer_->SetVolume(.5f);
 }
 
 SettingsUI::~SettingsUI() = default;
@@ -19,13 +23,26 @@ SettingsUI::~SettingsUI() = default;
 void SettingsUI::Draw() {
 
     ImGui::Begin("Settings");
+    ImGui::Text("Settings");
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+
+    ImGui::SeparatorText("Camera");
+    if (ImGui::Checkbox("Zoom to Mouse", &zoomToMouse_)) {
+        engineLayer_->GetCameraController()->SetZoomToMouse(zoomToMouse_);
+    }
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+
     ImGui::SeparatorText("Audio");
     if (ImGui::SliderFloat("Volume", &volume_, 0.0f, 1.0f)) {
-        audioSystem_->SetVolume(volume_);
+        audioLayer_->SetVolume(volume_);
     }
-    ImGui::TextWrapped("Now Playing: \n%s", audioSystem_->currentSongTitle.c_str());
+    ImGui::TextWrapped("Now Playing: \n%s", audioLayer_->currentSongTitle.c_str());
     if (ImGui::Button("Skip Song")) {
-        audioSystem_->NextSong();
+        audioLayer_->NextSong();
     }
     ImGui::End();
 }

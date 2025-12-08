@@ -32,6 +32,8 @@ public:
 
     Scene* GetScene() const { return scene_.get(); }
 
+    CameraController* GetCameraController();
+
 private:
     void OnSceneLoaded() const;
 

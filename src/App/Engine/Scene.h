@@ -24,7 +24,6 @@ public:
     void DeleteObject(uint32_t id);
 
     std::string* GetName();
-
 private:
     std::string name_;
     std::unique_ptr<Camera> camera_; // scene owns the camera

@@ -6,6 +6,7 @@
 
 #include "IUserInterface.h"
 #include "../Layers/AudioLayer.h"
+#include "App/Layers/EngineLayer.h"
 
 
 class SettingsUI : public IUserInterface {
@@ -17,6 +18,8 @@ public:
     void OnEvent(Core::Event &event) override;
 
 private:
-    AudioLayer* audioSystem_;
+    AudioLayer* audioLayer_;
+    EngineLayer* engineLayer_;
     float volume_;
+    bool zoomToMouse_;
 };

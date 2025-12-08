@@ -17,6 +17,10 @@ CameraController::CameraController() {
 
 }
 
+void CameraController::SetZoomToMouse(const bool enabled) {
+    zoomToMouse_ = enabled;
+}
+
 void CameraController::OnEvent(Core::Event &event) {
     Core::EventType type = event.GetEventType();
     if (type == Core::SceneLoaded) {
@@ -59,7 +63,11 @@ void CameraController::OnEvent(Core::Event &event) {
         camera_->zoom = std::max(camera_->zoom * factor, 0.01f);
 
         // adjust position to keep cursor in place
-        glm::vec2 cursorWorldPosAfter = camera_->ScreenToWorld(currentMouseScreenPos_);
-        camera_->transform.position += cursorWorldPosBefore - cursorWorldPosAfter;
+        if (zoomToMouse_) {
+            glm::vec2 cursorWorldPosAfter = camera_->ScreenToWorld(currentMouseScreenPos_);
+            camera_->transform.position += cursorWorldPosBefore - cursorWorldPosAfter;
+        } else {
+            lastMouseWorldPos_ = camera_->ScreenToWorld(currentMouseScreenPos_);
+        }
     }
 }

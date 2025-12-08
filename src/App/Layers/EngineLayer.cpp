@@ -38,6 +38,10 @@ bool EngineLayer::LoadScene(const std::string &filePath) {
 }
 
 
+CameraController * EngineLayer::GetCameraController() {
+    return &cameraController_;
+}
+
 void EngineLayer::OnSceneLoaded() const {
     renderingSystem_->SetActiveCamera(scene_->GetCamera());
 
