@@ -17,7 +17,16 @@ public:
     void ShowStatusMessage(const std::string &msg, float duration);
 
     void OnEvent(Core::Event &event) override;
+
+    void DrawSceneLoading();
+
+    void DrawScene();
+
     void Draw() override;
+
+    void DrawRendering(SceneObject *obj);
+
+    void DrawTransform(SceneObject *obj);
 
     void FileMenu();
 
@@ -27,6 +36,7 @@ private:
     EngineLayer* engine_;
     Scene* scene_;
     std::unique_ptr<FileSelector> sceneSelector_;
+    std::unique_ptr<FileSelector> spriteSelector_;
     std::string statusMessage_;
     float statusTimer_;
 

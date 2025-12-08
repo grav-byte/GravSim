@@ -11,7 +11,12 @@ class EngineLayer {
     +override void OnRender()
 }
 
+class SceneLoader {
+    + static void SaveScene(Scene &scene)
+    + static std::unique_ptr<Scene> SceneLoader::LoadScene(const std::string &filepath)
+}
 
+EngineLayer --> SceneLoader
 
 class AudioLayer {
     +void OnInit()

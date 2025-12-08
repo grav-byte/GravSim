@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include <string>
+#include <filesystem>
 #include <unordered_map>
 #define STB_IMAGE_IMPLEMENTATION
 
@@ -15,12 +15,12 @@ public:
         int height;
     };
 
-    static TextureInfo GetTexture(const std::string &path);
+    static TextureInfo GetTexture(const std::filesystem::path &path);
 
-    static TextureInfo LoadTextureFromFile(const std::string &path);
+    static TextureInfo LoadTextureFromFile(const std::filesystem::path &path);
 
     static void Clear();
 
 private:
-    inline static std::unordered_map<std::string, TextureInfo> textures_;
+    inline static std::unordered_map<std::filesystem::path, TextureInfo> textures_;
 };

@@ -14,7 +14,8 @@ SceneObject::SceneObject(const uint32_t objectId, const std::string& objectName)
       mass(1.0f),
       velocity(0.0f, 0.0f),
       angularVelocity(0.0f),
-      renderer(std::make_unique<SpriteRenderer>("../assets/sprites/rocket_main.png")),
+      //renderer(std::make_unique<SpriteRenderer>("../assets/sprites/rocket_main.png")),
+      renderer(std::make_unique<CircleRenderer>()),
       colliders()
 {
 }

@@ -3,7 +3,11 @@
 
 #include "../TextureLoader.h"
 
-SpriteRenderer::SpriteRenderer(const std::string& path)
+SpriteRenderer::SpriteRenderer() {
+    path_ = "";
+}
+
+SpriteRenderer::SpriteRenderer(const std::filesystem::path& path)
     : path_(path)
 {
 }
@@ -11,7 +15,11 @@ SpriteRenderer::SpriteRenderer(const std::string& path)
 SpriteRenderer::~SpriteRenderer() = default;
 
 void SpriteRenderer::Render(RenderingSystem& rendering, Transform transform) {
+    if (path_ == "")
+        return;
+
     if (textureId_ == 0) {
+        // texture must be loaded first
         const auto info = TextureLoader::GetTexture(path_);
         textureId_ = info.id;
         aspectRatio_ = static_cast<float>(info.width) / static_cast<float>(info.height);
@@ -20,4 +28,9 @@ void SpriteRenderer::Render(RenderingSystem& rendering, Transform transform) {
     transform.scale.x *= aspectRatio_;
 
     rendering.RenderSprite(textureId_, transform.GetMatrix());
+}
+
+void SpriteRenderer::SetPath(const std::filesystem::path &string) {
+    path_ = string;
+    textureId_ = 0; // reset to force reload
 }

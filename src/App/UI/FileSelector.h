@@ -14,7 +14,7 @@ public:
 
     void RefreshFiles();
 
-    void Draw();
+    void Draw(const char *selectedFile="");
 
     std::string GetSelectedFile() const;
 

@@ -1,28 +1,35 @@
 #pragma once
 
+#include <filesystem>
+
 #include "IRenderer.h"
 #include "cereal/types/base_class.hpp"
-#include <string>
 
 class SpriteRenderer : public IRenderer {
 public:
-    SpriteRenderer() = default;
-    explicit SpriteRenderer(const std::string& path);
+    SpriteRenderer();
+    explicit SpriteRenderer(const std::filesystem::path& path);
     ~SpriteRenderer() override;
 
     void Render(RenderingSystem& rendering, Transform transform) override;
 
-    const std::string& GetPath() const { return path_; }
+    const std::filesystem::path& GetPath() const { return path_; }
 
-    // Cereal serialization
+    void SetPath(const std::filesystem::path& string);
+
+    // cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(cereal::base_class<IRenderer>(this), path_, color);
+        std::string pathStr = path_.string();
+        ar(cereal::base_class<IRenderer>(this), pathStr, color);
+        if constexpr (Archive::is_loading::value) {
+            path_ = pathStr;
+        }
     }
 
 private:
     unsigned int textureId_ = 0;
-    std::string path_;
+    std::filesystem::path path_;
 
     float aspectRatio_ = 1.0f;
 };

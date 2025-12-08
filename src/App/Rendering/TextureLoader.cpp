@@ -5,10 +5,12 @@
 #include "GL/glew.h"
 #include "TextureLoader.h"
 
+#include <filesystem>
+
 #include "stb_image.h"
 
 
-TextureLoader::TextureInfo TextureLoader::GetTexture(const std::string &path) {
+TextureLoader::TextureInfo TextureLoader::GetTexture(const std::filesystem::path &path) {
     auto it = textures_.find(path);
     if (it != textures_.end()) {
         return it->second; // already loaded
@@ -19,7 +21,7 @@ TextureLoader::TextureInfo TextureLoader::GetTexture(const std::string &path) {
     return tex;
 }
 
-TextureLoader::TextureInfo TextureLoader::LoadTextureFromFile(const std::string &path) {
+TextureLoader::TextureInfo TextureLoader::LoadTextureFromFile(const std::filesystem::path &path) {
     int width, height, channels;
     stbi_set_flip_vertically_on_load(true);
 

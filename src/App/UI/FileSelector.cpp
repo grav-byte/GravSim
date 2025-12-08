@@ -4,6 +4,8 @@
 
 #include "FileSelector.h"
 
+#include <iostream>
+
 #include "imgui.h"
 
 FileSelector::FileSelector(std::string path): directory_(std::move(path)), selectedIndex_(-1) {
@@ -19,17 +21,30 @@ void FileSelector::RefreshFiles() {
     }
 }
 
-void FileSelector::Draw() {
+void FileSelector::Draw(const char* selectedFile) {
     RefreshFiles();
 
     const float itemHeight = ImGui::GetTextLineHeightWithSpacing();
     float height = files_.empty() ? itemHeight : files_.size() * itemHeight;
     height = std::min(height, 150.0f); // optional max height
 
-    if (ImGui::BeginListBox("##files", ImVec2(-FLT_MIN, height * 1.1f))) {
+    // find selected index
+    if (selectedFile != "" ) {
+        selectedIndex_ = -1;
         for (int i = 0; i < files_.size(); ++i) {
-            const bool isSelected = (i == selectedIndex_);
+            if (files_[i] == selectedFile) {
+                selectedIndex_ = i;
+                break;
+            }
+        }
+    }
+
+    if (ImGui::BeginListBox("##files", ImVec2(-FLT_MIN, height * 1.1f))) {
+        for (int i = 0; i < files_.size(); ++i)
+        {
+            bool isSelected = selectedIndex_ == i;
             if (ImGui::Selectable(files_[i].c_str(), isSelected)) {
+                // user changed selection
                 selectedIndex_ = i;
             }
             if (isSelected)

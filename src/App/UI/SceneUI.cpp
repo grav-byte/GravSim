@@ -8,12 +8,15 @@
 
 #include "imgui.h"
 #include "../Layers/EngineLayer.h"
+#include "App/Rendering/Renderers/CircleRenderer.h"
+#include "App/Rendering/Renderers/SpriteRenderer.h"
 #include "misc/cpp/imgui_stdlib.h"
 #include "Core/Application.h"
 
 SceneUI::SceneUI() {
     scene_ = nullptr;
     sceneSelector_ = std::make_unique<FileSelector>(Core::Application::GetAppDataFolder() / "scenes");
+    spriteSelector_ = std::make_unique<FileSelector>(std::filesystem::path("../assets/sprites"));
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
     statusMessage_ = "";
     statusTimer_ = 0.0f;
@@ -49,10 +52,20 @@ void SceneUI::Draw() {
     }
 
     ImGui::Spacing();
+
+    DrawSceneLoading();
+
+    ImGui::Spacing();
+
+    DrawScene();
+
+    ImGui::End();
+}
+
+void SceneUI::DrawSceneLoading() {
     ImGui::SeparatorText("All Scenes");
 
     sceneSelector_->Draw();
-
     if (sceneSelector_->GetSelectedFile() != "") {
         if (ImGui::Button("Load Scene")) {
             if (engine_->LoadScene(sceneSelector_->GetSelectedFile())) {
@@ -80,9 +93,9 @@ void SceneUI::Draw() {
             }
         }
     }
+}
 
-    ImGui::Spacing();
-
+void SceneUI::DrawScene() {
     ImGui::SeparatorText("Current Scene");
 
     ImGui::InputText("Name", scene_->GetName());
@@ -106,8 +119,81 @@ void SceneUI::Draw() {
     auto cam = scene_->GetCamera();
     DrawFloat2Control("Position", &cam->transform.position);
     ImGui::DragFloat("Zoom", &cam->zoom, .02f, 0.1f, 20.0f);
+}
 
-    ImGui::End();
+enum class RendererType {
+    Circle = 0,
+    Sprite = 1
+};
+
+void SceneUI::DrawRendering(SceneObject *obj) {
+    ImGui::Text("Rendering");
+    // Determine current renderer type
+    RendererType currentRenderer = RendererType::Circle;
+    if (dynamic_cast<CircleRenderer*>(obj->renderer.get())) currentRenderer = RendererType::Circle;
+    else if (dynamic_cast<SpriteRenderer*>(obj->renderer.get())) currentRenderer = RendererType::Sprite;
+
+    static const char* RendererNames[] = { "Circle", "Sprite" };
+    int currentRendererInt = static_cast<int>(currentRenderer);
+    // Combo box
+    if (ImGui::Combo("Renderer", &currentRendererInt, RendererNames, IM_ARRAYSIZE(RendererNames))) {
+        currentRenderer = static_cast<RendererType>(currentRendererInt);
+        // user changed renderer type
+        glm::vec4 color = obj->renderer->color; // preserve color
+
+        switch (currentRenderer) {
+            case RendererType::Circle:
+                obj->renderer = std::make_unique<CircleRenderer>();
+                break;
+            case RendererType::Sprite:
+                obj->renderer = std::make_unique<SpriteRenderer>();
+                break;
+            default: ;
+        }
+
+        obj->renderer->color = color; // restore color
+    }
+
+    if (currentRenderer == RendererType::Sprite) {
+        if (auto* sprite = dynamic_cast<SpriteRenderer*>(obj->renderer.get())) {
+            spriteSelector_->Draw(sprite->GetPath().filename().c_str());
+            sprite->SetPath(spriteSelector_->GetSelectedFile());
+        }
+    }
+
+    DrawColorControl("Color", &obj->renderer->color);
+}
+
+void SceneUI::DrawTransform(SceneObject *obj) {
+    ImGui::Text("Transform");
+    DrawFloat2Control("Position", &obj->transform.position);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("m");
+    }
+
+    // coupled scale
+    float scale = obj->transform.scale.x;
+    if (ImGui::DragFloat("Scale", &scale, .1f)) {
+        obj->transform.scale = glm::vec2(scale, scale);
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("m");
+    }
+
+    ImGui::DragFloat("Rotation", &obj->transform.rotation, .1f);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("degrees");
+    }
+
+    ImGui::Text("Physics");
+    DrawFloat2Control("Velocity", &obj->velocity);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("m/s");
+    }
+    ImGui::DragFloat("A. Vel", &obj->angularVelocity, .1f);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("degrees/s");
+    }
 }
 
 void SceneUI::DrawObjectUI(SceneObject* obj) {
@@ -122,39 +208,14 @@ void SceneUI::DrawObjectUI(SceneObject* obj) {
     if (ImGui::CollapsingHeader(text.c_str(), &keepAlive))
     {
         ImGui::Spacing();
+
         ImGui::InputTextWithHint("Name", "Object Name", &obj->name);
-        ImGui::Text("Transform");
-        DrawFloat2Control("Position", &obj->transform.position);
-        if (ImGui::IsItemHovered()) {
-            ImGui::SetTooltip("m");
-        }
 
-        // coupled scale
-        float scale = obj->transform.scale.x;
-        if (ImGui::DragFloat("Scale", &scale, .1f)) {
-            obj->transform.scale = glm::vec2(scale, scale);
-        }
-        if (ImGui::IsItemHovered()) {
-            ImGui::SetTooltip("m");
-        }
+        DrawTransform(obj);
 
-        ImGui::DragFloat("Rotation", &obj->transform.rotation, .1f);
-        if (ImGui::IsItemHovered()) {
-            ImGui::SetTooltip("degrees");
-        }
+        ImGui::Spacing();
 
-        ImGui::Text("Physics");
-        DrawFloat2Control("Velocity", &obj->velocity);
-        if (ImGui::IsItemHovered()) {
-            ImGui::SetTooltip("m/s");
-        }
-        ImGui::DragFloat("A. Vel", &obj->angularVelocity, .1f);
-        if (ImGui::IsItemHovered()) {
-            ImGui::SetTooltip("degrees/s");
-        }
-
-        ImGui::Text("Rendering");
-        DrawColorControl("Color", &obj->renderer->color);
+        DrawRendering(obj);
 
         ImGui::Spacing();
     }
