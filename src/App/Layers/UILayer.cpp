@@ -14,6 +14,7 @@
 UILayer::UILayer() {
     settingsUI_ = std::make_unique<SettingsUI>();
     sceneUI_ = std::make_unique<SceneUI>();
+    simulationUI_ = std::make_unique<SimulationUI>();
     showDemo_ = false;
     io_ = nullptr;
 }
@@ -73,6 +74,7 @@ void UILayer::OnUpdate(float deltaTime) {
 
     settingsUI_->Draw();
     sceneUI_->Draw();
+    simulationUI_->Draw();
 
     DockWindowsFirstFrame(mainId);
 

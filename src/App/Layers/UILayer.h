@@ -7,6 +7,7 @@
 #include "Core/AppLayer.h"
 #include "../UI/SceneUI.h"
 #include "../UI/SettingsUI.h"
+#include "App/UI/SimulationUI.h"
 
 
 class UILayer: public Core::AppLayer {
@@ -28,4 +29,5 @@ private:
 
     std::unique_ptr<SettingsUI> settingsUI_;
     std::unique_ptr<SceneUI> sceneUI_;
+    std::unique_ptr<SimulationUI> simulationUI_;
 };
