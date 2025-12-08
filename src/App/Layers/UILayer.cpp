@@ -9,6 +9,7 @@
 
 #include "imgui_internal.h"
 #include "../UI/SceneUI.h"
+#include "App/UI/CustomImGuiStyle.h"
 
 UILayer::UILayer() {
     settingsUI_ = std::make_unique<SettingsUI>();
@@ -35,11 +36,7 @@ void UILayer::OnInit() {
     // allow transparent background for platform windows
     io_->ConfigViewportsNoTaskBarIcon = false;
 
-    ImGui::StyleColorsDark();
-    ImGuiStyle& style = ImGui::GetStyle();
-
-    style.Alpha = 1.0f;
-    style.FrameRounding = 2.0f;
+    CustomImGuiStyle::ApplyStyle();
 
     ImGui_ImplGlfw_InitForOpenGL(window_->GetHandle(), true);
     ImGui_ImplOpenGL3_Init("#version 150");
@@ -69,10 +66,10 @@ void UILayer::OnUpdate(float deltaTime) {
     ImGui_ImplGlfw_NewFrame();
     // make background transparent
     ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, ImVec4(0, 0, 0, 0));
-    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0,0,0,0));
 
     ImGui::NewFrame();
-    auto mainId = ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID);
+
+    ImGuiID mainId = ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_AutoHideTabBar);
 
     settingsUI_->Draw();
     sceneUI_->Draw();
@@ -85,7 +82,7 @@ void UILayer::OnUpdate(float deltaTime) {
     ImGui::Checkbox("Show Demo Window", &showDemo_);
     ImGui::End();
 
-    ImGui::PopStyleColor(2);
+    ImGui::PopStyleColor(1);
 
     if (showDemo_)
         ImGui::ShowDemoWindow(&showDemo_);
@@ -99,7 +96,7 @@ void UILayer::OnEvent(Core::Event &event) {
        return;
 
     // Stop mouse event propagation if the mouse is over any ImGui window and ImGui wants to capture the mouse
-    if (io_->WantCaptureMouse  && ImGui::IsAnyItemHovered()) {
+    if (io_->WantCaptureMouse) {
         const Core::EventType type = event.GetEventType();
         if (type == Core::MouseButtonPressed || type == Core::MouseButtonReleased || type == Core::MouseMoved || type == Core::MouseScrolled) {
             event.Handled = true;

@@ -156,6 +156,7 @@ void SceneUI::DrawRendering(SceneObject *obj) {
 
     if (currentRenderer == RendererType::Sprite) {
         if (auto* sprite = dynamic_cast<SpriteRenderer*>(obj->renderer.get())) {
+            ImGui::Text("Select Sprite");
             spriteSelector_->Draw(sprite->GetPath().filename().c_str());
             sprite->SetPath(spriteSelector_->GetSelectedFile());
         }
@@ -199,10 +200,6 @@ void SceneUI::DrawTransform(SceneObject *obj) {
 void SceneUI::DrawObjectUI(SceneObject* obj) {
     ImGui::PushID(static_cast<int>(obj->id));
 
-    ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.1f, 0.1f, 0.15f, 1.0f));
-    ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(0.25f, 0.25f, 0.3f, 1.0f));
-    ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImVec4(0.3f, 0.3f, 0.35f, 1.0f));
-
     bool keepAlive = true;
     const std::string text = "[" + std::to_string(obj->id) + "] " + obj->name + "###ObjHeader" + std::to_string(obj->id);
     if (ImGui::CollapsingHeader(text.c_str(), &keepAlive))
@@ -222,7 +219,6 @@ void SceneUI::DrawObjectUI(SceneObject* obj) {
     if (!keepAlive)
         scene_->DeleteObject(obj->id);
 
-    ImGui::PopStyleColor(3);
     ImGui::PopID();
 }
 

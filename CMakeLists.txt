@@ -66,6 +66,7 @@ add_executable(GravSim
         src/App/Rendering/Renderers/SpriteRenderer.h
         src/App/Rendering/TextureLoader.cpp
         src/App/Rendering/TextureLoader.h
+        src/App/UI/CustomImGuiStyle.h
 )
 
 # Include directories

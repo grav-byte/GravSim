@@ -26,7 +26,7 @@ void FileSelector::Draw(const char* selectedFile) {
 
     const float itemHeight = ImGui::GetTextLineHeightWithSpacing();
     float height = files_.empty() ? itemHeight : files_.size() * itemHeight;
-    height = std::min(height, 150.0f); // optional max height
+    height = std::min(height, 50.0f); // optional max height
 
     // find selected index
     if (selectedFile != "" ) {
