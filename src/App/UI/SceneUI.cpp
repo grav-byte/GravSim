@@ -52,9 +52,13 @@ void SceneUI::Draw() {
     }
 
     ImGui::Spacing();
+    ImGui::Spacing();
+    ImGui::Spacing();
 
     DrawSceneLoading();
 
+    ImGui::Spacing();
+    ImGui::Spacing();
     ImGui::Spacing();
 
     DrawScene();
@@ -63,7 +67,10 @@ void SceneUI::Draw() {
 }
 
 void SceneUI::DrawSceneLoading() {
+
     ImGui::SeparatorText("All Scenes");
+    ImGui::Spacing();
+
 
     sceneSelector_->Draw();
     if (sceneSelector_->GetSelectedFile() != "") {
@@ -74,7 +81,6 @@ void SceneUI::DrawSceneLoading() {
                 ShowStatusMessage("Failed to load scene.");
             }
         }
-
         ImGui::SameLine();
 
         if (ImGui::Button("Delete Scene")) {
@@ -96,7 +102,10 @@ void SceneUI::DrawSceneLoading() {
 }
 
 void SceneUI::DrawScene() {
+    ImGui::Spacing();
     ImGui::SeparatorText("Current Scene");
+    ImGui::Spacing();
+
 
     ImGui::InputText("Name", scene_->GetName());
     if (ImGui::Button("Save")) {
@@ -107,18 +116,34 @@ void SceneUI::DrawScene() {
         }
     }
 
+    ImGui::Spacing();
     ImGui::SeparatorText("Objects");
-    if (ImGui::Button("Add Object")) {
-        scene_->CreateObject();
-    }
+    ImGui::Spacing();
+
+    ImGui::PushStyleColor(ImGuiCol_Header,ImVec4(.5, 0.1629818230867386f, 0.2060086131095886f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_HeaderHovered,ImVec4(.55, 0.107295036315918f, 0.1072961091995239f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_HeaderActive,ImVec4(.55, 0.08627451211214066f, 0.1019607856869698f, 1.0f));
     for (SceneObject *obj : scene_->GetAllObjects()) {
         DrawObjectUI(obj);
     }
+    ImGui::PopStyleColor(3);
+
+    ImGui::Spacing();
+
+    if (ImGui::Button("Add Object")) {
+        scene_->CreateObject();
+    }
+
+    ImGui::Spacing();
+    ImGui::Spacing();
 
     ImGui::SeparatorText("Camera");
+    ImGui::Spacing();
+
     auto cam = scene_->GetCamera();
     DrawFloat2Control("Position", &cam->transform.position);
     ImGui::DragFloat("Zoom", &cam->zoom, .02f, 0.1f, 20.0f);
+    DrawColorControl("Background Color", &cam->backgroundColor);
 }
 
 enum class RendererType {
@@ -154,6 +179,8 @@ void SceneUI::DrawRendering(SceneObject *obj) {
         obj->renderer->color = color; // restore color
     }
 
+    ImGui::Spacing();
+
     if (currentRenderer == RendererType::Sprite) {
         if (auto* sprite = dynamic_cast<SpriteRenderer*>(obj->renderer.get())) {
             ImGui::Text("Select Sprite");
@@ -161,6 +188,8 @@ void SceneUI::DrawRendering(SceneObject *obj) {
             sprite->SetPath(spriteSelector_->GetSelectedFile());
         }
     }
+
+    ImGui::Spacing();
 
     DrawColorControl("Color", &obj->renderer->color);
 }
@@ -186,6 +215,8 @@ void SceneUI::DrawTransform(SceneObject *obj) {
         ImGui::SetTooltip("degrees");
     }
 
+    ImGui::Spacing();
+
     ImGui::Text("Physics");
     DrawFloat2Control("Velocity", &obj->velocity);
     if (ImGui::IsItemHovered()) {
@@ -204,8 +235,6 @@ void SceneUI::DrawObjectUI(SceneObject* obj) {
     const std::string text = "[" + std::to_string(obj->id) + "] " + obj->name + "###ObjHeader" + std::to_string(obj->id);
     if (ImGui::CollapsingHeader(text.c_str(), &keepAlive))
     {
-        ImGui::Spacing();
-
         ImGui::InputTextWithHint("Name", "Object Name", &obj->name);
 
         DrawTransform(obj);
@@ -213,8 +242,6 @@ void SceneUI::DrawObjectUI(SceneObject* obj) {
         ImGui::Spacing();
 
         DrawRendering(obj);
-
-        ImGui::Spacing();
     }
     if (!keepAlive)
         scene_->DeleteObject(obj->id);

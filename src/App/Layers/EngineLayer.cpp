@@ -37,6 +37,7 @@ bool EngineLayer::LoadScene(const std::string &filePath) {
     return true;
 }
 
+
 void EngineLayer::OnSceneLoaded() const {
     renderingSystem_->SetActiveCamera(scene_->GetCamera());
 
@@ -70,8 +71,11 @@ void EngineLayer::OnEvent(Core::Event &event) {
 }
 
 void EngineLayer::OnRender() {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    auto backgroundColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    if (scene_)
+        backgroundColor = scene_->GetCamera()->backgroundColor;
+    glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     for (const SceneObject* obj : scene_->GetAllObjects()) {
         if (obj->renderer) {

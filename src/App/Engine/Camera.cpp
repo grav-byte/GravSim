@@ -13,6 +13,7 @@
 Camera::Camera() {
     transform = Transform();
     zoom = .1f;
+    backgroundColor = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f);
 }
 
 glm::mat4 Camera::GetProjectionMatrix() const {
