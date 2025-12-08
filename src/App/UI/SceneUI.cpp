@@ -43,16 +43,16 @@ void SceneUI::Draw() {
         return;
 
     ImGui::Begin("Scene");
+    ImGui::Text("Scene");
 
     if (statusTimer_ > 0.0f) {
         ImGui::Text("%s", statusMessage_.c_str());
         statusTimer_ -= ImGui::GetIO().DeltaTime;
         if (statusTimer_ < 0.0f)
             statusTimer_ = 0.0f;
+    } else {
+        ImGui::Dummy(ImVec2(-1.0f, ImGui::GetTextLineHeightWithSpacing() * .7f));
     }
-
-    ImGui::Spacing();
-    ImGui::Spacing();
     ImGui::Spacing();
 
     DrawSceneLoading();
