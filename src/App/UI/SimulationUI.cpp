@@ -5,6 +5,13 @@
 #include "SimulationUI.h"
 
 #include "imgui.h"
+#include "App/Rendering/TextureLoader.h"
+
+SimulationUI::SimulationUI() {
+    btnBgColor_ = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
+    btnTintColor_ = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+    btnDisabledColor_ = ImVec4(1.0f, 1.0f, 1.0f, .4f);
+}
 
 void SimulationUI::OnEvent(Core::Event &event) {
 }
@@ -34,6 +41,26 @@ void SimulationUI::Draw() {
     ImGui::Begin("Simulation", nullptr, flags);
 
     ImGui::ArrowButton("##play", ImGuiDir_Right);
+    DrawImageBtn("../assets/icons/pause.png", true);
+    DrawImageBtn("../assets/icons/stop.png", true);
 
     ImGui::End();
+}
+
+void SimulationUI::DrawImageBtn(const std::string &texturePath, bool disabled) const {
+    const auto tex = TextureLoader::GetTexture(texturePath);
+    constexpr auto size = ImVec2(16.0f, 16.0f);
+    constexpr auto uv0 = ImVec2(0.0f, 0.0f);
+    constexpr auto uv1 = ImVec2(1, 1);
+
+    ImGui::BeginDisabled(disabled);
+
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2.0f, 2.0f));
+    ImGui::SameLine();
+    ImGui::PushID(static_cast<int>(tex.id));
+    ImGui::ImageButton("##btn", tex.id, size, uv0, uv1, btnBgColor_, disabled ? btnDisabledColor_ : btnTintColor_);
+
+    ImGui::EndDisabled();
+
+    ImGui::PopID();    ImGui::PopStyleVar();
 }
