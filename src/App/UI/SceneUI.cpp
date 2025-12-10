@@ -184,7 +184,7 @@ void SceneUI::DrawRendering(SceneObject *obj) {
     if (currentRenderer == RendererType::Sprite) {
         if (auto* sprite = dynamic_cast<SpriteRenderer*>(obj->renderer.get())) {
             ImGui::Text("Select Sprite");
-            spriteSelector_->Draw(sprite->GetPath().filename().c_str());
+            spriteSelector_->Draw(sprite->GetPath().filename().string().c_str());
             sprite->SetPath(spriteSelector_->GetSelectedFile());
         }
     }

@@ -69,7 +69,7 @@ bool SceneLoader::SaveTempScene(Scene &scene) {
 
 std::unique_ptr<Scene> SceneLoader::LoadTempScene() {
     auto path = Core::Application::GetAppDataFolder() / "tempScene.json";
-    return LoadScene(path);
+    return LoadScene(path.string());
 }
 
 std::unique_ptr<Scene> SceneLoader::LoadScene(const std::string &filepath) {
