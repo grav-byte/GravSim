@@ -29,9 +29,9 @@ class PhysicsSolver {
    +void SolvePhysics(Scene& scene, float deltaTime)
 }
 
-IIntegrator --* PhysicsSolver
+IPropagator --* PhysicsSolver
 
-interface IIntegrator {
+interface IPropagator {
     +void PropagateObject(SceneObject object)
 }
 
@@ -43,9 +43,9 @@ RenderingSystem --* EngineLayer
 RenderingSystem <-- CircleRenderer
 RenderingSystem <-- SpriteRenderer
 
-VerletIntegrator ..|> IIntegrator
-Euler ..|> IIntegrator
-RungeKutta ..|> IIntegrator
+VerletPropagator ..|> IPropagator
+Euler ..|> IPropagator
+RungeKutta ..|> IPropagator
 
 class Scene {
   + std::vector<SceneObject*> GetAllObjects()

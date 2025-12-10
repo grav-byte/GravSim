@@ -72,6 +72,10 @@ add_executable(GravSim
         src/App/Engine/Physics/PhysicsSolver.cpp
         src/App/Engine/Physics/PhysicsSolver.h
         src/App/Engine/Physics/IPropagator.h
+        src/App/Engine/Physics/EulerPropagator.cpp
+        src/App/Engine/Physics/EulerPropagator.h
+        src/App/Engine/Physics/SemiImplicitEulerPropagator.cpp
+        src/App/Engine/Physics/SemiImplicitEulerPropagator.h
 )
 
 # Include directories
