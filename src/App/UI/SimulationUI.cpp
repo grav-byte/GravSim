@@ -5,9 +5,12 @@
 #include "SimulationUI.h"
 
 #include "imgui.h"
+#include "App/Layers/EngineLayer.h"
 #include "App/Rendering/TextureLoader.h"
+#include "Core/Application.h"
 
 SimulationUI::SimulationUI() {
+    engine_ = Core::Application::Get().GetLayer<EngineLayer>();
     btnBgColor_ = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
     btnTintColor_ = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
     btnDisabledColor_ = ImVec4(1.0f, 1.0f, 1.0f, .4f);
@@ -39,28 +42,49 @@ void SimulationUI::Draw() {
         ImGuiWindowFlags_NoTitleBar;
 
     ImGui::Begin("Simulation", nullptr, flags);
+    bool isRunning = engine_->IsRunningSimulation();
+    bool isPaused = engine_->IsSimulationPaused();
 
-    ImGui::ArrowButton("##play", ImGuiDir_Right);
-    DrawImageBtn("../assets/icons/pause.png", true);
-    DrawImageBtn("../assets/icons/stop.png", true);
+    if (ImageBtn("../assets/icons/play.png", isRunning && !isPaused, "Start simulation")) {
+        engine_->StartSimulation();
+    }
 
+    if (!isPaused) {
+        if (ImageBtn("../assets/icons/pause.png", !isRunning, "Pause simulation")) {
+            engine_->PauseSimulation();
+        }
+    } else {
+        if (ImageBtn("../assets/icons/skip.png", false, "Step simulation")) {
+            engine_->StepSimulation();
+        }
+    }
+
+    if (ImageBtn("../assets/icons/reset.png", !isRunning, "Stop and reset simulation")) {
+        engine_->StopSimulation();
+    }
     ImGui::End();
 }
 
-void SimulationUI::DrawImageBtn(const std::string &texturePath, bool disabled) const {
+bool SimulationUI::ImageBtn(const std::string &texturePath, bool disabled, const char* tooltip) const {
     const auto tex = TextureLoader::GetTexture(texturePath);
-    constexpr auto size = ImVec2(16.0f, 16.0f);
-    constexpr auto uv0 = ImVec2(0.0f, 0.0f);
-    constexpr auto uv1 = ImVec2(1, 1);
+    constexpr auto size = ImVec2(16, 16);
+    constexpr auto uv0 = ImVec2(0, 1);
+    constexpr auto uv1 = ImVec2(1, 0);
 
     ImGui::BeginDisabled(disabled);
 
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2.0f, 2.0f));
     ImGui::SameLine();
     ImGui::PushID(static_cast<int>(tex.id));
-    ImGui::ImageButton("##btn", tex.id, size, uv0, uv1, btnBgColor_, disabled ? btnDisabledColor_ : btnTintColor_);
+    bool pressed = ImGui::ImageButton("##btn", tex.id, size, uv0, uv1, btnBgColor_, disabled ? btnDisabledColor_ : btnTintColor_);
 
     ImGui::EndDisabled();
 
-    ImGui::PopID();    ImGui::PopStyleVar();
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip(tooltip);
+    }
+
+    ImGui::PopID();
+    ImGui::PopStyleVar();
+    return pressed;
 }

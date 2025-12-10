@@ -39,9 +39,8 @@ void SceneLoader::EnsureSceneFolderExists() {
     std::filesystem::create_directories(fullPath);
 }
 
-bool SceneLoader::SaveScene(Scene &scene) {
+bool SceneLoader::SaveSceneInternal(Scene &scene, std::filesystem::path &filePath) {
     try {
-        std::filesystem::path filePath = Core::Application::GetAppDataFolder() / sceneFolder / *scene.GetName();
         filePath += ".json";
         std::ofstream os(filePath);
 
@@ -56,6 +55,21 @@ bool SceneLoader::SaveScene(Scene &scene) {
         std::cerr << "Failed to save scene: " << e.what() << std::endl;
         return false;
     }
+}
+
+bool SceneLoader::SaveScene(Scene &scene) {
+    auto path = Core::Application::GetAppDataFolder() / sceneFolder / *scene.GetName();
+    return SaveSceneInternal(scene, path);
+}
+
+bool SceneLoader::SaveTempScene(Scene &scene) {
+    auto path = Core::Application::GetAppDataFolder() / "tempScene";
+    return SaveSceneInternal(scene, path);
+}
+
+std::unique_ptr<Scene> SceneLoader::LoadTempScene() {
+    auto path = Core::Application::GetAppDataFolder() / "tempScene.json";
+    return LoadScene(path);
 }
 
 std::unique_ptr<Scene> SceneLoader::LoadScene(const std::string &filepath) {

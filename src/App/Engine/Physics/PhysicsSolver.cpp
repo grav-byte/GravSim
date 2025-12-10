@@ -14,7 +14,7 @@ PhysicsSolver::PhysicsSolver() {
     propagator_ = std::make_unique<EulerPropagator>();
 }
 
-void PhysicsSolver::UpdatePhysics(Scene* scene, float deltaTime) {
+void PhysicsSolver::UpdatePhysics(Scene* scene, float deltaTime) const {
     if (!propagator_) {
         std::cout << "No physics propagator set!" << std::endl;
         return;

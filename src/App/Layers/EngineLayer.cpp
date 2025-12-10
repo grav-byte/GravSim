@@ -6,6 +6,9 @@
 #include <sstream>
 
 #include "EngineLayer.h"
+
+#include <iostream>
+
 #include "Core/Application.h"
 #include "../Engine/EngineEvents.h"
 #include "../Rendering/RenderingSystem.h"
@@ -16,6 +19,8 @@ EngineLayer::EngineLayer() : AppLayer() {
     SceneLoader::EnsureSceneFolderExists();
     physicsSolver_ = std::make_unique<PhysicsSolver>();
     scene_ = nullptr;
+    runningSimulation_ = false;
+    pausedSimulation_ = false;
     cameraController_ = CameraController();
 }
 
@@ -54,6 +59,42 @@ bool EngineLayer::SaveScene() const {
     return SceneLoader::SaveScene(*scene_);
 }
 
+void EngineLayer::StartSimulation() {
+    if (runningSimulation_) {
+        pausedSimulation_ = false;
+        return;
+    }
+    SceneLoader::SaveTempScene(*scene_);
+    runningSimulation_ = true;
+}
+
+void EngineLayer::PauseSimulation() {
+    pausedSimulation_ = true;
+}
+
+void EngineLayer::StepSimulation() const {
+    if (!runningSimulation_) {
+        std::cout << "Simulation is not running!" << std::endl;
+        return;
+    }
+    physicsSolver_->UpdatePhysics(scene_.get(), 1.0f / 60.0f);
+}
+
+void EngineLayer::StopSimulation() {
+    runningSimulation_ = false;
+    pausedSimulation_ = false;
+    scene_ = std::move(SceneLoader::LoadTempScene());
+    OnSceneLoaded();
+}
+
+bool EngineLayer::IsRunningSimulation() const {
+    return runningSimulation_;
+}
+
+bool EngineLayer::IsSimulationPaused() const {
+    return pausedSimulation_;
+}
+
 void EngineLayer::OnInit() {
     glewInit();
 
@@ -69,7 +110,8 @@ void EngineLayer::OnInit() {
 }
 
 void EngineLayer::OnUpdate(float deltaTime) {
-    physicsSolver_->UpdatePhysics(scene_.get(), deltaTime);
+    if (runningSimulation_ && !pausedSimulation_)
+        physicsSolver_->UpdatePhysics(scene_.get(), deltaTime);
 }
 
 void EngineLayer::OnEvent(Core::Event &event) {

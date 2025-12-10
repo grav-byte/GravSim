@@ -3,6 +3,8 @@
 //
 
 #pragma once
+#include <filesystem>
+
 #include "Core/AppLayer.h"
 #include <memory>
 
@@ -31,12 +33,25 @@ public:
 
     bool SaveScene() const;
 
+    void StartSimulation();
+    void PauseSimulation();
+
+    void StepSimulation() const;
+
+    void StopSimulation();
+    bool IsRunningSimulation() const;
+    bool IsSimulationPaused() const;
+
     Scene* GetScene() const { return scene_.get(); }
 
     CameraController* GetCameraController();
 
+
 private:
     void OnSceneLoaded() const;
+
+    bool runningSimulation_;
+    bool pausedSimulation_;
 
     std::unique_ptr<PhysicsSolver> physicsSolver_;
     std::unique_ptr<RenderingSystem> renderingSystem_;
