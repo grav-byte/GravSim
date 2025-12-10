@@ -72,7 +72,7 @@ void SimulationUI::Draw() {
 
     ImGui::SetNextItemWidth(100.0f);
     if (ImGui::Combo("Solver", &activePropagatorIdx_, names.data(), names.size())) {
-        engine_->SetTimeStep(stepsPerSec_);
+        engine_->SetSolverType(names[activePropagatorIdx_]);
     }
 
     if (ImGui::IsItemHovered()) {
