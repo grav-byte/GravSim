@@ -3,7 +3,15 @@
 //
 
 #pragma once
+#include "IPropagator.h"
+#include "App/Engine/Scene.h"
 
 
 class PhysicsSolver {
+public:
+    PhysicsSolver();
+    void UpdatePhysics(Scene& scene, float deltaTime);
+private:
+    glm::vec2 globalGravity_;
+    std::unique_ptr<IPropagator> propagator_;
 };

@@ -14,6 +14,7 @@
 
 EngineLayer::EngineLayer() : AppLayer() {
     SceneLoader::EnsureSceneFolderExists();
+    physicsSolver_ = std::make_unique<PhysicsSolver>();
     scene_ = nullptr;
     cameraController_ = CameraController();
 }
@@ -68,7 +69,7 @@ void EngineLayer::OnInit() {
 }
 
 void EngineLayer::OnUpdate(float deltaTime) {
-
+    physicsSolver_->UpdatePhysics(deltaTime);
 }
 
 void EngineLayer::OnEvent(Core::Event &event) {

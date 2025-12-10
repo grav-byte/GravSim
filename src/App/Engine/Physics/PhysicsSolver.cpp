@@ -3,3 +3,24 @@
 //
 
 #include "PhysicsSolver.h"
+
+#include <iostream>
+
+#include "App/Engine/Scene.h"
+
+PhysicsSolver::PhysicsSolver() {
+    globalGravity_ = glm::vec2(0.0f, -9.81f);
+    propagator_ = nullptr;
+}
+
+void PhysicsSolver::UpdatePhysics(Scene& scene, float deltaTime) {
+    if (!propagator_) {
+        std::cout << "No physics propagator set!" << std::endl;
+        return;
+    }
+
+    for (auto& object : scene.GetAllObjects()) {
+        glm::vec2 acceleration = globalGravity_;
+        propagator_->Propagate(*object, acceleration, deltaTime);
+    }
+}
