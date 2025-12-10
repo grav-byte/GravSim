@@ -23,6 +23,9 @@ public:
     void OnRender() override;
 
     static void DockWindowsFirstFrame(ImGuiID mainId);
+
+    void DrawFPSCounter();
+
 private:
     bool showDemo_;
     ImGuiIO* io_;

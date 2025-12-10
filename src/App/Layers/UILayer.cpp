@@ -10,6 +10,7 @@
 #include "imgui_internal.h"
 #include "../UI/SceneUI.h"
 #include "App/UI/CustomImGuiStyle.h"
+#include "Core/Application.h"
 
 UILayer::UILayer() {
     settingsUI_ = std::make_unique<SettingsUI>();
@@ -62,6 +63,35 @@ void UILayer::DockWindowsFirstFrame(ImGuiID mainId) {
     }
 }
 
+void UILayer::DrawFPSCounter() {
+    const float width  = 70.0f;
+    const float height = 45.0f;
+
+    const ImGuiViewport* vp = ImGui::GetMainViewport();
+
+    ImVec2 pos(
+        vp->Pos.x + (vp->Size.x - width) * 0.5f - 230.0f,
+        vp->Pos.y + 10.0f
+    );
+
+    ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Always);
+
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoDocking |
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoCollapse |
+        ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground;
+
+    ImGui::Begin("FPS", nullptr, flags);
+    ImGui::Text("FPS: %i", Core::Application::Get().GetFramerate());
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("Framerate of the application");
+    }
+    ImGui::End();
+}
+
 void UILayer::OnUpdate(float deltaTime) {
     // Start ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
@@ -76,6 +106,8 @@ void UILayer::OnUpdate(float deltaTime) {
     settingsUI_->Draw();
     sceneUI_->Draw();
     simulationUI_->Draw();
+
+    DrawFPSCounter();
 
     DockWindowsFirstFrame(mainId);
 

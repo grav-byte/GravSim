@@ -19,6 +19,7 @@ namespace Core {
             throw std::runtime_error("Application already exists!");
         }
         s_Application = this;
+        deltaTimeIndex_ = 0;
 
         fs::create_directories(GetAppDataFolder());
 
@@ -48,6 +49,14 @@ namespace Core {
         return *s_Application;
     }
 
+    int Application::GetFramerate() const {
+        float sum = 0.0f;
+        for (int i = 0; i < numFramerateSamples; i++)
+            sum += lastDeltaTimes_[i];
+
+        return static_cast<int>(1.0f / (sum / static_cast<float>(numFramerateSamples)));
+    }
+
     void Application::Run() {
         running_ = true;
 
@@ -69,12 +78,15 @@ namespace Core {
             }
 
             float currentTime = GetTime();
-            float timestep = glm::clamp(currentTime - lastTime, 0.001f, 0.1f);
+            float deltaTime = currentTime - lastTime;
             lastTime = currentTime;
+
+            lastDeltaTimes_[deltaTimeIndex_] = deltaTime;
+            deltaTimeIndex_ = (deltaTimeIndex_ + 1) % numFramerateSamples;
 
             // Main layer update
             for (const std::unique_ptr<AppLayer>& layer : layerStack_)
-                layer->OnUpdate(timestep);
+                layer->OnUpdate(deltaTime);
 
             // NOTE: rendering can be done elsewhere (eg. render thread)
             for (const std::unique_ptr<AppLayer>& layer : layerStack_)

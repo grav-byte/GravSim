@@ -27,6 +27,8 @@ namespace Core {
 
         static Application& Get();
 
+        int GetFramerate() const;
+
         void Run();
         void Stop();
         void RaiseEvent(Event& event) const;
@@ -64,6 +66,9 @@ namespace Core {
     private:
         AppConfig config_;
         std::shared_ptr<Window> window_;
+        int numFramerateSamples = 250;
+        float lastDeltaTimes_[250];
+        int deltaTimeIndex_;
         bool running_ = false;
 
         std::vector<std::unique_ptr<AppLayer>> layerStack_;
