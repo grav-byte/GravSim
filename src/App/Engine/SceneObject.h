@@ -15,7 +15,8 @@
 
 class SceneObject {
 public:
-    SceneObject() : id(0), transform(Transform()), mass(0.0f), velocity(glm::vec2(0,0)), angularVelocity(0.0f), renderer(nullptr) {}
+    SceneObject() : id(0), transform(Transform()), mass(0.0f), velocity(glm::vec2(0,0)),
+    angularVelocity(0.0f), renderer(nullptr), lastPosition(glm::vec2(0,0)), lastRotation(0) {}
 
     SceneObject(uint32_t objectId, const std::string &objectName);
 
@@ -31,6 +32,10 @@ public:
     std::unique_ptr<IRenderer> renderer;
     // not yet serialized
     std::vector<std::unique_ptr<ICollider>> colliders;
+
+    // needed for verlet
+    glm::vec2 lastPosition;
+    float lastRotation;
 
     // Cereal serialization
     template<class Archive>
