@@ -143,7 +143,7 @@ void SceneUI::DrawScene() {
     auto cam = scene_->GetCamera();
     DrawFloat2Control("Position", &cam->transform.position);
     ImGui::DragFloat("Zoom", &cam->zoom, .02f, 0.1f, 20.0f);
-    DrawColorControl("Background Color", &cam->backgroundColor);
+    DrawColorControl("Bg Color", &cam->backgroundColor);
 }
 
 enum class RendererType {

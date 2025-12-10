@@ -12,7 +12,7 @@ class EngineLayer;
 SettingsUI::SettingsUI() {
     audioLayer_ = Core::Application::Get().GetLayer<AudioLayer>();
     engineLayer_ = Core::Application::Get().GetLayer<EngineLayer>();
-    volume_ = .5f;
+    volume_ = .25f;
     zoomToMouse_ = true;
     engineLayer_->GetCameraController()->SetZoomToMouse(zoomToMouse_);
     audioLayer_->SetVolume(.5f);

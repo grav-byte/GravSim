@@ -25,8 +25,14 @@ class AudioLayer {
 
 AudioLayer --|> AppLayer
 
-interface IPhysicsSolver {
-    +void SolvePhysics(Scene& scene, float deltaTime)
+class PhysicsSolver {
+   +void SolvePhysics(Scene& scene, float deltaTime)
+}
+
+IIntegrator --* PhysicsSolver
+
+interface IIntegrator {
+    +void PropagateObject(SceneObject object)
 }
 
 class RenderingSystem {
@@ -37,7 +43,9 @@ RenderingSystem --* EngineLayer
 RenderingSystem <-- CircleRenderer
 RenderingSystem <-- SpriteRenderer
 
-VerletSolver ..|> IPhysicsSolver
+VerletIntegrator ..|> IIntegrator
+Euler ..|> IIntegrator
+RungeKutta ..|> IIntegrator
 
 class Scene {
   + std::vector<SceneObject*> GetAllObjects()
@@ -59,7 +67,7 @@ SceneObject "many" --* "1" Scene
 IRenderer --> SceneObject
 ICollider "many" --* "1" SceneObject
 EngineLayer --|> AppLayer
-IPhysicsSolver --* EngineLayer
+PhysicsSolver --* EngineLayer
 
 class SettingsUI {
     void Render();

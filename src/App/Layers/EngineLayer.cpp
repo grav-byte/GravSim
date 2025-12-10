@@ -68,6 +68,7 @@ void EngineLayer::OnInit() {
 }
 
 void EngineLayer::OnUpdate(float deltaTime) {
+
 }
 
 void EngineLayer::OnEvent(Core::Event &event) {
