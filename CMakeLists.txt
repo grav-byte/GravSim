@@ -71,6 +71,7 @@ add_executable(GravSim
         src/App/UI/SimulationUI.h
         src/App/Engine/Physics/PhysicsSolver.cpp
         src/App/Engine/Physics/PhysicsSolver.h
+        src/App/Engine/Physics/IPropagator.h
 )
 
 # Include directories

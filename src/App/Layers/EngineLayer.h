@@ -8,6 +8,7 @@
 
 #include "../Engine/Scene.h"
 #include "App/Engine/CameraController.h"
+#include "App/Engine/Physics/PhysicsSolver.h"
 
 class RenderingSystem;
 
@@ -37,6 +38,7 @@ public:
 private:
     void OnSceneLoaded() const;
 
+    std::unique_ptr<PhysicsSolver> physics_solver_;
     std::unique_ptr<RenderingSystem> renderingSystem_;
     std::unique_ptr<Scene> scene_;
     CameraController cameraController_;
