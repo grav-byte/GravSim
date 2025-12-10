@@ -10,7 +10,7 @@
 class PhysicsSolver {
 public:
     PhysicsSolver();
-    void UpdatePhysics(Scene& scene, float deltaTime);
+    void UpdatePhysics(Scene *scene, float deltaTime);
 private:
     glm::vec2 globalGravity_;
     std::unique_ptr<IPropagator> propagator_;

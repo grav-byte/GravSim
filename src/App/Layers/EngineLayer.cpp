@@ -69,7 +69,7 @@ void EngineLayer::OnInit() {
 }
 
 void EngineLayer::OnUpdate(float deltaTime) {
-    physicsSolver_->UpdatePhysics(deltaTime);
+    physicsSolver_->UpdatePhysics(scene_.get(), deltaTime);
 }
 
 void EngineLayer::OnEvent(Core::Event &event) {
