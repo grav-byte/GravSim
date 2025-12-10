@@ -69,6 +69,8 @@ add_executable(GravSim
         src/App/UI/CustomImGuiStyle.h
         src/App/UI/SimulationUI.cpp
         src/App/UI/SimulationUI.h
+        src/App/Engine/Physics/PhysicsSolver.cpp
+        src/App/Engine/Physics/PhysicsSolver.h
 )
 
 # Include directories
