@@ -25,4 +25,5 @@ private:
     ImVec4 btnDisabledColor_;
     EngineLayer* engine_;
     int activePropagatorIdx_;
+    int stepsPerSec_;
 };

@@ -30,6 +30,7 @@ void UILayer::OnInit() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     io_ = &ImGui::GetIO();
+    io_->Fonts->AddFontDefault();
 
     io_->ConfigFlags |= ImGuiConfigFlags_DockingEnable;    // enable docking
     io_->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // enable multi-viewport

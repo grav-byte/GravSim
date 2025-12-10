@@ -14,12 +14,14 @@
 
 std::vector<PhysicsSolver::PropagatorEntry> PhysicsSolver::propagators = {
     {"Euler", [] { return std::make_unique<EulerPropagator>(); }},
-    {"Semi Implicit Euler", [] { return std::make_unique<EulerPropagator>(); }},
+    {"SI Euler", [] { return std::make_unique<EulerPropagator>(); }},
     {"Verlet", [] { return std::make_unique<VerletPropagator>(); }},
     {"RK4", [] { return std::make_unique<RK4Propagator>(); }},
 };
 
 PhysicsSolver::PhysicsSolver() {
+    timeAccumulator_= 0;
+    timeStep_ = 1.0f / 120.0f; // 120 updates per second
     globalGravity_ = glm::vec2(0.0f, -9.81f);
 
     activePropagator_ = std::make_unique<EulerPropagator>();
@@ -36,15 +38,32 @@ void PhysicsSolver::SetActivePropagator(const std::string &name) {
     activePropagator_ = nullptr;
 }
 
-void PhysicsSolver::UpdatePhysics(Scene* scene, float deltaTime) const {
+void PhysicsSolver::SetTimeStep(const float timeStep) {
+    timeStep_ = timeStep;
+}
+
+void PhysicsSolver::StepPropagation(const Scene *scene) const {
+    for (const auto& object : scene->GetAllObjects()) {
+        // apply forces
+        glm::vec2 acceleration = globalGravity_;
+
+        // propagate object
+        activePropagator_->Propagate(*object, acceleration, timeStep_);
+    }
+}
+
+void PhysicsSolver::UpdatePhysics(Scene* scene, float deltaTime) {
     if (!activePropagator_) {
         std::cout << "No physics propagator set!" << std::endl;
         return;
     }
 
-    for (auto& object : scene->GetAllObjects()) {
-        glm::vec2 acceleration = globalGravity_;
-        activePropagator_->Propagate(*object, acceleration, deltaTime);
+    timeAccumulator_ += deltaTime;
+
+    // sub step the physics updates as often as necessary
+    while (timeAccumulator_ >= timeStep_) {
+        StepPropagation(scene);
+        timeAccumulator_ -= timeStep_;
     }
 }
 

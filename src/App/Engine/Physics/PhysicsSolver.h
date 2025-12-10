@@ -12,7 +12,11 @@ public:
     PhysicsSolver();
     void SetActivePropagator(const std::string &name);
 
-    void UpdatePhysics(Scene *scene, float deltaTime) const;
+    void SetTimeStep(float timeStep);
+
+    void StepPropagation(const Scene *scene) const;
+
+    void UpdatePhysics(Scene *scene, float deltaTime);
 
     struct PropagatorEntry {
         std::string name;
@@ -26,4 +30,6 @@ public:
 private:
     glm::vec2 globalGravity_;
     std::unique_ptr<IPropagator> activePropagator_;
+    float timeAccumulator_;
+    float timeStep_;
 };

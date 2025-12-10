@@ -11,6 +11,7 @@
 
 SimulationUI::SimulationUI() {
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
+    stepsPerSec_ = 120;
     btnBgColor_ = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
     btnTintColor_ = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
     btnDisabledColor_ = ImVec4(1.0f, 1.0f, 1.0f, .4f);
@@ -22,7 +23,7 @@ void SimulationUI::OnEvent(Core::Event &event) {
 }
 
 void SimulationUI::Draw() {
-    const float width  = 250.0f;
+    const float width  = 370.0f;
     const float height = 45.0f;
 
     const ImGuiViewport* vp = ImGui::GetMainViewport();
@@ -67,11 +68,26 @@ void SimulationUI::Draw() {
 
     ImGui::SameLine();
 
-
     auto names = PhysicsSolver::GetPropagatorNames();
 
+    ImGui::SetNextItemWidth(100.0f);
     if (ImGui::Combo("Solver", &activePropagatorIdx_, names.data(), names.size())) {
-        engine_->SetSolverType(names[activePropagatorIdx_]);
+        engine_->SetTimeStep(stepsPerSec_);
+    }
+
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("Integration method");
+    }
+
+    ImGui::SameLine();
+
+    ImGui::SetNextItemWidth(50.0f);
+    if (ImGui::InputInt("steps/s", &stepsPerSec_, 0, 0)) {
+        engine_->SetTimeStep(1.0f / stepsPerSec_);
+    }
+
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("Time step: %.2f ms", 1000.0f / stepsPerSec_);
     }
 
     ImGui::End();
