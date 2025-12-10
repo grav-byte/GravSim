@@ -9,5 +9,5 @@ class IPropagator {
 public:
     virtual ~IPropagator() = default;
 
-    virtual void Propagate(SceneObject& object, float deltaTime, float acceleration) = 0;
+    virtual void Propagate(SceneObject& object, glm::vec2 acceleration, float deltaTime) = 0;
 };

@@ -4,7 +4,9 @@
 
 #include "EulerPropagator.h"
 
-void EulerPropagator::Propagate(SceneObject& object, float deltaTime, float acceleration) {
+#include "Core/AppLayer.h"
+
+void EulerPropagator::Propagate(SceneObject& object, glm::vec2 acceleration, float deltaTime) {
     object.transform.position += object.velocity * deltaTime;
 
     object.velocity += acceleration * deltaTime;
