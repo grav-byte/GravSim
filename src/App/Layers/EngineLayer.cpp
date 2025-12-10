@@ -77,7 +77,7 @@ void EngineLayer::StepSimulation() const {
         std::cout << "Simulation is not running!" << std::endl;
         return;
     }
-    physicsSolver_->UpdatePhysics(scene_.get(), 1.0f / 60.0f);
+    physicsSolver_->StepPropagation(scene_.get());
 }
 
 void EngineLayer::StopSimulation() {
@@ -85,6 +85,14 @@ void EngineLayer::StopSimulation() {
     pausedSimulation_ = false;
     scene_ = std::move(SceneLoader::LoadTempScene());
     OnSceneLoaded();
+}
+
+void EngineLayer::SetSolverType(const char* typeName) const {
+    physicsSolver_->SetActivePropagator(typeName);
+}
+
+void EngineLayer::SetTimeStep(const float timeStep) const {
+    physicsSolver_->SetTimeStep(timeStep);
 }
 
 bool EngineLayer::IsRunningSimulation() const {

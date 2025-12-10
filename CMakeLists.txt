@@ -45,7 +45,7 @@ add_executable(GravSim
         src/App/Engine/Scene.h
         src/App/Engine/SceneObject.cpp
         src/App/Engine/SceneObject.h
-        src/App/Engine/ICollider.h
+        src/App/Engine/Physics/ICollider.h
         src/App/Rendering/ShaderLoader.cpp
         src/App/Rendering/ShaderLoader.h
         src/App/Engine/Camera.cpp
@@ -71,11 +71,15 @@ add_executable(GravSim
         src/App/UI/SimulationUI.h
         src/App/Engine/Physics/PhysicsSolver.cpp
         src/App/Engine/Physics/PhysicsSolver.h
-        src/App/Engine/Physics/IPropagator.h
-        src/App/Engine/Physics/EulerPropagator.cpp
-        src/App/Engine/Physics/EulerPropagator.h
-        src/App/Engine/Physics/SemiImplicitEulerPropagator.cpp
-        src/App/Engine/Physics/SemiImplicitEulerPropagator.h
+        src/App/Engine/Physics/Propagators/IPropagator.h
+        src/App/Engine/Physics/Propagators/EulerPropagator.cpp
+        src/App/Engine/Physics/Propagators/EulerPropagator.h
+        src/App/Engine/Physics/Propagators/SemiImplicitEulerPropagator.cpp
+        src/App/Engine/Physics/Propagators/SemiImplicitEulerPropagator.h
+        src/App/Engine/Physics/Propagators/VerletPropagator.cpp
+        src/App/Engine/Physics/Propagators/VerletPropagator.h
+        src/App/Engine/Physics/Propagators/RK4Propagator.cpp
+        src/App/Engine/Physics/Propagators/RK4Propagator.h
 )
 
 # Include directories

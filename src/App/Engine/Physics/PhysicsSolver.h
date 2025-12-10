@@ -3,15 +3,33 @@
 //
 
 #pragma once
-#include "IPropagator.h"
+#include "Propagators/IPropagator.h"
 #include "App/Engine/Scene.h"
 
 
 class PhysicsSolver {
 public:
     PhysicsSolver();
-    void UpdatePhysics(Scene *scene, float deltaTime) const;
+    void SetActivePropagator(const std::string &name);
+
+    void SetTimeStep(float timeStep);
+
+    void StepPropagation(const Scene *scene) const;
+
+    void UpdatePhysics(Scene *scene, float deltaTime);
+
+    struct PropagatorEntry {
+        std::string name;
+        std::function<std::unique_ptr<IPropagator>()> factory;
+    };
+
+    static std::vector<const char *> GetPropagatorNames();
+
+    static std::vector<PropagatorEntry> propagators;
+
 private:
     glm::vec2 globalGravity_;
-    std::unique_ptr<IPropagator> propagator_;
+    std::unique_ptr<IPropagator> activePropagator_;
+    float timeAccumulator_;
+    float timeStep_;
 };
