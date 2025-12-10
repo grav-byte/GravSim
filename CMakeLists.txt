@@ -32,6 +32,10 @@ add_executable(GravSim
         libraries/imgui/backends/imgui_impl_glfw.cpp
         libraries/imgui/backends/imgui_impl_opengl3.cpp
         libraries/imgui/misc/cpp/imgui_stdlib.cpp
+        libraries/implot/implot.h
+        libraries/implot/implot_items.cpp
+        libraries/implot/implot.cpp
+        libraries/implot/implot_internal.h
         libraries/miniaudio/miniaudio.c
         libraries/tinyfiledialogs/tinyfiledialogs.c
         src/core/Application.cpp
@@ -88,6 +92,8 @@ target_include_directories(GravSim PRIVATE
         libraries/glfw/include
         libraries/imgui
         libraries/imgui/backends
+        libraries/implot
+        libraries/implot/backends
         libraries/cereal/include
         libraries/tinyfiledialogs
         libraries/glm

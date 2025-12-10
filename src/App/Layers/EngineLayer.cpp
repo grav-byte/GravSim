@@ -91,6 +91,10 @@ void EngineLayer::SetSolverType(const char* typeName) const {
     physicsSolver_->SetActivePropagator(typeName);
 }
 
+IPropagator* EngineLayer::GetActivePropagator() const {
+    return physicsSolver_->GetActivePropagator();
+}
+
 void EngineLayer::SetTimeStep(const float timeStep) const {
     physicsSolver_->SetTimeStep(timeStep);
 }

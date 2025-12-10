@@ -42,6 +42,8 @@ public:
 
     void SetSolverType(const char *typeName) const;
 
+    IPropagator *GetActivePropagator() const;
+
     void SetTimeStep(float timeStep) const;
 
     bool IsRunningSimulation() const;

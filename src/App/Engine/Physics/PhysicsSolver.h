@@ -11,6 +11,7 @@ class PhysicsSolver {
 public:
     PhysicsSolver();
     void SetActivePropagator(const std::string &name);
+    IPropagator* GetActivePropagator() const;
 
     void SetTimeStep(float timeStep);
 

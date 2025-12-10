@@ -29,7 +29,7 @@ void FileSelector::Draw(const char* selectedFile) {
     height = std::min(height, 50.0f); // optional max height
 
     // find selected index
-    if (selectedFile != "" ) {
+    if (selectedFile && strcmp(selectedFile, "") != 0) {
         selectedIndex_ = -1;
         for (int i = 0; i < files_.size(); ++i) {
             if (files_[i] == selectedFile) {

@@ -5,6 +5,7 @@
 #include "SimulationUI.h"
 
 #include "imgui.h"
+#include "implot.h"
 #include "App/Layers/EngineLayer.h"
 #include "App/Rendering/TextureLoader.h"
 #include "Core/Application.h"
@@ -89,6 +90,12 @@ void SimulationUI::Draw() {
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("Time step: %.2f ms", 1000.0f / stepsPerSec_);
     }
+
+    ImPlot::BeginPlot("Test");
+    float totalTime = 10.0f;
+    auto results = engine_->GetActivePropagator()->RunTest(1.0f / stepsPerSec_, totalTime);
+    ImPlot::PlotLine("Series A", results.data(), static_cast<int>(results.size()));
+    ImPlot::EndPlot();
 
     ImGui::End();
 }

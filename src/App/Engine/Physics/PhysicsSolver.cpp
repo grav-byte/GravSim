@@ -38,6 +38,9 @@ void PhysicsSolver::SetActivePropagator(const std::string &name) {
     activePropagator_ = nullptr;
 }
 
+IPropagator * PhysicsSolver::GetActivePropagator()
+    const { return activePropagator_.get(); }
+
 void PhysicsSolver::SetTimeStep(const float timeStep) {
     timeStep_ = timeStep;
     std::cout << "Set physics time step to " << timeStep_ << " seconds." << std::endl;

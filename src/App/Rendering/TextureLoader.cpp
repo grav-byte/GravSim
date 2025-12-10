@@ -27,7 +27,7 @@ TextureLoader::TextureInfo TextureLoader::LoadTextureFromFile(const std::filesys
 
     unsigned char* data = stbi_load(path.string().c_str(), &width, &height, &channels, 4);
     if (!data) {
-        std::printf("Failed to load texture: %ls\n", path.c_str());
+        std::printf("Failed to load texture: %s\n", path.c_str());
         return {0, 0, 0};
     }
 

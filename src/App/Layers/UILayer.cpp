@@ -8,6 +8,7 @@
 #include "UILayer.h"
 
 #include "imgui_internal.h"
+#include "implot.h"
 #include "../UI/SceneUI.h"
 #include "App/UI/CustomImGuiStyle.h"
 #include "Core/Application.h"
@@ -24,12 +25,14 @@ UILayer::~UILayer() {
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
+    ImPlot::DestroyContext();
     ImGui::DestroyContext();
 }
 
 void UILayer::OnInit() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImPlot::CreateContext();
     io_ = &ImGui::GetIO();
     io_->Fonts->AddFontDefault();
 

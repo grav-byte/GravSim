@@ -19,3 +19,6 @@
 [submodule "libraries/stb"]
 	path = libraries/stb
 	url = https://github.com/nothings/stb
+[submodule "libraries/implot"]
+	path = libraries/implot
+	url = https://github.com/epezent/implot.git
