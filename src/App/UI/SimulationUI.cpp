@@ -14,13 +14,15 @@ SimulationUI::SimulationUI() {
     btnBgColor_ = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
     btnTintColor_ = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
     btnDisabledColor_ = ImVec4(1.0f, 1.0f, 1.0f, .4f);
+
+    activePropagatorIdx_ = 0;
 }
 
 void SimulationUI::OnEvent(Core::Event &event) {
 }
 
 void SimulationUI::Draw() {
-    const float width  = 200.0f;
+    const float width  = 250.0f;
     const float height = 45.0f;
 
     const ImGuiViewport* vp = ImGui::GetMainViewport();
@@ -62,6 +64,16 @@ void SimulationUI::Draw() {
     if (ImageBtn("../assets/icons/reset.png", !isRunning, "Stop and reset simulation")) {
         engine_->StopSimulation();
     }
+
+    ImGui::SameLine();
+
+
+    auto names = PhysicsSolver::GetPropagatorNames();
+
+    if (ImGui::Combo("Solver", &activePropagatorIdx_, names.data(), names.size())) {
+        engine_->SetSolverType(names[activePropagatorIdx_]);
+    }
+
     ImGui::End();
 }
 
@@ -81,7 +93,7 @@ bool SimulationUI::ImageBtn(const std::string &texturePath, bool disabled, const
     ImGui::EndDisabled();
 
     if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip(tooltip);
+        ImGui::SetTooltip("%s", tooltip);
     }
 
     ImGui::PopID();

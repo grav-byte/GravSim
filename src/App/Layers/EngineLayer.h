@@ -39,6 +39,9 @@ public:
     void StepSimulation() const;
 
     void StopSimulation();
+
+    void SetSolverType(const char *typeName) const;
+
     bool IsRunningSimulation() const;
     bool IsSimulationPaused() const;
 

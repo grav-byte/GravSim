@@ -87,6 +87,10 @@ void EngineLayer::StopSimulation() {
     OnSceneLoaded();
 }
 
+void EngineLayer::SetSolverType(const char* typeName) const {
+    physicsSolver_->SetActivePropagator(typeName);
+}
+
 bool EngineLayer::IsRunningSimulation() const {
     return runningSimulation_;
 }

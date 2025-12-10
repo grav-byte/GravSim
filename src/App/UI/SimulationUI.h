@@ -24,4 +24,5 @@ private:
     ImVec4 btnTintColor_;
     ImVec4 btnDisabledColor_;
     EngineLayer* engine_;
+    int activePropagatorIdx_;
 };
