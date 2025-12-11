@@ -87,7 +87,6 @@ void SimulationUI::Draw() {
 
         // combo popup is open — keep plot visible
         plotHideTime_ = Core::Application::GetTime() + 0.2f;
-
         ImGui::EndCombo();
     }
 
@@ -129,10 +128,10 @@ void SimulationUI::Draw() {
         ImPlot::PopStyleVar(2);
         ImPlot::PlotLine("True Values", timeValues, trueValues, count);
         ImPlot::EndPlot();
-    }
 
-    if (ImGui::IsItemHovered()) {
-        plotHideTime_ = Core::Application::GetTime() + .1f;
+        if (ImGui::IsItemHovered()) {
+            plotHideTime_ = Core::Application::GetTime() + .1f;
+        }
     }
 
     ImGui::End();
