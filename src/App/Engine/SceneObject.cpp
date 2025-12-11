@@ -21,3 +21,9 @@ SceneObject::SceneObject(const uint32_t objectId, const std::string& objectName)
     lastRotation(0)
 {
 }
+
+void SceneObject::SetVelocity(glm::vec2 velocity) {
+    this->velocity = velocity;
+    // for Verlet integration, set last position accordingly
+    lastPosition = transform.position - velocity;
+}

@@ -19,6 +19,8 @@ public:
 
     void UpdatePhysics(Scene *scene, float deltaTime);
 
+    glm::vec2 GetAccelerationForObject(const SceneObject &object) const;
+
     struct PropagatorEntry {
         std::string name;
         std::function<std::unique_ptr<IPropagator>()> factory;

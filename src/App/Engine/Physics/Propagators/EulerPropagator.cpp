@@ -6,8 +6,8 @@
 
 #include "Core/AppLayer.h"
 
-void EulerPropagator::Propagate(SceneObject& object, glm::vec2 acceleration, float deltaTime) {
+void EulerPropagator::Propagate(SceneObject &object, std::function<glm::vec2(const SceneObject &)> accelerationFunc, float deltaTime) {
     object.transform.position += object.velocity * deltaTime;
 
-    object.velocity += acceleration * deltaTime;
+    object.velocity += accelerationFunc(object) * deltaTime;
 }

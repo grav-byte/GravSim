@@ -4,8 +4,10 @@
 
 #include "SemiImplicitEulerPropagator.h"
 
-void SemiImplicitEulerPropagator::Propagate(SceneObject& object, glm::vec2 acceleration, float deltaTime) {
-    object.velocity += acceleration * deltaTime;
+void SemiImplicitEulerPropagator::Propagate(SceneObject &object,
+        std::function<glm::vec2(const SceneObject &)> accelerationFunc,
+        float deltaTime) {
+    object.velocity += accelerationFunc(object) * deltaTime;
 
     object.transform.position += object.velocity * deltaTime;
 }

@@ -4,15 +4,13 @@
 
 #include "VerletPropagator.h"
 
-void VerletPropagator::Propagate(SceneObject& object, glm::vec2 acceleration, float deltaTime) {
-    if (deltaTime <= 0.0f) return;
+void VerletPropagator::Propagate(SceneObject &object,
+        std::function<glm::vec2(const SceneObject &)> accelerationFunc,
+        float deltaTime) {
+    object.velocity = object.transform.position - object.lastPosition;
+    object.lastPosition = object.transform.position;
 
-    // position: x += v*dt + 0.5*a*dt^2
-    object.transform.position += object.velocity * deltaTime + 0.5f * acceleration * (deltaTime * deltaTime);
+    // position: x = 2*x1 - x0 + a*dt^2 = x1 + v + a*dt^2
+    object.transform.position = object.transform.position + object.velocity + accelerationFunc(object) * (deltaTime * deltaTime);
 
-    // velocity: v += a*dt
-    object.velocity += acceleration * deltaTime;
-
-    // rotation: theta += omega*dt
-    object.transform.rotation += object.angularVelocity * deltaTime;
 }

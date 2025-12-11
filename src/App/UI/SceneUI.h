@@ -42,5 +42,5 @@ private:
 
     void DrawObjectUI(SceneObject *obj);
     void DrawColorControl(const char *title, glm::vec4 * color);
-    void DrawFloat2Control(const char *title, glm::vec2 * vec2, float speed = .1f);
+    bool DrawFloat2Control(const char *title, glm::vec2 * vec2, float speed = .1f);
 };

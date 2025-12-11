@@ -29,6 +29,8 @@ public:
     glm::vec2 velocity;
     float angularVelocity;
 
+    void SetVelocity(glm::vec2 velocity);
+
     std::unique_ptr<IRenderer> renderer;
     // not yet serialized
     std::vector<std::unique_ptr<ICollider>> colliders;
@@ -40,7 +42,7 @@ public:
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(id, name, transform, mass, velocity, angularVelocity, renderer);
+        ar(id, name, transform, lastPosition, mass, velocity, angularVelocity, renderer);
     }
 };
 

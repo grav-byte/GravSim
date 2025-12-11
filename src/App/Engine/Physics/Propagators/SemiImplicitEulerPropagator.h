@@ -7,5 +7,6 @@
 
 class SemiImplicitEulerPropagator : public IPropagator {
 public:
-    void Propagate(SceneObject& object, glm::vec2 acceleration, float deltaTime) override;
+    void Propagate(SceneObject &object, std::function<glm::vec2(const SceneObject &)> accelerationFunc,
+        float deltaTime) override;
 };

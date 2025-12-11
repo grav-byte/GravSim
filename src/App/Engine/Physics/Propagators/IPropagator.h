@@ -1,21 +1,30 @@
 #pragma once
 #include "App/Engine/SceneObject.h"
+#include <functional>
+#include <vector>
 
 class IPropagator {
 public:
     virtual ~IPropagator() = default;
 
-    std::vector<float> RunTest(const float timeStep, const float totalTime) {
+    struct Sample {
+        float t;
+        float y;
+        float v;
+    };
+    std::vector<Sample> RunTest(const float timeStep, const float totalTime) {
         float time = 0;
-        auto results = std::vector<float>();
+        auto results = std::vector<Sample>();
         SceneObject testObj;
         while (time < totalTime) {
-            Propagate(testObj, glm::vec2(0.0f, -9.81f), timeStep);
-            results.push_back(testObj.transform.position.y);
+            // changed: pass a callable that returns the acceleration (constant gravity here)
+            Propagate(testObj, [](const SceneObject&){ return glm::vec2(0.0f, -9.81f); }, timeStep);
+            results.push_back({time, testObj.transform.position.y, testObj.velocity.y});
             time += timeStep;
         }
         return results;
     }
 
-    virtual void Propagate(SceneObject& object, glm::vec2 acceleration, float deltaTime) = 0;
+    // accepts a callable that returns acceleration given the object
+    virtual void Propagate(SceneObject& object, std::function<glm::vec2(const SceneObject&)> accelerationFunc, float deltaTime) = 0;
 };

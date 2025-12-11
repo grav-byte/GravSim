@@ -84,6 +84,8 @@ add_executable(GravSim
         src/App/Engine/Physics/Propagators/VerletPropagator.h
         src/App/Engine/Physics/Propagators/RK4Propagator.cpp
         src/App/Engine/Physics/Propagators/RK4Propagator.h
+        src/App/Engine/Physics/Propagators/VelocityVerletPropagator.cpp
+        src/App/Engine/Physics/Propagators/VelocityVerletPropagator.h
 )
 
 # Include directories

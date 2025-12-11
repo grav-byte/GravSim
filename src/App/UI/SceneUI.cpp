@@ -218,7 +218,9 @@ void SceneUI::DrawTransform(SceneObject *obj) {
     ImGui::Spacing();
 
     ImGui::Text("Physics");
-    DrawFloat2Control("Velocity", &obj->velocity);
+    if (DrawFloat2Control("Velocity", &obj->velocity)) {
+        obj->SetVelocity(obj->velocity);
+    }
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("m/s");
     }
@@ -258,11 +260,13 @@ void SceneUI::DrawColorControl(const char *title, glm::vec4 *color) {
     }
 }
 
-void SceneUI::DrawFloat2Control(const char *title, glm::vec2 *vec2, float speed) {
+bool SceneUI::DrawFloat2Control(const char *title, glm::vec2 *vec2, float speed) {
 
     float value[2] = { vec2->x, vec2->y };
-    if (ImGui::DragFloat2(title, value, speed)) {
+    bool updated = ImGui::DragFloat2(title, value, speed);
+    if (updated) {
         // Update
         *vec2 = glm::vec2(value[0], value[1]);
     }
+    return updated;
 }

@@ -15,6 +15,8 @@ public:
     SimulationUI();
     void OnEvent(Core::Event &event) override;
 
+    void RunTest(const char *name);
+
     bool ImageBtn(const std::string &texturePath, bool disabled, const char *tooltip) const;
 
     void Draw() override;

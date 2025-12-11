@@ -9,13 +9,18 @@
 
 #include "Propagators/EulerPropagator.h"
 #include "App/Engine/Scene.h"
+#include "Core/AppLayer.h"
+#include "Core/AppLayer.h"
 #include "Propagators/RK4Propagator.h"
+#include "Propagators/SemiImplicitEulerPropagator.h"
+#include "Propagators/VelocityVerletPropagator.h"
 #include "Propagators/VerletPropagator.h"
 
 std::vector<PhysicsSolver::PropagatorEntry> PhysicsSolver::propagators = {
     {"Euler", [] { return std::make_unique<EulerPropagator>(); }},
-    {"SI Euler", [] { return std::make_unique<EulerPropagator>(); }},
+    {"SI Euler", [] { return std::make_unique<SemiImplicitEulerPropagator>(); }},
     {"Verlet", [] { return std::make_unique<VerletPropagator>(); }},
+    {"Vel. Verlet", [] { return std::make_unique<VelocityVerletPropagator>(); }},
     {"RK4", [] { return std::make_unique<RK4Propagator>(); }},
 };
 
@@ -48,12 +53,15 @@ void PhysicsSolver::SetTimeStep(const float timeStep) {
 
 void PhysicsSolver::StepPropagation(const Scene *scene) const {
     for (const auto& object : scene->GetAllObjects()) {
-        // apply forces
-        glm::vec2 acceleration = globalGravity_;
-
+        auto func = [this](const SceneObject& obj){ return GetAccelerationForObject(obj); };
         // propagate object
-        activePropagator_->Propagate(*object, acceleration, timeStep_);
+        activePropagator_->Propagate(*object, func, timeStep_);
     }
+}
+
+glm::vec2 PhysicsSolver::GetAccelerationForObject(const SceneObject &object) const {
+    // currently only global gravity
+    return globalGravity_;
 }
 
 void PhysicsSolver::UpdatePhysics(Scene* scene, float deltaTime) {
