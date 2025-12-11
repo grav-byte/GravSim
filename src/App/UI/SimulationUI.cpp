@@ -4,6 +4,8 @@
 
 #include "SimulationUI.h"
 
+#include <iostream>
+
 #include "imgui.h"
 #include "implot.h"
 #include "App/Layers/EngineLayer.h"
@@ -16,6 +18,8 @@ SimulationUI::SimulationUI() {
     btnBgColor_ = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
     btnTintColor_ = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
     btnDisabledColor_ = ImVec4(1.0f, 1.0f, 1.0f, .4f);
+    showPlot_ = false;
+    plotHideTime_ = 0.0f;
 
     activePropagatorIdx_ = 0;
 }
@@ -36,7 +40,7 @@ void SimulationUI::Draw() {
     );
 
     ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
-    ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(width, -1), ImGuiCond_Always);
 
     ImGuiWindowFlags flags =
         ImGuiWindowFlags_NoDocking |
@@ -69,15 +73,27 @@ void SimulationUI::Draw() {
 
     ImGui::SameLine();
 
-    auto names = PhysicsSolver::GetPropagatorNames();
+    const auto names = PhysicsSolver::GetPropagatorNames();
 
     ImGui::SetNextItemWidth(100.0f);
-    if (ImGui::Combo("Solver", &activePropagatorIdx_, names.data(), names.size())) {
-        engine_->SetSolverType(names[activePropagatorIdx_]);
+    if (ImGui::BeginCombo("Solver", names[activePropagatorIdx_])) {
+        for (int i = 0; i < names.size(); ++i) {
+            bool selected = (i == activePropagatorIdx_);
+            if (ImGui::Selectable(names[i], selected))
+                activePropagatorIdx_ = i;
+            if (selected)
+                ImGui::SetItemDefaultFocus();
+        }
+
+        // combo popup is open — keep plot visible
+        plotHideTime_ = Core::Application::GetTime() + 0.2f;
+
+        ImGui::EndCombo();
     }
 
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("Integration method");
+        plotHideTime_ = Core::Application::GetTime() + .2f;
     }
 
     ImGui::SameLine();
@@ -91,11 +107,33 @@ void SimulationUI::Draw() {
         ImGui::SetTooltip("Time step: %.2f ms", 1000.0f / stepsPerSec_);
     }
 
-    ImPlot::BeginPlot("Test");
     float totalTime = 10.0f;
     auto results = engine_->GetActivePropagator()->RunTest(1.0f / stepsPerSec_, totalTime);
-    ImPlot::PlotLine("Series A", results.data(), static_cast<int>(results.size()));
-    ImPlot::EndPlot();
+    int count = static_cast<int>(results.size());
+    float trueValues[count];
+    float timeValues[count];
+    for (int i = 0; i < count; ++i) {
+        const auto t = i * (1.0f / stepsPerSec_);
+        timeValues[i] = t;
+        trueValues[i] = 0.5f * -9.81f * std::pow(t, 2);
+    }
+
+    showPlot_ = Core::Application::GetTime() < plotHideTime_;
+
+    if (showPlot_ && ImPlot::BeginPlot("Object from y=0 with gravity -9.81 m/s²", "t in s", "y in m", ImVec2(-1,0), ImPlotFlags_NoInputs)) {
+        ImPlot::SetupLegend(ImPlotLocation_NorthEast);
+
+        ImPlot::PushStyleVar(ImPlotStyleVar_Marker, ImPlotMarker_Cross);
+        ImPlot::PushStyleVar(ImPlotStyleVar_MarkerSize, 4.0f);
+        ImPlot::PlotScatter(names[activePropagatorIdx_], timeValues, results.data(), count);
+        ImPlot::PopStyleVar(2);
+        ImPlot::PlotLine("True Values", timeValues, trueValues, count);
+        ImPlot::EndPlot();
+    }
+
+    if (ImGui::IsItemHovered()) {
+        plotHideTime_ = Core::Application::GetTime() + .1f;
+    }
 
     ImGui::End();
 }

@@ -26,4 +26,6 @@ private:
     EngineLayer* engine_;
     int activePropagatorIdx_;
     int stepsPerSec_;
+    bool showPlot_;
+    float plotHideTime_;
 };
