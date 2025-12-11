@@ -45,7 +45,7 @@ void SimulationUI::RunTest(const char* name) {
     const float g = 9.81f;
     const float mass = 1.0f;
     for (int i = 0; i < count; ++i) {
-        float v = results[i].v;
+        const float v = results[i].v;
         energyValues[i] = 0.5f * mass * v * v + mass * g * results[i].y;
     }
 
