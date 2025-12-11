@@ -15,7 +15,7 @@ public:
 
     void SetTimeStep(float timeStep);
 
-    void StepPropagation(const Scene *scene) const;
+    void StepPropagation(Scene *scene);
 
     void UpdatePhysics(Scene *scene, float deltaTime);
 
@@ -31,7 +31,7 @@ public:
     static std::vector<PropagatorEntry> propagators;
 
 private:
-    glm::vec2 globalGravity_;
+    Scene* currentScene_;
     std::unique_ptr<IPropagator> activePropagator_;
     float timeAccumulator_;
     float timeStep_;

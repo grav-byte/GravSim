@@ -24,6 +24,8 @@ public:
     void DeleteObject(uint32_t id);
 
     std::string* GetName();
+
+    glm::vec2 globalGravity;
 private:
     std::string name_;
     std::unique_ptr<Camera> camera_; // scene owns the camera
@@ -34,6 +36,6 @@ public:
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(name_, camera_, sceneObjects_, nextID_);
+        ar(name_, camera_, globalGravity, sceneObjects_, nextID_);
     }
 };

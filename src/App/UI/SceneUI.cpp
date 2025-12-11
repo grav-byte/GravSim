@@ -144,6 +144,12 @@ void SceneUI::DrawScene() {
     DrawFloat2Control("Position", &cam->transform.position);
     ImGui::DragFloat("Zoom", &cam->zoom, .02f, 0.1f, 20.0f);
     DrawColorControl("Bg Color", &cam->backgroundColor);
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+    ImGui::SeparatorText("Scene Settings");
+    DrawFloat2Control("Global Gravity", &scene_->globalGravity);
+
 }
 
 enum class RendererType {
@@ -218,6 +224,19 @@ void SceneUI::DrawTransform(SceneObject *obj) {
     ImGui::Spacing();
 
     ImGui::Text("Physics");
+    ImGui::Checkbox("Gravitates", &obj->gravitates);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("Whether this object attracts others");
+    }
+    ImGui::SameLine();
+    ImGui::Checkbox("Affected By Gravity", &obj->affectedByGravity);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("Whether this object is attracted by others and global gravity");
+    }
+    ImGui::DragFloat("Mass", &obj->mass, .1f, 0.0f, 100000.0f);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("kg");
+    }
     if (DrawFloat2Control("Velocity", &obj->velocity)) {
         obj->SetVelocity(obj->velocity);
     }

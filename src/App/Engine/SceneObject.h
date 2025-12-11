@@ -16,7 +16,7 @@
 class SceneObject {
 public:
     SceneObject() : id(0), transform(Transform()), mass(0.0f), velocity(glm::vec2(0,0)),
-    angularVelocity(0.0f), renderer(nullptr), lastPosition(glm::vec2(0,0)), lastRotation(0) {}
+    angularVelocity(0.0f), renderer(nullptr), lastPosition(glm::vec2(0,0)), lastRotation(0), gravitates(false), affectedByGravity(true) {}
 
     SceneObject(uint32_t objectId, const std::string &objectName);
 
@@ -28,6 +28,8 @@ public:
     float mass;
     glm::vec2 velocity;
     float angularVelocity;
+    bool gravitates;
+    bool affectedByGravity;
 
     void SetVelocity(glm::vec2 velocity);
 
@@ -42,7 +44,7 @@ public:
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(id, name, transform, lastPosition, mass, velocity, angularVelocity, renderer);
+        ar(id, name, transform, lastPosition, mass, velocity, angularVelocity, renderer, gravitates, affectedByGravity);
     }
 };
 

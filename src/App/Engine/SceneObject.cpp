@@ -18,6 +18,8 @@ SceneObject::SceneObject(const uint32_t objectId, const std::string& objectName)
     colliders(),
     //renderer(std::make_unique<SpriteRenderer>("../assets/sprites/rocket_main.png")),
     lastPosition(glm::vec2(0,0)),
+    affectedByGravity(true),
+    gravitates(false),
     lastRotation(0)
 {
 }

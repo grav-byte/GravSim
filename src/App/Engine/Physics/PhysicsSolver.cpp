@@ -10,7 +10,6 @@
 #include "Propagators/EulerPropagator.h"
 #include "App/Engine/Scene.h"
 #include "Core/AppLayer.h"
-#include "Core/AppLayer.h"
 #include "Propagators/RK4Propagator.h"
 #include "Propagators/SemiImplicitEulerPropagator.h"
 #include "Propagators/VelocityVerletPropagator.h"
@@ -27,8 +26,7 @@ std::vector<PhysicsSolver::PropagatorEntry> PhysicsSolver::propagators = {
 PhysicsSolver::PhysicsSolver() {
     timeAccumulator_= 0;
     timeStep_ = 1.0f / 120.0f; // 120 updates per second
-    globalGravity_ = glm::vec2(0.0f, -9.81f);
-
+    currentScene_ = nullptr;
     activePropagator_ = std::make_unique<EulerPropagator>();
 }
 
@@ -51,7 +49,8 @@ void PhysicsSolver::SetTimeStep(const float timeStep) {
     std::cout << "Set physics time step to " << timeStep_ << " seconds." << std::endl;
 }
 
-void PhysicsSolver::StepPropagation(const Scene *scene) const {
+void PhysicsSolver::StepPropagation(Scene *scene) {
+    currentScene_ = scene;
     for (const auto& object : scene->GetAllObjects()) {
         auto func = [this](const SceneObject& obj){ return GetAccelerationForObject(obj); };
         // propagate object
@@ -60,8 +59,28 @@ void PhysicsSolver::StepPropagation(const Scene *scene) const {
 }
 
 glm::vec2 PhysicsSolver::GetAccelerationForObject(const SceneObject &object) const {
-    // currently only global gravity
-    return globalGravity_;
+    auto acceleration = glm::vec2(0.0f, 0.0f);
+
+    if (object.affectedByGravity) {
+        acceleration = currentScene_->globalGravity;
+
+        for (const auto& otherObject : currentScene_->GetAllObjects()) {
+            if (otherObject->id == object.id)
+                continue;
+            if (otherObject->gravitates) {
+                // calculate gravitational attraction
+                glm::vec2 direction = otherObject->transform.position - object.transform.position;
+                const float distanceSquared = glm::dot(direction, direction);
+                // avoid singularity and extremely high accelerations
+                if (distanceSquared < 1e-6f)
+                    continue;
+
+                constexpr float G = 1.0f;
+                acceleration += normalize(direction) * G * otherObject->mass / distanceSquared;
+            }
+        }
+    }
+    return acceleration;
 }
 
 void PhysicsSolver::UpdatePhysics(Scene* scene, float deltaTime) {
