@@ -17,6 +17,7 @@ public:
 
     glm::mat4 GetProjectionMatrix() const;
     glm::vec2 ScreenToWorld(const glm::vec2& screenPos) const;
+    glm::vec2 WorldToScreen(const glm::vec2& worldPos) const;
 
     // Cereal serialization
     template<class Archive>

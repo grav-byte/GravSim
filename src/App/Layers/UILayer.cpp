@@ -11,12 +11,14 @@
 #include "implot.h"
 #include "../UI/SceneUI.h"
 #include "App/UI/CustomImGuiStyle.h"
+#include "App/UI/FollowingUI.h"
 #include "Core/Application.h"
 
 UILayer::UILayer() {
     settingsUI_ = std::make_unique<SettingsUI>();
     sceneUI_ = std::make_unique<SceneUI>();
     simulationUI_ = std::make_unique<SimulationUI>();
+    followingUI_ = std::make_unique<FollowingUI>();
     showDemo_ = false;
     io_ = nullptr;
 }
@@ -109,6 +111,7 @@ void UILayer::OnUpdate(float deltaTime) {
     settingsUI_->Draw();
     sceneUI_->Draw();
     simulationUI_->Draw();
+    followingUI_->Draw();
 
     DrawFPSCounter();
 

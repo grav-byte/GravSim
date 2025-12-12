@@ -7,28 +7,64 @@
 #include <iostream>
 
 #include "EngineEvents.h"
+#include "Core/Application.h"
 #include "Core/InputEvents.h"
 
 CameraController::CameraController() {
     camera_ = nullptr;
     shouldMove_ = false;
+    zoomToMouse_ = true;
     currentMouseScreenPos_ = glm::vec2(0.0f, 0.0f);
     lastMouseWorldPos_ = glm::vec2(0.0f, 0.0f);
 
+    doubleClickThreshold_ = 0.3f; // 300 ms for double click
+    lastClickTime_ = -doubleClickThreshold_;
+    followObj_ = nullptr;
 }
 
 void CameraController::SetZoomToMouse(const bool enabled) {
     zoomToMouse_ = enabled;
 }
 
+void CameraController::Update(float deltaTime) const {
+    if (followObj_ && camera_) {
+        camera_->transform.position = followObj_->transform.position;
+    }
+}
+
+void CameraController::HandleObjectFollowSelection() {
+    const float now = Core::Application::GetTime();
+
+    if (now - lastClickTime_ < doubleClickThreshold_) {
+        shouldMove_ = false;
+
+        for (const auto obj : scene_->GetAllObjects()) {
+            glm::vec2 objScreenPos = camera_->WorldToScreen(obj->transform.position);
+            float distance = glm::length(currentMouseScreenPos_ - objScreenPos);
+            // threshold in pixels
+            if (distance < 100.0f) {
+                followObj_ = obj;
+                break;
+            }
+        }
+    }
+
+    // Update timestamp
+    lastClickTime_ = now;
+}
+
 void CameraController::OnEvent(Core::Event &event) {
     Core::EventType type = event.GetEventType();
     if (type == Core::SceneLoaded) {
-        camera_ = dynamic_cast<SceneLoadedEvent&>(event).GetScene()->GetCamera();
+        scene_ = dynamic_cast<SceneLoadedEvent&>(event).GetScene();
+        followObj_ = nullptr;
+        camera_ = scene_->GetCamera();
     }
 
     if (type == Core::MouseButtonPressed) {
         shouldMove_ = true;
+
+        HandleObjectFollowSelection();
     }
 
     if (type == Core::MouseButtonReleased) {
@@ -70,4 +106,12 @@ void CameraController::OnEvent(Core::Event &event) {
             lastMouseWorldPos_ = camera_->ScreenToWorld(currentMouseScreenPos_);
         }
     }
+}
+
+SceneObject * CameraController::GetFollowingObject() const {
+    return followObj_;
+}
+
+void CameraController::StopFollowing() {
+    followObj_ = nullptr;
 }

@@ -124,6 +124,8 @@ void EngineLayer::OnInit() {
 void EngineLayer::OnUpdate(float deltaTime) {
     if (runningSimulation_ && !pausedSimulation_)
         physicsSolver_->UpdatePhysics(scene_.get(), deltaTime);
+
+    cameraController_.Update(deltaTime);
 }
 
 void EngineLayer::OnEvent(Core::Event &event) {

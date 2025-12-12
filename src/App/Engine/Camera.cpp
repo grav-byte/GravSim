@@ -47,3 +47,27 @@ glm::vec2 Camera::ScreenToWorld(const glm::vec2& screenPos) const {
     float worldY = yNorm * worldHeight * .5f + transform.position.y;
     return glm::vec2(worldX, worldY);
 }
+
+//
+glm::vec2 Camera::WorldToScreen(const glm::vec2& worldPos) const {
+    const auto screenSize = Core::Application::Get().GetWindow()->GetFramebufferSize();
+    const float aspect = static_cast<float>(screenSize.x) / static_cast<float>(screenSize.y);
+
+    // how many meters fit in the screen
+    float worldWidth = 2 * aspect / zoom;
+    float worldHeight = 2.0f / zoom;
+
+    // world offset relative to camera center
+    float xRel = worldPos.x - transform.position.x;
+    float yRel = worldPos.y - transform.position.y;
+
+    // normalized [-1, +1]
+    float xNorm = (xRel / (worldWidth * 0.5f));
+    float yNorm = (yRel / (worldHeight * 0.5f));
+
+    // convert normalized to pixel coordinates
+    float screenX = (xNorm + 1.0f) * 0.5f * screenSize.x;
+    float screenY = (1.0f - yNorm) * 0.5f * screenSize.y;  // Y flipped
+
+    return glm::vec2(screenX, screenY);
+}

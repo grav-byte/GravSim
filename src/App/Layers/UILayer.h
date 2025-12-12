@@ -7,6 +7,7 @@
 #include "Core/AppLayer.h"
 #include "../UI/SceneUI.h"
 #include "../UI/SettingsUI.h"
+#include "App/UI/FollowingUI.h"
 #include "App/UI/SimulationUI.h"
 
 
@@ -33,4 +34,5 @@ private:
     std::unique_ptr<SettingsUI> settingsUI_;
     std::unique_ptr<SceneUI> sceneUI_;
     std::unique_ptr<SimulationUI> simulationUI_;
+    std::unique_ptr<FollowingUI> followingUI_;
 };
