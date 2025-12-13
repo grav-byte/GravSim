@@ -27,7 +27,7 @@ void SpriteRenderer::Render(RenderingSystem& rendering, Transform transform) {
 
     transform.scale.x *= aspectRatio_;
 
-    rendering.RenderSprite(textureId_, transform.GetMatrix());
+    rendering.RenderSprite(textureId_, transform.GetMatrix(), color);
 }
 
 void SpriteRenderer::SetPath(const std::filesystem::path &string) {

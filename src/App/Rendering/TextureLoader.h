@@ -19,8 +19,11 @@ public:
 
     static TextureInfo LoadTextureFromFile(const std::filesystem::path &path);
 
+    static unsigned int GetWhiteTexture();
+
     static void Clear();
 
 private:
     inline static std::unordered_map<std::filesystem::path, TextureInfo> textures_;
+    static unsigned int whiteTex_;
 };

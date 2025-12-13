@@ -6,6 +6,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "App/Rendering/TextureLoader.h"
+#include "Core/AppLayer.h"
+#include "Core/AppLayer.h"
+#include "Core/AppLayer.h"
+#include "Core/AppLayer.h"
+#include "Core/Application.h"
 
 RenderingSystem::RenderingSystem(const unsigned int circleShaderProgram,
                                  const unsigned int spriteShaderProgram,
@@ -30,30 +35,6 @@ RenderingSystem::~RenderingSystem() {
     TextureLoader::Clear();
 }
 
-void RenderingSystem::RenderCircle(const glm::mat4 &transformMatrix,
-                                   const glm::vec4 &color) const {
-
-    if (!circleShaderProgram_ || !activeCamera_) {
-        std::cout << "Trying to render circle without shader program or camera\n";
-        return;
-    }
-
-    glUseProgram(circleShaderProgram_);
-
-    const auto projection = activeCamera_->GetProjectionMatrix();
-    glm::mat4 finalTransform = projection * transformMatrix;
-
-    GLint colorLoc = glGetUniformLocation(circleShaderProgram_, "uColor");
-    glUniform4fv(colorLoc, 1, glm::value_ptr(color));
-
-    GLint transformLoc = glGetUniformLocation(circleShaderProgram_, "uTransform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
-
-    glBindVertexArray(circleVao_);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, static_cast<GLsizei>(circleVertices_.size()));
-    glBindVertexArray(0);
-}
-
 void RenderingSystem::BuildCircleVertices() {
     circleVertices_.clear();
     circleVertices_.reserve(circleSegments_ + 2);
@@ -69,6 +50,20 @@ void RenderingSystem::BuildCircleVertices() {
         float y = std::sin(angle);
         circleVertices_.emplace_back(x, y);
     }
+}
+
+void RenderingSystem::BuildQuadVertices() {
+    quadVertices_.clear();
+    quadVertices_.reserve(6);
+
+    // Zwei Dreiecke, centered (-0.5..0.5) um die Origin
+    quadVertices_.emplace_back(-0.5f, -0.5f, 0.0f, 0.0f);
+    quadVertices_.emplace_back( 0.5f, -0.5f, 1.0f, 0.0f);
+    quadVertices_.emplace_back( 0.5f,  0.5f, 1.0f, 1.0f);
+
+    quadVertices_.emplace_back(-0.5f, -0.5f, 0.0f, 0.0f);
+    quadVertices_.emplace_back( 0.5f,  0.5f, 1.0f, 1.0f);
+    quadVertices_.emplace_back(-0.5f,  0.5f, 0.0f, 1.0f);
 }
 
 void RenderingSystem::UploadCircleToGPU() {
@@ -102,20 +97,6 @@ void RenderingSystem::UploadCircleToGPU() {
     glBindVertexArray(0);
 }
 
-void RenderingSystem::BuildQuadVertices() {
-    quadVertices_.clear();
-    quadVertices_.reserve(6);
-
-    // Zwei Dreiecke, centered (-0.5..0.5) um die Origin
-    quadVertices_.emplace_back(-0.5f, -0.5f, 0.0f, 0.0f);
-    quadVertices_.emplace_back( 0.5f, -0.5f, 1.0f, 0.0f);
-    quadVertices_.emplace_back( 0.5f,  0.5f, 1.0f, 1.0f);
-
-    quadVertices_.emplace_back(-0.5f, -0.5f, 0.0f, 0.0f);
-    quadVertices_.emplace_back( 0.5f,  0.5f, 1.0f, 1.0f);
-    quadVertices_.emplace_back(-0.5f,  0.5f, 0.0f, 1.0f);
-}
-
 void RenderingSystem::UploadQuadToGPU() {
     if (quadVao_ == 0) glGenVertexArrays(1, &quadVao_);
     if (quadVbo_ == 0) glGenBuffers(1, &quadVbo_);
@@ -143,7 +124,104 @@ void RenderingSystem::UploadQuadToGPU() {
 }
 
 
-void RenderingSystem::RenderSprite(unsigned int textureId, const glm::mat4& transformMatrix) const {
+void RenderingSystem::RenderLine(const glm::vec2& start, const glm::vec2& end, float thickness,
+                                 const glm::vec4 &color) const {
+    if (!spriteShaderProgram_ || !activeCamera_) return;
+
+    glUseProgram(spriteShaderProgram_);
+
+    // framebuffer info
+    auto frameSize = Core::Application::Get().GetWindow()->GetFramebufferSize();
+    float pixelWidth  = 2.0f / frameSize.x; // NDC per pixel
+    float pixelHeight = 2.0f / frameSize.y;
+
+    // camera projection
+    glm::mat4 proj = activeCamera_->GetProjectionMatrix();
+    glm::mat4 invProj = glm::inverse(proj);
+
+    // convert start/end to NDC
+    glm::vec4 startNDC4 = proj * glm::vec4(start, 0.0f, 1.0f);
+    glm::vec4 endNDC4   = proj * glm::vec4(end, 0.0f, 1.0f);
+
+    glm::vec2 startNDC = glm::vec2(startNDC4) / startNDC4.w;
+    glm::vec2 endNDC   = glm::vec2(endNDC4) / endNDC4.w;
+
+    // snap endpoints to pixel grid
+    startNDC = glm::round(startNDC / glm::vec2(pixelWidth, pixelHeight)) * glm::vec2(pixelWidth, pixelHeight);
+    endNDC   = glm::round(endNDC / glm::vec2(pixelWidth, pixelHeight)) * glm::vec2(pixelWidth, pixelHeight);
+
+    // back to world space
+    glm::vec2 snappedStart = glm::vec2(invProj * glm::vec4(startNDC, 0.0f, 1.0f));
+    glm::vec2 snappedEnd   = glm::vec2(invProj * glm::vec4(endNDC, 0.0f, 1.0f));
+
+    // line vector
+    glm::vec2 dir = snappedEnd - snappedStart;
+    float length = glm::length(dir);
+    float angle  = std::atan2(dir.y, dir.x);
+    glm::vec2 mid = (snappedStart + snappedEnd) * 0.5f;
+
+    // compute world-space thickness for 2 pixels on screen
+    glm::vec2 pixelWorld = glm::vec2(invProj * glm::vec4(pixelWidth, pixelHeight, 0.0f, 0.0f));
+    thickness = glm::length(pixelWorld) * thickness;
+
+    // build transform
+    glm::mat4 transform(1.0f);
+    transform = glm::translate(transform, glm::vec3(mid, 0.0f));
+    transform = glm::rotate(transform, angle, glm::vec3(0.0f, 0.0f, 1.0f));
+    transform = glm::scale(transform, glm::vec3(length, thickness, 1.0f));
+
+    // final transform
+    glm::mat4 finalTransform = proj * transform;
+
+    // upload uniforms
+    GLint transformLoc = glGetUniformLocation(spriteShaderProgram_, "uTransform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
+
+    // color
+    GLint colorLoc = glGetUniformLocation(spriteShaderProgram_, "uColor");
+    glUniform4fv(colorLoc, 1, glm::value_ptr(color));
+
+    GLint texLoc = glGetUniformLocation(spriteShaderProgram_, "uTexture");
+    glUniform1i(texLoc, 0);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, TextureLoader::GetWhiteTexture());
+
+    // draw quad
+    glBindVertexArray(quadVao_);
+    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(quadVertices_.size()));
+    glBindVertexArray(0);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+
+void RenderingSystem::RenderCircle(const glm::mat4 &transformMatrix,
+                                   const glm::vec4 &color) const {
+
+    if (!circleShaderProgram_ || !activeCamera_) {
+        std::cout << "Trying to render circle without shader program or camera\n";
+        return;
+    }
+
+    glUseProgram(circleShaderProgram_);
+
+    const auto projection = activeCamera_->GetProjectionMatrix();
+    glm::mat4 finalTransform = projection * transformMatrix;
+
+    GLint colorLoc = glGetUniformLocation(circleShaderProgram_, "uColor");
+    glUniform4fv(colorLoc, 1, glm::value_ptr(color));
+
+    GLint transformLoc = glGetUniformLocation(circleShaderProgram_, "uTransform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
+
+    glBindVertexArray(circleVao_);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, static_cast<GLsizei>(circleVertices_.size()));
+    glBindVertexArray(0);
+}
+
+
+void RenderingSystem::RenderSprite(unsigned int textureId, const glm::mat4& transformMatrix, const glm::vec4& color) const {
 
     if (!spriteShaderProgram_ || !activeCamera_) {
         std::cout << "Trying to render sprite without shader program or camera" << std::endl;
@@ -156,6 +234,9 @@ void RenderingSystem::RenderSprite(unsigned int textureId, const glm::mat4& tran
 
     GLint transformLoc = glGetUniformLocation(spriteShaderProgram_, "uTransform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
+
+    GLint colorLoc = glGetUniformLocation(spriteShaderProgram_, "uColor");
+    glUniform4fv(colorLoc, 1, glm::value_ptr(color));
 
     GLint texLoc = glGetUniformLocation(spriteShaderProgram_, "uTexture");
     glUniform1i(texLoc, 0);

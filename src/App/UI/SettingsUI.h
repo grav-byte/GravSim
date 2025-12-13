@@ -6,7 +6,7 @@
 
 #include "IUserInterface.h"
 #include "../Layers/AudioLayer.h"
-#include "App/Layers/EngineLayer.h"
+#include "../Layers/EngineLayer.h"
 
 
 class SettingsUI : public IUserInterface {
@@ -22,4 +22,5 @@ private:
     EngineLayer* engineLayer_;
     float volume_;
     bool zoomToMouse_;
+    bool showGrid_;
 };

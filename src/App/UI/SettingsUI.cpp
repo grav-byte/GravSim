@@ -14,6 +14,7 @@ SettingsUI::SettingsUI() {
     engineLayer_ = Core::Application::Get().GetLayer<EngineLayer>();
     volume_ = .25f;
     zoomToMouse_ = true;
+    showGrid_ = true;
     engineLayer_->GetCameraController()->SetZoomToMouse(zoomToMouse_);
     audioLayer_->SetVolume(.5f);
 }
@@ -31,6 +32,29 @@ void SettingsUI::Draw() {
     ImGui::SeparatorText("Camera");
     if (ImGui::Checkbox("Zoom to Mouse", &zoomToMouse_)) {
         engineLayer_->GetCameraController()->SetZoomToMouse(zoomToMouse_);
+    }
+
+    ImGui::SeparatorText("Grid");
+    auto renderer = engineLayer_->GetGridRenderer();
+    if (ImGui::Checkbox("Show Grid", &showGrid_)) {
+        renderer->showGrid = showGrid_;
+    }
+
+    // powers of 2
+    int logSpacing = std::log2(renderer->gridSpacing_);
+    ImGui::Text("Grid Spacing");
+    if (ImGui::Button("-")) {
+        logSpacing = std::max(-5, logSpacing - 1);
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("+")) {
+        logSpacing = std::min(3, logSpacing + 1);
+    }
+    renderer->gridSpacing_ = std::pow(2, logSpacing);
+
+    float value[4] = { renderer->gridColor_.x, renderer->gridColor_.y, renderer->gridColor_.z, renderer->gridColor_.a };
+    if (ImGui::ColorEdit4("Grid Color", value, 0)) {
+        renderer->gridColor_ = glm::vec4(value[0], value[1], value[2], value[3]);
     }
 
     ImGui::Spacing();

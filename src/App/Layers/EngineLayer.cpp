@@ -18,6 +18,7 @@
 EngineLayer::EngineLayer() : AppLayer() {
     SceneLoader::EnsureSceneFolderExists();
     physicsSolver_ = std::make_unique<PhysicsSolver>();
+    gridRenderer_ = std::make_unique<GridRenderer>();
     scene_ = nullptr;
     runningSimulation_ = false;
     pausedSimulation_ = false;
@@ -46,6 +47,10 @@ bool EngineLayer::LoadScene(const std::string &filePath) {
 
 CameraController * EngineLayer::GetCameraController() {
     return &cameraController_;
+}
+
+GridRenderer * EngineLayer::GetGridRenderer() const {
+    return gridRenderer_.get();
 }
 
 void EngineLayer::OnSceneLoaded() const {
@@ -130,6 +135,7 @@ void EngineLayer::OnUpdate(float deltaTime) {
 
 void EngineLayer::OnEvent(Core::Event &event) {
     cameraController_.OnEvent(event);
+    gridRenderer_->OnEvent(event);
 }
 
 void EngineLayer::OnRender() {
@@ -138,6 +144,8 @@ void EngineLayer::OnRender() {
         backgroundColor = scene_->GetCamera()->backgroundColor;
     glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    gridRenderer_->RenderGrid(*renderingSystem_);
 
     for (const SceneObject* obj : scene_->GetAllObjects()) {
         if (obj->renderer) {

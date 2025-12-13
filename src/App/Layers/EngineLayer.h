@@ -11,6 +11,7 @@
 #include "../Engine/Scene.h"
 #include "App/Engine/CameraController.h"
 #include "App/Engine/Physics/PhysicsSolver.h"
+#include "App/Rendering/GridRenderer.h"
 
 class RenderingSystem;
 
@@ -52,6 +53,7 @@ public:
     Scene* GetScene() const { return scene_.get(); }
 
     CameraController* GetCameraController();
+    GridRenderer* GetGridRenderer() const;
 
 
 private:
@@ -63,5 +65,6 @@ private:
     std::unique_ptr<PhysicsSolver> physicsSolver_;
     std::unique_ptr<RenderingSystem> renderingSystem_;
     std::unique_ptr<Scene> scene_;
+    std::unique_ptr<GridRenderer> gridRenderer_;
     CameraController cameraController_;
 };

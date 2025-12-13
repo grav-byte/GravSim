@@ -9,6 +9,7 @@
 
 #include "stb_image.h"
 
+GLuint TextureLoader::whiteTex_ = 0;
 
 TextureLoader::TextureInfo TextureLoader::GetTexture(const std::filesystem::path &path) {
     auto it = textures_.find(path);
@@ -51,6 +52,27 @@ TextureLoader::TextureInfo TextureLoader::LoadTextureFromFile(const std::filesys
     stbi_image_free(data);
 
     return {textureId, width, height};
+}
+
+GLuint TextureLoader::GetWhiteTexture() {
+    if (whiteTex_ != 0) {
+        return whiteTex_;
+    }
+    glGenTextures(1, &whiteTex_);
+    glBindTexture(GL_TEXTURE_2D, whiteTex_);
+
+    unsigned char whitePixel[4] = { 255, 255, 255, 255 }; // RGBA
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, whitePixel);
+
+    // texture parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    return whiteTex_;
 }
 
 void TextureLoader::Clear() {

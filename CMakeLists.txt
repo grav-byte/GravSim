@@ -88,6 +88,8 @@ add_executable(GravSim
         src/App/Engine/Physics/Propagators/VelocityVerletPropagator.h
         src/App/UI/FollowingUI.cpp
         src/App/UI/FollowingUI.h
+        src/App/Rendering/GridRenderer.cpp
+        src/App/Rendering/GridRenderer.h
 )
 
 # Include directories

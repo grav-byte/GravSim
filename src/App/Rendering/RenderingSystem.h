@@ -9,6 +9,7 @@
 
 class RenderingSystem {
 public:
+
     // circleShaderProgram: ID of an already compiled & linked OpenGL shader program
     // spriteShaderProgram: ID of an already compiled & linked OpenGL shader program
     // segments: number of segments used to approximate the circle
@@ -23,17 +24,20 @@ public:
     }
 
     void RenderCircle(const glm::mat4& transformMatrix,
-                          const glm::vec4& color) const;
+                            const glm::vec4& color) const;
 
-    void RenderSprite(unsigned int textureId,
-                      const glm::mat4& transformMatrix) const;
+    void RenderSprite(unsigned int textureId, const glm::mat4& transformMatrix,
+                            const glm::vec4& color) const;
+
+    void RenderLine(const glm::vec2& start, const glm::vec2& end, float thickness,
+                            const glm::vec4 &color) const;
 
 
 private:
     void BuildCircleVertices();
-    void UploadCircleToGPU();
-
     void BuildQuadVertices();
+
+    void UploadCircleToGPU();
     void UploadQuadToGPU();
 
     const Camera* activeCamera_;
