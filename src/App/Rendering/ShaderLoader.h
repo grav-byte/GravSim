@@ -3,7 +3,6 @@
 //
 
 #pragma once
-#include "RenderingSystem.h"
 #include <string>
 
 class ShaderLoader {

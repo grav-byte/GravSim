@@ -130,7 +130,7 @@ void SceneUI::DrawConstraints(Scene* scene)
                 scene->RemoveConstraint(d.dir);
             } else if (hasDir && !hadDir) {
                 // add constraint with default distance
-                scene->AddConstraint(std::make_unique<Constraint>(0.0f, d.dir));
+                scene->AddConstraint(std::make_unique<Constraint>(1.0f, d.dir));
             }
         }
 
@@ -140,7 +140,8 @@ void SceneUI::DrawConstraints(Scene* scene)
             // show distance for this direction (first matching constraint)
             for (Constraint* c : scene->GetConstraints()) {
                 if (c->direction == d.dir) {
-                    ImGui::DragFloat((std::string("Distance##") + d.label).c_str(), &c->distance, 0.1f);
+                    float lowerLimit = d.dir == Constraint::RADIAL ? 0.1f : -1000.0f;
+                    ImGui::DragFloat((std::string("Distance##") + d.label).c_str(), &c->distance, 0.1f, lowerLimit, 1000.0f);
                     break;
                 }
             }

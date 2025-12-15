@@ -72,10 +72,12 @@ glm::vec2 PhysicsSolver::GetAccelerationForObject(const SceneObject &object) con
                 glm::vec2 direction = otherObject->transform.position - object.transform.position;
                 const float distanceSquared = glm::dot(direction, direction);
                 // avoid singularity and extremely high accelerations
-                if (distanceSquared < 1e-6f)
+                if (distanceSquared < 1e-3f)
                     continue;
 
                 constexpr float G = 1.0f;
+
+                // TODO - pairwise force caching for better performance
                 acceleration += normalize(direction) * G * otherObject->mass / distanceSquared;
             }
         }

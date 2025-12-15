@@ -50,5 +50,6 @@ private:
     unsigned int quadVao_ = 0;
     unsigned int quadVbo_ = 0;
     unsigned int spriteShaderProgram_ = 0;
-    unsigned int constraintShaderProgram = 0;
+    unsigned int constraintShaderProgram_ = 0;
+    unsigned int radialConstShaderProgram_ = 0;
 };

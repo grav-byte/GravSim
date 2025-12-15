@@ -12,8 +12,8 @@
 RenderingSystem::RenderingSystem()    : activeCamera_(nullptr), circleSegments_(64) {
     circleShaderProgram_ = ShaderLoader::LoadShader("simple.vert", "simple.frag");
     spriteShaderProgram_ = ShaderLoader::LoadShader("sprite.vert", "sprite.frag");
-    constraintShaderProgram = ShaderLoader::LoadShader("sprite.vert", "constraint.frag");
-    //radialConstraintShaderProgram = ShaderLoader::LoadShader("sprite.vert", "radial_constraint.frag");
+    constraintShaderProgram_ = ShaderLoader::LoadShader("sprite.vert", "constraint.frag");
+    radialConstShaderProgram_ = ShaderLoader::LoadShader("sprite.vert", "radial_constraint.frag");
 
     BuildCircleVertices();
     UploadCircleToGPU();
@@ -155,9 +155,9 @@ void RenderingSystem::RenderLine(const glm::vec2& start, const glm::vec2& end, i
     float angle  = std::atan2(dir.y, dir.x);
     glm::vec2 mid = (snappedStart + snappedEnd) * 0.5f;
 
-    // compute world-space thickness for 2 pixels on screen
+    // compute world-space thickness
     glm::vec2 pixelWorld = glm::vec2(invProj * glm::vec4(pixelWidth, pixelHeight, 0.0f, 0.0f));
-    auto thickness = glm::length(pixelWorld) * lineThickPx;
+    auto thickness = glm::length(pixelWorld) * lineThickPx * .5f;
 
     // build transform
     glm::mat4 transform(1.0f);
@@ -248,11 +248,15 @@ void RenderingSystem::RenderSprite(unsigned int textureId, const glm::mat4& tran
 }
 
 void RenderingSystem::RenderConstraint(Constraint::ConstraintDirection direction, float threshold, const glm::vec4& color) const {
-    if (!constraintShaderProgram || !activeCamera_) {
+    if ((!constraintShaderProgram_ && !(direction == Constraint::RADIAL && radialConstShaderProgram_)) || !activeCamera_) {
         std::cout << "Trying to render sprite without shader program or camera" << std::endl;
         return;
     }
-    glUseProgram(constraintShaderProgram);
+    if (direction == Constraint::RADIAL) {
+        glUseProgram(radialConstShaderProgram_);
+    } else {
+        glUseProgram(constraintShaderProgram_);
+    }
 
     // framebuffer info
     auto frameSize = Core::Application::Get().GetWindow()->GetFramebufferSize();
@@ -264,27 +268,37 @@ void RenderingSystem::RenderConstraint(Constraint::ConstraintDirection direction
     float y = -activeCamera_->transform.position.y + (direction == Constraint::UP || direction == Constraint::DOWN ? threshold : 0.0f);
     x = x * activeCamera_->zoom / aspect;
     y = y * activeCamera_->zoom;
-    if (direction == Constraint::LEFT || direction == Constraint::RIGHT)
+
+    if (direction == Constraint::RADIAL)
+        finalTransform = glm::translate(finalTransform, glm::vec3(x, y, 0.0f));
+    else if (direction == Constraint::LEFT || direction == Constraint::RIGHT)
         finalTransform = glm::translate(finalTransform, glm::vec3(x, 0.0f, 0.0f));
     else
         finalTransform = glm::translate(finalTransform, glm::vec3(0, y, 0.0f));
 
-    GLint resLoc = glGetUniformLocation(constraintShaderProgram, "uResolution");
+    const auto shader = direction == Constraint::RADIAL ? radialConstShaderProgram_ : constraintShaderProgram_;
+
+    GLint resLoc = glGetUniformLocation(shader, "uResolution");
     glUniform2f(resLoc, static_cast<float>(frameSize.x), static_cast<float>(frameSize.y));
 
-    GLint transformLoc = glGetUniformLocation(constraintShaderProgram, "uTransform");
+    GLint transformLoc = glGetUniformLocation(shader, "uTransform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
 
-    GLint offsetLoc = glGetUniformLocation(constraintShaderProgram, "uOffset");
-    auto screenPos = activeCamera_->WorldToScreen(glm::vec2(0));
-    screenPos = glm::vec2(static_cast<int>(screenPos.x) % frameSize.x, static_cast<int>(screenPos.y) % frameSize.y);
-    glUniform1f(offsetLoc, direction == Constraint::LEFT || direction == Constraint::RIGHT ? -screenPos.y : screenPos.x);
-
-    GLint colorLoc = glGetUniformLocation(constraintShaderProgram, "uColor");
+    GLint colorLoc = glGetUniformLocation(shader, "uColor");
     glUniform4fv(colorLoc, 1, glm::value_ptr(color));
 
-    GLint dirLoc = glGetUniformLocation(constraintShaderProgram, "uDirection");
-    glUniform1i(dirLoc, static_cast<int>(direction));
+    if (direction != Constraint::RADIAL) {
+        GLint offsetLoc = glGetUniformLocation(shader, "uOffset");
+        auto screenPos = activeCamera_->WorldToScreen(glm::vec2(0));
+        screenPos = glm::vec2(static_cast<int>(screenPos.x) % frameSize.x, static_cast<int>(screenPos.y) % frameSize.y);
+        glUniform1f(offsetLoc, direction == Constraint::LEFT || direction == Constraint::RIGHT ? -screenPos.y : screenPos.x);
+
+        GLint dirLoc = glGetUniformLocation(shader, "uDirection");
+        glUniform1i(dirLoc, static_cast<int>(direction));
+    } else {
+        GLint radiusLoc = glGetUniformLocation(shader, "uRadius");
+        glUniform1f(radiusLoc, threshold * activeCamera_->zoom * .5f);
+    }
 
     glBindVertexArray(quadVao_);
     glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(quadVertices_.size()));
