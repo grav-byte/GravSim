@@ -100,6 +100,55 @@ void SceneUI::DrawSceneLoading() {
         }
     }
 }
+void SceneUI::DrawConstraints(Scene* scene)
+{
+    ImGui::Spacing();
+    ImGui::Text("Constraints");
+    ImGui::Separator();
+
+    struct DirUI { const char* label; Constraint::ConstraintDirection dir; };
+    static const DirUI dirs[] = {
+        {"UP", Constraint::UP},
+        {"DOWN", Constraint::DOWN},
+        {"LEFT", Constraint::LEFT},
+        {"RIGHT", Constraint::RIGHT},
+        {"RADIAL", Constraint::RADIAL}
+    };
+
+    for (const auto& d : dirs) {
+        bool hasDir = false;
+        for (Constraint* c : scene->GetConstraints()) {
+            if (c->direction == d.dir) {
+                hasDir = true;
+                break;
+            }
+        }
+        bool hadDir = hasDir;
+        if (ImGui::Checkbox(d.label, &hasDir)) {
+            if (!hasDir && hadDir) {
+                // remove constraint
+                scene->RemoveConstraint(d.dir);
+            } else if (hasDir && !hadDir) {
+                // add constraint with default distance
+                scene->AddConstraint(std::make_unique<Constraint>(0.0f, d.dir));
+            }
+        }
+
+        ImGui::SameLine(100.0f);
+        if (hasDir) {
+            ImGui::SetNextItemWidth(150.0f);
+            // show distance for this direction (first matching constraint)
+            for (Constraint* c : scene->GetConstraints()) {
+                if (c->direction == d.dir) {
+                    ImGui::DragFloat((std::string("Distance##") + d.label).c_str(), &c->distance, 0.1f);
+                    break;
+                }
+            }
+        } else {
+            ImGui::TextDisabled("No constraint");
+        }
+    }
+}
 
 void SceneUI::DrawScene() {
     ImGui::Spacing();
@@ -149,6 +198,8 @@ void SceneUI::DrawScene() {
     ImGui::Spacing();
     ImGui::SeparatorText("Scene Settings");
     DrawFloat2Control("Global Gravity", &scene_->globalGravity);
+
+    DrawConstraints(scene_);
 
 }
 
@@ -266,6 +317,8 @@ void SceneUI::DrawObjectUI(SceneObject* obj) {
     }
     if (!keepAlive)
         scene_->DeleteObject(obj->id);
+
+    ImGui::Separator();
 
     ImGui::PopID();
 }

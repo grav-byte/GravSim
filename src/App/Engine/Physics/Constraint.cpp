@@ -1,5 +1,8 @@
 #include "Constraint.h"
 
-Constraint::Constraint(const ConstraintType type, const float distance, const ConstraintDirection direction)
-    : type(type), distance(distance), direction(direction) {}
+Constraint::Constraint() : distance(0.0f), direction(UP) {
+}
+
+Constraint::Constraint(const float distance, const ConstraintDirection direction)
+    : distance(distance), direction(direction) {}
 

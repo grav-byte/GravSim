@@ -20,6 +20,8 @@ public:
 
     void DrawSceneLoading();
 
+    void DrawConstraints(Scene *scene);
+
     void DrawScene();
 
     void Draw() override;

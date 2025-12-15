@@ -7,8 +7,10 @@
 Scene::Scene() {
     nextID_ = 0;
     sceneObjects_ = std::vector<std::unique_ptr<SceneObject>>();
+    sceneConstraints_ = std::vector<std::unique_ptr<Constraint>>();
     name_ = std::string("New Scene");
     camera_ = std::make_unique<Camera>();
+
 }
 
 Camera* Scene::GetCamera() const { return camera_.get(); }
@@ -22,6 +24,10 @@ void Scene::AddObject(std::unique_ptr<SceneObject> obj) {
     sceneObjects_.push_back(std::move(obj));
 }
 
+void Scene::AddConstraint(std::unique_ptr<Constraint> constraint) {
+    sceneConstraints_.push_back(std::move(constraint));
+}
+
 std::vector<SceneObject *> Scene::GetAllObjects() const {
     // return non-owning pointers to scene objects
     auto sceneObjectsPtrs = std::vector<SceneObject*>();
@@ -29,6 +35,29 @@ std::vector<SceneObject *> Scene::GetAllObjects() const {
         sceneObjectsPtrs.push_back(obj.get());
     }
     return sceneObjectsPtrs;
+}
+
+std::vector<Constraint *> Scene::GetConstraints() const {
+    // return non-owning pointers to constraints
+    auto constraints = std::vector<Constraint*>();
+    for (const auto& obj : sceneConstraints_) {
+        constraints.push_back(obj.get());
+    }
+    return constraints;
+}
+
+void Scene::RemoveConstraint(Constraint::ConstraintDirection direction) {
+    sceneConstraints_.erase(
+               std::remove_if(
+                   sceneConstraints_.begin(),
+                   sceneConstraints_.end(),
+                   [direction](const std::unique_ptr<Constraint>& c) {
+                       const auto con = c.get();
+                       return con->direction == direction;
+                   }
+               ),
+               sceneConstraints_.end()
+           );
 }
 
 void Scene::DeleteObject(uint32_t id) {

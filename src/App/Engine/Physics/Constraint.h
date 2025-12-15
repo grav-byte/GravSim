@@ -3,18 +3,19 @@
 
 class Constraint {
 public:
-    enum ConstraintType {
-        AXIS_ALIGNED,
-        RADIAL
-    };
-
     enum ConstraintDirection {
-        UP, RIGHT, DOWN, LEFT
+        UP, RIGHT, DOWN, LEFT, RADIAL
     };
 
-    explicit Constraint(ConstraintType type, float distance, ConstraintDirection direction = UP);
+    Constraint();
+    explicit Constraint(float distance, ConstraintDirection direction = UP);
 
-    ConstraintType type;
     ConstraintDirection direction;
     float distance;
+
+    // Cereal serialization
+    template<class Archive>
+    void serialize(Archive& ar) {
+        ar(distance, direction);
+    }
 };

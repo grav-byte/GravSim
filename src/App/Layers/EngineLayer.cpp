@@ -143,8 +143,10 @@ void EngineLayer::OnRender() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     gridRenderer_->RenderGrid(*renderingSystem_);
-    renderingSystem_->RenderConstraint(Constraint::LEFT, 1.0f, glm::vec4(1.0f));
 
+    for (const Constraint* constraint : scene_->GetConstraints()) {
+        renderingSystem_->RenderConstraint(constraint->direction, constraint->distance, glm::vec4(1.0f));
+    }
 
     for (const SceneObject* obj : scene_->GetAllObjects()) {
         if (obj->renderer) {
