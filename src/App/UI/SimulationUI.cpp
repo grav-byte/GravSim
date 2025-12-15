@@ -28,12 +28,15 @@ void SimulationUI::OnEvent(Core::Event &event) {
 }
 
 void SimulationUI::RunTest(const char* name) {
-    float totalTime = 60.0f;
-    auto results = engine_->GetActivePropagator()->RunTest(1.0f / stepsPerSec_, totalTime);
-    int count = static_cast<int>(results.size());
-    float trueValues[count];
-    float timeValues[count];
-    float positionValues[count];
+    const float totalTime = 60.0f;
+    const auto results = engine_->GetActivePropagator()->RunTest(1.0f / stepsPerSec_, totalTime);
+
+    const size_t count = results.size();
+
+    std::vector<float> timeValues(count);
+    std::vector<float> positionValues(count);
+    std::vector<float> trueValues(count);
+    std::vector<float> energyValues(count);
     for (int i = 0; i < count; ++i) {
         const auto t = i * (1.0f / stepsPerSec_);
         timeValues[i] = results[i].t;
@@ -41,7 +44,6 @@ void SimulationUI::RunTest(const char* name) {
         trueValues[i] = 0.5f * -9.81f * std::pow(t, 2);
     }
 
-    float energyValues[count];
     const float g = 9.81f;
     const float mass = 1.0f;
     for (int i = 0; i < count; ++i) {
@@ -53,9 +55,9 @@ void SimulationUI::RunTest(const char* name) {
 
     ImPlot::PushStyleVar(ImPlotStyleVar_Marker, ImPlotMarker_Cross);
     ImPlot::PushStyleVar(ImPlotStyleVar_MarkerSize, 2.0f);
-    ImPlot::PlotScatter(name, timeValues, positionValues, count);
+    ImPlot::PlotScatter(name, timeValues.data(), positionValues.data(), count);
     ImPlot::PopStyleVar(2);
-    ImPlot::PlotLine("True Values", timeValues, trueValues, count);
+    ImPlot::PlotLine("True Values", timeValues.data(), trueValues.data(), count);
     ImPlot::EndPlot();
 
     if (ImGui::IsItemHovered() || ImGui::IsItemToggledOpen()) {
@@ -66,7 +68,7 @@ void SimulationUI::RunTest(const char* name) {
 
     if (ImPlot::BeginPlot("Total Energy", "t in s", "E in J", ImVec2(-1,0), ImPlotFlags_NoInputs)) {
         ImPlot::SetupLegend(ImPlotLocation_NorthEast);
-        ImPlot::PlotLine("Energy", timeValues, energyValues, count);
+        ImPlot::PlotLine("Energy", timeValues.data(), energyValues.data(), count);
         ImPlot::EndPlot();
         if (ImGui::IsItemHovered()) {
             plotHideTime_ = Core::Application::GetTime() + .1f;
