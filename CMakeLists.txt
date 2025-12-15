@@ -90,6 +90,9 @@ add_executable(GravSim
         src/App/UI/FollowingUI.h
         src/App/Rendering/GridRenderer.cpp
         src/App/Rendering/GridRenderer.h
+        src/App/Engine/Physics/Constraint.cpp
+        src/App/Engine/Physics/Constraint.h
+        src/App/Engine/Physics/Constraint.h
 )
 
 # Include directories

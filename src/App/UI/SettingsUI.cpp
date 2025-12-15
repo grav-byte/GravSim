@@ -42,7 +42,6 @@ void SettingsUI::Draw() {
 
     // powers of 2
     int logSpacing = std::log2(renderer->gridSpacing_);
-    ImGui::Text("Grid Spacing");
     if (ImGui::Button("-")) {
         logSpacing = std::max(-5, logSpacing - 1);
     }
@@ -50,6 +49,8 @@ void SettingsUI::Draw() {
     if (ImGui::Button("+")) {
         logSpacing = std::min(3, logSpacing + 1);
     }
+    ImGui::SameLine();
+    ImGui::Text("Grid Spacing");
     renderer->gridSpacing_ = std::pow(2, logSpacing);
 
     float value[4] = { renderer->gridColor_.x, renderer->gridColor_.y, renderer->gridColor_.z, renderer->gridColor_.a };

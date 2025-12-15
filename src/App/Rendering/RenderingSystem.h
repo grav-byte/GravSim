@@ -5,17 +5,13 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "App/Engine/Camera.h"
+#include "../Engine/Physics/Constraint.h"
 
 
 class RenderingSystem {
 public:
 
-    // circleShaderProgram: ID of an already compiled & linked OpenGL shader program
-    // spriteShaderProgram: ID of an already compiled & linked OpenGL shader program
-    // segments: number of segments used to approximate the circle
-    RenderingSystem(unsigned int circleShaderProgram,
-                    unsigned int spriteShaderProgram,
-                    int segments);
+    RenderingSystem();
 
     ~RenderingSystem();
 
@@ -29,9 +25,11 @@ public:
     void RenderSprite(unsigned int textureId, const glm::mat4& transformMatrix,
                             const glm::vec4& color) const;
 
-    void RenderLine(const glm::vec2& start, const glm::vec2& end, float thickness,
+    void RenderLine(const glm::vec2& start, const glm::vec2& end, int lineThickPx,
                             const glm::vec4 &color) const;
 
+    void RenderConstraint(Constraint::ConstraintDirection direction, float threshold,
+                               const glm::vec4& color) const;
 
 private:
     void BuildCircleVertices();
@@ -52,4 +50,5 @@ private:
     unsigned int quadVao_ = 0;
     unsigned int quadVbo_ = 0;
     unsigned int spriteShaderProgram_ = 0;
+    unsigned int constraintShaderProgram = 0;
 };

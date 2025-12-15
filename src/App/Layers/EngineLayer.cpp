@@ -118,10 +118,7 @@ void EngineLayer::OnInit() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    auto circleShader = ShaderLoader::LoadShader("simple.vert", "simple.frag");
-    auto spriteShader = ShaderLoader::LoadShader("sprite.vert", "sprite.frag");
-
-    renderingSystem_ = std::make_unique<RenderingSystem>(circleShader, spriteShader, 64);
+    renderingSystem_ = std::make_unique<RenderingSystem>();
 
     NewScene();
 }
@@ -146,6 +143,8 @@ void EngineLayer::OnRender() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     gridRenderer_->RenderGrid(*renderingSystem_);
+    renderingSystem_->RenderConstraint(Constraint::LEFT, 1.0f, glm::vec4(1.0f));
+
 
     for (const SceneObject* obj : scene_->GetAllObjects()) {
         if (obj->renderer) {

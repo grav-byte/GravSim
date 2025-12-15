@@ -37,11 +37,10 @@ void GridRenderer::RenderGrid(RenderingSystem & renderer) const {
     // snap spacing to nearest multiple of base 2
     float baseSpacing = 2.0f; // world units
     float minSpacing = 1.0f; // world units, smallest grid line spacing
-    float maxSpacing = 10000.0f; // optional upper limit
 
     float rawSpacing = gridSpacing_ / (5 * camera_->zoom);
     float adjustedSpacing = std::pow(baseSpacing, std::round(std::log(rawSpacing) / std::log(baseSpacing)));
-    adjustedSpacing = glm::clamp(adjustedSpacing, minSpacing, maxSpacing);
+    adjustedSpacing = glm::clamp(adjustedSpacing, minSpacing, 10000.0f);
 
     for (float x = std::floor(left / adjustedSpacing) * adjustedSpacing; x <= right; x += adjustedSpacing) {
         renderer.RenderLine(glm::vec2(x, bottom), glm::vec2(x, top), 1, gridColor_);

@@ -5,21 +5,16 @@
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "ShaderLoader.h"
 #include "App/Rendering/TextureLoader.h"
-#include "Core/AppLayer.h"
-#include "Core/AppLayer.h"
-#include "Core/AppLayer.h"
-#include "Core/AppLayer.h"
 #include "Core/Application.h"
 
-RenderingSystem::RenderingSystem(const unsigned int circleShaderProgram,
-                                 const unsigned int spriteShaderProgram,
-                                 const int segments)
-    : activeCamera_(nullptr),
-      circleSegments_(std::max(3, segments)),
-      circleShaderProgram_(circleShaderProgram),
-      spriteShaderProgram_(spriteShaderProgram)
-{
+RenderingSystem::RenderingSystem()    : activeCamera_(nullptr), circleSegments_(64) {
+    circleShaderProgram_ = ShaderLoader::LoadShader("simple.vert", "simple.frag");
+    spriteShaderProgram_ = ShaderLoader::LoadShader("sprite.vert", "sprite.frag");
+    constraintShaderProgram = ShaderLoader::LoadShader("sprite.vert", "constraint.frag");
+    //radialConstraintShaderProgram = ShaderLoader::LoadShader("sprite.vert", "radial_constraint.frag");
+
     BuildCircleVertices();
     UploadCircleToGPU();
 
@@ -56,14 +51,14 @@ void RenderingSystem::BuildQuadVertices() {
     quadVertices_.clear();
     quadVertices_.reserve(6);
 
-    // Zwei Dreiecke, centered (-0.5..0.5) um die Origin
-    quadVertices_.emplace_back(-0.5f, -0.5f, 0.0f, 0.0f);
-    quadVertices_.emplace_back( 0.5f, -0.5f, 1.0f, 0.0f);
-    quadVertices_.emplace_back( 0.5f,  0.5f, 1.0f, 1.0f);
+    // Full-screen quad in NDC coordinates [-1,1] (2 triangles)
+    quadVertices_.emplace_back(-1.0f, -1.0f, 0.0f, 0.0f);
+    quadVertices_.emplace_back( 1.0f, -1.0f, 1.0f, 0.0f);
+    quadVertices_.emplace_back( 1.0f,  1.0f, 1.0f, 1.0f);
 
-    quadVertices_.emplace_back(-0.5f, -0.5f, 0.0f, 0.0f);
-    quadVertices_.emplace_back( 0.5f,  0.5f, 1.0f, 1.0f);
-    quadVertices_.emplace_back(-0.5f,  0.5f, 0.0f, 1.0f);
+    quadVertices_.emplace_back(-1.0f, -1.0f, 0.0f, 0.0f);
+    quadVertices_.emplace_back( 1.0f,  1.0f, 1.0f, 1.0f);
+    quadVertices_.emplace_back(-1.0f,  1.0f, 0.0f, 1.0f);
 }
 
 void RenderingSystem::UploadCircleToGPU() {
@@ -124,7 +119,7 @@ void RenderingSystem::UploadQuadToGPU() {
 }
 
 
-void RenderingSystem::RenderLine(const glm::vec2& start, const glm::vec2& end, float thickness,
+void RenderingSystem::RenderLine(const glm::vec2& start, const glm::vec2& end, int lineThickPx,
                                  const glm::vec4 &color) const {
     if (!spriteShaderProgram_ || !activeCamera_) return;
 
@@ -162,7 +157,7 @@ void RenderingSystem::RenderLine(const glm::vec2& start, const glm::vec2& end, f
 
     // compute world-space thickness for 2 pixels on screen
     glm::vec2 pixelWorld = glm::vec2(invProj * glm::vec4(pixelWidth, pixelHeight, 0.0f, 0.0f));
-    thickness = glm::length(pixelWorld) * thickness;
+    auto thickness = glm::length(pixelWorld) * lineThickPx;
 
     // build transform
     glm::mat4 transform(1.0f);
@@ -250,4 +245,48 @@ void RenderingSystem::RenderSprite(unsigned int textureId, const glm::mat4& tran
     glBindVertexArray(0);
 
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void RenderingSystem::RenderConstraint(Constraint::ConstraintDirection direction, float threshold, const glm::vec4& color) const {
+    if (!constraintShaderProgram || !activeCamera_) {
+        std::cout << "Trying to render sprite without shader program or camera" << std::endl;
+        return;
+    }
+    glUseProgram(constraintShaderProgram);
+
+    // framebuffer info
+    auto frameSize = Core::Application::Get().GetWindow()->GetFramebufferSize();
+    float aspect = static_cast<float>(frameSize.x) / static_cast<float>(frameSize.y);
+
+    glm::mat4 finalTransform = glm::mat4(1.0f);
+    threshold = threshold * (direction == Constraint::LEFT || direction == Constraint::DOWN ? -1.0f : 1.0f);
+    float x = -activeCamera_->transform.position.x + (direction == Constraint::LEFT || direction == Constraint::RIGHT ? threshold : 0.0f);
+    float y = -activeCamera_->transform.position.y + (direction == Constraint::UP || direction == Constraint::DOWN ? threshold : 0.0f);
+    x = x * activeCamera_->zoom / aspect;
+    y = y * activeCamera_->zoom;
+    if (direction == Constraint::LEFT || direction == Constraint::RIGHT)
+        finalTransform = glm::translate(finalTransform, glm::vec3(x, 0.0f, 0.0f));
+    else
+        finalTransform = glm::translate(finalTransform, glm::vec3(0, y, 0.0f));
+
+    GLint resLoc = glGetUniformLocation(constraintShaderProgram, "uResolution");
+    glUniform2f(resLoc, static_cast<float>(frameSize.x), static_cast<float>(frameSize.y));
+
+    GLint transformLoc = glGetUniformLocation(constraintShaderProgram, "uTransform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
+
+    GLint offsetLoc = glGetUniformLocation(constraintShaderProgram, "uOffset");
+    auto screenPos = activeCamera_->WorldToScreen(glm::vec2(0));
+    screenPos = glm::vec2(static_cast<int>(screenPos.x) % frameSize.x, static_cast<int>(screenPos.y) % frameSize.y);
+    glUniform1f(offsetLoc, direction == Constraint::LEFT || direction == Constraint::RIGHT ? -screenPos.y : screenPos.x);
+
+    GLint colorLoc = glGetUniformLocation(constraintShaderProgram, "uColor");
+    glUniform4fv(colorLoc, 1, glm::value_ptr(color));
+
+    GLint dirLoc = glGetUniformLocation(constraintShaderProgram, "uDirection");
+    glUniform1i(dirLoc, static_cast<int>(direction));
+
+    glBindVertexArray(quadVao_);
+    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(quadVertices_.size()));
+    glBindVertexArray(0);
 }
