@@ -78,7 +78,7 @@ void CameraController::OnEvent(Core::Event &event) {
     if (type == Core::MouseMoved) {
         const auto& mouseEvent = dynamic_cast<Core::MouseMovedEvent&>(event);
         currentMouseScreenPos_ = glm::vec2(mouseEvent.GetX(), mouseEvent.GetY());
-
+        std::cout << currentMouseScreenPos_.x << ", " << currentMouseScreenPos_.y << std::endl;
         // convert to world space
         glm::vec2 currentMousePos = camera_->ScreenToWorld(currentMouseScreenPos_);
 

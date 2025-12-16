@@ -19,6 +19,9 @@ Camera::Camera() {
 glm::mat4 Camera::GetProjectionMatrix() const {
     // get aspect
     const auto bufferSize = Core::Application::Get().GetWindow()->GetFramebufferSize();
+    if (bufferSize.y == 0) {
+        return {1.0f};
+    }
     const float aspect = static_cast<float>(bufferSize.x) / static_cast<float>(bufferSize.y);
 
     // use a projection to maintain aspect ratio

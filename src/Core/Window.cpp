@@ -113,7 +113,11 @@ namespace Core {
         {
             Window& window = *((Window*)glfwGetWindowUserPointer(handle));
 
-            MouseMovedEvent event(static_cast<float>(x), static_cast<float>(y));
+            // correct for display scaling
+            float xscale, yscale;
+            glfwGetWindowContentScale(handle, &xscale, &yscale);
+
+            MouseMovedEvent event(static_cast<float>(x * xscale), static_cast<float>(y * yscale));
             window.RaiseEvent(event);
         });
     }
