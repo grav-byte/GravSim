@@ -39,7 +39,6 @@ add_executable(GravSim
         libraries/implot/implot.cpp
         libraries/implot/implot_internal.h
         libraries/miniaudio/miniaudio.c
-        libraries/tinyfiledialogs/tinyfiledialogs.c
         src/core/Application.cpp
         src/core/Window.cpp
         src/App/Layers/UILayer.cpp

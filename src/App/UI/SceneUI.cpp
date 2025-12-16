@@ -44,6 +44,10 @@ void SceneUI::Draw() {
 
     ImGui::Begin("Scene");
     ImGui::Text("Scene");
+    if (ImGui::Button("Clear Scene")) {
+        engine_ -> NewScene();
+        ShowStatusMessage("Scene cleared.", 3.0f);
+    }
 
     if (statusTimer_ > 0.0f) {
         ImGui::Text("%s", statusMessage_.c_str());
