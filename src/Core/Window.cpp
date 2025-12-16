@@ -52,6 +52,7 @@ namespace Core {
         glfwSetWindowSizeCallback(handle_, [](GLFWwindow* handle, int width, int height)
         {
             Window& window = *static_cast<Window *>(glfwGetWindowUserPointer(handle));
+            window.OnResize();
 
             WindowResizedEvent event(width, height);
             window.RaiseEvent(event);
@@ -124,6 +125,13 @@ namespace Core {
         }
     }
 
+    void Window::OnResize() {
+#ifdef _WIN32
+        auto size = GetFramebufferSize();
+        glViewport(0, 0, size.x, size.y);
+#endif
+    }
+
     void Window::RaiseEvent(Event& event) const {
         if (config_.EventCallback)
             config_.EventCallback(event);
@@ -149,8 +157,8 @@ namespace Core {
             if (vp != nullptr) {
 
                 // Convert ImGui units -> framebuffer pixels using DPI scale
-                float fbWidth  = vp->Size.x * vp->DpiScale;
-                float fbHeight = vp->Size.y * vp->DpiScale;
+                float fbWidth  = vp->Size.x;
+                float fbHeight = vp->Size.y;
 
                 return { static_cast<int>(fbWidth), static_cast<int>(fbHeight) };
             }

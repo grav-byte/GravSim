@@ -40,6 +40,8 @@ namespace Core {
         GLFWwindow* GetHandle() const { return handle_; }
 
 private:
+        void OnResize();
+
         WindowConfig config_;
         GLFWwindow* handle_ = nullptr;
     };

@@ -21,7 +21,6 @@ glm::mat4 Camera::GetProjectionMatrix() const {
     const auto bufferSize = Core::Application::Get().GetWindow()->GetFramebufferSize();
     const float aspect = static_cast<float>(bufferSize.x) / static_cast<float>(bufferSize.y);
 
-    std::cout << "aspect: " << aspect << std::endl;
     // use a projection to maintain aspect ratio
     glm::mat4 projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f);
     // apply zoom
