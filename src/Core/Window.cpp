@@ -113,9 +113,12 @@ namespace Core {
         {
             Window& window = *((Window*)glfwGetWindowUserPointer(handle));
 
-            // correct for display scaling
-            float xscale, yscale;
+
+            float xscale, yscale = 1.0f;
+#ifdef __APPLE__
+            // correct for display scaling - only needed on macOS
             glfwGetWindowContentScale(handle, &xscale, &yscale);
+#endif
 
             MouseMovedEvent event(static_cast<float>(x * xscale), static_cast<float>(y * yscale));
             window.RaiseEvent(event);
