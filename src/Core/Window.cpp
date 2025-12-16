@@ -126,10 +126,8 @@ namespace Core {
     }
 
     void Window::OnResize() {
-#ifdef _WIN32
         auto size = GetFramebufferSize();
         glViewport(0, 0, size.x, size.y);
-#endif
     }
 
     void Window::RaiseEvent(Event& event) const {
@@ -149,20 +147,6 @@ namespace Core {
     glm::ivec2 Window::GetFramebufferSize() const {
         if (!handle_)
             return {0, 0};
-
-        // if imgui is initialized, use its viewport because of multiviewport support
-        ImGuiContext* ctx = ImGui::GetCurrentContext();
-        if (ctx != nullptr) {
-            ImGuiViewport* vp = ImGui::GetMainViewport();
-            if (vp != nullptr) {
-
-                // Convert ImGui units -> framebuffer pixels using DPI scale
-                float fbWidth  = vp->Size.x;
-                float fbHeight = vp->Size.y;
-
-                return { static_cast<int>(fbWidth), static_cast<int>(fbHeight) };
-            }
-        }
 
         // Fallback: raw GLFW framebuffer size
         int width = 0, height = 0;
