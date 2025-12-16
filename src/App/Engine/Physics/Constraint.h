@@ -1,4 +1,5 @@
 #pragma once
+#include "App/Engine/SceneObject.h"
 
 
 class Constraint {
@@ -12,6 +13,8 @@ public:
 
     ConstraintDirection direction;
     float distance;
+
+    void ApplyConstraint(SceneObject *obj, float dampingConstant) const;
 
     // Cereal serialization
     template<class Archive>

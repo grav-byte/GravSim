@@ -55,7 +55,13 @@ void PhysicsSolver::StepPropagation(Scene *scene) {
         auto func = [this](const SceneObject& obj){ return GetAccelerationForObject(obj); };
         // propagate object
         activePropagator_->Propagate(*object, func, timeStep_);
+
+        for (const auto& constraint : scene->GetConstraints()) {
+            constraint->ApplyConstraint(object, 1);
+        }
     }
+
+
 }
 
 glm::vec2 PhysicsSolver::GetAccelerationForObject(const SceneObject &object) const {
