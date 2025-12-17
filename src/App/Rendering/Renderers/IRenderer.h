@@ -7,6 +7,12 @@
 
 class RenderingSystem;
 
+
+enum class RendererType {
+    Circle,
+    Sprite
+};
+
 class IRenderer {
 public:
     virtual ~IRenderer() = default;

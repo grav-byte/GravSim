@@ -77,7 +77,7 @@ void SceneUI::DrawSceneLoading() {
 
 
     sceneSelector_->Draw();
-    if (sceneSelector_->GetSelectedFile() != "") {
+    if (!sceneSelector_->GetSelectedFile().empty()) {
         if (ImGui::Button("Load Scene")) {
             if (engine_->LoadScene(sceneSelector_->GetSelectedFile())) {
                 ShowStatusMessage("Scene loaded successfully.");
@@ -101,56 +101,6 @@ void SceneUI::DrawSceneLoading() {
                 std::cerr << "Failed to delete scene: " << e.what() << std::endl;
                 ShowStatusMessage("Failed to delete scene.");
             }
-        }
-    }
-}
-void SceneUI::DrawConstraints(Scene* scene)
-{
-    ImGui::Spacing();
-    ImGui::Text("Constraints");
-    ImGui::Separator();
-
-    struct DirUI { const char* label; Constraint::ConstraintDirection dir; };
-    static const DirUI dirs[] = {
-        {"UP", Constraint::UP},
-        {"DOWN", Constraint::DOWN},
-        {"LEFT", Constraint::LEFT},
-        {"RIGHT", Constraint::RIGHT},
-        {"RADIAL", Constraint::RADIAL}
-    };
-
-    for (const auto& d : dirs) {
-        bool hasDir = false;
-        for (Constraint* c : scene->GetConstraints()) {
-            if (c->direction == d.dir) {
-                hasDir = true;
-                break;
-            }
-        }
-        bool hadDir = hasDir;
-        if (ImGui::Checkbox(d.label, &hasDir)) {
-            if (!hasDir && hadDir) {
-                // remove constraint
-                scene->RemoveConstraint(d.dir);
-            } else if (hasDir && !hadDir) {
-                // add constraint with default distance
-                scene->AddConstraint(std::make_unique<Constraint>(1.0f, d.dir));
-            }
-        }
-
-        ImGui::SameLine(100.0f);
-        if (hasDir) {
-            ImGui::SetNextItemWidth(150.0f);
-            // show distance for this direction (first matching constraint)
-            for (Constraint* c : scene->GetConstraints()) {
-                if (c->direction == d.dir) {
-                    float lowerLimit = d.dir == Constraint::RADIAL ? 0.1f : -1000.0f;
-                    ImGui::DragFloat((std::string("Distance##") + d.label).c_str(), &c->distance, 0.1f, lowerLimit, 1000.0f);
-                    break;
-                }
-            }
-        } else {
-            ImGui::TextDisabled("No constraint");
         }
     }
 }
@@ -208,13 +158,89 @@ void SceneUI::DrawScene() {
 
 }
 
-enum class RendererType {
-    Circle = 0,
-    Sprite = 1
-};
+void SceneUI::DrawObjectUI(SceneObject* obj) {
+    ImGui::PushID(static_cast<int>(obj->id));
+
+    bool keepAlive = true;
+    const std::string text = "[" + std::to_string(obj->id) + "] " + obj->name + "###ObjHeader" + std::to_string(obj->id);
+    if (ImGui::CollapsingHeader(text.c_str(), &keepAlive))
+    {
+        ImGui::Indent();
+        ImGui::InputTextWithHint("Name", "Object Name", &obj->name);
+
+        DrawTransform(&obj->transform);
+
+        ImGui::Spacing();
+
+        DrawPhysics(obj);
+
+        ImGui::Spacing();
+
+        DrawRendering(obj);
+        ImGui::Unindent();
+    }
+    if (!keepAlive)
+        scene_->DeleteObject(obj->id);
+
+    ImGui::Separator();
+
+    ImGui::PopID();
+}
+
+void SceneUI::DrawTransform(Transform* transform) {
+    if (!ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_None))
+        return;
+
+    DrawFloat2Control("Position", &transform->position);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("m");
+    }
+
+    // coupled scale
+    float scale = transform->scale.x;
+    if (ImGui::DragFloat("Scale", &scale, .1f)) {
+        transform->scale = glm::vec2(scale, scale);
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("m");
+    }
+
+    ImGui::DragFloat("Rotation", &transform->rotation, .1f);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("degrees");
+    }
+}
+
+void SceneUI::DrawPhysics(SceneObject *obj) {
+    if (!ImGui::CollapsingHeader("Physics", ImGuiTreeNodeFlags_None))
+        return;
+
+    ImGui::Checkbox("Gravitates", &obj->gravitates);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("Whether this object attracts others");
+    }
+    ImGui::SameLine();
+    ImGui::Checkbox("Affected By Gravity", &obj->affectedByGravity);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("Whether this object is attracted by others and global gravity");
+    }
+    ImGui::DragFloat("Mass", &obj->mass, .1f, 0.0f, 100000.0f);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("kg");
+    }
+    DrawFloat2Control("Velocity", &obj->velocity);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("m/s");
+    }
+    ImGui::DragFloat("A. Vel", &obj->angularVelocity, .1f);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("degrees/s");
+    }
+}
 
 void SceneUI::DrawRendering(SceneObject *obj) {
-    ImGui::Text("Rendering");
+    if (!ImGui::CollapsingHeader("Rendering", ImGuiTreeNodeFlags_None))
+        return;
     // Determine current renderer type
     RendererType currentRenderer = RendererType::Circle;
     if (dynamic_cast<CircleRenderer*>(obj->renderer.get())) currentRenderer = RendererType::Circle;
@@ -256,74 +282,55 @@ void SceneUI::DrawRendering(SceneObject *obj) {
     DrawColorControl("Color", &obj->renderer->color);
 }
 
-void SceneUI::DrawTransform(SceneObject *obj) {
-    ImGui::Text("Transform");
-    DrawFloat2Control("Position", &obj->transform.position);
-    if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("m");
-    }
-
-    // coupled scale
-    float scale = obj->transform.scale.x;
-    if (ImGui::DragFloat("Scale", &scale, .1f)) {
-        obj->transform.scale = glm::vec2(scale, scale);
-    }
-    if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("m");
-    }
-
-    ImGui::DragFloat("Rotation", &obj->transform.rotation, .1f);
-    if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("degrees");
-    }
-
+void SceneUI::DrawConstraints(Scene* scene)
+{
     ImGui::Spacing();
-
-    ImGui::Text("Physics");
-    ImGui::Checkbox("Gravitates", &obj->gravitates);
-    if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("Whether this object attracts others");
-    }
-    ImGui::SameLine();
-    ImGui::Checkbox("Affected By Gravity", &obj->affectedByGravity);
-    if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("Whether this object is attracted by others and global gravity");
-    }
-    ImGui::DragFloat("Mass", &obj->mass, .1f, 0.0f, 100000.0f);
-    if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("kg");
-    }
-    DrawFloat2Control("Velocity", &obj->velocity);
-    if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("m/s");
-    }
-    ImGui::DragFloat("A. Vel", &obj->angularVelocity, .1f);
-    if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("degrees/s");
-    }
-}
-
-void SceneUI::DrawObjectUI(SceneObject* obj) {
-    ImGui::PushID(static_cast<int>(obj->id));
-
-    bool keepAlive = true;
-    const std::string text = "[" + std::to_string(obj->id) + "] " + obj->name + "###ObjHeader" + std::to_string(obj->id);
-    if (ImGui::CollapsingHeader(text.c_str(), &keepAlive))
-    {
-        ImGui::InputTextWithHint("Name", "Object Name", &obj->name);
-
-        DrawTransform(obj);
-
-        ImGui::Spacing();
-
-        DrawRendering(obj);
-    }
-    if (!keepAlive)
-        scene_->DeleteObject(obj->id);
-
+    ImGui::Text("Constraints");
     ImGui::Separator();
 
-    ImGui::PopID();
+    struct DirUI { const char* label; Constraint::ConstraintDirection dir; };
+    static const DirUI dirs[] = {
+        {"UP", Constraint::UP},
+        {"DOWN", Constraint::DOWN},
+        {"LEFT", Constraint::LEFT},
+        {"RIGHT", Constraint::RIGHT},
+        {"RADIAL", Constraint::RADIAL}
+    };
+
+    for (const auto& d : dirs) {
+        bool hasDir = false;
+        for (Constraint* c : scene->GetConstraints()) {
+            if (c->direction == d.dir) {
+                hasDir = true;
+                break;
+            }
+        }
+        bool hadDir = hasDir;
+        if (ImGui::Checkbox(d.label, &hasDir)) {
+            if (!hasDir && hadDir) {
+                // remove constraint
+                scene->RemoveConstraint(d.dir);
+            } else if (hasDir && !hadDir) {
+                // add constraint with default distance
+                scene->AddConstraint(std::make_unique<Constraint>(1.0f, d.dir));
+            }
+        }
+
+        ImGui::SameLine(100.0f);
+        if (hasDir) {
+            ImGui::SetNextItemWidth(150.0f);
+            // show distance for this direction (first matching constraint)
+            for (Constraint* c : scene->GetConstraints()) {
+                if (c->direction == d.dir) {
+                    float lowerLimit = d.dir == Constraint::RADIAL ? 0.1f : -1000.0f;
+                    ImGui::DragFloat((std::string("Distance##") + d.label).c_str(), &c->distance, 0.1f, lowerLimit, 1000.0f);
+                    break;
+                }
+            }
+        } else {
+            ImGui::TextDisabled("No constraint");
+        }
+    }
 }
 
 void SceneUI::DrawColorControl(const char *title, glm::vec4 *color) {

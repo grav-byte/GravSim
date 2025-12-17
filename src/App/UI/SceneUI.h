@@ -18,21 +18,8 @@ public:
 
     void OnEvent(Core::Event &event) override;
 
-    void DrawSceneLoading();
-
-    void DrawConstraints(Scene *scene);
-
-    void DrawScene();
-
     void Draw() override;
 
-    void DrawRendering(SceneObject *obj);
-
-    void DrawTransform(SceneObject *obj);
-
-    void FileMenu();
-
-    static const char *OpenFileDialog();
 
 private:
     EngineLayer* engine_;
@@ -42,7 +29,16 @@ private:
     std::string statusMessage_;
     float statusTimer_;
 
+    void DrawSceneLoading();
+    void DrawScene();
+
     void DrawObjectUI(SceneObject *obj);
+    void DrawTransform(Transform *transform);
+    void DrawPhysics(SceneObject * obj);
+    void DrawRendering(SceneObject *obj);
+
+    void DrawConstraints(Scene *scene);
+
     void DrawColorControl(const char *title, glm::vec4 * color);
     bool DrawFloat2Control(const char *title, glm::vec2 * vec2, float speed = .1f);
 };
