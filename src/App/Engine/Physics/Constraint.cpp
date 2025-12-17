@@ -44,11 +44,20 @@ void Constraint::ApplyConstraint(SceneObject *obj, const float dampingConstant) 
             }
             break;
         case RADIAL: {
-            if (pos.x * pos.x + pos.y * pos.y > distance * distance) {
+            const float r = glm::max(obj->transform.scale.x, obj->transform.scale.y);
+
+            const float R = distance - r;
+            const float len2 = glm::dot(pos, pos);
+
+            if (len2 > R * R) {
                 const glm::vec2 dir = glm::normalize(pos);
-                pos = dir * distance;
+                pos = dir * R;
                 // reflect velocity
-                vel -= 2.0f * glm::dot(vel, dir) * dir;
+                const float vn = glm::dot(vel, dir);
+                if (vn > 0.0f) {
+                    vel -= 2.0f * vn * dir;
+                    vel *= dampingConstant;
+                }
             }
             break;
         }
