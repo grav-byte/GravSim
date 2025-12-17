@@ -28,7 +28,7 @@ void Constraint::ApplyConstraint(SceneObject *obj) const {
                 if (collPos.y > distance - radius) {
                     obj->transform.position.y = distance - radius + colliderOffset.y;
                     if (vel.y > 0) {
-                        vel.y *= -1;
+                        vel.y *= -collider->elasticity;
                     }
                 }
                 break;
@@ -36,7 +36,7 @@ void Constraint::ApplyConstraint(SceneObject *obj) const {
                 if (collPos.x > distance - radius) {
                     obj->transform.position.x = distance - radius + colliderOffset.x;
                     if (vel.x > 0) {
-                        vel.x *= -1;
+                        vel.x *= -collider->elasticity;
                     }
                 }
                 break;
@@ -44,7 +44,7 @@ void Constraint::ApplyConstraint(SceneObject *obj) const {
                 if (collPos.x < -distance + radius) {
                     obj->transform.position.x = -distance + radius + colliderOffset.x;
                     if (vel.x < 0) {
-                        vel.x *= -1;
+                        vel.x *= -collider->elasticity;
                     }
                 }
                 break;
@@ -52,7 +52,7 @@ void Constraint::ApplyConstraint(SceneObject *obj) const {
                 if (collPos.y < -distance + radius) {
                     obj->transform.position.y = -distance + radius + colliderOffset.y;
                     if (vel.y < 0) {
-                        vel.y *= -1;
+                        vel.y *= -collider->elasticity;
                     }
                 }
                 break;

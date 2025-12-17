@@ -157,4 +157,13 @@ void EngineLayer::OnRender() {
             obj->renderer->Render(*renderingSystem_, obj->transform);
         }
     }
+
+    if (showColliders) {
+        for (const SceneObject* obj : scene_->GetAllObjects()) {
+            for (const auto& collider : obj->colliders) {
+
+                renderingSystem_->RenderCircle(collider->GetTransformMatrix(), glm::vec4(0.0f, .8f, 0.2f, 0.5f));
+            }
+        }
+    }
 }

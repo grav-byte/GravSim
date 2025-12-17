@@ -25,3 +25,12 @@ SceneObject::SceneObject(const uint32_t objectId, const std::string& objectName)
     transform = Transform();
     colliders.push_back(std::make_unique<CircleCollider>(transform));
 }
+
+void SceneObject::AddCollider(ColliderType type) {
+    if (type == ColliderType::Circle)
+        colliders.push_back(std::make_unique<CircleCollider>(transform));
+}
+
+void SceneObject::RemoveCollider(const int idx) {
+    colliders.erase(colliders.begin() + idx);
+}

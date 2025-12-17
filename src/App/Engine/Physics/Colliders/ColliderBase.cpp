@@ -16,6 +16,15 @@ glm::vec2 ColliderBase::GetWorldPosition() const {
     return parentTransform->position + localPosition * parentTransform->scale;
 }
 
+glm::mat4 ColliderBase::GetTransformMatrix() const {
+    auto transform = glm::mat4(1.0f);
+    // position
+    transform = glm::translate(transform, glm::vec3(GetWorldPosition(), 0.0f));
+
+    transform = glm::scale(transform, glm::vec3(size, 1.0f));
+    return transform;
+}
+
 bool ColliderBase::CheckCollision(const ColliderBase &other) {
     const glm::vec4 aabbA = GetAABB();
     const glm::vec4 aabbB = other.GetAABB();

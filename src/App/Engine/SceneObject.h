@@ -41,6 +41,9 @@ public:
     glm::vec2 lastPosition;
     float lastRotation;
 
+    void AddCollider(ColliderType type);
+    void RemoveCollider(int idx);
+
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {

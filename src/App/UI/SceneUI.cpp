@@ -8,6 +8,7 @@
 
 #include "imgui.h"
 #include "../Layers/EngineLayer.h"
+#include "App/Engine/Physics/Colliders/CircleCollider.h"
 #include "App/Rendering/Renderers/CircleRenderer.h"
 #include "App/Rendering/Renderers/SpriteRenderer.h"
 #include "misc/cpp/imgui_stdlib.h"
@@ -176,6 +177,10 @@ void SceneUI::DrawObjectUI(SceneObject* obj) {
 
         ImGui::Spacing();
 
+        DrawCollidersUI(obj);
+
+        ImGui::Spacing();
+
         DrawRendering(obj);
         ImGui::Unindent();
     }
@@ -188,7 +193,7 @@ void SceneUI::DrawObjectUI(SceneObject* obj) {
 }
 
 void SceneUI::DrawTransform(Transform* transform) {
-    if (!ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_None))
+    if (!ImGui::TreeNode("Transform"))
         return;
 
     DrawFloat2Control("Position", &transform->position);
@@ -209,10 +214,11 @@ void SceneUI::DrawTransform(Transform* transform) {
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("degrees");
     }
+    ImGui::TreePop();
 }
 
 void SceneUI::DrawPhysics(SceneObject *obj) {
-    if (!ImGui::CollapsingHeader("Physics", ImGuiTreeNodeFlags_None))
+    if (!ImGui::TreeNode("Physics"))
         return;
 
     ImGui::Checkbox("Gravitates", &obj->gravitates);
@@ -236,10 +242,44 @@ void SceneUI::DrawPhysics(SceneObject *obj) {
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("degrees/s");
     }
+    ImGui::TreePop();
+}
+
+void SceneUI::DrawCollidersUI(SceneObject *obj) {
+    if (!ImGui::TreeNode("Colliders"))
+        return;
+
+    ImGui::Checkbox("Show", &engine_->showColliders);
+
+    ImGui::SameLine(150.0f);
+
+    if (ImGui::Button("Add")) {
+        obj->AddCollider(ColliderType::Circle);
+    }
+
+    int idx = 0;
+    for (auto &collider : obj->colliders) {
+        if (ImGui::TreeNode(collider.get(), "Circle")) {
+            ImGui::SetNextItemWidth(150.0f);
+            if (ImGui::DragFloat("Size", &collider->size.x, .1f))
+                collider->size.y = collider->size.x; // keep circle
+            ImGui::SetNextItemWidth(150.0f);
+            DrawFloat2Control("Local Pos", &collider->localPosition, .1f);
+            ImGui::SetNextItemWidth(150.0f);
+            ImGui::DragFloat("Elasticity", &collider->elasticity, .01f, 0.0f, 1.0f);
+            if (ImGui::Button("Remove")) {
+                obj->RemoveCollider(idx);
+            }
+            ImGui::TreePop();
+        }
+        idx++;
+    }
+
+    ImGui::TreePop();
 }
 
 void SceneUI::DrawRendering(SceneObject *obj) {
-    if (!ImGui::CollapsingHeader("Rendering", ImGuiTreeNodeFlags_None))
+    if (!ImGui::TreeNode("Rendering"))
         return;
     // Determine current renderer type
     RendererType currentRenderer = RendererType::Circle;
@@ -280,6 +320,8 @@ void SceneUI::DrawRendering(SceneObject *obj) {
     ImGui::Spacing();
 
     DrawColorControl("Color", &obj->renderer->color);
+
+    ImGui::TreePop();
 }
 
 void SceneUI::DrawConstraints(Scene* scene)

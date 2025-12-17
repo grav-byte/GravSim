@@ -35,6 +35,9 @@ private:
     void DrawObjectUI(SceneObject *obj);
     void DrawTransform(Transform *transform);
     void DrawPhysics(SceneObject * obj);
+
+    void DrawCollidersUI(SceneObject *obj);
+
     void DrawRendering(SceneObject *obj);
 
     void DrawConstraints(Scene *scene);

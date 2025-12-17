@@ -56,6 +56,7 @@ public:
     CameraController* GetCameraController();
     GridRenderer* GetGridRenderer() const;
 
+    bool showColliders = false;
 
 private:
     void OnSceneLoaded() const;
@@ -68,4 +69,5 @@ private:
     std::unique_ptr<Scene> scene_;
     std::unique_ptr<GridRenderer> gridRenderer_;
     CameraController cameraController_;
+
 };

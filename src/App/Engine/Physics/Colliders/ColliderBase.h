@@ -17,6 +17,7 @@ public:
 
     glm::vec4 GetAABB() const;
     glm::vec2 GetWorldPosition() const;
+    glm::mat4 GetTransformMatrix() const;
 
     float elasticity = 0.8f;
     glm::vec2 size;
