@@ -113,8 +113,8 @@ namespace Core {
         {
             Window& window = *((Window*)glfwGetWindowUserPointer(handle));
 
-
-            float xscale = 1.0f, yscale = 1.0f;
+            float xscale = 1.0f;
+            float yscale = 1.0f;
 #ifdef __APPLE__
             // correct for display scaling - only needed on macOS
             glfwGetWindowContentScale(handle, &xscale, &yscale);
