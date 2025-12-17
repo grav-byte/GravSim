@@ -9,21 +9,24 @@
 #include "../Rendering/Renderers/CircleRenderer.h"
 #include "../Rendering/Renderers/SpriteRenderer.h"
 #include "../Rendering/Renderers/IRenderer.h"
+#include "Core/Application.h"
+#include "Physics/Colliders/CircleCollider.h"
+#include "Physics/Colliders/ColliderBase.h"
+
 #include <cereal/types/polymorphic.hpp>
 #include <cereal/archives/json.hpp>
 #include <cereal/types/vector.hpp>
 #include <cereal/types/memory.hpp>
 #include <filesystem>
 
-
-#include "Core/Application.h"
-
 CEREAL_REGISTER_TYPE(CircleRenderer)
-
 CEREAL_REGISTER_POLYMORPHIC_RELATION(IRenderer, CircleRenderer)
 
 CEREAL_REGISTER_TYPE(SpriteRenderer)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(IRenderer, SpriteRenderer)
+
+CEREAL_REGISTER_TYPE(CircleCollider)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(ColliderBase, CircleCollider)
 
 namespace cereal {
     template <class Archive>
