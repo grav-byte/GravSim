@@ -293,9 +293,7 @@ void SceneUI::DrawTransform(SceneObject *obj) {
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("kg");
     }
-    if (DrawFloat2Control("Velocity", &obj->velocity)) {
-        obj->SetVelocity(obj->velocity);
-    }
+    DrawFloat2Control("Velocity", &obj->velocity);
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("m/s");
     }

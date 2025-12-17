@@ -5,7 +5,8 @@
 #include "SceneObject.h"
 
 #include "../Rendering/Renderers/CircleRenderer.h"
-#include "../Rendering/Renderers/SpriteRenderer.h"
+#include "Core/AppLayer.h"
+#include "Physics/Colliders/CircleCollider.h"
 
 SceneObject::SceneObject(const uint32_t objectId, const std::string& objectName)
     :
@@ -15,17 +16,12 @@ SceneObject::SceneObject(const uint32_t objectId, const std::string& objectName)
     velocity(0.0f, 0.0f),
     angularVelocity(0.0f),
     renderer(std::make_unique<CircleRenderer>()),
-    colliders(),
-    //renderer(std::make_unique<SpriteRenderer>("../assets/sprites/rocket_main.png")),
     lastPosition(glm::vec2(0,0)),
     affectedByGravity(true),
     gravitates(false),
     lastRotation(0)
 {
-}
-
-void SceneObject::SetVelocity(glm::vec2 velocity) {
-    this->velocity = velocity;
-    // for Verlet integration, set last position accordingly
-    lastPosition = transform.position;
+    colliders = std::vector<std::unique_ptr<ColliderBase>>();
+    transform = Transform();
+    colliders.push_back(std::make_unique<CircleCollider>(transform));
 }

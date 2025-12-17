@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "Physics/ICollider.h"
+#include "Physics/Colliders/ColliderBase.h"
 #include "glm/vec2.hpp"
 #include <memory>
 #include <vector>
@@ -26,16 +26,16 @@ public:
     Transform transform;
 
     float mass;
+
     glm::vec2 velocity;
     float angularVelocity;
+
     bool gravitates;
     bool affectedByGravity;
 
-    void SetVelocity(glm::vec2 velocity);
-
     std::unique_ptr<IRenderer> renderer;
     // not yet serialized
-    std::vector<std::unique_ptr<ICollider>> colliders;
+    std::vector<std::unique_ptr<ColliderBase>> colliders;
 
     // needed for verlet
     glm::vec2 lastPosition;
@@ -44,8 +44,15 @@ public:
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(id, name, transform, lastPosition, mass, velocity, angularVelocity, renderer, gravitates, affectedByGravity);
+        ar(id, name, transform, lastPosition, mass, velocity, colliders, angularVelocity, renderer, gravitates, affectedByGravity);
+        if constexpr (Archive::is_loading::value) {
+            // re-link parent transforms after loading
+            for (auto& collider : colliders) {
+                collider->parentTransform = std::shared_ptr<Transform>(&transform, [](Transform*){});
+            }
+        }
     }
+
 };
 
 

@@ -31,7 +31,7 @@ public:
     std::string* GetName();
 
 
-    glm::vec2 globalGravity;
+    glm::vec2 globalGravity{};
 private:
     std::string name_;
     std::unique_ptr<Camera> camera_; // scene owns the camera

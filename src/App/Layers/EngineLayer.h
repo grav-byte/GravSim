@@ -46,6 +46,7 @@ public:
     IPropagator *GetActivePropagator() const;
 
     void SetTimeStep(float timeStep) const;
+    float GetTimeStep() const;
 
     bool IsRunningSimulation() const;
     bool IsSimulationPaused() const;

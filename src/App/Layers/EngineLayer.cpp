@@ -12,7 +12,6 @@
 #include "Core/Application.h"
 #include "../Engine/EngineEvents.h"
 #include "../Rendering/RenderingSystem.h"
-#include "../Rendering/ShaderLoader.h"
 #include "App/Engine/SceneLoader.h"
 
 EngineLayer::EngineLayer() : AppLayer() {
@@ -104,6 +103,10 @@ void EngineLayer::SetTimeStep(const float timeStep) const {
     physicsSolver_->SetTimeStep(timeStep);
 }
 
+float EngineLayer::GetTimeStep() const {
+    return physicsSolver_->GetTimeStep();
+}
+
 bool EngineLayer::IsRunningSimulation() const {
     return runningSimulation_;
 }
@@ -111,6 +114,7 @@ bool EngineLayer::IsRunningSimulation() const {
 bool EngineLayer::IsSimulationPaused() const {
     return pausedSimulation_;
 }
+
 
 void EngineLayer::OnInit() {
     glewInit();

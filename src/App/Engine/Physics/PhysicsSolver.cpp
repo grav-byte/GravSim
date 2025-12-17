@@ -49,16 +49,28 @@ void PhysicsSolver::SetTimeStep(const float timeStep) {
     std::cout << "Set physics time step to " << timeStep_ << " seconds." << std::endl;
 }
 
+float PhysicsSolver::GetTimeStep() const {
+    return timeStep_;
+}
+
 void PhysicsSolver::StepPropagation(Scene *scene) {
     currentScene_ = scene;
     for (const auto& object : scene->GetAllObjects()) {
+
+        // get acceleration function so the propagator can query it
         auto func = [this](const SceneObject& obj){ return GetAccelerationForObject(obj); };
+
         // propagate object
         activePropagator_->Propagate(*object, func, timeStep_);
 
+        // apply constraints
         for (const auto& constraint : scene->GetConstraints()) {
-            constraint->ApplyConstraint(object, 1);
+            constraint->ApplyConstraint(object);
         }
+
+        // update last position for verlet (only if not using verlet already)
+        if (typeid(*activePropagator_) != typeid(VerletPropagator))
+            object->lastPosition = object->transform.position - object->velocity * timeStep_;
     }
 
 

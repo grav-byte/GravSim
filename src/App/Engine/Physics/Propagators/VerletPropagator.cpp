@@ -15,5 +15,4 @@ void VerletPropagator::Propagate(SceneObject &object,
 
     // position: x = 2*x1 - x0 + a*dt^2 = x1 + v + a*dt^2
     object.transform.position = object.transform.position + object.velocity * deltaTime + accelerationFunc(object) * (deltaTime * deltaTime);
-
 }

@@ -50,7 +50,7 @@ add_executable(GravSim
         src/App/Engine/Scene.h
         src/App/Engine/SceneObject.cpp
         src/App/Engine/SceneObject.h
-        src/App/Engine/Physics/ICollider.h
+        src/App/Engine/Physics/Colliders/ColliderBase.h
         src/App/Rendering/ShaderLoader.cpp
         src/App/Rendering/ShaderLoader.h
         src/App/Engine/Camera.cpp
@@ -94,6 +94,9 @@ add_executable(GravSim
         src/App/Engine/Physics/Constraint.cpp
         src/App/Engine/Physics/Constraint.h
         src/App/Engine/Physics/Constraint.h
+        src/App/Engine/Physics/Colliders/CircleCollider.cpp
+        src/App/Engine/Physics/Colliders/CircleCollider.h
+        src/App/Engine/Physics/Colliders/ColliderBase.cpp
 )
 
 # Include directories

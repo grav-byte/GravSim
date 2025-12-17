@@ -15,6 +15,8 @@ public:
 
     void SetTimeStep(float timeStep);
 
+    float GetTimeStep() const;
+
     void StepPropagation(Scene *scene);
 
     void UpdatePhysics(Scene *scene, float deltaTime);

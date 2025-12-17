@@ -8,6 +8,7 @@ Scene::Scene() {
     nextID_ = 0;
     sceneObjects_ = std::vector<std::unique_ptr<SceneObject>>();
     sceneConstraints_ = std::vector<std::unique_ptr<Constraint>>();
+    globalGravity = glm::vec2(0.0f, 0.0f);
     name_ = std::string("New Scene");
     camera_ = std::make_unique<Camera>();
 

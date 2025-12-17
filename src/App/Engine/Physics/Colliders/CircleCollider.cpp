@@ -1,0 +1,32 @@
+#include "CircleCollider.h"
+#include <iostream>
+
+CircleCollider::CircleCollider() = default;
+
+ColliderType CircleCollider::GetType() const {
+    return ColliderType::Circle;
+}
+
+bool CircleCollider::CheckCollision(const ColliderBase &other) {
+    // AABB check
+    if (!ColliderBase::CheckCollision(other))
+        return false;
+
+    if (other.GetType() == ColliderType::Circle) {
+        // collision with another circle
+
+        const glm::vec2 centerA = GetWorldPosition();
+        const glm::vec2 centerB = other.GetWorldPosition();
+
+        const float radiusA = size.x * parentTransform->scale.x;
+        const float radiusB = other.size.x * other.parentTransform->scale.x;
+
+        const float distSq = glm::dot(centerA - centerB, centerA - centerB);
+        const float radiusSum = radiusA + radiusB;
+
+        return distSq <= radiusSum * radiusSum;
+    }
+
+    std::cout << "CircleCollider: Unsupported collider type for collision check." << std::endl;
+    return false;
+}
