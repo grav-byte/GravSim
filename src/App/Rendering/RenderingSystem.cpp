@@ -7,6 +7,8 @@
 
 #include "ShaderLoader.h"
 #include "App/Rendering/TextureLoader.h"
+#include "Core/AppLayer.h"
+#include "Core/AppLayer.h"
 #include "Core/Application.h"
 
 RenderingSystem::RenderingSystem()    : activeCamera_(nullptr), circleSegments_(64) {
@@ -14,6 +16,7 @@ RenderingSystem::RenderingSystem()    : activeCamera_(nullptr), circleSegments_(
     spriteShaderProgram_ = ShaderLoader::LoadShader("sprite.vert", "sprite.frag");
     constraintShaderProgram_ = ShaderLoader::LoadShader("sprite.vert", "constraint.frag");
     radialConstShaderProgram_ = ShaderLoader::LoadShader("sprite.vert", "radial_constraint.frag");
+    rippleShaderProgram_ = ShaderLoader::LoadShader("sprite.vert", "ripple.frag");
 
     BuildCircleVertices();
     UploadCircleToGPU();
@@ -126,9 +129,8 @@ void RenderingSystem::RenderLine(const glm::vec2& start, const glm::vec2& end, i
     glUseProgram(spriteShaderProgram_);
 
     // framebuffer info
-    auto frameSize = Core::Application::Get().GetWindow()->GetFramebufferSize();
-    float pixelWidth  = 2.0f / frameSize.x; // NDC per pixel
-    float pixelHeight = 2.0f / frameSize.y;
+    float pixelWidth  = 2.0f / frameSize_.x; // NDC per pixel
+    float pixelHeight = 2.0f / frameSize_.y;
 
     // camera projection
     glm::mat4 proj = activeCamera_->GetProjectionMatrix();
@@ -259,8 +261,7 @@ void RenderingSystem::RenderConstraint(Constraint::ConstraintDirection direction
     }
 
     // framebuffer info
-    auto frameSize = Core::Application::Get().GetWindow()->GetFramebufferSize();
-    float aspect = static_cast<float>(frameSize.x) / static_cast<float>(frameSize.y);
+    float aspect = static_cast<float>(frameSize_.x) / static_cast<float>(frameSize_.y);
 
     glm::mat4 finalTransform = glm::mat4(1.0f);
     threshold = threshold * (direction == Constraint::LEFT || direction == Constraint::DOWN ? -1.0f : 1.0f);
@@ -279,7 +280,7 @@ void RenderingSystem::RenderConstraint(Constraint::ConstraintDirection direction
     const auto shader = direction == Constraint::RADIAL ? radialConstShaderProgram_ : constraintShaderProgram_;
 
     GLint resLoc = glGetUniformLocation(shader, "uResolution");
-    glUniform2f(resLoc, static_cast<float>(frameSize.x), static_cast<float>(frameSize.y));
+    glUniform2f(resLoc, static_cast<float>(frameSize_.x), static_cast<float>(frameSize_.y));
 
     GLint transformLoc = glGetUniformLocation(shader, "uTransform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
@@ -290,7 +291,7 @@ void RenderingSystem::RenderConstraint(Constraint::ConstraintDirection direction
     if (direction != Constraint::RADIAL) {
         GLint offsetLoc = glGetUniformLocation(shader, "uOffset");
         auto screenPos = activeCamera_->WorldToScreen(glm::vec2(0));
-        screenPos = glm::vec2(static_cast<int>(screenPos.x) % frameSize.x, static_cast<int>(screenPos.y) % frameSize.y);
+        screenPos = glm::vec2(static_cast<int>(screenPos.x) % frameSize_.x, static_cast<int>(screenPos.y) % frameSize_.y);
         glUniform1f(offsetLoc, direction == Constraint::LEFT || direction == Constraint::RIGHT ? -screenPos.y : screenPos.x);
 
         GLint dirLoc = glGetUniformLocation(shader, "uDirection");
@@ -303,4 +304,108 @@ void RenderingSystem::RenderConstraint(Constraint::ConstraintDirection direction
     glBindVertexArray(quadVao_);
     glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(quadVertices_.size()));
     glBindVertexArray(0);
+}
+
+void RenderingSystem::RenderRipple() const {
+    if (!rippleShaderProgram_ || !activeCamera_) return;
+
+    glBindFramebuffer(GL_FRAMEBUFFER, postFBO_);
+    glViewport(0, 0, frameSize_.x, frameSize_.y);
+
+    glUseProgram(rippleShaderProgram_);
+
+    // identity transform (fullscreen quad is already in NDC)
+    GLint transformLoc = glGetUniformLocation(rippleShaderProgram_, "uTransform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
+
+    // framebuffer size
+    GLint resLoc = glGetUniformLocation(rippleShaderProgram_, "uResolution");
+    glUniform2f(resLoc, (float)frameSize_.x, (float)frameSize_.y);
+
+    // time
+    GLint timeLoc = glGetUniformLocation(rippleShaderProgram_, "uTime");
+    glUniform1f(timeLoc, (float)glfwGetTime());
+
+    // scene texture as input
+    GLint texLoc = glGetUniformLocation(rippleShaderProgram_, "uScreenBuffer");
+    glUniform1i(texLoc, 0);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, sceneTexture_);
+
+    // draw fullscreen quad
+    glBindVertexArray(quadVao_);
+    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(quadVertices_.size()));
+    glBindVertexArray(0);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void RenderingSystem::CreateSceneFramebuffer() {
+    // Delete previous if exists
+    if (sceneFBO_ != 0) glDeleteFramebuffers(1, &sceneFBO_);
+    if (sceneTexture_ != 0) glDeleteTextures(1, &sceneTexture_);
+    if (sceneDepthRBO_ != 0) glDeleteRenderbuffers(1, &sceneDepthRBO_);
+
+    glGenFramebuffers(1, &sceneFBO_);
+    glBindFramebuffer(GL_FRAMEBUFFER, sceneFBO_);
+
+    glGenTextures(1, &sceneTexture_);
+    glBindTexture(GL_TEXTURE_2D, sceneTexture_);
+
+    frameSize_ = Core::Application::Get().GetWindow()->GetFramebufferSize();
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, frameSize_.x, frameSize_.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, sceneTexture_, 0);
+
+    glGenRenderbuffers(1, &sceneDepthRBO_);
+    glBindRenderbuffer(GL_RENDERBUFFER, sceneDepthRBO_);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, frameSize_.x, frameSize_.y);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, sceneDepthRBO_);
+
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+        std::cerr << "Failed to create scene framebuffer!" << std::endl;
+    }
+
+    // post-process framebuffer
+    if (postFBO_ != 0) glDeleteFramebuffers(1, &postFBO_);
+    if (postTexture_ != 0) glDeleteTextures(1, &postTexture_);
+
+    glGenFramebuffers(1, &postFBO_);
+    glBindFramebuffer(GL_FRAMEBUFFER, postFBO_);
+
+    glGenTextures(1, &postTexture_);
+    glBindTexture(GL_TEXTURE_2D, postTexture_);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,frameSize_.x, frameSize_.y,
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, postTexture_, 0);
+}
+
+void RenderingSystem::StartFrame(const glm::vec4 backgroundColor) const {
+    glBindFramebuffer(GL_FRAMEBUFFER, sceneFBO_);
+    glViewport(0, 0, frameSize_.x, frameSize_.y);
+
+    glClearColor(backgroundColor.r, backgroundColor.g,backgroundColor.b, backgroundColor.a);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void RenderingSystem::OutputFrameToScreen() const {
+    // scene rendering done - output to screen
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, frameSize_.x, frameSize_.y);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, postFBO_);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+    glBlitFramebuffer(
+        0, 0, frameSize_.x, frameSize_.y, 0, 0, frameSize_.x, frameSize_.y,
+        GL_COLOR_BUFFER_BIT, GL_NEAREST
+    );
 }

@@ -125,6 +125,8 @@ void EngineLayer::OnInit() {
     renderingSystem_ = std::make_unique<RenderingSystem>();
 
     NewScene();
+
+    renderingSystem_->CreateSceneFramebuffer();
 }
 
 void EngineLayer::OnUpdate(float deltaTime) {
@@ -135,6 +137,10 @@ void EngineLayer::OnUpdate(float deltaTime) {
 }
 
 void EngineLayer::OnEvent(Core::Event &event) {
+    if (event.GetEventType() == Core::WindowResized) {
+        renderingSystem_->CreateSceneFramebuffer();
+    }
+
     cameraController_.OnEvent(event);
     gridRenderer_->OnEvent(event);
 }
@@ -143,8 +149,9 @@ void EngineLayer::OnRender() {
     auto backgroundColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
     if (scene_)
         backgroundColor = scene_->GetCamera()->backgroundColor;
-    glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // render scene to framebuffer
+    renderingSystem_->StartFrame(backgroundColor);
 
     gridRenderer_->RenderGrid(*renderingSystem_);
 
@@ -166,4 +173,10 @@ void EngineLayer::OnRender() {
             }
         }
     }
+
+    // post process
+    renderingSystem_->RenderRipple();
+
+    // render framebuffer to screen
+    renderingSystem_->OutputFrameToScreen();
 }

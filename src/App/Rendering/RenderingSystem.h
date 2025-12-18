@@ -30,6 +30,12 @@ public:
 
     void RenderConstraint(Constraint::ConstraintDirection direction, float threshold,
                                const glm::vec4& color) const;
+    void RenderRipple() const;
+
+    void CreateSceneFramebuffer();
+    void StartFrame(glm::vec4 backgroundColor) const;
+    void OutputFrameToScreen() const;
+
 
 private:
     void BuildCircleVertices();
@@ -39,6 +45,7 @@ private:
     void UploadQuadToGPU();
 
     const Camera* activeCamera_;
+    glm::ivec2 frameSize_;
 
     int circleSegments_;
     std::vector<glm::vec2> circleVertices_;
@@ -52,4 +59,12 @@ private:
     unsigned int spriteShaderProgram_ = 0;
     unsigned int constraintShaderProgram_ = 0;
     unsigned int radialConstShaderProgram_ = 0;
+    unsigned int rippleShaderProgram_ = 0;
+
+    unsigned int sceneFBO_ = 0;
+    unsigned int sceneTexture_ = 0;
+    unsigned int sceneDepthRBO_ = 0;
+
+    unsigned int postFBO_ = 0;
+    unsigned int postTexture_ = 0;
 };
