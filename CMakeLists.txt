@@ -55,8 +55,8 @@ add_executable(GravSim
         src/App/Rendering/ShaderLoader.h
         src/App/Engine/Camera.cpp
         src/App/Engine/Camera.h
-        src/App/Rendering/Renderers/CircleRenderer.cpp
-        src/App/Rendering/Renderers/CircleRenderer.h
+        src/App/Rendering/Visuals/CircleVisual.cpp
+        src/App/Rendering/Visuals/CircleVisual.h
         src/App/Engine/Transform.h
         src/App/UI/SceneUI.cpp
         src/App/UI/SceneUI.h
@@ -67,8 +67,8 @@ add_executable(GravSim
         src/App/Engine/SceneLoader.h
         src/App/UI/FileSelector.cpp
         src/App/UI/FileSelector.h
-        src/App/Rendering/Renderers/SpriteRenderer.cpp
-        src/App/Rendering/Renderers/SpriteRenderer.h
+        src/App/Rendering/Visuals/SpriteVisual.cpp
+        src/App/Rendering/Visuals/SpriteVisual.h
         src/App/Rendering/TextureLoader.cpp
         src/App/Rendering/TextureLoader.h
         src/App/UI/CustomImGuiStyle.h

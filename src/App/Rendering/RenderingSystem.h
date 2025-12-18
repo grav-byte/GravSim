@@ -8,6 +8,7 @@
 #include "../Engine/Physics/Constraint.h"
 
 
+
 class RenderingSystem {
 public:
 
@@ -30,7 +31,7 @@ public:
 
     void RenderConstraint(Constraint::ConstraintDirection direction, float threshold,
                                const glm::vec4& color) const;
-    void RenderRipple() const;
+    void RenderRipple();
 
     void CreateSceneFramebuffer();
     void StartFrame(glm::vec4 backgroundColor) const;

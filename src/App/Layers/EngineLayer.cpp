@@ -160,8 +160,8 @@ void EngineLayer::OnRender() {
     }
 
     for (const SceneObject* obj : scene_->GetAllObjects()) {
-        if (obj->renderer) {
-            obj->renderer->Render(*renderingSystem_, obj->transform);
+        if (obj->visual) {
+            obj->visual->Render(*renderingSystem_, obj->transform);
         }
     }
 

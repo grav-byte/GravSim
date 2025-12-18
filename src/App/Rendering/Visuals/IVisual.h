@@ -8,14 +8,14 @@
 class RenderingSystem;
 
 
-enum class RendererType {
+enum class VisualType {
     Circle,
     Sprite
 };
 
-class IRenderer {
+class IVisual {
 public:
-    virtual ~IRenderer() = default;
+    virtual ~IVisual() = default;
     glm::vec4 color;
 
     virtual void Render(RenderingSystem& rendering, Transform transform) = 0;

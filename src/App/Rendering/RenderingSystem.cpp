@@ -7,8 +7,6 @@
 
 #include "ShaderLoader.h"
 #include "App/Rendering/TextureLoader.h"
-#include "Core/AppLayer.h"
-#include "Core/AppLayer.h"
 #include "Core/Application.h"
 
 RenderingSystem::RenderingSystem()    : activeCamera_(nullptr), circleSegments_(64) {
@@ -306,7 +304,7 @@ void RenderingSystem::RenderConstraint(Constraint::ConstraintDirection direction
     glBindVertexArray(0);
 }
 
-void RenderingSystem::RenderRipple() const {
+void RenderingSystem::RenderRipple() {
     if (!rippleShaderProgram_ || !activeCamera_) return;
 
     glBindFramebuffer(GL_FRAMEBUFFER, postFBO_);
@@ -320,11 +318,11 @@ void RenderingSystem::RenderRipple() const {
 
     // framebuffer size
     GLint resLoc = glGetUniformLocation(rippleShaderProgram_, "uResolution");
-    glUniform2f(resLoc, (float)frameSize_.x, (float)frameSize_.y);
+    glUniform2f(resLoc, static_cast<float>(frameSize_.x), static_cast<float>(frameSize_.y));
 
     // time
     GLint timeLoc = glGetUniformLocation(rippleShaderProgram_, "uTime");
-    glUniform1f(timeLoc, (float)glfwGetTime());
+    glUniform1f(timeLoc, static_cast<float>(glfwGetTime()));
 
     // scene texture as input
     GLint texLoc = glGetUniformLocation(rippleShaderProgram_, "uScreenBuffer");
@@ -339,6 +337,10 @@ void RenderingSystem::RenderRipple() const {
     glBindVertexArray(0);
 
     glBindTexture(GL_TEXTURE_2D, 0);
+
+    // swap buffers
+    std::swap(sceneFBO_, postFBO_);
+    std::swap(sceneTexture_, postTexture_);
 }
 
 void RenderingSystem::CreateSceneFramebuffer() {
@@ -401,7 +403,7 @@ void RenderingSystem::OutputFrameToScreen() const {
     glViewport(0, 0, frameSize_.x, frameSize_.y);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, postFBO_);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, sceneFBO_);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
     glBlitFramebuffer(

@@ -1,20 +1,20 @@
-#include "SpriteRenderer.h"
+#include "SpriteVisual.h"
 #include "../RenderingSystem.h"
 
 #include "../TextureLoader.h"
 
-SpriteRenderer::SpriteRenderer() {
+SpriteVisual::SpriteVisual() {
     path_ = "";
 }
 
-SpriteRenderer::SpriteRenderer(const std::filesystem::path& path)
+SpriteVisual::SpriteVisual(const std::filesystem::path& path)
     : path_(path)
 {
 }
 
-SpriteRenderer::~SpriteRenderer() = default;
+SpriteVisual::~SpriteVisual() = default;
 
-void SpriteRenderer::Render(RenderingSystem& rendering, Transform transform) {
+void SpriteVisual::Render(RenderingSystem& rendering, Transform transform) {
     if (path_ == "")
         return;
 
@@ -30,7 +30,7 @@ void SpriteRenderer::Render(RenderingSystem& rendering, Transform transform) {
     rendering.RenderSprite(textureId_, transform.GetMatrix(), color);
 }
 
-void SpriteRenderer::SetPath(const std::filesystem::path &string) {
+void SpriteVisual::SetPath(const std::filesystem::path &string) {
     path_ = string;
     textureId_ = 0; // reset to force reload
 }

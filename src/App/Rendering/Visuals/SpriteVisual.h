@@ -2,14 +2,14 @@
 
 #include <filesystem>
 
-#include "IRenderer.h"
+#include "IVisual.h"
 #include "cereal/types/base_class.hpp"
 
-class SpriteRenderer : public IRenderer {
+class SpriteVisual : public IVisual {
 public:
-    SpriteRenderer();
-    explicit SpriteRenderer(const std::filesystem::path& path);
-    ~SpriteRenderer() override;
+    SpriteVisual();
+    explicit SpriteVisual(const std::filesystem::path& path);
+    ~SpriteVisual() override;
 
     void Render(RenderingSystem& rendering, Transform transform) override;
 
@@ -21,7 +21,7 @@ public:
     template<class Archive>
     void serialize(Archive& ar) {
         std::string pathStr = path_.string();
-        ar(cereal::base_class<IRenderer>(this), pathStr, color);
+        ar(cereal::base_class<IVisual>(this), pathStr, color);
         if constexpr (Archive::is_loading::value) {
             path_ = pathStr;
         }

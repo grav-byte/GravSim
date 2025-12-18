@@ -3,20 +3,20 @@
 //
 
 #pragma once
-#include "IRenderer.h"
+#include "IVisual.h"
 #include "cereal/types/base_class.hpp"
 
 
-class CircleRenderer: public IRenderer {
+class CircleVisual: public IVisual {
 public:
-    CircleRenderer();
-    CircleRenderer(glm::vec4 color);
-    ~CircleRenderer() override;
+    CircleVisual();
+    CircleVisual(glm::vec4 color);
+    ~CircleVisual() override;
     void Render(RenderingSystem& rendering, Transform transform) override;
 
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(cereal::base_class<IRenderer>(this), color);
+        ar(cereal::base_class<IVisual>(this), color);
     }
 };

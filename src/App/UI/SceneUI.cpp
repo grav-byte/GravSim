@@ -9,8 +9,8 @@
 #include "imgui.h"
 #include "../Layers/EngineLayer.h"
 #include "App/Engine/Physics/Colliders/CircleCollider.h"
-#include "App/Rendering/Renderers/CircleRenderer.h"
-#include "App/Rendering/Renderers/SpriteRenderer.h"
+#include "App/Rendering/Visuals/CircleVisual.h"
+#include "App/Rendering/Visuals/SpriteVisual.h"
 #include "misc/cpp/imgui_stdlib.h"
 #include "Core/Application.h"
 
@@ -281,36 +281,36 @@ void SceneUI::DrawCollidersUI(SceneObject *obj) {
 void SceneUI::DrawRendering(SceneObject *obj) {
     if (!ImGui::TreeNode("Rendering"))
         return;
-    // Determine current renderer type
-    RendererType currentRenderer = RendererType::Circle;
-    if (dynamic_cast<CircleRenderer*>(obj->renderer.get())) currentRenderer = RendererType::Circle;
-    else if (dynamic_cast<SpriteRenderer*>(obj->renderer.get())) currentRenderer = RendererType::Sprite;
+    // Determine current visual type
+    VisualType currentVisual = VisualType::Circle;
+    if (dynamic_cast<CircleVisual*>(obj->visual.get())) currentVisual = VisualType::Circle;
+    else if (dynamic_cast<SpriteVisual*>(obj->visual.get())) currentVisual = VisualType::Sprite;
 
-    static const char* RendererNames[] = { "Circle", "Sprite" };
-    int currentRendererInt = static_cast<int>(currentRenderer);
+    static const char* VisualNames[] = { "Circle", "Sprite" };
+    int currentVisualInt = static_cast<int>(currentVisual);
     // Combo box
-    if (ImGui::Combo("Renderer", &currentRendererInt, RendererNames, IM_ARRAYSIZE(RendererNames))) {
-        currentRenderer = static_cast<RendererType>(currentRendererInt);
-        // user changed renderer type
-        glm::vec4 color = obj->renderer->color; // preserve color
+    if (ImGui::Combo("Renderer", &currentVisualInt, VisualNames, IM_ARRAYSIZE(VisualNames))) {
+        currentVisual = static_cast<VisualType>(currentVisualInt);
+        // user changed visual type
+        glm::vec4 color = obj->visual->color; // preserve color
 
-        switch (currentRenderer) {
-            case RendererType::Circle:
-                obj->renderer = std::make_unique<CircleRenderer>();
+        switch (currentVisual) {
+            case VisualType::Circle:
+                obj->visual = std::make_unique<CircleVisual>();
                 break;
-            case RendererType::Sprite:
-                obj->renderer = std::make_unique<SpriteRenderer>();
+            case VisualType::Sprite:
+                obj->visual = std::make_unique<SpriteVisual>();
                 break;
             default: ;
         }
 
-        obj->renderer->color = color; // restore color
+        obj->visual->color = color; // restore color
     }
 
     ImGui::Spacing();
 
-    if (currentRenderer == RendererType::Sprite) {
-        if (auto* sprite = dynamic_cast<SpriteRenderer*>(obj->renderer.get())) {
+    if (currentVisual == VisualType::Sprite) {
+        if (auto* sprite = dynamic_cast<SpriteVisual*>(obj->visual.get())) {
             ImGui::Text("Select Sprite");
             spriteSelector_->Draw(sprite->GetPath().filename().string().c_str());
             sprite->SetPath(spriteSelector_->GetSelectedFile());
@@ -319,7 +319,7 @@ void SceneUI::DrawRendering(SceneObject *obj) {
 
     ImGui::Spacing();
 
-    DrawColorControl("Color", &obj->renderer->color);
+    DrawColorControl("Color", &obj->visual->color);
 
     ImGui::TreePop();
 }

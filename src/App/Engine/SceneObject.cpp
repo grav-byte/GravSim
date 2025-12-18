@@ -4,7 +4,7 @@
 
 #include "SceneObject.h"
 
-#include "../Rendering/Renderers/CircleRenderer.h"
+#include "../Rendering/Visuals/CircleVisual.h"
 #include "Core/AppLayer.h"
 #include "Physics/Colliders/CircleCollider.h"
 
@@ -15,7 +15,7 @@ SceneObject::SceneObject(const uint32_t objectId, const std::string& objectName)
     mass(1.0f),
     velocity(0.0f, 0.0f),
     angularVelocity(0.0f),
-    renderer(std::make_unique<CircleRenderer>()),
+    visual(std::make_unique<CircleVisual>()),
     lastPosition(glm::vec2(0,0)),
     affectedByGravity(true),
     gravitates(false),

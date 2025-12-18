@@ -6,9 +6,9 @@
 
 #include <fstream>
 #include <filesystem>
-#include "../Rendering/Renderers/CircleRenderer.h"
-#include "../Rendering/Renderers/SpriteRenderer.h"
-#include "../Rendering/Renderers/IRenderer.h"
+#include "../Rendering/Visuals/CircleVisual.h"
+#include "../Rendering/Visuals/SpriteVisual.h"
+#include "../Rendering/Visuals/IVisual.h"
 #include "Core/Application.h"
 #include "Physics/Colliders/CircleCollider.h"
 #include "Physics/Colliders/ColliderBase.h"
@@ -19,11 +19,11 @@
 #include <cereal/types/memory.hpp>
 #include <filesystem>
 
-CEREAL_REGISTER_TYPE(CircleRenderer)
-CEREAL_REGISTER_POLYMORPHIC_RELATION(IRenderer, CircleRenderer)
+CEREAL_REGISTER_TYPE(CircleVisual)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(IVisual, CircleVisual)
 
-CEREAL_REGISTER_TYPE(SpriteRenderer)
-CEREAL_REGISTER_POLYMORPHIC_RELATION(IRenderer, SpriteRenderer)
+CEREAL_REGISTER_TYPE(SpriteVisual)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(IVisual, SpriteVisual)
 
 CEREAL_REGISTER_TYPE(CircleCollider)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(ColliderBase, CircleCollider)
