@@ -11,11 +11,14 @@ public:
     explicit SpriteVisual(const std::filesystem::path& path);
     ~SpriteVisual() override;
 
-    void Render(RenderingSystem& rendering, Transform transform) override;
-
     const std::filesystem::path& GetPath() const { return path_; }
 
     void SetPath(const std::filesystem::path& string);
+
+    VisualType GetType() override;
+
+    unsigned int GetTextureId();
+    float GetTextureAspect() const;
 
     // cereal serialization
     template<class Archive>

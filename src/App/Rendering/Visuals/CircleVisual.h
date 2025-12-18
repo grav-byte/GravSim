@@ -12,11 +12,13 @@ public:
     CircleVisual();
     CircleVisual(glm::vec4 color);
     ~CircleVisual() override;
-    void Render(RenderingSystem& rendering, Transform transform) override;
+
+    VisualType GetType() override;
 
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
         ar(cereal::base_class<IVisual>(this), color);
     }
+
 };

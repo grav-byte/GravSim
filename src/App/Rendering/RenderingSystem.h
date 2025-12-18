@@ -37,6 +37,7 @@ public:
     void StartFrame(glm::vec4 backgroundColor) const;
     void OutputFrameToScreen() const;
 
+    Camera* GetActiveCamera() const;
 
 private:
     void BuildCircleVertices();
@@ -47,12 +48,6 @@ private:
 
     const Camera* activeCamera_;
     glm::ivec2 frameSize_;
-
-    int circleSegments_;
-    std::vector<glm::vec2> circleVertices_;
-    unsigned int circleVao_ = 0;
-    unsigned int circleVbo_ = 0;
-    unsigned int circleShaderProgram_ = 0;
 
     std::vector<glm::vec4> quadVertices_;
     unsigned int quadVao_ = 0;

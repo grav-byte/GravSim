@@ -89,14 +89,22 @@ add_executable(GravSim
         src/App/Engine/Physics/Propagators/VelocityVerletPropagator.h
         src/App/UI/FollowingUI.cpp
         src/App/UI/FollowingUI.h
-        src/App/Rendering/GridRenderer.cpp
-        src/App/Rendering/GridRenderer.h
+        src/App/Rendering/Renderers/GridRenderer.cpp
+        src/App/Rendering/Renderers/GridRenderer.h
         src/App/Engine/Physics/Constraint.cpp
         src/App/Engine/Physics/Constraint.h
         src/App/Engine/Physics/Constraint.h
         src/App/Engine/Physics/Colliders/CircleCollider.cpp
         src/App/Engine/Physics/Colliders/CircleCollider.h
         src/App/Engine/Physics/Colliders/ColliderBase.cpp
+        src/App/Rendering/Renderers/SceneRenderer.cpp
+        src/App/Rendering/Renderers/SceneRenderer.h
+        src/App/Rendering/Renderers/SpriteRenderer.cpp
+        src/App/Rendering/Renderers/SpriteRenderer.h
+        src/App/Rendering/Renderers/CircleRenderer.cpp
+        src/App/Rendering/Renderers/CircleRenderer.h
+        src/App/Rendering/Renderers/ConstraintRenderer.cpp
+        src/App/Rendering/Renderers/ConstraintRenderer.h
 )
 
 # Include directories

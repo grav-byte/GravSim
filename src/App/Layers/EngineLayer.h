@@ -11,7 +11,7 @@
 #include "../Engine/Scene.h"
 #include "App/Engine/CameraController.h"
 #include "App/Engine/Physics/PhysicsSolver.h"
-#include "App/Rendering/GridRenderer.h"
+#include "../Rendering/Renderers/GridRenderer.h"
 
 class RenderingSystem;
 
