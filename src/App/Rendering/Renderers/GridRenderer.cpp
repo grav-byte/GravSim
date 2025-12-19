@@ -1,23 +1,23 @@
 #include "GridRenderer.h"
 
+#include "LineRenderer.h"
 #include "App/Engine/EngineEvents.h"
 #include "Core/Application.h"
 
-void GridRenderer::OnEvent(Core::Event &event) {
-    if (event.GetEventType() == Core::SceneLoaded) {
-        camera_ = dynamic_cast<SceneLoadedEvent&>(event).GetScene()->GetCamera();
-    }
-}
+GridRenderer::GridRenderer(const LineRenderer &renderer, const RenderingSystem* renderingSystem):
+BaseRenderer(renderingSystem), lineRenderer_(renderer) {}
 
-void GridRenderer::RenderGrid(RenderingSystem & renderer) const {
-    if (!camera_ || !showGrid) {
+void GridRenderer::RenderGrid(const glm::vec4 &gridColor, float gridSpacing) const {
+    const auto activeCamera = renderingSys_->GetActiveCamera();
+
+    if (!activeCamera) {
         return;
     }
-    auto projectionMatrix = camera_->GetProjectionMatrix();
+    const auto projectionMatrix = activeCamera->GetProjectionMatrix();
 
     // get world-space corners from projection
     glm::vec2 worldCorners[4];
-    glm::vec4 ndcCorners[4] = {
+    constexpr glm::vec4 ndcCorners[4] = {
         {-1.0f, -1.0f, 0.0f, 1.0f}, // bottom-left
         { 1.0f, -1.0f, 0.0f, 1.0f}, // bottom-right
         {-1.0f,  1.0f, 0.0f, 1.0f}, // top-left
@@ -29,23 +29,23 @@ void GridRenderer::RenderGrid(RenderingSystem & renderer) const {
         worldCorners[i] = glm::vec2(worldPos) / worldPos.w;
     }
 
-    float left   = worldCorners[0].x;
-    float right  = worldCorners[1].x;
-    float bottom = worldCorners[0].y;
-    float top    = worldCorners[2].y;
+    const float left   = worldCorners[0].x;
+    const float right  = worldCorners[1].x;
+    const float bottom = worldCorners[0].y;
+    const float top    = worldCorners[2].y;
 
     // snap spacing to nearest multiple of base 2
-    float baseSpacing = 2.0f; // world units
-    float minSpacing = 1.0f; // world units, smallest grid line spacing
+    constexpr float baseSpacing = 2.0f; // world units
+    constexpr float minSpacing = 1.0f; // world units, smallest grid line spacing
 
-    float rawSpacing = gridSpacing_ / (5 * camera_->zoom);
+    const float rawSpacing = gridSpacing / (5 * activeCamera->zoom);
     float adjustedSpacing = std::pow(baseSpacing, std::round(std::log(rawSpacing) / std::log(baseSpacing)));
     adjustedSpacing = glm::clamp(adjustedSpacing, minSpacing, 10000.0f);
 
     for (float x = std::floor(left / adjustedSpacing) * adjustedSpacing; x <= right; x += adjustedSpacing) {
-        renderer.RenderLine(glm::vec2(x, bottom), glm::vec2(x, top), 1, gridColor_);
+        lineRenderer_.RenderLine(glm::vec2(x, bottom), glm::vec2(x, top), 1, gridColor);
     }
     for (float y = std::floor(bottom / adjustedSpacing) * adjustedSpacing; y <= top; y += adjustedSpacing) {
-        renderer.RenderLine(glm::vec2(left, y), glm::vec2(right, y), 1, gridColor_);
+        lineRenderer_.RenderLine(glm::vec2(left, y), glm::vec2(right, y), 1, gridColor);
     }
 }

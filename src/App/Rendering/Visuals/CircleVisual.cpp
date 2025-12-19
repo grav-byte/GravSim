@@ -22,7 +22,3 @@ VisualType CircleVisual::GetType() {
     return VisualType::Circle;
 }
 
-void CircleVisual::Render(RenderingSystem &rendering, const Transform transform) {
-    rendering.RenderCircle(transform.GetMatrix(), color);
-}
-

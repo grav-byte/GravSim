@@ -1,6 +1,17 @@
 #pragma once
+#include "BaseRenderer.h"
+#include "App/Engine/SceneObject.h"
+#include "App/Rendering/RenderingSystem.h"
 
 
-class SpriteRenderer {
-    void RenderSprite();
+class SpriteRenderer: public BaseRenderer {
+public:
+    explicit SpriteRenderer(const RenderingSystem* renderer);
+
+    void RenderSprite(const SceneObject *obj) const;
+
+    ~SpriteRenderer() override = default;
+
+protected:
+    unsigned int spriteShaderProgram_ = 0;
 };

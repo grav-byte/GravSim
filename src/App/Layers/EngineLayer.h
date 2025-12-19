@@ -12,6 +12,7 @@
 #include "App/Engine/CameraController.h"
 #include "App/Engine/Physics/PhysicsSolver.h"
 #include "../Rendering/Renderers/GridRenderer.h"
+#include "App/Rendering/Renderers/SceneRenderer.h"
 
 class RenderingSystem;
 
@@ -54,7 +55,8 @@ public:
     Scene* GetScene() const { return scene_.get(); }
 
     CameraController* GetCameraController();
-    GridRenderer* GetGridRenderer() const;
+
+    SceneRenderer *GetSceneRenderer() const;
 
     bool showColliders = false;
 
@@ -64,10 +66,12 @@ private:
     bool runningSimulation_;
     bool pausedSimulation_;
 
-    std::unique_ptr<PhysicsSolver> physicsSolver_;
-    std::unique_ptr<RenderingSystem> renderingSystem_;
     std::unique_ptr<Scene> scene_;
-    std::unique_ptr<GridRenderer> gridRenderer_;
     CameraController cameraController_;
+
+    std::unique_ptr<PhysicsSolver> physicsSolver_;
+
+    std::unique_ptr<SceneRenderer> sceneRenderer_;
+    std::unique_ptr<RenderingSystem> renderingSystem_;
 
 };

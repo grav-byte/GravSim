@@ -5,8 +5,8 @@
 #pragma once
 
 #include "IUserInterface.h"
-#include "../Layers/AudioLayer.h"
-#include "../Layers/EngineLayer.h"
+#include "App/Layers/AudioLayer.h"
+#include "App/Layers/EngineLayer.h"
 
 
 class SettingsUI : public IUserInterface {

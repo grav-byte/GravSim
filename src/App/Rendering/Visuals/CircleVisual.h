@@ -10,7 +10,8 @@
 class CircleVisual: public IVisual {
 public:
     CircleVisual();
-    CircleVisual(glm::vec4 color);
+
+    explicit CircleVisual(glm::vec4 color);
     ~CircleVisual() override;
 
     VisualType GetType() override;

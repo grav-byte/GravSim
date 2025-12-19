@@ -35,7 +35,7 @@ void SettingsUI::Draw() {
     }
 
     ImGui::SeparatorText("Grid");
-    auto renderer = engineLayer_->GetGridRenderer();
+    auto renderer = engineLayer_->GetSceneRenderer();
     if (ImGui::Checkbox("Show Grid", &showGrid_)) {
         renderer->showGrid = showGrid_;
     }

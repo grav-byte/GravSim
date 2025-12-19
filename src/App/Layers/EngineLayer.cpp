@@ -17,7 +17,6 @@
 EngineLayer::EngineLayer() : AppLayer() {
     SceneLoader::EnsureSceneFolderExists();
     physicsSolver_ = std::make_unique<PhysicsSolver>();
-    gridRenderer_ = std::make_unique<GridRenderer>();
     scene_ = nullptr;
     runningSimulation_ = false;
     pausedSimulation_ = false;
@@ -48,8 +47,8 @@ CameraController * EngineLayer::GetCameraController() {
     return &cameraController_;
 }
 
-GridRenderer * EngineLayer::GetGridRenderer() const {
-    return gridRenderer_.get();
+SceneRenderer * EngineLayer::GetSceneRenderer() const {
+    return sceneRenderer_.get();
 }
 
 void EngineLayer::OnSceneLoaded() const {
@@ -122,11 +121,12 @@ void EngineLayer::OnInit() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    // setup rendering system
     renderingSystem_ = std::make_unique<RenderingSystem>();
+    renderingSystem_->CreateSceneFramebuffer();
+    sceneRenderer_ = std::make_unique<SceneRenderer>(renderingSystem_.get());
 
     NewScene();
-
-    renderingSystem_->CreateSceneFramebuffer();
 }
 
 void EngineLayer::OnUpdate(float deltaTime) {
@@ -142,7 +142,6 @@ void EngineLayer::OnEvent(Core::Event &event) {
     }
 
     cameraController_.OnEvent(event);
-    gridRenderer_->OnEvent(event);
 }
 
 void EngineLayer::OnRender() {
@@ -152,30 +151,10 @@ void EngineLayer::OnRender() {
 
     // render scene to framebuffer
     renderingSystem_->StartFrame(backgroundColor);
+    sceneRenderer_->RenderScene(scene_.get(), showColliders);
 
-    gridRenderer_->RenderGrid(*renderingSystem_);
-
-    for (const Constraint* constraint : scene_->GetConstraints()) {
-        renderingSystem_->RenderConstraint(constraint->direction, constraint->distance, glm::vec4(1.0f));
-    }
-
-    for (const SceneObject* obj : scene_->GetAllObjects()) {
-        if (obj->visual) {
-            obj->visual->Render(*renderingSystem_, obj->transform);
-        }
-    }
-
-    if (showColliders) {
-        for (const SceneObject* obj : scene_->GetAllObjects()) {
-            for (const auto& collider : obj->colliders) {
-
-                renderingSystem_->RenderCircle(collider->GetTransformMatrix(), glm::vec4(0.0f, .8f, 0.2f, 0.5f));
-            }
-        }
-    }
-
-    // post process
-    renderingSystem_->RenderRipple();
+    // apply post-processing effects
+    sceneRenderer_->ApplyPostProcess();
 
     // render framebuffer to screen
     renderingSystem_->OutputFrameToScreen();

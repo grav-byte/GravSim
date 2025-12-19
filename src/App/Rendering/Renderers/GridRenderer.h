@@ -1,18 +1,11 @@
 #pragma once
-#include "../RenderingSystem.h"
-#include "App/Engine/Camera.h"
-#include "Core/Event.h"
+#include "LineRenderer.h"
 
-
-class GridRenderer {
+class GridRenderer : public BaseRenderer {
 public:
-    void OnEvent(Core::Event &event);
-    void RenderGrid(RenderingSystem & renderer) const;
+    explicit GridRenderer(const LineRenderer& renderer, const RenderingSystem* renderingSystem);
 
-    glm::vec4 gridColor_ = glm::vec4(0.2f, 0.2f, 0.2f, .4f);
-    float gridSpacing_ = 2.0f;
-    bool showGrid = true;
-
+    void RenderGrid(const glm::vec4 &grid_color, float grid_spacing) const;
 private:
-    Camera *camera_ = nullptr;
+    LineRenderer lineRenderer_;
 };

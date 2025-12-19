@@ -30,7 +30,7 @@ unsigned int SpriteVisual::GetTextureId() {
     if (textureId_ == 0) {
         // texture must be loaded first
         const auto info = TextureLoader::GetTexture(path_);
-        textureId_ = i;
+        textureId_ = info.id;
         aspectRatio_ = static_cast<float>(info.width) / static_cast<float>(info.height);
     }
 

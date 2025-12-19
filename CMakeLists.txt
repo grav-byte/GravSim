@@ -46,6 +46,7 @@ add_executable(GravSim
         src/App/Layers/EngineLayer.cpp
         src/App/UI/SettingsUI.cpp
         src/App/Rendering/RenderingSystem.cpp
+        src/App/Rendering/RenderingSystem.h
         src/App/Engine/Scene.cpp
         src/App/Engine/Scene.h
         src/App/Engine/SceneObject.cpp
@@ -105,6 +106,12 @@ add_executable(GravSim
         src/App/Rendering/Renderers/CircleRenderer.h
         src/App/Rendering/Renderers/ConstraintRenderer.cpp
         src/App/Rendering/Renderers/ConstraintRenderer.h
+        src/App/Rendering/Renderers/LineRenderer.cpp
+        src/App/Rendering/Renderers/LineRenderer.h
+        src/App/Rendering/Renderers/BaseRenderer.h
+        src/App/Rendering/Renderers/PostProcess/PostProcessPass.h
+        src/App/Rendering/Renderers/PostProcess/RipplePass.h
+        src/App/Rendering/Renderers/PostProcess/RipplePass.cpp
 )
 
 # Include directories

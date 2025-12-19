@@ -18,10 +18,11 @@ public:
     virtual ~IVisual() = default;
     glm::vec4 color;
 
-    virtual VisualType GetType();
+    virtual VisualType GetType() = 0;
 
     template<class Archive>
     void serialize(Archive& ar) {
         // nothing in base class
     }
 };
+
