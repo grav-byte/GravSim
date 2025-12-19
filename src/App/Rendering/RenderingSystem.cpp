@@ -5,7 +5,6 @@
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "ShaderLoader.h"
 #include "App/Rendering/TextureLoader.h"
 #include "Core/Application.h"
 

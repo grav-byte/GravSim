@@ -14,7 +14,7 @@ void main()
     float offset = fract(uTime) / uTime;
     float CurrentTime = uTime * offset;
 
-    vec3 WaveParams = vec3(10.0, 0.8, 0.1);
+    vec3 WaveParams = vec3(20.0, 0.2, 0.1);
     vec2 texCoord = vTex;
     vec2 coord = texCoord;
     float aspect = uResolution.x / uResolution.y;
@@ -37,13 +37,13 @@ void main()
 
         vec2 DiffTexCoord = normalize(coord - center);
 
-        coord += (DiffTexCoord * DiffTime) / (CurrentTime * Dist * 40.0);
+        coord += (DiffTexCoord * DiffTime) / (CurrentTime * Dist * 10.0);
 
         vec2 sampleUV = coord;
         sampleUV.x /= aspect;
 
         Color = texture(uScreenBuffer, sampleUV);
-        Color += (Color * ScaleDiff) / (CurrentTime * Dist * 40.0);
+        Color += (Color * ScaleDiff) / (CurrentTime * Dist * 10.0);
     }
 
     fragColor = Color;
