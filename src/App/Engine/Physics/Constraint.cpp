@@ -11,7 +11,7 @@ Constraint::Constraint(const float distance, const ConstraintDirection direction
     : direction(direction), distance(distance) {}
 
 
-void Constraint::ApplyConstraint(SceneObject *obj, const float deltaTime) const {
+void Constraint::ApplyConstraint(SceneObject *obj) const {
     for (const auto &collider : obj->colliders) {
         if (collider->GetType() != ColliderType::Circle) {
             std::cout << "Only circle colliders are supported for constraints." << std::endl;
@@ -56,8 +56,8 @@ void Constraint::ApplyConstraint(SceneObject *obj, const float deltaTime) const 
                 break;
             }
             case RADIAL: {
-                float R = distance - radius;
-                float dist = glm::length(collPos);
+                const float R = distance - radius;
+                const float dist = glm::length(collPos);
                 if (dist > R) {
                     glm::vec2 dir = collPos / dist;
                     glm::vec2 wallPos = dir * R;

@@ -33,7 +33,7 @@ private:
     void DrawScene();
 
     void DrawObjectUI(SceneObject *obj);
-    void DrawTransform(Transform *transform);
+    void DrawTransform(SceneObject *obj);
     void DrawPhysics(SceneObject * obj);
 
     void DrawCollidersUI(SceneObject *obj);

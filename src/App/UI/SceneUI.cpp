@@ -171,7 +171,7 @@ void SceneUI::DrawObjectUI(SceneObject* obj) {
         ImGui::Indent();
         ImGui::InputTextWithHint("Name", "Object Name", &obj->name);
 
-        DrawTransform(&obj->transform);
+        DrawTransform(obj);
 
         ImGui::Spacing();
 
@@ -194,25 +194,31 @@ void SceneUI::DrawObjectUI(SceneObject* obj) {
     ImGui::PopID();
 }
 
-void SceneUI::DrawTransform(Transform* transform) {
+void SceneUI::DrawTransform(SceneObject* obj) {
     if (!ImGui::TreeNode("Transform"))
         return;
 
-    DrawFloat2Control("Position", &transform->position);
+    if (DrawFloat2Control("Position", &obj->transform.position)) {
+        obj->lastPosition = obj->transform.position;
+    }
+
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("m");
     }
 
     // coupled scale
-    float scale = transform->scale.x;
+    float scale = obj->transform.scale.x;
     if (ImGui::DragFloat("Scale", &scale, .1f)) {
-        transform->scale = glm::vec2(scale, scale);
+        obj->transform.scale = glm::vec2(scale, scale);
     }
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("m");
     }
 
-    ImGui::DragFloat("Rotation", &transform->rotation, .1f);
+    if (ImGui::DragFloat("Rotation", &obj->transform.rotation, .1f)) {
+        obj->lastRotation = obj->transform.rotation;
+    }
+
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("degrees");
     }

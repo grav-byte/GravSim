@@ -18,7 +18,7 @@ void VerletPropagator::Propagate(SceneObject &object,
 
     // update angular motion - similar to position
     if (object.lastRotation != object.transform.rotation)
-        object.angularVelocity += (object.transform.rotation - object.lastRotation) / deltaTime;
+        object.angularVelocity = (object.transform.rotation - object.lastRotation) / deltaTime;
 
     object.lastRotation = object.transform.rotation;
     object.transform.rotation = object.transform.rotation + object.angularVelocity * deltaTime + object.angularAccelerationAccumulated * (deltaTime * deltaTime);

@@ -56,7 +56,7 @@ public:
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(id, name, transform, lastPosition, mass, velocity, colliders, angularVelocity, visual, gravitates, affectedByGravity);
+        ar(id, name, transform, lastPosition, mass, velocity, colliders, lastRotation, angularVelocity, visual, gravitates, affectedByGravity);
         if constexpr (Archive::is_loading::value) {
             // re-link parent transforms after loading
             for (auto& collider : colliders) {

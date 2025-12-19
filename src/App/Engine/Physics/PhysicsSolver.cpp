@@ -62,7 +62,7 @@ void PhysicsSolver::StepPropagation(Scene *scene) {
 
         // apply constraints
         for (const auto& constraint : scene->GetConstraints()) {
-            constraint->ApplyConstraint(object, timeStep_);
+            constraint->ApplyConstraint(object);
         }
 
         // propagate object

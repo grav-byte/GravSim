@@ -79,6 +79,10 @@ void SceneObject::ApplyCollisionImpulse(const glm::vec2& colliderOffset,
 
     // positional correction to avoid sinking
     transform.position -= normal * depth;
+
+    // force verlet update
+    lastPosition = transform.position;
+    lastRotation = transform.rotation;
 }
 
 void SceneObject::ApplyForce(const glm::vec2 &force, const glm::vec2 &atPoint) {
@@ -96,6 +100,6 @@ void SceneObject::ApplyForce(const glm::vec2 &force, const glm::vec2 &atPoint) {
         const float torque = atPoint.x * force.y - atPoint.y * force.x;
 
         // angular acceleration
-        angularAccelerationAccumulated += torque / I;
+        angularAccelerationAccumulated += glm::degrees(torque / I);
     }
 }

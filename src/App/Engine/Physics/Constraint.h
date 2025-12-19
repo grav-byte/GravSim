@@ -14,7 +14,7 @@ public:
     ConstraintDirection direction;
     float distance;
 
-    void ApplyConstraint(SceneObject *obj, float deltaTime) const;
+    void ApplyConstraint(SceneObject *obj) const;
 
     // Cereal serialization
     template<class Archive>
