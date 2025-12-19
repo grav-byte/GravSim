@@ -44,6 +44,15 @@ public:
     void AddCollider(ColliderType type);
     void RemoveCollider(int idx);
 
+    glm::vec2 accelerationAccumulated;
+    float angularAccelerationAccumulated;
+    void ApplyForce(const glm::vec2 & force, const glm::vec2 & atPoint = glm::vec2(0, 0));
+    void ApplyCollisionImpulse(const glm::vec2& colliderOffset,
+                                        const glm::vec2& contactPoint,
+                                        const glm::vec2& normal,
+                                        float restitution = 1.0f);
+    void ResetAccumulatedForces();
+
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {

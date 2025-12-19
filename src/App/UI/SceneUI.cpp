@@ -45,10 +45,6 @@ void SceneUI::Draw() {
 
     ImGui::Begin("Scene");
     ImGui::Text("Scene");
-    if (ImGui::Button("Clear Scene")) {
-        engine_ -> NewScene();
-        ShowStatusMessage("Scene cleared.", 3.0f);
-    }
 
     if (statusTimer_ > 0.0f) {
         ImGui::Text("%s", statusMessage_.c_str());
@@ -104,6 +100,12 @@ void SceneUI::DrawSceneLoading() {
             }
         }
     }
+
+    if (ImGui::Button("New Scene")) {
+        engine_ -> NewScene();
+        ShowStatusMessage("Scene cleared.", 3.0f);
+    }
+
 }
 
 void SceneUI::DrawScene() {
@@ -261,7 +263,7 @@ void SceneUI::DrawCollidersUI(SceneObject *obj) {
     for (auto &collider : obj->colliders) {
         if (ImGui::TreeNode(collider.get(), "Circle")) {
             ImGui::SetNextItemWidth(150.0f);
-            if (ImGui::DragFloat("Size", &collider->size.x, .1f))
+            if (ImGui::DragFloat("Size", &collider->size.x, .02f, 0.01f, 1000.0f))
                 collider->size.y = collider->size.x; // keep circle
             ImGui::SetNextItemWidth(150.0f);
             DrawFloat2Control("Local Pos", &collider->localPosition, .1f);

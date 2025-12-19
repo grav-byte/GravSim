@@ -13,7 +13,17 @@ glm::vec4 ColliderBase::GetAABB() const {
 }
 
 glm::vec2 ColliderBase::GetWorldPosition() const {
-    return parentTransform->position + localPosition * parentTransform->scale;
+    const glm::vec2 scaled = localPosition * parentTransform->scale;
+
+    const float radians = glm::radians(parentTransform->rotation);
+    const float cosR = cos(radians);
+    const float sinR = sin(radians);
+
+    glm::vec2 rotated;
+    rotated.x = scaled.x * cosR - scaled.y * sinR;
+    rotated.y = scaled.x * sinR + scaled.y * cosR;
+
+    return parentTransform->position + rotated;
 }
 
 glm::mat4 ColliderBase::GetTransformMatrix() const {

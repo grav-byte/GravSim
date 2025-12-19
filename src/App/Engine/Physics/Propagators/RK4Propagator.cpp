@@ -42,4 +42,8 @@ void RK4Propagator::Propagate(SceneObject &object, std::function<glm::vec2(const
         // update position and velocity
         object.transform.position += deltaTime / 6.0f * (k1_p + 2.0f * k2_p + 2.0f * k3_p + k4_p);
         object.velocity += deltaTime / 6.0f * (k1_v + 2.0f * k2_v + 2.0f * k3_v + k4_v);
+
+        // update angular motion - not position dependent, so simpler update
+        object.angularVelocity += object.angularAccelerationAccumulated * deltaTime;
+        object.transform.rotation += object.angularVelocity * deltaTime;
 }

@@ -8,72 +8,63 @@ Constraint::Constraint() : distance(1.0f), direction(UP) {
 }
 
 Constraint::Constraint(const float distance, const ConstraintDirection direction)
-    : distance(distance), direction(direction) {}
+    : direction(direction), distance(distance) {}
 
-void Constraint::ApplyConstraint(SceneObject *obj) const {
-    for (auto &collider : obj->colliders) {
+
+void Constraint::ApplyConstraint(SceneObject *obj, const float deltaTime) const {
+    for (const auto &collider : obj->colliders) {
         if (collider->GetType() != ColliderType::Circle) {
-            // only circle colliders supported for now
             std::cout << "Only circle colliders are supported for constraints." << std::endl;
             continue;
         }
 
         glm::vec2 collPos = collider->GetWorldPosition();
         glm::vec2 colliderOffset = collPos - obj->transform.position;
-        float radius = collider->size.x;
-        glm::vec2 vel = obj->velocity;
+        const float radius = collider->size.x;
 
         switch (direction) {
-            case UP:
-                if (collPos.y > distance - radius) {
-                    obj->transform.position.y = distance - radius + colliderOffset.y;
-                    if (vel.y > 0) {
-                        vel.y *= -collider->elasticity;
-                    }
+            case UP: {
+                float penetration = (collPos.y + radius) - distance;
+                if (penetration > 0.0f) {
+                    glm::vec2 wallPos = collPos - glm::vec2(0.0f, penetration);
+                    obj->ApplyCollisionImpulse(colliderOffset, wallPos, glm::vec2(0, -1), collider->elasticity);
                 }
                 break;
-            case RIGHT:
-                if (collPos.x > distance - radius) {
-                    obj->transform.position.x = distance - radius + colliderOffset.x;
-                    if (vel.x > 0) {
-                        vel.x *= -collider->elasticity;
-                    }
+            }
+            case DOWN: {
+                float penetration = -distance - (collPos.y - radius);
+                if (penetration > 0.0f) {
+                    glm::vec2 wallPos = collPos + glm::vec2(0.0f, penetration);
+                    obj->ApplyCollisionImpulse(colliderOffset, wallPos, glm::vec2(0, 1), collider->elasticity);
                 }
                 break;
-            case LEFT:
-                if (collPos.x < -distance + radius) {
-                    obj->transform.position.x = -distance + radius + colliderOffset.x;
-                    if (vel.x < 0) {
-                        vel.x *= -collider->elasticity;
-                    }
+            }
+            case RIGHT: {
+                float penetration = (collPos.x + radius) - distance;
+                if (penetration > 0.0f) {
+                    glm::vec2 wallPos = collPos - glm::vec2(penetration, 0.0f);
+                    obj->ApplyCollisionImpulse(colliderOffset, wallPos, glm::vec2(-1, 0), collider->elasticity);
                 }
                 break;
-            case DOWN:
-                if (collPos.y < -distance + radius) {
-                    obj->transform.position.y = -distance + radius + colliderOffset.y;
-                    if (vel.y < 0) {
-                        vel.y *= -collider->elasticity;
-                    }
+            }
+            case LEFT: {
+                float penetration = -distance - (collPos.x - radius);
+                if (penetration > 0.0f) {
+                    glm::vec2 wallPos = collPos + glm::vec2(penetration, 0.0f);
+                    obj->ApplyCollisionImpulse(colliderOffset, wallPos, glm::vec2(1, 0), collider->elasticity);
                 }
                 break;
+            }
             case RADIAL: {
-                const float R = distance - radius;
-                const float distSqrd = glm::dot(collPos, collPos);
-
-                if (distSqrd > R * R) {
-                    const glm::vec2 dir = glm::normalize(collPos);
-                    collPos = dir * R;
-                    // reflect velocity
-                    const float vn = glm::dot(vel, dir);
-                    if (vn > 0.0f) {
-                        vel -= 2.0f * vn * dir;
-                        vel *= 1;
-                    }
+                float R = distance - radius;
+                float dist = glm::length(collPos);
+                if (dist > R) {
+                    glm::vec2 dir = collPos / dist;
+                    glm::vec2 wallPos = dir * R;
+                    obj->ApplyCollisionImpulse(colliderOffset, wallPos, -dir, collider->elasticity);
                 }
                 break;
             }
         }
-        // TODO - apply force instead
-        obj->velocity = vel;
     }
 }

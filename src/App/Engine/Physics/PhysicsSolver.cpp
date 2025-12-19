@@ -55,32 +55,35 @@ float PhysicsSolver::GetTimeStep() const {
 
 void PhysicsSolver::StepPropagation(Scene *scene) {
     currentScene_ = scene;
-    for (const auto& object : scene->GetAllObjects()) {
+    for (auto& object : scene->GetAllObjects()) {
 
         // get acceleration function so the propagator can query it
         auto func = [this](const SceneObject& obj){ return GetAccelerationForObject(obj); };
 
+        // apply constraints
+        for (const auto& constraint : scene->GetConstraints()) {
+            constraint->ApplyConstraint(object, timeStep_);
+        }
+
         // propagate object
         activePropagator_->Propagate(*object, func, timeStep_);
 
-        // apply constraints
-        for (const auto& constraint : scene->GetConstraints()) {
-            constraint->ApplyConstraint(object);
+        // update last position for verlet (only if not using verlet already)
+        if (typeid(*activePropagator_) != typeid(VerletPropagator)) {
+            object->lastPosition = object->transform.position - object->velocity * timeStep_;
+            object->lastRotation = object->transform.rotation - object->angularVelocity * timeStep_;
         }
 
-        // update last position for verlet (only if not using verlet already)
-        if (typeid(*activePropagator_) != typeid(VerletPropagator))
-            object->lastPosition = object->transform.position - object->velocity * timeStep_;
+        // reset accumulated forces
+        object->ResetAccumulatedForces();
     }
-
-
 }
 
 glm::vec2 PhysicsSolver::GetAccelerationForObject(const SceneObject &object) const {
-    auto acceleration = glm::vec2(0.0f, 0.0f);
+    auto acceleration = object.accelerationAccumulated;
 
     if (object.affectedByGravity) {
-        acceleration = currentScene_->globalGravity;
+        acceleration += currentScene_->globalGravity;
 
         for (const auto& otherObject : currentScene_->GetAllObjects()) {
             if (otherObject->id == object.id)

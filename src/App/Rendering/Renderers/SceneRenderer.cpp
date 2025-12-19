@@ -12,7 +12,7 @@ SceneRenderer::SceneRenderer(RenderingSystem* system) :
     renderer_(system)
 {
     showGrid = true;
-    passes_.push_back(std::make_unique<RipplePass>(renderer_));
+    //passes_.push_back(std::make_unique<RipplePass>(renderer_));
 }
 
 void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) const {
