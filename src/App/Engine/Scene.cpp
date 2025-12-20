@@ -20,6 +20,13 @@ void Scene::CreateObject() {
     sceneObjects_.push_back(std::make_unique<SceneObject>(nextID_++, "Circle"));
 }
 
+void Scene::CreateObject(const glm::vec2& pos) {
+    auto obj = std::make_unique<SceneObject>(nextID_++, "Circle");
+    obj->transform.position = pos;
+    obj->lastPosition = pos;
+    sceneObjects_.push_back(std::move(obj));
+}
+
 void Scene::AddObject(std::unique_ptr<SceneObject> obj) {
     obj->id = nextID_++;
     sceneObjects_.push_back(std::move(obj));

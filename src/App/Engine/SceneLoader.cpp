@@ -61,7 +61,8 @@ bool SceneLoader::SaveSceneInternal(Scene &scene, std::filesystem::path &filePat
 }
 
 bool SceneLoader::SaveScene(Scene &scene) {
-    auto path = Core::Application::GetAppDataFolder() / sceneFolder / *scene.GetName();
+    std::filesystem::path base = "../assets/";
+    auto path = base / sceneFolder / *scene.GetName();
     return SaveSceneInternal(scene, path);
 }
 
