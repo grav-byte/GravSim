@@ -15,8 +15,7 @@
 
 class SceneObject {
 public:
-    SceneObject() : id(0), transform(Transform()), mass(0.0f), velocity(glm::vec2(0,0)),
-    angularVelocity(0.0f), visual(nullptr), lastPosition(glm::vec2(0,0)), lastRotation(0), gravitates(false), affectedByGravity(true) {}
+    SceneObject();
 
     SceneObject(uint32_t objectId, const std::string &objectName);
 
