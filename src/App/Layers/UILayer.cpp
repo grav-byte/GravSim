@@ -48,6 +48,8 @@ void UILayer::OnInit() {
 
     ImGui_ImplGlfw_InitForOpenGL(window_->GetHandle(), true);
     ImGui_ImplOpenGL3_Init("#version 150");
+
+    interactionUI_ = std::make_unique<InteractionUI>(&interactionState_);
 }
 
 void UILayer::DockWindowsFirstFrame(ImGuiID mainId) {
@@ -112,6 +114,8 @@ void UILayer::OnUpdate(float deltaTime) {
     sceneUI_->Draw();
     simulationUI_->Draw();
     followingUI_->Draw();
+    if (interactionUI_)
+        interactionUI_->Draw();
 
     DrawFPSCounter();
 
@@ -136,6 +140,9 @@ void UILayer::OnEvent(Core::Event &event) {
     if (!io_)
        return;
 
+    if (interactionUI_)
+        interactionUI_->OnEvent(event);
+
     // Stop mouse event propagation if the mouse is over any ImGui window and ImGui wants to capture the mouse
     if (io_->WantCaptureMouse) {
         const Core::EventType type = event.GetEventType();
@@ -148,6 +155,7 @@ void UILayer::OnEvent(Core::Event &event) {
 
 void UILayer::OnRender() {
     ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

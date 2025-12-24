@@ -60,6 +60,9 @@ public:
 
     bool showColliders = false;
 
+    void CreateObject() const;
+    void CreateObjectAt(const glm::vec2& worldPos) const;
+
 private:
     void OnSceneLoaded() const;
 

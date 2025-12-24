@@ -1,5 +1,7 @@
 #pragma once
 #include "App/Engine/Transform.h"
+#include "stdio.h"
+#include <memory>
 #include "glm/vec2.hpp"
 #include "glm/vec4.hpp"
 

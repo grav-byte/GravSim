@@ -17,6 +17,7 @@ public:
     Camera* GetCamera() const;
 
     void CreateObject();
+    void CreateObject(const glm::vec2& pos);
 
     void AddObject(std::unique_ptr<SceneObject> obj);
 
@@ -32,6 +33,7 @@ public:
 
 
     glm::vec2 globalGravity{};
+
 private:
     std::string name_;
     std::unique_ptr<Camera> camera_; // scene owns the camera

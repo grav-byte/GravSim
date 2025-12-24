@@ -16,7 +16,7 @@
 
 SceneUI::SceneUI() {
     scene_ = nullptr;
-    sceneSelector_ = std::make_unique<FileSelector>(Core::Application::GetAppDataFolder() / "scenes");
+    sceneSelector_ = std::make_unique<FileSelector>(std::filesystem::path("../assets/scenes"));
     spriteSelector_ = std::make_unique<FileSelector>(std::filesystem::path("../assets/sprites"));
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
     statusMessage_ = "";
@@ -138,7 +138,7 @@ void SceneUI::DrawScene() {
     ImGui::Spacing();
 
     if (ImGui::Button("Add Object")) {
-        scene_->CreateObject();
+        engine_->CreateObject();
     }
 
     ImGui::Spacing();

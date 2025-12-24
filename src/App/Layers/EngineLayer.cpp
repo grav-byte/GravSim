@@ -114,7 +114,6 @@ bool EngineLayer::IsSimulationPaused() const {
     return pausedSimulation_;
 }
 
-
 void EngineLayer::OnInit() {
     glewInit();
 
@@ -158,4 +157,14 @@ void EngineLayer::OnRender() {
 
     // render framebuffer to screen
     renderingSystem_->OutputFrameToScreen();
+}
+
+void EngineLayer::CreateObject() const {
+    if (!scene_) return;
+    scene_->CreateObject();
+}
+
+void EngineLayer::CreateObjectAt(const glm::vec2& worldPos) const {
+    if (!scene_) return;
+    scene_->CreateObject(worldPos);
 }
