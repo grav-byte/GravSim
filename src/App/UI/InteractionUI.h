@@ -33,8 +33,6 @@ private:
 
     bool clickToPlaceEnabled_ = true;
 
-    glm::vec2 ScreenToWorld(const ImVec2& mouseScreenPx, const ImVec2& viewportSize) const;
-
     Mode activeMode_ = Mode::None;
 
     ImVec4 btnBgColor_;

@@ -18,8 +18,8 @@ bool CircleCollider::CheckCollision(const ColliderBase &other) {
         const glm::vec2 centerA = GetWorldPosition();
         const glm::vec2 centerB = other.GetWorldPosition();
 
-        const float radiusA = size.x * parentTransform->scale.x;
-        const float radiusB = other.size.x * other.parentTransform->scale.x;
+        const float radiusA = GetWorldSize().x * parentTransform->scale.x;
+        const float radiusB = other.GetWorldSize().x * other.parentTransform->scale.x;
 
         const float distSq = glm::dot(centerA - centerB, centerA - centerB);
         const float radiusSum = radiusA + radiusB;

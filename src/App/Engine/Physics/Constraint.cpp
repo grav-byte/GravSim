@@ -19,52 +19,51 @@ void Constraint::ApplyConstraint(SceneObject *obj) const {
         }
 
         glm::vec2 collPos = collider->GetWorldPosition();
-        glm::vec2 colliderOffset = collPos - obj->transform.position;
-        const float radius = collider->size.x;
+        const float radius = collider->GetWorldSize().x;
+        auto normal = glm::vec2(0, 0);
+        auto wallPos = glm::vec2(0, 0);
+        float penetration = 0.0f;
 
         switch (direction) {
             case UP: {
-                float penetration = (collPos.y + radius) - distance;
-                if (penetration > 0.0f) {
-                    glm::vec2 wallPos = collPos - glm::vec2(0.0f, penetration);
-                    obj->ApplyCollisionImpulse(colliderOffset, wallPos, glm::vec2(0, -1), collider->elasticity);
-                }
+                penetration = collPos.y + radius - distance;
+                normal = glm::vec2(0, -1);
+                wallPos = collPos + glm::vec2(0.0f, radius - penetration);
                 break;
             }
             case DOWN: {
-                float penetration = -distance - (collPos.y - radius);
-                if (penetration > 0.0f) {
-                    glm::vec2 wallPos = collPos + glm::vec2(0.0f, penetration);
-                    obj->ApplyCollisionImpulse(colliderOffset, wallPos, glm::vec2(0, 1), collider->elasticity);
-                }
+                penetration = -distance - (collPos.y - radius);
+                wallPos = collPos + glm::vec2(0.0f, -radius + penetration);
+                normal = glm::vec2(0, 1);
                 break;
             }
             case RIGHT: {
-                float penetration = (collPos.x + radius) - distance;
-                if (penetration > 0.0f) {
-                    glm::vec2 wallPos = collPos - glm::vec2(penetration, 0.0f);
-                    obj->ApplyCollisionImpulse(colliderOffset, wallPos, glm::vec2(-1, 0), collider->elasticity);
-                }
+                penetration = collPos.x + radius - distance;
+                wallPos = collPos + glm::vec2(radius - penetration, 0.0f);
+                normal = glm::vec2(-1, 0);
                 break;
             }
             case LEFT: {
-                float penetration = -distance - (collPos.x - radius);
-                if (penetration > 0.0f) {
-                    glm::vec2 wallPos = collPos + glm::vec2(penetration, 0.0f);
-                    obj->ApplyCollisionImpulse(colliderOffset, wallPos, glm::vec2(1, 0), collider->elasticity);
-                }
+                penetration = -distance - (collPos.x - radius);
+                wallPos = collPos + glm::vec2(-radius + penetration, 0.0f);
+                normal = glm::vec2(1, 0);
                 break;
             }
             case RADIAL: {
                 const float R = distance - radius;
                 const float dist = glm::length(collPos);
-                if (dist > R) {
-                    glm::vec2 dir = collPos / dist;
-                    glm::vec2 wallPos = dir * R;
-                    obj->ApplyCollisionImpulse(colliderOffset, wallPos, -dir, collider->elasticity);
-                }
+                normal = -collPos / dist;
+                wallPos = -normal * R;
+                penetration = dist - R;
                 break;
             }
         }
+
+        if (penetration < 0.0f) {
+            continue; // no collision
+        }
+
+        auto contact = ContactPoint(wallPos, normal, penetration, collider.get());
+        obj->AddContactPoint(contact);
     }
 }

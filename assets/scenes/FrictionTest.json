@@ -1,0 +1,157 @@
+{
+    "value0": {
+        "value0": "FrictionTest",
+        "value1": {
+            "ptr_wrapper": {
+                "valid": 1,
+                "data": {
+                    "value0": {
+                        "value0": {
+                            "value0": 33.00984573364258,
+                            "value1": 14.112970352172852
+                        },
+                        "value1": 0.0,
+                        "value2": {
+                            "value0": 1.0,
+                            "value1": 1.0
+                        }
+                    },
+                    "value1": 0.025937432423233987,
+                    "value2": {
+                        "value0": 0.05000000074505806,
+                        "value1": 0.05000000074505806,
+                        "value2": 0.05000000074505806,
+                        "value3": 1.0
+                    }
+                }
+            }
+        },
+        "value2": {
+            "value0": 0.0,
+            "value1": -5.0
+        },
+        "value3": [
+            {
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 1,
+                        "value1": "Circle",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.0,
+                                "value1": 0.0
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 1.0,
+                                "value1": 1.0
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value4": 1.0,
+                        "value5": {
+                            "value0": 5.0,
+                            "value1": 0.0
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 2147483649,
+                                "polymorphic_name": "CircleCollider",
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.800000011920929,
+                                        "value4": {
+                                            "ptr_wrapper": {
+                                                "id": 2147483649,
+                                                "data": {
+                                                    "value0": {
+                                                        "value0": 0.0,
+                                                        "value1": 0.0
+                                                    },
+                                                    "value1": 0.0,
+                                                    "value2": {
+                                                        "value0": 1.0,
+                                                        "value1": 1.0
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 0.4399999976158142,
+                                            "value1": 0.4399999976158142
+                                        },
+                                        "value2": {
+                                            "value0": 0.4000000059604645,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.800000011920929,
+                                        "value4": {
+                                            "ptr_wrapper": {
+                                                "id": 1
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2147483650,
+                            "polymorphic_name": "CircleVisual",
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {},
+                                    "value1": {
+                                        "value0": 1.0,
+                                        "value1": 1.0,
+                                        "value2": 1.0,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": false,
+                        "value11": true
+                    }
+                }
+            }
+        ],
+        "value4": [
+            {
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 1.0,
+                        "value1": 2
+                    }
+                }
+            }
+        ],
+        "value5": 2
+    }
+}

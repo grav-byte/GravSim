@@ -153,18 +153,3 @@ void InteractionUI::Draw()
         engine_->CreateObjectAt(world);
     }
 }
-
-glm::vec2 InteractionUI::ScreenToWorld(const ImVec2& mouseScreenPx, const ImVec2& viewportSize) const
-{
-    auto* cam = engine_->GetScene()->GetCamera();
-
-    float x = mouseScreenPx.x - viewportSize.x * 0.5f;
-    float y = mouseScreenPx.y - viewportSize.y * 0.5f;
-
-    y = -y;
-
-    float pixelsToWorld = 1.0f / cam->zoom;
-
-    glm::vec2 worldDelta(x * pixelsToWorld, y * pixelsToWorld);
-    return cam->transform.position + worldDelta;
-}

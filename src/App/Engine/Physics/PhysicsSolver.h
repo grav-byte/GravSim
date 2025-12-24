@@ -19,7 +19,11 @@ public:
 
     void StepPropagation(Scene *scene);
 
+    void ResolveContacts(SceneObject &object);
+
     void UpdatePhysics(Scene *scene, float deltaTime);
+
+    void ApplyCollisionImpulse(SceneObject &obj, const ContactPoint &contact);
 
     glm::vec2 GetAccelerationForObject(const SceneObject &object) const;
 

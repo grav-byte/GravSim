@@ -1,14 +1,15 @@
 #include "ColliderBase.h"
 
-ColliderBase::ColliderBase(): size(glm::vec2(0.0f)), localPosition(glm::vec2(0.0f)) {}
+ColliderBase::ColliderBase(): localSize(glm::vec2(1.0f)), localPosition(glm::vec2(0.0f)) {}
 
 ColliderBase::ColliderBase(Transform&parentTransform):
-    size(glm::vec2(parentTransform.scale)),
+    localSize(glm::vec2(parentTransform.scale)),
     localPosition(glm::vec2(0.0f)),
     parentTransform(std::shared_ptr<Transform>(&parentTransform, [](Transform*){})){}
 
 glm::vec4 ColliderBase::GetAABB() const {
     const glm::vec2 worldPos = parentTransform->position + localPosition * parentTransform->scale;
+    const auto size = GetWorldSize();
     return {worldPos.x - size.x, worldPos.y - size.y, worldPos.x + size.x, worldPos.y + size.y};
 }
 
@@ -26,12 +27,16 @@ glm::vec2 ColliderBase::GetWorldPosition() const {
     return parentTransform->position + rotated;
 }
 
+glm::vec2 ColliderBase::GetWorldSize() const {
+    return localSize * parentTransform->scale;
+}
+
 glm::mat4 ColliderBase::GetTransformMatrix() const {
     auto transform = glm::mat4(1.0f);
     // position
     transform = glm::translate(transform, glm::vec3(GetWorldPosition(), 0.0f));
 
-    transform = glm::scale(transform, glm::vec3(size, 1.0f));
+    transform = glm::scale(transform, glm::vec3(GetWorldSize(), 1.0f));
     return transform;
 }
 

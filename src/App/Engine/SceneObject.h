@@ -11,6 +11,7 @@
 
 #include "Transform.h"
 #include "../Rendering/Visuals/IVisual.h"
+#include "Physics/ContactPoint.h"
 
 
 class SceneObject {
@@ -40,16 +41,18 @@ public:
     glm::vec2 lastPosition;
     float lastRotation;
 
+    void AddContactPoint(const ContactPoint &point);
+
+    std::vector<ContactPoint> contactPoints;
+
     void AddCollider(ColliderType type);
     void RemoveCollider(int idx);
 
     glm::vec2 accelerationAccumulated;
     float angularAccelerationAccumulated;
     void ApplyForce(const glm::vec2 & force, const glm::vec2 & atPoint = glm::vec2(0, 0));
-    void ApplyCollisionImpulse(const glm::vec2& colliderOffset,
-                                        const glm::vec2& contactPoint,
-                                        const glm::vec2& normal,
-                                        float restitution = 1.0f);
+    void ApplyCollisionImpulse(ContactPoint contact);
+
     void ResetAccumulatedForces();
 
     // Cereal serialization

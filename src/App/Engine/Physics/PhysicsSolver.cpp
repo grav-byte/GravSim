@@ -60,10 +60,7 @@ void PhysicsSolver::StepPropagation(Scene *scene) {
         // get acceleration function so the propagator can query it
         auto func = [this](const SceneObject& obj){ return GetAccelerationForObject(obj); };
 
-        // apply constraints
-        for (const auto& constraint : scene->GetConstraints()) {
-            constraint->ApplyConstraint(object);
-        }
+
 
         // propagate object
         activePropagator_->Propagate(*object, func, timeStep_);
@@ -74,8 +71,82 @@ void PhysicsSolver::StepPropagation(Scene *scene) {
             object->lastRotation = object->transform.rotation - object->angularVelocity * timeStep_;
         }
 
+        // apply constraints
+        for (const auto& constraint : scene->GetConstraints()) {
+            constraint->ApplyConstraint(object);
+        }
+
+        // resolve contacts
+        ResolveContacts(*object);
+
         // reset accumulated forces
         object->ResetAccumulatedForces();
+    }
+}
+
+void PhysicsSolver::ResolveContacts(SceneObject &object) {
+    for (const auto& contact : object.contactPoints) {
+        ApplyCollisionImpulse(object, contact);
+    }
+    object.contactPoints.clear();
+}
+
+void PhysicsSolver::ApplyCollisionImpulse(SceneObject &obj, const ContactPoint &contact)
+{
+    if (contact.penetrationDepth < 0.0f) return; // no collision
+
+    const glm::vec2 r = contact.point - contact.collider->GetWorldPosition(); // vector from COM to contact
+    // velocity at contact point, including rotational velocity
+    const glm::vec2 contactVelocity = obj.velocity + glm::radians(obj.angularVelocity) * glm::vec2(-r.y, r.x);
+
+    // relative velocity along normal
+    const float normalVel = glm::dot(contactVelocity, contact.normal);
+
+    if (normalVel > 0.0f) return; // already separating
+
+    // compute effective mass at contact point
+    const float I = 0.5f * obj.mass * obj.transform.scale.x * obj.transform.scale.x; // circle inertia
+    // for offset colliders, include parallel axis theorem
+    const float r_cross_n = r.x * contact.normal.y - r.y * contact.normal.x;
+    const float invMassEffective = 1.0f / obj.mass + r_cross_n * r_cross_n / I;
+
+    // compute impulse magnitude
+    const auto otherRestitution = contact.otherCollider ? contact.otherCollider->elasticity : 1.0f;
+    float J = -(1.0f + contact.collider->elasticity * otherRestitution) * normalVel / invMassEffective;
+
+    if (normalVel > -0.1f) {
+        // high-speed collision, reduce impulse to avoid jitter
+        J *= 0.5f;
+    }
+    // apply impulse to linear and angular velocity directly
+    obj.velocity += J / obj.mass * contact.normal;
+    obj.angularVelocity += glm::degrees(J * r_cross_n / I);
+
+    // positional correction to avoid sinking
+    obj.transform.position += contact.normal * contact.penetrationDepth * .1f;
+
+    // force verlet update
+    obj.lastPosition = obj.transform.position;
+    obj.lastRotation = obj.transform.rotation;
+
+    // --- compute tangent friction ---
+    const glm::vec2 tangent(-contact.normal.y, contact.normal.x);
+    const float velAlongTangent = glm::dot(contactVelocity, tangent);
+
+    if (fabs(velAlongTangent) > 1e-4f) { // dynamic friction
+        const auto otherFriction = contact.otherCollider ? contact.otherCollider->friction : 1.0f;
+        float frictionMag = contact.collider->friction * otherFriction * J;
+        float maxFriction = fabs(velAlongTangent * obj.mass);
+        frictionMag = glm::min(frictionMag, maxFriction);
+        // scale down if bouncing fast
+        if (normalVel < -0.1f) { // adjust threshold
+            frictionMag *= 0.2f; // only a small fraction of friction
+        }
+
+        const glm::vec2 frictionImpulse = -frictionMag * glm::sign(velAlongTangent) * tangent;
+
+        obj.velocity += frictionImpulse / obj.mass;
+        obj.angularVelocity += glm::degrees((r.x * frictionImpulse.y - r.y * frictionImpulse.x) / I);
     }
 }
 

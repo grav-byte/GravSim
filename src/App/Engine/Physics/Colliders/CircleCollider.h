@@ -15,6 +15,6 @@ public:
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(cereal::base_class<ColliderBase>(this), size, localPosition, elasticity, parentTransform);
+        ar(cereal::base_class<ColliderBase>(this), localSize, localPosition, elasticity, parentTransform);
     }
 };
