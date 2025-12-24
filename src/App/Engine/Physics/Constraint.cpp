@@ -28,33 +28,32 @@ void Constraint::ApplyConstraint(SceneObject *obj) const {
             case UP: {
                 penetration = collPos.y + radius - distance;
                 normal = glm::vec2(0, -1);
-                wallPos = collPos + glm::vec2(0.0f, radius - penetration);
+                wallPos = glm::vec2(collPos.x, distance);
                 break;
             }
             case DOWN: {
                 penetration = -distance - (collPos.y - radius);
-                wallPos = collPos + glm::vec2(0.0f, -radius + penetration);
+                wallPos = glm::vec2(collPos.x, -distance);
                 normal = glm::vec2(0, 1);
                 break;
             }
             case RIGHT: {
                 penetration = collPos.x + radius - distance;
-                wallPos = collPos + glm::vec2(radius - penetration, 0.0f);
+                wallPos = glm::vec2(distance, collPos.y);
                 normal = glm::vec2(-1, 0);
                 break;
             }
             case LEFT: {
                 penetration = -distance - (collPos.x - radius);
-                wallPos = collPos + glm::vec2(-radius + penetration, 0.0f);
+                wallPos = glm::vec2(-distance, collPos.y);
                 normal = glm::vec2(1, 0);
                 break;
             }
             case RADIAL: {
-                const float R = distance - radius;
                 const float dist = glm::length(collPos);
                 normal = -collPos / dist;
-                wallPos = -normal * R;
-                penetration = dist - R;
+                wallPos = -normal * distance;
+                penetration = dist - distance + radius;
                 break;
             }
         }

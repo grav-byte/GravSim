@@ -95,9 +95,9 @@ void PhysicsSolver::ApplyCollisionImpulse(SceneObject &obj, const ContactPoint &
 {
     if (contact.penetrationDepth < 0.0f) return; // no collision
 
-    const glm::vec2 r = contact.point - contact.collider->GetWorldPosition(); // vector from COM to contact
+    const glm::vec2 colToCon = contact.point - contact.collider->GetWorldPosition(); // vector from collider to contact
     // velocity at contact point, including rotational velocity
-    const glm::vec2 contactVelocity = obj.velocity + glm::radians(obj.angularVelocity) * glm::vec2(-r.y, r.x);
+    const glm::vec2 contactVelocity = obj.velocity + glm::radians(obj.angularVelocity) * glm::vec2(-colToCon.y, colToCon.x);
 
     // relative velocity along normal
     const float normalVel = glm::dot(contactVelocity, contact.normal);
@@ -106,6 +106,7 @@ void PhysicsSolver::ApplyCollisionImpulse(SceneObject &obj, const ContactPoint &
 
     // compute effective mass at contact point
     const float I = 0.5f * obj.mass * obj.transform.scale.x * obj.transform.scale.x; // circle inertia
+    const glm::vec2 r = contact.point - obj.transform.position; // vector from COM to contact
     // for offset colliders, include parallel axis theorem
     const float r_cross_n = r.x * contact.normal.y - r.y * contact.normal.x;
     const float invMassEffective = 1.0f / obj.mass + r_cross_n * r_cross_n / I;
@@ -115,7 +116,7 @@ void PhysicsSolver::ApplyCollisionImpulse(SceneObject &obj, const ContactPoint &
     float J = -(1.0f + contact.collider->elasticity * otherRestitution) * normalVel / invMassEffective;
 
     if (normalVel > -0.1f) {
-        // high-speed collision, reduce impulse to avoid jitter
+        // low-speed collision, reduce impulse to avoid jitter
         J *= 0.5f;
     }
     // apply impulse to linear and angular velocity directly
@@ -136,15 +137,14 @@ void PhysicsSolver::ApplyCollisionImpulse(SceneObject &obj, const ContactPoint &
     if (fabs(velAlongTangent) > 1e-4f) { // dynamic friction
         const auto otherFriction = contact.otherCollider ? contact.otherCollider->friction : 1.0f;
         float frictionMag = contact.collider->friction * otherFriction * J;
-        float maxFriction = fabs(velAlongTangent * obj.mass);
+        const float maxFriction = fabs(velAlongTangent * obj.mass);
         frictionMag = glm::min(frictionMag, maxFriction);
-        // scale down if bouncing fast
-        if (normalVel < -0.1f) { // adjust threshold
-            frictionMag *= 0.2f; // only a small fraction of friction
+
+        glm::vec2 frictionImpulse = -frictionMag * glm::sign(velAlongTangent) * tangent;
+        if (normalVel < -0.8f) {
+            // high-speed collision, reduce friction to avoid jumps
+            frictionImpulse *= 0.2f;
         }
-
-        const glm::vec2 frictionImpulse = -frictionMag * glm::sign(velAlongTangent) * tangent;
-
         obj.velocity += frictionImpulse / obj.mass;
         obj.angularVelocity += glm::degrees((r.x * frictionImpulse.y - r.y * frictionImpulse.x) / I);
     }
