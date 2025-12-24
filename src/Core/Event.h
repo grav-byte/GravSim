@@ -11,7 +11,7 @@ namespace Core {
         WindowClosed, WindowResized,
         KeyPressed, KeyReleased,
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
-        SceneLoaded
+        SceneLoaded, ObjectDestroyed
     };
 
     class Event {

@@ -4,6 +4,9 @@
 
 #include "Scene.h"
 
+#include "EngineEvents.h"
+#include "Core/Application.h"
+
 Scene::Scene() {
     nextID_ = 0;
     sceneObjects_ = std::vector<std::unique_ptr<SceneObject>>();
@@ -62,6 +65,9 @@ void Scene::RemoveConstraint(Constraint::ConstraintDirection direction) {
 }
 
 void Scene::DeleteObject(uint32_t id) {
+    auto event = ObjectDestroyedEvent(id);
+    Core::Application::Get().RaiseEvent(event);
+
     sceneObjects_.erase(
                 std::remove_if(
                     sceneObjects_.begin(),

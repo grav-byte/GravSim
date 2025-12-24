@@ -32,6 +32,39 @@ void CameraController::Update(float deltaTime) const {
     }
 }
 
+void CameraController::OnEvent(Core::Event& event) {
+    switch (event.GetEventType()) {
+        case Core::SceneLoaded:
+            HandleSceneLoaded(event);
+            return;
+
+        case Core::ObjectDestroyed:
+            HandleObjectDestroyed(event);
+            return;
+
+        case Core::MouseButtonPressed:
+            HandleMouseButtonPressed(event);
+            return;
+
+        case Core::MouseButtonReleased:
+            HandleMouseButtonReleased(event);
+            return;
+
+        case Core::MouseMoved:
+            if (!camera_) return;
+            HandleMouseMoved(event);
+            return;
+
+        case Core::MouseScrolled:
+            if (!camera_) return;
+            HandleMouseScrolled(event);
+            return;
+
+        default:
+            break;
+    }
+}
+
 void CameraController::HandleObjectFollowSelection() {
     const float now = Core::Application::GetTime();
 
@@ -40,7 +73,7 @@ void CameraController::HandleObjectFollowSelection() {
 
         for (const auto obj : scene_->GetAllObjects()) {
             glm::vec2 objScreenPos = camera_->WorldToScreen(obj->transform.position);
-            float distance = glm::length(currentMouseScreenPos_ - objScreenPos);
+            const float distance = glm::length(currentMouseScreenPos_ - objScreenPos);
             // threshold in pixels
             if (distance < 100.0f) {
                 followObj_ = obj;
@@ -53,59 +86,55 @@ void CameraController::HandleObjectFollowSelection() {
     lastClickTime_ = now;
 }
 
-void CameraController::OnEvent(Core::Event &event) {
-    Core::EventType type = event.GetEventType();
-    if (type == Core::SceneLoaded) {
-        scene_ = dynamic_cast<SceneLoadedEvent&>(event).GetScene();
+void CameraController::HandleSceneLoaded(Core::Event& event) {
+    scene_ = dynamic_cast<SceneLoadedEvent&>(event).GetScene();
+    followObj_ = nullptr;
+    camera_ = scene_->GetCamera();
+}
+
+void CameraController::HandleObjectDestroyed(Core::Event& event) {
+    const uint32_t destroyedObjId = dynamic_cast<ObjectDestroyedEvent&>(event).GetObjId();
+    if (followObj_ && followObj_->id == destroyedObjId) {
         followObj_ = nullptr;
-        camera_ = scene_->GetCamera();
+    }
+}
+
+void CameraController::HandleMouseButtonPressed(Core::Event& event) {
+    shouldMove_ = true;
+    HandleObjectFollowSelection();
+}
+
+void CameraController::HandleMouseButtonReleased(Core::Event& event) {
+    shouldMove_ = false;
+    lastMouseWorldPos_ = glm::vec2(0.0f);
+}
+
+void CameraController::HandleMouseMoved(Core::Event& event) {
+    const auto& mouseEvent = dynamic_cast<Core::MouseMovedEvent&>(event);
+    currentMouseScreenPos_ = glm::vec2(mouseEvent.GetX(), mouseEvent.GetY());
+
+    glm::vec2 currentMouseWorldPos = camera_->ScreenToWorld(currentMouseScreenPos_);
+
+    if (shouldMove_ && lastMouseWorldPos_ != glm::vec2(0.0f)) {
+        camera_->transform.position += lastMouseWorldPos_ - currentMouseWorldPos;
     }
 
-    if (type == Core::MouseButtonPressed) {
-        shouldMove_ = true;
+    lastMouseWorldPos_ = currentMouseWorldPos;
+}
 
-        HandleObjectFollowSelection();
-    }
+void CameraController::HandleMouseScrolled(Core::Event& event) {
+    const auto& scrollEvent = dynamic_cast<Core::MouseScrolledEvent&>(event);
 
-    if (type == Core::MouseButtonReleased) {
-        shouldMove_ = false;
-        lastMouseWorldPos_ = glm::vec2(0.0f, 0.0f);
-    }
+    glm::vec2 cursorWorldPosBefore = camera_->ScreenToWorld(currentMouseScreenPos_);
+    float factor = pow(1.1f, scrollEvent.GetAmount());
 
-    if (!camera_)
-        return;
+    camera_->zoom = std::max(camera_->zoom * factor, 0.01f);
 
-    if (type == Core::MouseMoved) {
-        const auto& mouseEvent = dynamic_cast<Core::MouseMovedEvent&>(event);
-        currentMouseScreenPos_ = glm::vec2(mouseEvent.GetX(), mouseEvent.GetY());
-
-        // convert to world space
-        glm::vec2 currentMousePos = camera_->ScreenToWorld(currentMouseScreenPos_);
-
-        if (shouldMove_ && lastMouseWorldPos_ != glm::vec2(0.0f, 0.0f)) {
-            camera_->transform.position += lastMouseWorldPos_ - currentMousePos;
-        }
-
+    if (zoomToMouse_) {
+        glm::vec2 cursorWorldPosAfter = camera_->ScreenToWorld(currentMouseScreenPos_);
+        camera_->transform.position += cursorWorldPosBefore - cursorWorldPosAfter;
+    } else {
         lastMouseWorldPos_ = camera_->ScreenToWorld(currentMouseScreenPos_);
-    }
-
-    if (type == Core::MouseScrolled) {
-        const auto& scrollEvent = dynamic_cast<Core::MouseScrolledEvent&>(event);
-
-        // zoom in towards cursor
-        glm::vec2 cursorWorldPosBefore = camera_->ScreenToWorld(currentMouseScreenPos_);
-
-        float factor = pow(1.1f, scrollEvent.GetAmount());
-        // clamp zoom
-        camera_->zoom = std::max(camera_->zoom * factor, 0.01f);
-
-        // adjust position to keep cursor in place
-        if (zoomToMouse_) {
-            glm::vec2 cursorWorldPosAfter = camera_->ScreenToWorld(currentMouseScreenPos_);
-            camera_->transform.position += cursorWorldPosBefore - cursorWorldPosAfter;
-        } else {
-            lastMouseWorldPos_ = camera_->ScreenToWorld(currentMouseScreenPos_);
-        }
     }
 }
 
