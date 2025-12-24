@@ -16,19 +16,15 @@ public:
 
     void Update(float deltaTime) const;
 
-    void HandleObjectFollowSelection();
-
-    void HandleSceneLoaded(Core::Event &event);
-
-    void HandleObjectDestroyed(Core::Event &event);
-
-    void HandleMouseButtonPressed(Core::Event &event);
-
-    void HandleMouseButtonReleased(Core::Event &event);
-
     void HandleMouseMoved(Core::Event &event);
 
     void HandleMouseScrolled(Core::Event &event);
+
+    void HandleSceneLoaded(Core::Event &event);
+
+    void HandleMousePressed();
+
+    void HandleMouseReleased();
 
     void OnEvent(Core::Event &event);
 
