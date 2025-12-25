@@ -60,9 +60,9 @@ public:
     void serialize(Archive& ar) {
         ar(id, name, transform, lastPosition, mass, velocity, colliders, lastRotation, angularVelocity, visual, gravitates, affectedByGravity);
         if constexpr (Archive::is_loading::value) {
-            // re-link parent transforms after loading
-            for (auto& collider : colliders) {
-                collider->parentTransform = std::shared_ptr<Transform>(&transform, [](Transform*){});
+            // re-link parents after loading
+            for (const auto& collider : colliders) {
+                collider->parentObject = this;
             }
         }
     }

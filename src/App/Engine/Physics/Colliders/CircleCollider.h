@@ -6,7 +6,7 @@
 class CircleCollider : public ColliderBase {
 public:
     CircleCollider();
-    explicit CircleCollider(Transform &parentTransform) : ColliderBase(parentTransform) {}
+    explicit CircleCollider(SceneObject* parent): ColliderBase(parent) {}
     ~CircleCollider() override = default;
 
     ColliderType GetType() const override;
@@ -15,6 +15,6 @@ public:
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(cereal::base_class<ColliderBase>(this), localSize, localPosition, elasticity, parentTransform);
+        ar(cereal::base_class<ColliderBase>(this), localSize, localPosition, elasticity);
     }
 };

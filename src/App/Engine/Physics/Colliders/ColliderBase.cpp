@@ -1,22 +1,26 @@
 #include "ColliderBase.h"
 
+#include "App/Engine/SceneObject.h"
+
 ColliderBase::ColliderBase(): localSize(glm::vec2(1.0f)), localPosition(glm::vec2(0.0f)) {}
 
-ColliderBase::ColliderBase(Transform&parentTransform):
-    localSize(glm::vec2(parentTransform.scale)),
+ColliderBase::ColliderBase(SceneObject* parent):
+    localSize(glm::vec2(parent->transform.scale)),
     localPosition(glm::vec2(0.0f)),
-    parentTransform(std::shared_ptr<Transform>(&parentTransform, [](Transform*){})){}
+    parentObject(parent) {}
 
 glm::vec4 ColliderBase::GetAABB() const {
-    const glm::vec2 worldPos = parentTransform->position + localPosition * parentTransform->scale;
+    const auto parentTransform = parentObject->transform;
+    const glm::vec2 worldPos = parentTransform.position + localPosition * parentTransform.scale;
     const auto size = GetWorldSize();
     return {worldPos.x - size.x, worldPos.y - size.y, worldPos.x + size.x, worldPos.y + size.y};
 }
 
 glm::vec2 ColliderBase::GetWorldPosition() const {
-    const glm::vec2 scaled = localPosition * parentTransform->scale;
+    const auto parentTransform = parentObject->transform;
+    const glm::vec2 scaled = localPosition * parentTransform.scale;
 
-    const float radians = glm::radians(parentTransform->rotation);
+    const float radians = glm::radians(parentTransform.rotation);
     const float cosR = cos(radians);
     const float sinR = sin(radians);
 
@@ -24,11 +28,11 @@ glm::vec2 ColliderBase::GetWorldPosition() const {
     rotated.x = scaled.x * cosR - scaled.y * sinR;
     rotated.y = scaled.x * sinR + scaled.y * cosR;
 
-    return parentTransform->position + rotated;
+    return parentTransform.position + rotated;
 }
 
 glm::vec2 ColliderBase::GetWorldSize() const {
-    return localSize * parentTransform->scale;
+    return localSize * parentObject->transform.scale;
 }
 
 glm::mat4 ColliderBase::GetTransformMatrix() const {

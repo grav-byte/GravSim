@@ -1,9 +1,10 @@
 #pragma once
 #include "App/Engine/Transform.h"
-#include "stdio.h"
-#include <memory>
+
 #include "glm/vec2.hpp"
 #include "glm/vec4.hpp"
+
+class SceneObject;
 
 enum class ColliderType { Circle };
 
@@ -11,7 +12,7 @@ class ColliderBase {
 public:
     ColliderBase();
 
-    explicit ColliderBase(Transform &parentTransform);
+    explicit ColliderBase(SceneObject* parent);
     virtual ~ColliderBase() = default;
 
     virtual ColliderType GetType() const = 0;
@@ -26,7 +27,7 @@ public:
     float friction = 0.5f;
     glm::vec2 localSize;
     glm::vec2 localPosition;
-    std::shared_ptr<Transform> parentTransform;
+    SceneObject* parentObject;
 
     // Cereal serialization
     template<class Archive>

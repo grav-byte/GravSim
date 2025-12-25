@@ -30,7 +30,7 @@ SceneObject::SceneObject(const uint32_t objectId, const std::string& objectName)
 {
     colliders = std::vector<std::unique_ptr<ColliderBase>>();
     transform = Transform();
-    colliders.push_back(std::make_unique<CircleCollider>(transform));
+    colliders.push_back(std::make_unique<CircleCollider>(this));
     ResetAccumulatedForces();
 }
 
@@ -40,7 +40,7 @@ void SceneObject::AddContactPoint(const ContactPoint &point) {
 
 void SceneObject::AddCollider(ColliderType type) {
     if (type == ColliderType::Circle)
-        colliders.push_back(std::make_unique<CircleCollider>(transform));
+        colliders.push_back(std::make_unique<CircleCollider>(this));
 }
 
 void SceneObject::RemoveCollider(const int idx) {

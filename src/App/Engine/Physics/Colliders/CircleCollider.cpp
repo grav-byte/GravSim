@@ -1,6 +1,8 @@
 #include "CircleCollider.h"
 #include <iostream>
 
+#include "App/Engine/SceneObject.h"
+
 CircleCollider::CircleCollider() = default;
 
 ColliderType CircleCollider::GetType() const {
@@ -14,12 +16,14 @@ bool CircleCollider::CheckCollision(const ColliderBase &other) {
 
     if (other.GetType() == ColliderType::Circle) {
         // collision with another circle
+        const auto parentTransform = parentObject->transform;
+
 
         const glm::vec2 centerA = GetWorldPosition();
         const glm::vec2 centerB = other.GetWorldPosition();
 
-        const float radiusA = GetWorldSize().x * parentTransform->scale.x;
-        const float radiusB = other.GetWorldSize().x * other.parentTransform->scale.x;
+        const float radiusA = GetWorldSize().x * parentTransform.scale.x;
+        const float radiusB = other.GetWorldSize().x * other.parentObject->transform.scale.x;
 
         const float distSq = glm::dot(centerA - centerB, centerA - centerB);
         const float radiusSum = radiusA + radiusB;
