@@ -1,5 +1,6 @@
 #pragma once
 #include "App/Engine/Transform.h"
+#include "App/Engine/Physics/ContactPoint.h"
 
 #include "glm/vec2.hpp"
 #include "glm/vec4.hpp"
@@ -16,7 +17,7 @@ public:
     virtual ~ColliderBase() = default;
 
     virtual ColliderType GetType() const = 0;
-    virtual bool CheckCollision(const ColliderBase& other);
+    virtual bool CheckCollision(ColliderBase &other, ContactPoint &contact);
 
     glm::vec4 GetAABB() const;
     glm::vec2 GetWorldPosition() const;

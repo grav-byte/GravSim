@@ -10,7 +10,7 @@ public:
     ~CircleCollider() override = default;
 
     ColliderType GetType() const override;
-    bool CheckCollision(const ColliderBase &other) override;
+    bool CheckCollision(ColliderBase &other, ContactPoint &contact) override;
 
     // Cereal serialization
     template<class Archive>

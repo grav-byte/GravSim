@@ -9,9 +9,9 @@ ColliderType CircleCollider::GetType() const {
     return ColliderType::Circle;
 }
 
-bool CircleCollider::CheckCollision(const ColliderBase &other) {
+bool CircleCollider::CheckCollision(ColliderBase &other, ContactPoint &contact) {
     // AABB check
-    if (!ColliderBase::CheckCollision(other))
+    if (!ColliderBase::CheckCollision(other, contact))
         return false;
 
     if (other.GetType() == ColliderType::Circle) {

@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "ContactSolver.h"
 #include "Propagators/IPropagator.h"
 #include "App/Engine/Scene.h"
 
@@ -14,26 +15,16 @@ public:
     IPropagator* GetActivePropagator() const;
 
     void SetTimeStep(float timeStep);
-
     float GetTimeStep() const;
 
-    void StepPropagation(Scene *scene);
-
-    void ResolveContacts(SceneObject &object);
-
     void UpdatePhysics(Scene *scene, float deltaTime);
-
-    void ApplyCollisionImpulse(SceneObject &obj, const ContactPoint &contact);
-
-    glm::vec2 GetAccelerationForObject(const SceneObject &object) const;
+    void StepPropagation(Scene *scene);
 
     struct PropagatorEntry {
         std::string name;
         std::function<std::unique_ptr<IPropagator>()> factory;
     };
-
     static std::vector<const char *> GetPropagatorNames();
-
     static std::vector<PropagatorEntry> propagators;
 
 private:
@@ -41,4 +32,5 @@ private:
     std::unique_ptr<IPropagator> activePropagator_;
     float timeAccumulator_;
     float timeStep_;
+    glm::vec2 GetAccelerationForObject(const SceneObject &object) const;
 };

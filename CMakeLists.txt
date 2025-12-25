@@ -116,6 +116,8 @@ add_executable(GravSim
         src/App/UI/InteractionUI.h
         src/App/UI/InteractionState.h
         src/App/Engine/Physics/ContactPoint.h
+        src/App/Engine/Physics/ContactSolver.cpp
+        src/App/Engine/Physics/ContactSolver.h
 )
 
 # Include directories

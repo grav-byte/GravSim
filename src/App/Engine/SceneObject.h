@@ -46,6 +46,9 @@ public:
     std::vector<ContactPoint> contactPoints;
 
     void AddCollider(ColliderType type);
+
+    float GetInertia() const;
+
     void RemoveCollider(int idx);
 
     glm::vec2 accelerationAccumulated;

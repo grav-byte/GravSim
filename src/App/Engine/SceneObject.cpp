@@ -43,6 +43,10 @@ void SceneObject::AddCollider(ColliderType type) {
         colliders.push_back(std::make_unique<CircleCollider>(this));
 }
 
+float SceneObject::GetInertia() const {
+    return 0.5f * mass * transform.scale.x * transform.scale.x; // circle inertia
+}
+
 void SceneObject::RemoveCollider(const int idx) {
     colliders.erase(colliders.begin() + idx);
 }
