@@ -8,37 +8,41 @@ void ContactSolver::FindContacts(const Scene *scene) {
 
     for (size_t i = 0; i < objCount; ++i) {
         SceneObject& objA = *objects[i];
-        for (size_t j = i + 1; j < objCount; ++j) {
+        for (size_t j = i + 1; j < objCount; ++j) { // check all from next obj to end - avoid double checks
             SceneObject& objB = *objects[j];
 
-            // check collisions between all colliders of objA and objB
-            for (const auto& colliderA : objA.colliders) {
-                for (const auto& colliderB : objB.colliders) {
-                    ContactPoint contact;
-                    if (colliderA->CheckCollision(*colliderB, contact)) {
-                        objA.contactPoints.push_back(contact);
-                        // generate inverse contact for objB
-                        ContactPoint inverse = contact;
-                        inverse.collider = contact.otherCollider;
-                        inverse.otherCollider = contact.collider;
-                        inverse.normal = -contact.normal;
-
-                        objB.contactPoints.push_back(inverse);
-                    }
-                }
-            }
+            CheckAllColliders(objA, objB);
         }
     }
 }
 
-void ContactSolver::ResolveContacts(SceneObject* object) {
+
+void ContactSolver::CheckAllColliders(SceneObject &objA, SceneObject &objB) {
+    // check collisions between all colliders of objA and objB
+    for (const auto& colliderA : objA.colliders) {
+        for (const auto& colliderB : objB.colliders) {
+            ContactPoint contact;
+            if (!colliderA->CheckCollision(*colliderB, contact)) continue;
+            objA.contactPoints.push_back(contact);
+            // generate inverse contact for objB
+            ContactPoint inverse = contact;
+            inverse.collider = contact.otherCollider;
+            inverse.otherCollider = contact.collider;
+            inverse.normal = -contact.normal;
+
+            objB.contactPoints.push_back(inverse);
+        }
+    }
+}
+
+void ContactSolver::ResolveContacts(const SceneObject* object) {
     // resolve contacts
     for (const auto& contact : object->contactPoints) {
         ApplyCollisionImpulse(contact);
     }
 }
 
-void ContactSolver::ClearContacts(Scene *scene) {
+void ContactSolver::ClearContacts(const Scene *scene) {
     for (SceneObject *& object : scene->GetAllObjects()) {
         object->contactPoints.clear();
     }

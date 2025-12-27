@@ -6,12 +6,13 @@
 class ContactSolver {
 public:
     static void FindContacts(const Scene *scene);
-    static void ResolveContacts(SceneObject *object);
+    static void ResolveContacts(const SceneObject *object);
 
-    static void ClearContacts(Scene * scene);
+    static void ClearContacts(const Scene * scene);
 
 private:
     static void ApplyCollisionImpulse(const ContactPoint& contact);
+    static void CheckAllColliders(SceneObject &objA, SceneObject &objB);
     static void ApplyFriction(const ContactPoint& contact, float J);
 
     // helper functions
