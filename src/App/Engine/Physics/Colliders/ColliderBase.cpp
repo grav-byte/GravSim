@@ -8,7 +8,7 @@ ColliderBase::ColliderBase(SceneObject* parent):
     localPosition(glm::vec2(0.0f)),
     parentObject(parent) {}
 
-glm::vec4 ColliderBase::GetAABB() const {
+glm::vec4 ColliderBase::GetAABB() const { // axis aligned bounding box
     const glm::vec2 worldPos = GetWorldPosition();
     const auto size = GetWorldSize();
     return {worldPos.x - size.x, worldPos.y - size.y, worldPos.x + size.x, worldPos.y + size.y};
