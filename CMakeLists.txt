@@ -118,8 +118,6 @@ add_executable(GravSim
         src/App/Engine/Physics/ContactPoint.h
         src/App/Engine/Physics/ContactSolver.cpp
         src/App/Engine/Physics/ContactSolver.h
-        src/App/Rendering/Renderers/SunRenderer.h
-        src/App/Rendering/Renderers/SunRenderer.cpp
         src/App/Rendering/Renderers/ShaderRenderer.cpp
         src/App/Rendering/Renderers/ShaderRenderer.h
         src/App/Rendering/Visuals/ShaderVisual.h
