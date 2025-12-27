@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 05.12.25.
-//
-
 #pragma once
 #include <glm/vec2.hpp>
 

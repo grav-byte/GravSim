@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 27.11.25.
-//
-
 #pragma once
 
 #include "Event.h"
@@ -40,7 +36,7 @@ namespace Core {
         GLFWwindow* GetHandle() const { return handle_; }
 
 private:
-        void OnResize();
+        void OnResize() const;
 
         WindowConfig config_;
         GLFWwindow* handle_ = nullptr;

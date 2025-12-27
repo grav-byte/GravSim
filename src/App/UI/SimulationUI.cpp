@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 08.12.25.
-//
-
 #include "SimulationUI.h"
 
 #include <iostream>
@@ -9,7 +5,7 @@
 #include "imgui.h"
 #include "implot.h"
 #include "App/Layers/EngineLayer.h"
-#include "App/Rendering/TextureLoader.h"
+#include "App/Engine/Loading/TextureLoader.h"
 #include "Core/Application.h"
 
 SimulationUI::SimulationUI() {

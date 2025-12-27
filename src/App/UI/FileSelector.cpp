@@ -1,11 +1,4 @@
-//
-// Created by Lorenz Saalmann on 07.12.25.
-//
-
 #include "FileSelector.h"
-
-#include <iostream>
-
 #include "imgui.h"
 
 FileSelector::FileSelector(std::string path): directory_(std::move(path)), selectedIndex_(-1) {

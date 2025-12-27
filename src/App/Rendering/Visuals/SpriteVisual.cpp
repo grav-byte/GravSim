@@ -1,7 +1,6 @@
 #include "SpriteVisual.h"
-#include "../RenderingSystem.h"
 
-#include "../TextureLoader.h"
+#include "../../Engine/Loading/TextureLoader.h"
 
 SpriteVisual::SpriteVisual() {
     path_ = "";

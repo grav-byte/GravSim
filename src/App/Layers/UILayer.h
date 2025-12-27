@@ -3,8 +3,8 @@
 #include "imgui.h"
 #include "Core/AppLayer.h"
 
-#include "../UI/SceneUI.h"
-#include "../UI/SettingsUI.h"
+#include "App/UI/SceneUI.h"
+#include "App/UI/SettingsUI.h"
 #include "App/UI/FollowingUI.h"
 #include "App/UI/SimulationUI.h"
 #include "App/UI/InteractionState.h"

@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 05.12.25.
-//
-
 #include "CameraController.h"
 
 #include <iostream>
@@ -10,7 +6,7 @@
 #include "Core/Application.h"
 #include "Core/InputEvents.h"
 
-CameraController::CameraController() {
+CameraController::CameraController() : scene_(nullptr) {
     camera_ = nullptr;
     shouldMove_ = false;
     zoomToMouse_ = true;

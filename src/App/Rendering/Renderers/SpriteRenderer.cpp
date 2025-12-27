@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "App/Rendering/ShaderLoader.h"
+#include "App/Engine/Loading/ShaderLoader.h"
 #include "App/Rendering/Visuals/SpriteVisual.h"
 #include "GL/glew.h"
 

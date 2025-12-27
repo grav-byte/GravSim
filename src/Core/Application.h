@@ -1,16 +1,13 @@
-//
-// Created by Lorenz Saalmann on 27.11.25.
-//
-
 #pragma once
 #include <memory>
 #include <vector>
 
 #include <filesystem>
-namespace fs = std::filesystem;
-
 #include "AppLayer.h"
 #include "Window.h"
+
+namespace fs = std::filesystem;
+
 
 namespace Core {
     class Window;

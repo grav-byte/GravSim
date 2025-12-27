@@ -25,7 +25,7 @@ public:
     unsigned int quadVao = 0;
     unsigned int quadVbo = 0;
 
-    glm::ivec2 frameSize;
+    glm::ivec2 frameSize{};
 
     unsigned int sceneFBO = 0;
     unsigned int sceneTexture = 0;

@@ -1,6 +1,6 @@
 #include "LineRenderer.h"
 
-#include "App/Rendering/TextureLoader.h"
+#include "App/Engine/Loading/TextureLoader.h"
 #include "GL/glew.h"
 
 LineRenderer::LineRenderer(const RenderingSystem* renderer): SpriteRenderer(renderer) {

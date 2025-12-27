@@ -1,5 +1,4 @@
 #include "Constraint.h"
-
 #include <iostream>
 
 #include "Colliders/CircleCollider.h"

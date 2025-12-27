@@ -5,7 +5,7 @@
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "App/Rendering/TextureLoader.h"
+#include "App/Engine/Loading/TextureLoader.h"
 #include "Core/Application.h"
 
 RenderingSystem::RenderingSystem(): activeCamera_(nullptr) {

@@ -20,8 +20,8 @@ class ShaderRenderer {
 public:
     explicit ShaderRenderer(const RenderingSystem* renderer);
 
-    void Render(const SceneObject* obj, unsigned int shaderProgram,
-                const ShaderUniforms& uniforms = ShaderUniforms()) const;
+    void Render(const SceneObject *obj,
+                const std::string &fragPath, const ShaderUniforms &uniforms = ShaderUniforms()) const;
 
 private:
     const RenderingSystem* renderingSys_;

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "App/Rendering/ShaderLoader.h"
+#include "App/Engine/Loading/ShaderLoader.h"
 #include "GL/glew.h"
 
 ConstraintRenderer::ConstraintRenderer(const RenderingSystem* renderer) : BaseRenderer(renderer) {

@@ -7,8 +7,8 @@ struct ContactPoint {
     ColliderBase* collider;
     ColliderBase* otherCollider;
     // world position
-    glm::vec2 point;
-    glm::vec2 normal;
+    glm::vec2 point{};
+    glm::vec2 normal{};
     float penetrationDepth;
 
     ContactPoint(): collider(nullptr), otherCollider(nullptr), point(glm::vec2(0)), normal(glm::vec2(0)), penetrationDepth(-1.0f) {}

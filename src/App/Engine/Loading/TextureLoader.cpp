@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 07.12.25.
-//
-
 #include "GL/glew.h"
 #include "TextureLoader.h"
 
@@ -12,7 +8,7 @@
 GLuint TextureLoader::whiteTex_ = 0;
 
 TextureLoader::TextureInfo TextureLoader::GetTexture(const std::filesystem::path &path) {
-    auto it = textures_.find(path);
+    const auto it = textures_.find(path);
     if (it != textures_.end()) {
         return it->second; // already loaded
     }

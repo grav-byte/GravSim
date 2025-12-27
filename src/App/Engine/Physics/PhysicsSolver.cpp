@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 10.12.25.
-//
-
 #include "PhysicsSolver.h"
 
 #include <iostream>
@@ -10,7 +6,6 @@
 #include "Propagators/EulerPropagator.h"
 #include "App/Engine/Scene.h"
 #include "App/Layers/EngineLayer.h"
-#include "Core/AppLayer.h"
 #include "Core/Application.h"
 #include "Propagators/RK4Propagator.h"
 #include "Propagators/SemiImplicitEulerPropagator.h"

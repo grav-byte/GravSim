@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 27.11.25.
-//
-
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "GLFW/glfw3.h"
@@ -9,7 +5,7 @@
 
 #include "imgui_internal.h"
 #include "implot.h"
-#include "../UI/SceneUI.h"
+#include "App/UI/SceneUI.h"
 #include "App/UI/CustomImGuiStyle.h"
 #include "App/UI/FollowingUI.h"
 #include "Core/Application.h"

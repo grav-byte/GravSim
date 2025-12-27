@@ -1,13 +1,7 @@
-//
-// Created by Lorenz Saalmann on 01.12.25.
-//
-
 #define IMGUI_IMPL_OPENGL_LOADER_GLEW
-
 
 #include "GL/glew.h"
 #include "ShaderLoader.h"
-
 
 GLuint ShaderLoader::LoadShader(const std::string &vertexPath, const std::string &fragmentPath) {
     // Create shader program and compile & attach shaders

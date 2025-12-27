@@ -3,11 +3,9 @@
 #include "imgui.h"
 #include "imgui_internal.h"
 #include "Core/Application.h"
-#include "../Layers/EngineLayer.h"
-#include "App/Rendering/TextureLoader.h"
+#include "App/Layers/EngineLayer.h"
+#include "App/Engine/Loading/TextureLoader.h"
 #include <iostream>
-#include <unordered_map>
-
 
 InteractionUI::InteractionUI(InteractionState* state)
     : state_(state)

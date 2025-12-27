@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 27.11.25.
-//
-
 #include <iostream>
 
 #include "Core/Application.h"

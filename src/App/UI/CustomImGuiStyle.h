@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 08.12.25.
-//
-
 #pragma once
 #include "imgui.h"
 
@@ -11,7 +7,7 @@ public:
         ImGui::StyleColorsDark();
         ImGuiStyle& style = ImGui::GetStyle();
 
-    	float rounding = 3.0f;
+        constexpr float rounding = 3.0f;
 
 		style.Alpha = 1.0f;
 		style.DisabledAlpha = 1.0f;

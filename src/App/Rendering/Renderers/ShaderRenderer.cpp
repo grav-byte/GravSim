@@ -2,11 +2,14 @@
 
 #include "GL/glew.h"
 #include "App/Rendering/RenderingSystem.h"
-#include "App/Rendering/TextureLoader.h"
+#include "App/Engine/Loading/TextureLoader.h"
+#include "App/Engine/Loading/ShaderLoader.h"
+#include "Core/Application.h"
 
 ShaderRenderer::ShaderRenderer(const RenderingSystem *renderer): renderingSys_(renderer) {}
 
-void ShaderRenderer::Render(const SceneObject *obj, GLuint shaderProgram, const ShaderUniforms &uniforms) const {
+void ShaderRenderer::Render(const SceneObject *obj, const std::string &fragPath, const ShaderUniforms &uniforms) const {
+    const auto shaderProgram = ShaderLoader::LoadShader("sprite.vert", fragPath);
     if(!shaderProgram || !obj) return;
 
     glUseProgram(shaderProgram);
@@ -19,6 +22,10 @@ void ShaderRenderer::Render(const SceneObject *obj, GLuint shaderProgram, const 
         if(transformLoc != -1)
             glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
     }
+
+    // time
+    const GLint loc = glGetUniformLocation(shaderProgram, "uTime");
+    if(loc != -1) glUniform1f(loc, Core::Application::GetTime());
 
     // upload standard uniforms
     for(const auto& [name, value] : uniforms.floats) {

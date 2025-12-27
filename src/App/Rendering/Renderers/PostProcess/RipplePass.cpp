@@ -1,7 +1,8 @@
 #include "RipplePass.h"
 
 #include "GL/glew.h"
-#include "App/Rendering/ShaderLoader.h"
+#include "App/Engine/Loading/ShaderLoader.h"
+#include "App/Rendering/RenderingSystem.h"
 #include "Core/Application.h"
 
 

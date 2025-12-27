@@ -1,5 +1,6 @@
 #include "SceneRenderer.h"
 
+#include "App/Rendering/Visuals/ShaderVisual.h"
 #include "GL/glew.h"
 #include "Core/Application.h"
 #include "PostProcess/RipplePass.h"
@@ -35,6 +36,10 @@ void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) co
                 break;
             case VisualType::Sprite:
                 spriteRenderer_.RenderSprite(obj);
+                break;
+            case VisualType::Shader:
+                const auto visual = dynamic_cast<ShaderVisual*>(obj->visual.get());
+                shaderRenderer_.Render(obj, visual->shaderPath, visual->shaderData);
                 break;
         }
     }

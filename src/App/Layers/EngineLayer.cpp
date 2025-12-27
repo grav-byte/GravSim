@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 01.12.25.
-//
-
 #include <GL/glew.h>
 #include <sstream>
 
@@ -10,10 +6,9 @@
 #include <iostream>
 
 #include "Core/Application.h"
-#include "../Engine/EngineEvents.h"
-#include "../Rendering/RenderingSystem.h"
-#include "../Engine/Loading/SceneLoader.h"
-#include "App/Rendering/Visuals/SpriteVisual.h"
+#include "App/Engine/EngineEvents.h"
+#include "App/Rendering/RenderingSystem.h"
+#include "App/Engine/Loading/SceneLoader.h"
 
 EngineLayer::EngineLayer() : AppLayer() {
     SceneLoader::EnsureSceneFolderExists();

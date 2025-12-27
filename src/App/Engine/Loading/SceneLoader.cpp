@@ -7,21 +7,19 @@
 
 #include <fstream>
 #include <filesystem>
-#include "../../Rendering/Visuals/CircleVisual.h"
-#include "../../Rendering/Visuals/SpriteVisual.h"
-#include "../../Rendering/Visuals/IVisual.h"
+#include "App/Rendering/Visuals/CircleVisual.h"
+#include "App/Rendering/Visuals/ShaderVisual.h"
+#include "App/Rendering/Visuals/SpriteVisual.h"
+#include "App/Rendering/Visuals/IVisual.h"
 #include "Core/Application.h"
-#include "../Physics/Colliders/CircleCollider.h"
-#include "../Physics/Colliders/ColliderBase.h"
+#include "App/Engine//Physics/Colliders/CircleCollider.h"
+#include "App/Engine/Physics/Colliders/ColliderBase.h"
 
 #include <cereal/types/polymorphic.hpp>
 #include <cereal/archives/json.hpp>
 #include <cereal/types/vector.hpp>
 #include <cereal/types/map.hpp>
 #include <cereal/types/memory.hpp>
-#include <filesystem>
-
-#include "App/Rendering/Visuals/ShaderVisual.h"
 
 CEREAL_REGISTER_TYPE(CircleVisual)
 

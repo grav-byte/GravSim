@@ -1,12 +1,8 @@
-//
-// Created by kw on 10.12.2025.
-//
-
 #include "VerletPropagator.h"
 
 void VerletPropagator::Propagate(SceneObject &object,
-        std::function<glm::vec2(const SceneObject &)> accelerationFunc,
-        float deltaTime) {
+        const std::function<glm::vec2(const SceneObject &)> accelerationFunc,
+        const float deltaTime) {
 
     if (object.lastPosition != object.transform.position)
         object.velocity = (object.transform.position - object.lastPosition) / deltaTime; // use verlet if there is a valid last pos

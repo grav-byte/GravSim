@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 05.12.25.
-//
-
 #pragma once
 #include "Camera.h"
 #include "EngineEvents.h"
@@ -35,9 +31,9 @@ public:
 private:
     Camera* camera_;
     bool zoomToMouse_;
-    glm::vec2 lastMouseWorldPos_;
+    glm::vec2 lastMouseWorldPos_{};
     bool shouldMove_;
-    glm::vec2 currentMouseScreenPos_;
+    glm::vec2 currentMouseScreenPos_{};
     SceneObject* followObj_;
     Scene * scene_;
     float lastClickTime_;

@@ -1,12 +1,8 @@
-//
-// Created by Lorenz Saalmann on 05.12.25.
-//
-
 #pragma once
 
 #include "FileSelector.h"
 #include "IUserInterface.h"
-#include "../Layers/EngineLayer.h"
+#include "App/Layers/EngineLayer.h"
 #include "App/Engine/Scene.h"
 
 class SceneUI : public IUserInterface {

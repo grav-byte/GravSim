@@ -1,17 +1,11 @@
-//
-// Created by Lorenz Saalmann on 01.12.25.
-//
-
 #pragma once
-#include <filesystem>
 
 #include "Core/AppLayer.h"
 #include <memory>
 
-#include "../Engine/Scene.h"
+#include "App/Engine/Scene.h"
 #include "App/Engine/CameraController.h"
 #include "App/Engine/Physics/PhysicsSolver.h"
-#include "../Rendering/Renderers/GridRenderer.h"
 #include "App/Rendering/Renderers/SceneRenderer.h"
 
 class RenderingSystem;

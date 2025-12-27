@@ -1,6 +1,6 @@
 #include "ShaderVisual.h"
 
-ShaderVisual::ShaderVisual() : shaderType(None) {
+ShaderVisual::ShaderVisual() : shaderData({}) {
 }
 ShaderVisual::~ShaderVisual() = default;
 

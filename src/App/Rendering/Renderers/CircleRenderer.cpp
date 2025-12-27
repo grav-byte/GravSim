@@ -3,7 +3,7 @@
 #include "GL/glew.h"
 #include <iostream>
 
-#include "App/Rendering/ShaderLoader.h"
+#include "App/Engine/Loading/ShaderLoader.h"
 #include "Core/AppLayer.h"
 
 

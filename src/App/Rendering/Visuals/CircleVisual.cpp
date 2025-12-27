@@ -1,10 +1,5 @@
-//
-// Created by Lorenz Saalmann on 05.12.25.
-//
-
 #include "CircleVisual.h"
-
-#include "../RenderingSystem.h"
+#include "App/Rendering//RenderingSystem.h"
 
 
 CircleVisual::CircleVisual() {

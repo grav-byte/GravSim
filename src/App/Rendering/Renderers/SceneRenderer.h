@@ -4,7 +4,6 @@
 #include "GridRenderer.h"
 #include "ShaderRenderer.h"
 #include "SpriteRenderer.h"
-#include "SunRenderer.h"
 #include "App/Engine/Scene.h"
 #include "App/Rendering/RenderingSystem.h"
 #include "PostProcess/PostProcessPass.h"

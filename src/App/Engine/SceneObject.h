@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 01.12.25.
-//
-
 #pragma once
 #include "Physics/Colliders/ColliderBase.h"
 #include "glm/vec2.hpp"
@@ -10,7 +6,7 @@
 #include <string>
 
 #include "Transform.h"
-#include "../Rendering/Visuals/IVisual.h"
+#include "App/Rendering/Visuals/IVisual.h"
 #include "Physics/ContactPoint.h"
 
 

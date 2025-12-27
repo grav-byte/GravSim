@@ -1,7 +1,3 @@
-//
-// Created by Lorenz Saalmann on 08.12.25.
-//
-
 #pragma once
 #include <string>
 

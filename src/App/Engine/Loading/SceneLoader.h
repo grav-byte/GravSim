@@ -1,11 +1,7 @@
-//
-// Created by Lorenz Saalmann on 06.12.25.
-//
-
 #pragma once
 #include <filesystem>
 
-#include "../Scene.h"
+#include "App/Engine/Scene.h"
 
 
 class SceneLoader {

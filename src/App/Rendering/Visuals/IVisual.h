@@ -1,7 +1,3 @@
-//
-// Created by kw on 01.12.2025.
-//
-
 #pragma once
 #include "App/Engine/Transform.h"
 

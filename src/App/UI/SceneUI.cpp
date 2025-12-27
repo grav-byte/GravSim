@@ -1,13 +1,9 @@
-//
-// Created by Lorenz Saalmann on 05.12.25.
-//
-
 #include "SceneUI.h"
 
 #include <iostream>
 
 #include "imgui.h"
-#include "../Layers/EngineLayer.h"
+#include "App/Layers/EngineLayer.h"
 #include "App/Engine/Physics/Colliders/CircleCollider.h"
 #include "App/Rendering/Visuals/CircleVisual.h"
 #include "App/Rendering/Visuals/SpriteVisual.h"

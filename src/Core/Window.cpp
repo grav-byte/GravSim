@@ -1,12 +1,7 @@
-//
-// Created by Lorenz Saalmann on 27.11.25.
-//
-
 #include "Window.h"
 #include <stdexcept>
 #include <iostream>
 
-#include "imgui.h"
 #include "InputEvents.h"
 #include "WindowEvents.h"
 
@@ -43,7 +38,7 @@ namespace Core {
 
         glfwSetWindowCloseCallback(handle_, [](GLFWwindow* handle)
         {
-            Window& window = *static_cast<Window *>(glfwGetWindowUserPointer(handle));
+            const Window& window = *static_cast<Window *>(glfwGetWindowUserPointer(handle));
 
             WindowClosedEvent event;
             window.RaiseEvent(event);
@@ -51,7 +46,7 @@ namespace Core {
 
         glfwSetWindowSizeCallback(handle_, [](GLFWwindow* handle, int width, int height)
         {
-            Window& window = *static_cast<Window *>(glfwGetWindowUserPointer(handle));
+            const Window& window = *static_cast<Window *>(glfwGetWindowUserPointer(handle));
             window.OnResize();
 
             WindowResizedEvent event(width, height);
@@ -60,7 +55,7 @@ namespace Core {
 
         glfwSetKeyCallback(handle_, [](GLFWwindow* handle, int key, int scancode, int action, int mods)
         {
-            Window& window = *static_cast<Window *>(glfwGetWindowUserPointer(handle));
+            const Window& window = *static_cast<Window *>(glfwGetWindowUserPointer(handle));
 
             switch (action)
             {
@@ -82,7 +77,7 @@ namespace Core {
 
         glfwSetMouseButtonCallback(handle_, [](GLFWwindow* handle, int button, int action, int mods)
          {
-             Window& window = *((Window*)glfwGetWindowUserPointer(handle));
+             Window& window = *static_cast<Window *>(glfwGetWindowUserPointer(handle));
 
              switch (action)
              {
@@ -111,7 +106,7 @@ namespace Core {
 
         glfwSetCursorPosCallback(handle_, [](GLFWwindow* handle, double x, double y)
         {
-            Window& window = *((Window*)glfwGetWindowUserPointer(handle));
+            const Window& window = *static_cast<Window *>(glfwGetWindowUserPointer(handle));
 
             float xscale = 1.0f;
             float yscale = 1.0f;
@@ -132,8 +127,8 @@ namespace Core {
         }
     }
 
-    void Window::OnResize() {
-        auto size = GetFramebufferSize();
+    void Window::OnResize() const {
+        const auto size = GetFramebufferSize();
         glViewport(0, 0, size.x, size.y);
     }
 
