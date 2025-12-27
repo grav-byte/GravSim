@@ -110,51 +110,42 @@ void ContactSolver::ApplyFriction(const ContactPoint &contact, float normalImpul
     if (otherObj)
         vRel -= GetContactVelocityAtPoint(*contact.otherCollider, contact.point);
 
-    // compute tangent vector (perpendicular to normal)
+    // compute tangent vector
     glm::vec2 tangent = vRel - glm::dot(vRel, contact.normal) * contact.normal;
-    float len2 = glm::length(tangent);
+    const float len2 = glm::length(tangent);
     if (len2 < 1e-6f) return; // no relative motion along tangent
 
     tangent = glm::normalize(tangent);
 
     // lever arms
-    const glm::vec2 rA = contact.point - obj->transform.position;
-    const float rAxt = rA.x * tangent.y - rA.y * tangent.x;
-
-    float rBxt = 0.0f;
-    if (otherObj) {
-        const glm::vec2 rB = contact.point - otherObj->transform.position;
-        rBxt = rB.x * tangent.y - rB.y * tangent.x;
-    }
+    const float rxt = ComputeRxT(obj, contact, tangent);
+    const float bxt = otherObj ? ComputeRxT(obj, contact, tangent) : 0.0f;
 
     // effective mass along tangent
-    float invMassT = 1.0f / obj->mass + rAxt * rAxt / obj->GetInertia();
-    if (otherObj)
-        invMassT += 1.0f / otherObj->mass + rBxt * rBxt / otherObj->GetInertia();
-
-    float effMassT = 1.0f / invMassT;
+    float invMassT = 1.0f / obj->mass + rxt * rxt / obj->GetInertia();
+    invMassT += otherObj ? 1.0f / otherObj->mass + bxt * bxt / otherObj->GetInertia() : 0.0f;
 
     // friction impulse magnitude coulomb friction
-    float vt = glm::dot(vRel, tangent);
-    float Jt = -vt * effMassT;
+    const float vt = glm::dot(vRel, tangent);
+    float Jt = -vt *  1.0f / invMassT;
 
     // max friction based on normal impulse
     float mu = contact.collider->friction;
-    if (contact.otherCollider) mu *= contact.otherCollider->friction;
+    mu *= contact.otherCollider ? contact.otherCollider->friction : 1.0f;
 
-    float maxJt = mu * normalImpulse;
+    const float maxJt = mu * normalImpulse;
     Jt = glm::clamp(Jt, -maxJt, maxJt);
 
     // apply friction impulse symmetrically
-    glm::vec2 frictionImpulse = Jt * tangent;
+    const glm::vec2 frictionImpulse = Jt * tangent;
 
     // object A
     obj->velocity += frictionImpulse / obj->mass;
-    obj->angularVelocity += glm::degrees(rAxt * Jt / obj->GetInertia());
+    obj->angularVelocity += glm::degrees(rxt * Jt / obj->GetInertia());
 
     if (otherObj) {
         otherObj->velocity -= frictionImpulse / otherObj->mass;
-        otherObj->angularVelocity -= glm::degrees(rBxt * Jt / otherObj->GetInertia());
+        otherObj->angularVelocity -= glm::degrees(bxt * Jt / otherObj->GetInertia());
     }
 }
 
@@ -170,4 +161,10 @@ float ContactSolver::ComputeRxN (const SceneObject* obj, const ContactPoint &con
     // compute r x n
     const glm::vec2 r = contact.point - obj->transform.position; // vector from COM to contact
     return r.x * contact.normal.y - r.y * contact.normal.x;
+}
+
+float ContactSolver::ComputeRxT (const SceneObject* obj, const ContactPoint &contact, const glm::vec2& tangent) {
+    // compute r x t
+    const glm::vec2 r = contact.point - obj->transform.position; // vector from COM to contact
+    return r.x * tangent.y - r.y * tangent.x;
 }

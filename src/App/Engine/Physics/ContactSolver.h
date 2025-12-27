@@ -17,4 +17,5 @@ private:
     // helper functions
     static float ComputeRxN(const SceneObject* obj, const ContactPoint& contact);
     static glm::vec2 GetContactVelocityAtPoint(const ColliderBase &collider, const glm::vec2 &point);
+    static float ComputeRxT (const SceneObject* obj, const ContactPoint &contact, const glm::vec2& tangent);
 };
