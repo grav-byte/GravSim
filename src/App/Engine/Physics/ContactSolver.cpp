@@ -15,8 +15,16 @@ void ContactSolver::FindContacts(const Scene *scene) {
             for (const auto& colliderA : objA.colliders) {
                 for (const auto& colliderB : objB.colliders) {
                     ContactPoint contact;
-                    if (colliderA->CheckCollision(*colliderB, contact))
+                    if (colliderA->CheckCollision(*colliderB, contact)) {
                         objA.contactPoints.push_back(contact);
+                        // generate inverse contact for objB
+                        ContactPoint inverse = contact;
+                        inverse.collider = contact.otherCollider;
+                        inverse.otherCollider = contact.collider;
+                        inverse.normal = -contact.normal;
+
+                        objB.contactPoints.push_back(inverse);
+                    }
                 }
             }
         }
@@ -28,7 +36,12 @@ void ContactSolver::ResolveContacts(SceneObject* object) {
     for (const auto& contact : object->contactPoints) {
         ApplyCollisionImpulse(contact);
     }
-    object->contactPoints.clear();
+}
+
+void ContactSolver::ClearContacts(Scene *scene) {
+    for (SceneObject *& object : scene->GetAllObjects()) {
+        object->contactPoints.clear();
+    }
 }
 
 void ContactSolver::ApplyCollisionImpulse(const ContactPoint &contact)
@@ -74,10 +87,12 @@ void ContactSolver::ApplyCollisionImpulse(const ContactPoint &contact)
         // force verlet update
         otherObj->lastPosition = otherObj->transform.position;
         otherObj->lastRotation = otherObj->transform.rotation;
-    } else {
-        // positional correction to avoid sinking in wall
-        obj->transform.position += contact.normal * contact.penetrationDepth * .1f;
+        otherObj->transform.position -= contact.normal * contact.penetrationDepth * .4f;
     }
+
+    // positional correction to avoid sinking
+    obj->transform.position += contact.normal * contact.penetrationDepth * .4f;
+
 
     // force verlet update
     obj->lastPosition = obj->transform.position;

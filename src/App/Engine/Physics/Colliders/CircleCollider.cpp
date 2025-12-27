@@ -16,17 +16,19 @@ bool CircleCollider::CheckCollision(ColliderBase &other, ContactPoint &contact) 
 
     if (other.GetType() == ColliderType::Circle) {
         // collision with another circle
-        const auto parentTransform = parentObject->transform;
-
-
         const glm::vec2 centerA = GetWorldPosition();
         const glm::vec2 centerB = other.GetWorldPosition();
+        const glm::vec2 dir = centerA - centerB;
 
-        const float radiusA = GetWorldSize().x * parentTransform.scale.x;
-        const float radiusB = other.GetWorldSize().x * other.parentObject->transform.scale.x;
+        const float radiusA = GetWorldSize().x;
+        const float radiusB = other.GetWorldSize().x;
 
-        const float distSq = glm::dot(centerA - centerB, centerA - centerB);
+        const float distSq = glm::dot(dir, dir);
         const float radiusSum = radiusA + radiusB;
+
+        const glm::vec2 normal = glm::normalize(dir);
+        const glm::vec2 point = centerB + normal * radiusB;
+        contact = ContactPoint(point, normal, radiusSum - glm::length(dir), this, &other);
 
         return distSq <= radiusSum * radiusSum;
     }

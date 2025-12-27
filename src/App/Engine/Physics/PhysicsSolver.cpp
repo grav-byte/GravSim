@@ -9,7 +9,9 @@
 
 #include "Propagators/EulerPropagator.h"
 #include "App/Engine/Scene.h"
+#include "App/Layers/EngineLayer.h"
 #include "Core/AppLayer.h"
+#include "Core/Application.h"
 #include "Propagators/RK4Propagator.h"
 #include "Propagators/SemiImplicitEulerPropagator.h"
 #include "Propagators/VelocityVerletPropagator.h"
@@ -69,6 +71,8 @@ void PhysicsSolver::StepPropagation(Scene *scene) {
             object->lastRotation = object->transform.rotation - object->angularVelocity * timeStep_;
         }
 
+        ContactSolver::ClearContacts(scene);
+
         // apply constraints
         for (const Constraint* constraint : scene->GetConstraints()) {
             constraint->ApplyConstraint(object);
@@ -81,7 +85,6 @@ void PhysicsSolver::StepPropagation(Scene *scene) {
         object->ResetAccumulatedForces();
     }
 }
-
 
 glm::vec2 PhysicsSolver::GetAccelerationForObject(const SceneObject &object) const {
     auto acceleration = object.accelerationAccumulated;

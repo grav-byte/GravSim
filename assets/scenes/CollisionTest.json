@@ -73,46 +73,7 @@
                                             "value0": 0.0,
                                             "value1": 0.0
                                         },
-                                        "value3": 0.800000011920929,
-                                        "value4": {
-                                            "ptr_wrapper": {
-                                                "id": 2147483649,
-                                                "data": {
-                                                    "value0": {
-                                                        "value0": 3.700000047683716,
-                                                        "value1": -0.006000000052154064
-                                                    },
-                                                    "value1": 0.0,
-                                                    "value2": {
-                                                        "value0": 0.6000000238418579,
-                                                        "value1": 0.6000000238418579
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            {
-                                "polymorphic_id": 1,
-                                "ptr_wrapper": {
-                                    "valid": 1,
-                                    "data": {
-                                        "value0": {},
-                                        "value1": {
-                                            "value0": 0.3400000035762787,
-                                            "value1": 0.3400000035762787
-                                        },
-                                        "value2": {
-                                            "value0": 0.6000000238418579,
-                                            "value1": 0.0
-                                        },
-                                        "value3": 0.800000011920929,
-                                        "value4": {
-                                            "ptr_wrapper": {
-                                                "id": 1
-                                            }
-                                        }
+                                        "value3": 0.800000011920929
                                     }
                                 }
                             }
@@ -122,6 +83,75 @@
                         "value9": {
                             "polymorphic_id": 2147483650,
                             "polymorphic_name": "SpriteVisual",
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {},
+                                    "value1": "../assets/sprites/circle_dots.png",
+                                    "value2": {
+                                        "value0": 1.0,
+                                        "value1": 1.0,
+                                        "value2": 1.0,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": false,
+                        "value11": true
+                    }
+                }
+            },
+            {
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 1,
+                        "value1": "Circle",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.0,
+                                "value1": 0.0
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.6000000238418579,
+                                "value1": 0.6000000238418579
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value4": 1.0,
+                        "value5": {
+                            "value0": 1.399999976158142,
+                            "value1": 0.0
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.800000011920929
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2,
                             "ptr_wrapper": {
                                 "valid": 1,
                                 "data": {
@@ -189,6 +219,6 @@
                 }
             }
         ],
-        "value5": 1
+        "value5": 2
     }
 }

@@ -9,8 +9,7 @@ ColliderBase::ColliderBase(SceneObject* parent):
     parentObject(parent) {}
 
 glm::vec4 ColliderBase::GetAABB() const {
-    const auto parentTransform = parentObject->transform;
-    const glm::vec2 worldPos = parentTransform.position + localPosition * parentTransform.scale;
+    const glm::vec2 worldPos = GetWorldPosition();
     const auto size = GetWorldSize();
     return {worldPos.x - size.x, worldPos.y - size.y, worldPos.x + size.x, worldPos.y + size.y};
 }

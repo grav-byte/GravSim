@@ -6,8 +6,9 @@
 class ContactSolver {
 public:
     static void FindContacts(const Scene *scene);
-
     static void ResolveContacts(SceneObject *object);
+
+    static void ClearContacts(Scene * scene);
 
 private:
     static void ApplyCollisionImpulse(const ContactPoint& contact);

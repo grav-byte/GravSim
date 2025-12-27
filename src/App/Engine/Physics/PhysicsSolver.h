@@ -18,6 +18,9 @@ public:
     float GetTimeStep() const;
 
     void UpdatePhysics(Scene *scene, float deltaTime);
+
+    void DrawContactPoints();
+
     void StepPropagation(Scene *scene);
 
     struct PropagatorEntry {

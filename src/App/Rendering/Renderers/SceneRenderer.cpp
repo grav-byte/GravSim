@@ -37,11 +37,21 @@ void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) co
         }
     }
 
-    // render colliders
+    // render colliders and debug info
     if (showColliders) {
         for (const SceneObject* obj : scene->GetAllObjects()) {
             for (const auto& collider : obj->colliders)
                 circleRenderer_.RenderCircle(collider->GetTransformMatrix(), colliderColor_);
+            for (const auto& contact : obj->contactPoints) {
+                // render contact point
+                auto transform = glm::mat4(1.0f);
+                // position
+                transform = glm::translate(transform, glm::vec3(contact.point, 0.0f));
+                // scale
+                transform = glm::scale(transform, glm::vec3(0.1f));
+
+                circleRenderer_.RenderCircle(transform, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+            }
         }
     }
 }
