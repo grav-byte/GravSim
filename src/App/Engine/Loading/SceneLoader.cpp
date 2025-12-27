@@ -2,38 +2,39 @@
 // Created by Lorenz Saalmann on 06.12.25.
 //
 
+#include "CerealHelpers.h"
 #include "SceneLoader.h"
 
 #include <fstream>
 #include <filesystem>
-#include "../Rendering/Visuals/CircleVisual.h"
-#include "../Rendering/Visuals/SpriteVisual.h"
-#include "../Rendering/Visuals/IVisual.h"
+#include "../../Rendering/Visuals/CircleVisual.h"
+#include "../../Rendering/Visuals/SpriteVisual.h"
+#include "../../Rendering/Visuals/IVisual.h"
 #include "Core/Application.h"
-#include "Physics/Colliders/CircleCollider.h"
-#include "Physics/Colliders/ColliderBase.h"
+#include "../Physics/Colliders/CircleCollider.h"
+#include "../Physics/Colliders/ColliderBase.h"
 
 #include <cereal/types/polymorphic.hpp>
 #include <cereal/archives/json.hpp>
 #include <cereal/types/vector.hpp>
+#include <cereal/types/map.hpp>
 #include <cereal/types/memory.hpp>
 #include <filesystem>
 
+#include "App/Rendering/Visuals/ShaderVisual.h"
+
 CEREAL_REGISTER_TYPE(CircleVisual)
+
 CEREAL_REGISTER_POLYMORPHIC_RELATION(IVisual, CircleVisual)
 
 CEREAL_REGISTER_TYPE(SpriteVisual)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(IVisual, SpriteVisual)
 
+CEREAL_REGISTER_TYPE(ShaderVisual)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(IVisual, ShaderVisual)
+
 CEREAL_REGISTER_TYPE(CircleCollider)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(ColliderBase, CircleCollider)
-
-namespace cereal {
-    template <class Archive>
-    void serialize(Archive& ar, glm::vec2& v) { ar(v.x, v.y); }
-    template<class Archive>
-    void serialize(Archive& ar, glm::vec4& v) { ar(v.x, v.y, v.z, v.w); }
-}
 
 std::string SceneLoader::sceneFolder = "scenes";
 

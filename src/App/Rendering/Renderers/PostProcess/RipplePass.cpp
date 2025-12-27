@@ -10,7 +10,7 @@ RipplePass::RipplePass(const RenderingSystem* renderer) : PostProcessPass(render
 }
 
 void RipplePass::RenderPass(unsigned int inputTexture) const {
-    auto activeCamera = renderingSys_->GetActiveCamera();
+    const auto activeCamera = renderingSys_->GetActiveCamera();
 
     if (!rippleShaderProgram_ || !activeCamera) return;
     glUseProgram(rippleShaderProgram_);

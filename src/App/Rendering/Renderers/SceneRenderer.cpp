@@ -1,6 +1,7 @@
 #include "SceneRenderer.h"
 
 #include "GL/glew.h"
+#include "Core/Application.h"
 #include "PostProcess/RipplePass.h"
 
 SceneRenderer::SceneRenderer(RenderingSystem* system) :
@@ -8,6 +9,7 @@ SceneRenderer::SceneRenderer(RenderingSystem* system) :
     circleRenderer_(system),
     constraintRenderer_(system),
     gridRenderer_(LineRenderer(system), system),
+    shaderRenderer_(system),
     colliderColor_(glm::vec4(1.0f, 0.0f, 0.0f, 0.5f)),
     renderer_(system)
 {

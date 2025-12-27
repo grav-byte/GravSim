@@ -64,8 +64,8 @@ add_executable(GravSim
         src/App/Engine/EngineEvents.h
         src/App/Engine/CameraController.cpp
         src/App/Engine/CameraController.h
-        src/App/Engine/SceneLoader.cpp
-        src/App/Engine/SceneLoader.h
+        src/App/Engine/Loading/SceneLoader.cpp
+        src/App/Engine/Loading/SceneLoader.h
         src/App/UI/FileSelector.cpp
         src/App/UI/FileSelector.h
         src/App/Rendering/Visuals/SpriteVisual.cpp
@@ -118,6 +118,13 @@ add_executable(GravSim
         src/App/Engine/Physics/ContactPoint.h
         src/App/Engine/Physics/ContactSolver.cpp
         src/App/Engine/Physics/ContactSolver.h
+        src/App/Rendering/Renderers/SunRenderer.h
+        src/App/Rendering/Renderers/SunRenderer.cpp
+        src/App/Rendering/Renderers/ShaderRenderer.cpp
+        src/App/Rendering/Renderers/ShaderRenderer.h
+        src/App/Rendering/Visuals/ShaderVisual.h
+        src/App/Rendering/Visuals/ShaderVisual.cpp
+        src/App/Engine/Loading/CerealHelpers.h
 )
 
 # Include directories

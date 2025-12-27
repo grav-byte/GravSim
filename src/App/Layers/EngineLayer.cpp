@@ -12,7 +12,8 @@
 #include "Core/Application.h"
 #include "../Engine/EngineEvents.h"
 #include "../Rendering/RenderingSystem.h"
-#include "App/Engine/SceneLoader.h"
+#include "../Engine/Loading/SceneLoader.h"
+#include "App/Rendering/Visuals/SpriteVisual.h"
 
 EngineLayer::EngineLayer() : AppLayer() {
     SceneLoader::EnsureSceneFolderExists();

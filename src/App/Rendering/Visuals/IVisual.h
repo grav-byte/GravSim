@@ -10,7 +10,8 @@ class RenderingSystem;
 
 enum class VisualType {
     Circle,
-    Sprite
+    Sprite,
+    Shader
 };
 
 class IVisual {

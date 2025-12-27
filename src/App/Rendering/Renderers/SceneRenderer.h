@@ -2,7 +2,9 @@
 #include "CircleRenderer.h"
 #include "ConstraintRenderer.h"
 #include "GridRenderer.h"
+#include "ShaderRenderer.h"
 #include "SpriteRenderer.h"
+#include "SunRenderer.h"
 #include "App/Engine/Scene.h"
 #include "App/Rendering/RenderingSystem.h"
 #include "PostProcess/PostProcessPass.h"
@@ -24,6 +26,7 @@ private:
     SpriteRenderer spriteRenderer_;
     CircleRenderer circleRenderer_;
     ConstraintRenderer constraintRenderer_;
+    ShaderRenderer shaderRenderer_;
     GridRenderer gridRenderer_;
     glm::vec4 colliderColor_;
     RenderingSystem* renderer_;
