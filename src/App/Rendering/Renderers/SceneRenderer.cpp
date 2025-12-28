@@ -15,7 +15,7 @@ SceneRenderer::SceneRenderer(RenderingSystem* system) :
 {
     showGrid = true;
     passes_.push_back(std::make_unique<PostProcessPass>(renderer_, "bloom.frag"));
-    passes_.push_back(std::make_unique<PostProcessPass>(renderer_, "ripple.frag"));
+    //passes_.push_back(std::make_unique<PostProcessPass>(renderer_, "ripple.frag"));
 }
 
 void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) const {
