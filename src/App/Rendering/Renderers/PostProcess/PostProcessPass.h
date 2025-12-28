@@ -1,11 +1,19 @@
 #pragma once
-#include "App/Rendering/Renderers/BaseRenderer.h"
+#include "App/Rendering/Renderers/ShaderRenderer.h"
 
-class PostProcessPass: public BaseRenderer {
+class PostProcessPass: public ShaderRenderer {
 public:
-    explicit PostProcessPass(const RenderingSystem* renderer): BaseRenderer(renderer) {}
-    ~PostProcessPass() override = default;
+    explicit PostProcessPass(const RenderingSystem* renderer, const std::string &fragPath): ShaderRenderer(renderer), fragPath_(fragPath){}
 
-    virtual void RenderPass(unsigned int inputTexture) const = 0;
+    void RenderPass(unsigned int inputTexture) const;
+private:
+    std::string fragPath_;
 };
 
+inline void PostProcessPass::RenderPass(const unsigned int inputTexture) const {
+    ShaderUniforms uniforms;
+    uniforms.resolution = glm::vec2(static_cast<float>(renderingSys_->frameSize.x), static_cast<float>(renderingSys_->frameSize.y));
+    uniforms.screenBufferTex = inputTexture;
+
+    Render(nullptr, fragPath_, uniforms);
+}

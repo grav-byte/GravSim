@@ -110,8 +110,6 @@ add_executable(GravSim
         src/App/Rendering/Renderers/LineRenderer.h
         src/App/Rendering/Renderers/BaseRenderer.h
         src/App/Rendering/Renderers/PostProcess/PostProcessPass.h
-        src/App/Rendering/Renderers/PostProcess/RipplePass.h
-        src/App/Rendering/Renderers/PostProcess/RipplePass.cpp
         src/App/UI/InteractionUI.cpp
         src/App/UI/InteractionUI.h
         src/App/UI/InteractionState.h

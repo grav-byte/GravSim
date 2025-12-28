@@ -10,17 +10,27 @@ ShaderRenderer::ShaderRenderer(const RenderingSystem *renderer): renderingSys_(r
 
 void ShaderRenderer::Render(const SceneObject *obj, const std::string &fragPath, const ShaderUniforms &uniforms) const {
     const auto shaderProgram = ShaderLoader::LoadShader("sprite.vert", fragPath);
-    if(!shaderProgram || !obj) return;
+    if(!shaderProgram) return;
 
     glUseProgram(shaderProgram);
 
     // upload transform
     const auto activeCamera = renderingSys_->GetActiveCamera();
-    if(activeCamera) {
+    if(activeCamera && obj) {
         glm::mat4 finalTransform = activeCamera->GetProjectionMatrix() * obj->transform.GetMatrix();
         GLint transformLoc = glGetUniformLocation(shaderProgram, "uTransform");
         if(transformLoc != -1)
             glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));
+    } else {
+        GLint transformLoc = glGetUniformLocation(shaderProgram, "uTransform");
+        if(transformLoc != -1)
+            glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
+    }
+
+    // resolution
+    if (uniforms.resolution != glm::vec2(0.0f)) {
+        const GLint resLoc = glGetUniformLocation(shaderProgram, "uResolution");
+        if(resLoc != -1) glUniform2f(resLoc, uniforms.resolution.x, uniforms.resolution.y);
     }
 
     // time
@@ -42,6 +52,14 @@ void ShaderRenderer::Render(const SceneObject *obj, const std::string &fragPath,
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         GLint loc = glGetUniformLocation(shaderProgram, name.c_str());
+        if(loc != -1) glUniform1i(loc, texUnit);
+        texUnit++;
+    }
+
+    if (uniforms.screenBufferTex != 0) {
+        glActiveTexture(GL_TEXTURE0 + texUnit);
+        glBindTexture(GL_TEXTURE_2D, uniforms.screenBufferTex);
+        GLint loc = glGetUniformLocation(shaderProgram, "uScreenBuffer");
         if(loc != -1) glUniform1i(loc, texUnit);
         texUnit++;
     }

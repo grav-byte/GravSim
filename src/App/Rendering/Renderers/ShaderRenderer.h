@@ -9,6 +9,9 @@ struct ShaderUniforms {
     std::map<std::string, float> floats;
     std::map<std::string, std::string> textures;
 
+    glm::vec2 resolution;
+    unsigned int screenBufferTex;
+
     // cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
@@ -23,6 +26,6 @@ public:
     void Render(const SceneObject *obj,
                 const std::string &fragPath, const ShaderUniforms &uniforms = ShaderUniforms()) const;
 
-private:
+protected:
     const RenderingSystem* renderingSys_;
 };

@@ -3,7 +3,6 @@
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "GL/glew.h"
 #include "Core/Application.h"
-#include "PostProcess/RipplePass.h"
 
 SceneRenderer::SceneRenderer(RenderingSystem* system) :
     spriteRenderer_(system),
@@ -15,7 +14,8 @@ SceneRenderer::SceneRenderer(RenderingSystem* system) :
     renderer_(system)
 {
     showGrid = true;
-    //passes_.push_back(std::make_unique<RipplePass>(renderer_));
+    passes_.push_back(std::make_unique<PostProcessPass>(renderer_, "bloom.frag"));
+    passes_.push_back(std::make_unique<PostProcessPass>(renderer_, "ripple.frag"));
 }
 
 void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) const {
