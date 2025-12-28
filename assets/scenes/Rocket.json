@@ -1,0 +1,232 @@
+{
+    "value0": {
+        "value0": "Rocket",
+        "value1": {
+            "ptr_wrapper": {
+                "valid": 1,
+                "data": {
+                    "value0": {
+                        "value0": {
+                            "value0": 0.08259999752044678,
+                            "value1": -0.5422027111053467
+                        },
+                        "value1": 0.0,
+                        "value2": {
+                            "value0": 1.0,
+                            "value1": 1.0
+                        }
+                    },
+                    "value1": 0.29923874139785769,
+                    "value2": {
+                        "value0": 0.0,
+                        "value1": 0.0,
+                        "value2": 0.0,
+                        "value3": 1.0
+                    }
+                }
+            }
+        },
+        "value2": {
+            "value0": 0.0,
+            "value1": 0.0
+        },
+        "value3": [
+            {
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 0,
+                        "value1": "Exhaust",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.0,
+                                "value1": 0.0
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 4.0,
+                                "value1": 3.0
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value4": 0.0,
+                        "value5": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value6": [],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2147483649,
+                            "polymorphic_name": "ShaderVisual",
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {},
+                                    "value1": "exhaust.frag",
+                                    "value2": {
+                                        "value0": [
+                                            {
+                                                "key": "uThrust",
+                                                "value": 0.8
+                                            }
+                                        ],
+                                        "value1": []
+                                    }
+                                }
+                            }
+                        },
+                        "value10": false,
+                        "value11": true
+                    }
+                }
+            },
+            {
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 1,
+                        "value1": "Nozzle",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.0,
+                                "value1": -0.2199999988079071
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.11999999731779099,
+                                "value1": 0.11999999731779099
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0,
+                            "value1": -0.2199999988079071
+                        },
+                        "value4": 1.0,
+                        "value5": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 2147483650,
+                                "polymorphic_name": "CircleCollider",
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.800000011920929
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2147483651,
+                            "polymorphic_name": "SpriteVisual",
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {},
+                                    "value1": "../assets/sprites/rocket_nozzle.png",
+                                    "value2": {
+                                        "value0": 1.0,
+                                        "value1": 1.0,
+                                        "value2": 1.0,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": false,
+                        "value11": true
+                    }
+                }
+            },
+            {
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 2,
+                        "value1": "Rocket",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.0,
+                                "value1": 0.4000000059604645
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.5,
+                                "value1": 0.5
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0,
+                            "value1": 0.4000000059604645
+                        },
+                        "value4": 1.0,
+                        "value5": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 2,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.800000011920929
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 3,
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {},
+                                    "value1": "../assets/sprites/rocket_main.png",
+                                    "value2": {
+                                        "value0": 1.0,
+                                        "value1": 1.0,
+                                        "value2": 1.0,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": false,
+                        "value11": true
+                    }
+                }
+            }
+        ],
+        "value4": [],
+        "value5": 3
+    }
+}

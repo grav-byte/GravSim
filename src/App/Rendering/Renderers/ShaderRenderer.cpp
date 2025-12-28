@@ -47,7 +47,7 @@ void ShaderRenderer::Render(const SceneObject *obj, const std::string &fragPath,
     int texUnit = 0;
     for(const auto& [name, texPath] : uniforms.textures) {
 
-        glActiveTexture(GL_TEXTURE0);
+        glActiveTexture(GL_TEXTURE0 + texUnit);
         glBindTexture(GL_TEXTURE_2D, TextureLoader::LoadTextureFromFile(texPath).id);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

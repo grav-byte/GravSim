@@ -9,6 +9,7 @@
 #include "App/Engine/EngineEvents.h"
 #include "App/Rendering/RenderingSystem.h"
 #include "App/Engine/Loading/SceneLoader.h"
+#include "App/Rendering/Visuals/ShaderVisual.h"
 
 EngineLayer::EngineLayer() : AppLayer() {
     SceneLoader::EnsureSceneFolderExists();
@@ -23,6 +24,16 @@ EngineLayer::~EngineLayer() = default;
 
 void EngineLayer::NewScene() {
     scene_ = std::make_unique<Scene>();
+/*
+    auto obj = std::make_unique<SceneObject>();
+    auto visual = ShaderVisual();
+    visual.shaderPath = "exhaust.frag";
+    visual.shaderData.floats["uThrust"] = .8f;
+
+    obj->transform.scale = glm::vec2(4.0f, 3.0f);
+    obj->visual = std::make_unique<ShaderVisual>(visual);
+    scene_->AddObject(std::move(obj));
+*/
     OnSceneLoaded();
 }
 

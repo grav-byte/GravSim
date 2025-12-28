@@ -14,7 +14,7 @@ SceneRenderer::SceneRenderer(RenderingSystem* system) :
     renderer_(system)
 {
     showGrid = true;
-    passes_.push_back(std::make_unique<PostProcessPass>(renderer_, "bloom.frag"));
+    //passes_.push_back(std::make_unique<PostProcessPass>(renderer_, "bloom.frag"));
     //passes_.push_back(std::make_unique<PostProcessPass>(renderer_, "ripple.frag"));
 }
 

@@ -10,7 +10,7 @@ struct ShaderUniforms {
     std::map<std::string, std::string> textures;
 
     glm::vec2 resolution;
-    unsigned int screenBufferTex;
+    unsigned int screenBufferTex = 0;
 
     // cereal serialization
     template<class Archive>
