@@ -10,6 +10,7 @@
 #include "App/Rendering/RenderingSystem.h"
 #include "App/Engine/Loading/SceneLoader.h"
 #include "App/Rendering/Visuals/ShaderVisual.h"
+#include "App/RocketControl/RocketObject.h"
 
 EngineLayer::EngineLayer() : AppLayer() {
     SceneLoader::EnsureSceneFolderExists();
@@ -135,7 +136,7 @@ void EngineLayer::OnInit() {
     NewScene();
 }
 
-void EngineLayer::OnUpdate(float deltaTime) {
+void EngineLayer::OnUpdate(const float deltaTime) {
     if (runningSimulation_ && !pausedSimulation_)
         physicsSolver_->UpdatePhysics(scene_.get(), deltaTime);
 

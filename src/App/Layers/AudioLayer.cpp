@@ -29,11 +29,31 @@ void AudioLayer::PlaySound(const char* path) {
     ma_engine_play_sound(&engine_, path, nullptr);
 }
 
-void AudioLayer::SetVolume(float volume) {
+ma_sound *AudioLayer::PlaySoundRepeating(const char *path) {
+    const auto sound = new ma_sound; // heap allocate so it persists after function ends
+
+    const ma_result result = ma_sound_init_from_file(&engine_, path, MA_SOUND_FLAG_LOOPING, nullptr, nullptr, sound);
+    if (result != MA_SUCCESS) {
+        printf("ma_sound_init looping failed\n");
+        return sound;
+    }
+    ma_sound_start(sound);
+    return sound;
+}
+
+void AudioLayer::AdjustSoundVolume(const float volume, ma_sound* sound) {
+    ma_sound_set_volume(sound, volume);
+}
+
+void AudioLayer::AdjustSoundPitch(const float pitch, ma_sound* sound) {
+    ma_sound_set_pitch(sound, pitch);
+}
+
+void AudioLayer::SetGlobalVolume(float volume) {
     ma_engine_set_volume(&engine_, volume);
 }
 
-float AudioLayer::GetVolume() {
+float AudioLayer::GetGlobalVolume() {
     return ma_engine_get_volume(&engine_);
 }
 
@@ -90,7 +110,7 @@ void AudioLayer::PlayRandomSongFromDirectory(const char *directoryPath, ma_sound
     static std::random_device rd;
     static std::mt19937 gen(rd());
     std::uniform_int_distribution<size_t> dist(0, audioFiles.size() - 1);
-    fs::path randomFile = audioFiles[dist(gen)];
+    const fs::path randomFile = audioFiles[dist(gen)];
 
     currentSongTitle = randomFile.filename().string();
 

@@ -121,6 +121,10 @@ add_executable(GravSim
         src/App/Rendering/Visuals/ShaderVisual.h
         src/App/Rendering/Visuals/ShaderVisual.cpp
         src/App/Engine/Loading/CerealHelpers.h
+        src/App/RocketControl/RocketObject.cpp
+        src/App/RocketControl/RocketObject.h
+        src/App/RocketControl/ControlLayer.cpp
+        src/App/RocketControl/ControlLayer.h
 )
 
 # Include directories

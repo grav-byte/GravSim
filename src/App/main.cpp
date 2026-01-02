@@ -2,6 +2,7 @@
 #include "Core/Application.h"
 #include "Layers/AudioLayer.h"
 #include "Layers/UILayer.h"
+#include "RocketControl/ControlLayer.h"
 
 int main() {
     Core::AppConfig config;
@@ -15,6 +16,7 @@ int main() {
     app.PushLayer<EngineLayer>();
     app.PushLayer<AudioLayer>();
     app.PushLayer<UILayer>();
+    app.PushLayer<ControlLayer>();
 
     app.Run();
 }

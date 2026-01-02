@@ -50,7 +50,6 @@ public:
     glm::vec2 accelerationAccumulated;
     float angularAccelerationAccumulated;
     void ApplyForce(const glm::vec2 & force, const glm::vec2 & atPoint = glm::vec2(0, 0));
-    void ApplyCollisionImpulse(ContactPoint contact);
 
     void ResetAccumulatedForces();
 

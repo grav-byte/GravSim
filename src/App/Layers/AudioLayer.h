@@ -13,8 +13,14 @@ public:
     std::string currentSongTitle;
 
     void PlaySound(const char *path);
-    void SetVolume(float volume);
-    float GetVolume();
+
+    ma_sound *PlaySoundRepeating(const char *path);
+
+    static void AdjustSoundVolume(float volume, ma_sound *sound);
+    static void AdjustSoundPitch(float pitch, ma_sound *sound);
+
+    void SetGlobalVolume(float volume);
+    float GetGlobalVolume();
 
 
     static void OnSongFinished(void * data, ma_sound * p_sound) {

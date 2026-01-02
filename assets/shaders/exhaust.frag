@@ -199,7 +199,7 @@ void main()
     {
         float power = pow(2.0, float(i));
         color += (1.5 / power) * snoise(
-        coord + vec3(0.0, -uTime * pow(uThrust, 0.2), uTime * 0.2 * uThrust),
+        coord + vec3(0.0, -uTime * pow(uThrust, 0.2), uTime * 2.0 * uThrust),
         power * 16.0
         );
     }

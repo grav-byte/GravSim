@@ -13,7 +13,7 @@ enum class VisualType {
 class IVisual {
 public:
     virtual ~IVisual() = default;
-    glm::vec4 color;
+    glm::vec4 color = glm::vec4(1.0f);
 
     virtual VisualType GetType() = 0;
 

@@ -12,7 +12,7 @@ SettingsUI::SettingsUI() {
     zoomToMouse_ = true;
     showGrid_ = true;
     engineLayer_->GetCameraController()->SetZoomToMouse(zoomToMouse_);
-    audioLayer_->SetVolume(.5f);
+    audioLayer_->SetGlobalVolume(.5f);
 }
 
 SettingsUI::~SettingsUI() = default;
@@ -59,7 +59,7 @@ void SettingsUI::Draw() {
 
     ImGui::SeparatorText("Audio");
     if (ImGui::SliderFloat("Volume", &volume_, 0.0f, 1.0f)) {
-        audioLayer_->SetVolume(volume_);
+        audioLayer_->SetGlobalVolume(volume_);
     }
     ImGui::TextWrapped("Now Playing: \n%s", audioLayer_->currentSongTitle.c_str());
     if (ImGui::Button("Skip Song")) {
