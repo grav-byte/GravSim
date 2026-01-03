@@ -15,6 +15,7 @@ public:
     SceneObject();
 
     SceneObject(uint32_t objectId, const std::string &objectName);
+    virtual ~SceneObject() = default;
 
     uint32_t id;
     std::string name;

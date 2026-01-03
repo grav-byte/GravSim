@@ -21,6 +21,8 @@
 #include <cereal/types/map.hpp>
 #include <cereal/types/memory.hpp>
 
+#include "App/RocketControl/RocketObject.h"
+
 CEREAL_REGISTER_TYPE(CircleVisual)
 
 CEREAL_REGISTER_POLYMORPHIC_RELATION(IVisual, CircleVisual)
@@ -33,6 +35,9 @@ CEREAL_REGISTER_POLYMORPHIC_RELATION(IVisual, ShaderVisual)
 
 CEREAL_REGISTER_TYPE(CircleCollider)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(ColliderBase, CircleCollider)
+
+CEREAL_REGISTER_TYPE(RocketObject)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(SceneObject, RocketObject)
 
 std::string SceneLoader::sceneFolder = "scenes";
 

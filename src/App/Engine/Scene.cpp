@@ -15,20 +15,23 @@ Scene::Scene() {
 
 Camera* Scene::GetCamera() const { return camera_.get(); }
 
-void Scene::CreateObject() {
+uint32_t Scene::CreateObject() {
     sceneObjects_.push_back(std::make_unique<SceneObject>(nextID_++, "Circle"));
+    return nextID_ - 1;
 }
 
-void Scene::CreateObject(const glm::vec2& pos) {
+uint32_t Scene::CreateObject(const glm::vec2& pos) {
     auto obj = std::make_unique<SceneObject>(nextID_++, "Circle");
     obj->transform.position = pos;
     obj->lastPosition = pos;
     sceneObjects_.push_back(std::move(obj));
+    return nextID_ - 1;
 }
 
-void Scene::AddObject(std::unique_ptr<SceneObject> obj) {
+uint32_t Scene::AddObject(std::unique_ptr<SceneObject> obj) {
     obj->id = nextID_++;
     sceneObjects_.push_back(std::move(obj));
+    return nextID_ - 1;
 }
 
 void Scene::AddConstraint(std::unique_ptr<Constraint> constraint) {
@@ -83,4 +86,12 @@ void Scene::DeleteObject(uint32_t id) {
 
 std::string* Scene::GetName() {
     return &name_;
+}
+
+SceneObject* Scene::GetObjById(const uint32_t uint32) const {
+    for (const auto& obj : sceneObjects_) {
+        if (obj->id == uint32)
+            return obj.get();
+    }
+    return nullptr;
 }

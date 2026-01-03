@@ -53,7 +53,7 @@ void SceneObject::ResetAccumulatedForces() {
 }
 
 void SceneObject::ApplyForce(const glm::vec2 &force, const glm::vec2 &atPoint) {
-    if (mass <= 0.0f)
+    if (mass <= 0.0f || (force.x == 0.0f && force.y == 0.0f))
         return;
 
     // linear acceleration

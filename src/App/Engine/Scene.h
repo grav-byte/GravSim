@@ -12,10 +12,10 @@ public:
 
     Camera* GetCamera() const;
 
-    void CreateObject();
-    void CreateObject(const glm::vec2& pos);
+    uint32_t CreateObject();
+    uint32_t CreateObject(const glm::vec2& pos);
 
-    void AddObject(std::unique_ptr<SceneObject> obj);
+    uint32_t AddObject(std::unique_ptr<SceneObject> obj);
 
     void AddConstraint(std::unique_ptr<Constraint> constraint);
 
@@ -26,6 +26,8 @@ public:
     void DeleteObject(uint32_t id);
 
     std::string* GetName();
+
+    SceneObject* GetObjById(uint32_t uint32) const;
 
 
     glm::vec2 globalGravity{};

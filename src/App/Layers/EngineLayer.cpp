@@ -44,8 +44,7 @@ bool EngineLayer::LoadScene(const std::string &filePath) {
         return false;
 
     scene_ = std::move(loadedScene);
-    if (!scene_)
-        return false;
+
     OnSceneLoaded();
     return true;
 }

@@ -60,11 +60,15 @@ namespace Core {
             switch (action)
             {
                 case GLFW_PRESS:
-                case GLFW_REPEAT:
                 {
-                    KeyPressedEvent event(key, action == GLFW_REPEAT);
+                    KeyPressedEvent event(key, false);
                     window.RaiseEvent(event);
                     break;
+                }
+                case GLFW_REPEAT:
+                {
+                    KeyPressedEvent event(key, true);
+                    window.RaiseEvent(event);break;
                 }
                 case GLFW_RELEASE:
                 {

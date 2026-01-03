@@ -5,6 +5,11 @@
 #include "App/Rendering/Visuals/SpriteVisual.h"
 #include "Core/Application.h"
 
+RocketObject::RocketObject() : nozzleObj_(nullptr), exhaustObj_(nullptr), exhaustShaderData_(nullptr), exhaustId_(0),
+                               nozzleId_(0),
+                               rocketSound_(nullptr) {
+}
+
 RocketObject::RocketObject(Scene& scene) {
     // setup objects
     auto nozzleUq = std::make_unique<SceneObject>(0, "Rocket Nozzle");
@@ -23,10 +28,11 @@ RocketObject::RocketObject(Scene& scene) {
     nozzleObj_ = nozzleUq.get();
     exhaustObj_ = exhaustUq.get();
 
-    scene.AddObject(std::move(nozzleUq));
-    scene.AddObject(std::move(exhaustUq));
+    nozzleId_ = scene.AddObject(std::move(nozzleUq));
+    exhaustId_ = scene.AddObject(std::move(exhaustUq));
 
     name = "Rocket";
+    mass = 50.0f;
     visual = std::make_unique<SpriteVisual>("../assets/sprites/rocket_main.png");
 
     // audio
@@ -44,4 +50,22 @@ void RocketObject::UpdateVisualisation() const {
     nozzleObj_->transform.position = transform.position + yDir * nozzleOffset;
     exhaustObj_->transform.rotation = transform.rotation + thrustAngle;
     nozzleObj_->transform.rotation = transform.rotation + thrustAngle;
+}
+
+glm::vec2 RocketObject::GetThrustPosition() const {
+    return exhaustObj_->transform.position - transform.position;
+}
+
+glm::vec2 RocketObject::GetThrustVector() const {
+    const float angleRad = glm::radians(thrustAngle + transform.rotation);
+    const glm::vec2 dir = { -sin(angleRad), cos(angleRad) };
+    const float magnitude = thrustPercent * maxTrustForce_;
+    // std::cout << "dir: " << dir.x << " ," << dir.y << std::endl;
+    return dir * magnitude;
+}
+
+void RocketObject::RelinkObjects(const Scene &scene) {
+    nozzleObj_ = scene.GetObjById(nozzleId_);
+    exhaustObj_ = scene.GetObjById(exhaustId_);
+    exhaustShaderData_ = &dynamic_cast<ShaderVisual*>(exhaustObj_->visual.get())->shaderData;
 }
