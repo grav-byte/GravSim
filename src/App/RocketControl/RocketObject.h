@@ -47,5 +47,5 @@ private:
     uint32_t exhaustId_;
     uint32_t nozzleId_;
 
-    ma_sound* rocketSound_;
+    std::unique_ptr<ma_sound> rocketSound_;
 };

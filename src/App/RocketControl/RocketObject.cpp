@@ -54,17 +54,16 @@ void RocketObject::StartSound() {
 
 void RocketObject::StopSound() {
     if(rocketSound_) {
-        ma_sound_stop(rocketSound_);
-        ma_sound_uninit(rocketSound_);
-        delete rocketSound_;
+        ma_sound_stop(rocketSound_.get());
+        ma_sound_uninit(rocketSound_.get());
         rocketSound_ = nullptr;
     }
 }
 
 void RocketObject::UpdateVisualisation() const {
     exhaustShaderData_->floats["uThrust"] = thrustPercent;
-    AudioLayer::AdjustSoundVolume((thrustPercent + .5f) * 2.0f, rocketSound_);
-    AudioLayer::AdjustSoundPitch(thrustPercent * .4f + .2f, rocketSound_);
+    AudioLayer::AdjustSoundVolume((thrustPercent + .5f) * 2.0f, rocketSound_.get());
+    AudioLayer::AdjustSoundPitch(thrustPercent * .4f + .2f, rocketSound_.get());
 
     const glm::vec2 yDir = transform.GetMatrix() * glm::vec4(0, 1, 0, 0);
     exhaustObj_->transform.position = transform.position + yDir * exhaustOffset;

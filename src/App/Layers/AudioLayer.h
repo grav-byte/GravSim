@@ -13,7 +13,7 @@ public:
 
     void PlaySound(const char *path);
 
-    ma_sound *PlaySoundRepeating(const char *path);
+    std::unique_ptr<ma_sound> PlaySoundRepeating(const char *path);
 
     static void AdjustSoundVolume(float volume, ma_sound *sound);
     static void AdjustSoundPitch(float pitch, ma_sound *sound);

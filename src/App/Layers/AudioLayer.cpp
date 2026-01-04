@@ -29,15 +29,15 @@ void AudioLayer::PlaySound(const char* path) {
     ma_engine_play_sound(&engine_, path, nullptr);
 }
 
-ma_sound *AudioLayer::PlaySoundRepeating(const char *path) {
-    const auto sound = new ma_sound; // heap allocate so it persists after function ends
+std::unique_ptr<ma_sound> AudioLayer::PlaySoundRepeating(const char *path) {
+    auto sound = std::make_unique<ma_sound>();
 
-    const ma_result result = ma_sound_init_from_file(&engine_, path, MA_SOUND_FLAG_LOOPING, nullptr, nullptr, sound);
+    const ma_result result = ma_sound_init_from_file(&engine_, path, MA_SOUND_FLAG_LOOPING, nullptr, nullptr, sound.get());
     if (result != MA_SUCCESS) {
         printf("ma_sound_init looping failed\n");
         return sound;
     }
-    ma_sound_start(sound);
+    ma_sound_start(sound.get());
     return sound;
 }
 
