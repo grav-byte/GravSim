@@ -38,6 +38,7 @@ RocketObject::RocketObject(Scene& scene) {
     name = "Rocket";
     mass = 50.0f;
     visual = std::make_unique<SpriteVisual>("../assets/sprites/rocket_main.png");
+    rocketSound_ = nullptr;
 }
 
 RocketObject::~RocketObject() {
