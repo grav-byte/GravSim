@@ -49,8 +49,9 @@ void AudioLayer::AdjustSoundPitch(const float pitch, ma_sound* sound) {
     ma_sound_set_pitch(sound, pitch);
 }
 
-void AudioLayer::StopSound(ma_sound *ma_sound) {
-    ma_sound_stop(ma_sound);
+void AudioLayer::StopSound(std::unique_ptr<ma_sound> sound) {
+    if (!sound) return;
+    soundsToStop_.push_back(std::move(sound));
 }
 
 void AudioLayer::SetGlobalVolume(float volume) {
@@ -66,6 +67,13 @@ void AudioLayer::OnInit() {
 }
 
 void AudioLayer::OnUpdate(float deltaTime) {
+    // Stop any sounds scheduled for stopping
+    for (auto& s : soundsToStop_) {
+        ma_sound_stop(s.get());
+        ma_sound_uninit(s.get());
+    }
+    soundsToStop_.clear();
+
     if (shouldPlayNextSong_) {
         shouldPlayNextSong_ = false;
         NextSong();
