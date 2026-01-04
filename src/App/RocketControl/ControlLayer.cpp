@@ -58,14 +58,11 @@ void ControlLayer::OnEvent(Core::Event &event) {
             rocketObj_->StartSound();
     }
 
-    if (event.GetEventType() == Core::SimulationPaused || event.GetEventType() == Core::SimulationStopped) {
-        if (rocketObj_)
+    if (event.GetEventType() == Core::SimulationPaused) {
+        if (rocketObj_) {
             rocketObj_->StopSound();
-    }
-
-    if (event.GetEventType() == Core::SimulationPaused || event.GetEventType() == Core::SimulationStepped) {
-        if (rocketObj_)
             rocketObj_->UpdateVisualisation();
+        }
     }
 
     if (event.GetEventType() == Core::KeyPressed) {
