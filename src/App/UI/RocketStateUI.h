@@ -10,6 +10,8 @@ public:
 
     void OnEvent(Core::Event &event) override;
 
+    void RecordHistory(RocketObject *rocketObj, float rocketVelocityRel, float rocketPosRel);
+
     void Draw() override;
 private:
     static void DrawReferenceCombo(int& selectedIndex,const std::vector<SceneObject*>& objects);
@@ -22,9 +24,9 @@ private:
 
     static void ShowCurrentState(RocketObject *rocketObj, float rocketVelocityRel, float rocketPosRel);
 
-    void PlotHistory(const std::vector<float> &data, glm::vec2 yLimits, const char* title);
+    void PlotHistory(const std::vector<float> &data, glm::vec2 yLimits, const char* title) const;
 
-    void ShowHistoryGraph(RocketObject* rocket_object, float rocket_velocity_rel, float rocket_pos_rel);
+    void ShowHistoryGraph();
 
     const int maxHistorySize_ = 100;
     std::vector<float> thrustHistory_;

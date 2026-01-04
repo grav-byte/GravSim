@@ -4,7 +4,6 @@
 #include "App/Engine/SceneObject.h"
 #include "App/Layers/EngineLayer.h"
 #include "App/Rendering/Renderers/ShaderRenderer.h"
-#include "App/Rendering/Visuals/ShaderVisual.h"
 #include "cereal/types/base_class.hpp"
 #include "Core/Application.h"
 

@@ -3,7 +3,7 @@
 #include "imgui.h"
 #include "implot.h"
 
-RocketStateUI::RocketStateUI() {
+RocketStateUI::RocketStateUI() : availableWidth(0), availableHeight(0) {
     controlLayer_ = Core::Application::Get().GetLayer<ControlLayer>();
     engineLayer_ = Core::Application::Get().GetLayer<EngineLayer>();
 }
@@ -18,47 +18,7 @@ void RocketStateUI::OnEvent(Core::Event &event) {
     }
 }
 
-void RocketStateUI::Draw() {
-    if (!engineLayer_->IsRunningSimulation())
-        return;
-    const auto rocketObj = controlLayer_->GetRocketObject();
-    if (!rocketObj)
-        return;
-
-
-
-    ImGui::SetNextWindowPos(ImVec2(1000, 750), ImGuiCond_FirstUseEver);
-    ImGui::SetNextWindowSize(ImVec2(419, 163), ImGuiCond_FirstUseEver);
-    ImGui::Begin("Rocket State",nullptr, ImGuiWindowFlags_NoDocking);
-    static int selectedIndex = -1; // -1 = World
-    const auto& objects = engineLayer_->GetScene()->GetAllObjects();
-
-    glm::vec2 referenceVelocity;
-    glm::vec2 referencePos;
-    ComputeReferenceFrame(
-        selectedIndex,
-        objects,
-        rocketObj,
-        referenceVelocity,
-        referencePos
-    );
-
-    const auto rocketVelocityRel = glm::length(rocketObj->velocity - referenceVelocity);
-    const auto rocketPosRel = glm::length(rocketObj->transform.position - referencePos);
-    if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_DrawSelectedOverline)) {
-        if (ImGui::BeginTabItem("Current"))
-        {
-            ShowCurrentState(rocketObj, rocketVelocityRel, rocketPosRel);
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("Graph"))
-        {
-            ShowHistoryGraph(rocketObj,rocketVelocityRel,rocketPosRel);
-            ImGui::EndTabItem();
-        }
-        ImGui::EndTabBar();
-    }
-
+void RocketStateUI::RecordHistory(RocketObject * const rocketObj, const float rocketVelocityRel, const float rocketPosRel) {
     // record history
     thrustHistory_.push_back(rocketObj->thrustPercent);
     angleHistory_.push_back(rocketObj->thrustAngle);
@@ -72,6 +32,43 @@ void RocketStateUI::Draw() {
         velocityHistory_.erase(velocityHistory_.begin());
         altitudeHistory_.erase(altitudeHistory_.begin());
     }
+}
+
+void RocketStateUI::Draw() {
+    if (!engineLayer_->IsRunningSimulation())
+        return;
+    const auto rocketObj = controlLayer_->GetRocketObject();
+    if (!rocketObj)
+        return;
+
+    ImGui::SetNextWindowPos(ImVec2(1000, 750), ImGuiCond_FirstUseEver);
+    ImGui::SetNextWindowSize(ImVec2(419, 163), ImGuiCond_FirstUseEver);
+
+    ImGui::Begin("Rocket State",nullptr, ImGuiWindowFlags_NoDocking);
+    static int selectedIndex = -1; // -1 = World
+    const auto& objects = engineLayer_->GetScene()->GetAllObjects();
+
+    glm::vec2 referenceVelocity;
+    glm::vec2 referencePos;
+    ComputeReferenceFrame(selectedIndex, objects, rocketObj, referenceVelocity,referencePos);
+
+    const auto rocketVelocityRel = glm::length(rocketObj->velocity - referenceVelocity);
+    const auto rocketPosRel = glm::length(rocketObj->transform.position - referencePos);
+    if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_DrawSelectedOverline)) {
+        if (ImGui::BeginTabItem("Current"))
+        {
+            ShowCurrentState(rocketObj, rocketVelocityRel, rocketPosRel);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Graph"))
+        {
+            ShowHistoryGraph();
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
+    }
+
+    RecordHistory(rocketObj, rocketVelocityRel, rocketPosRel);
 
     DrawReferenceCombo(selectedIndex, objects);
 
@@ -134,8 +131,7 @@ void RocketStateUI::ShowCurrentState(RocketObject* const rocketObj, const float 
     ImGui::LabelText("Altitude", "%.2f m", rocketPosRel);
 }
 
-void RocketStateUI::PlotHistory(const std::vector<float> &data, const glm::vec2 yLimits, const char* title) {
-
+void RocketStateUI::PlotHistory(const std::vector<float> &data, const glm::vec2 yLimits, const char* title) const {
     ImPlot::SetNextAxisLimits(ImAxis_Y1, yLimits.x, yLimits.y, ImPlotCond_Always);
     if (ImPlot::BeginPlot(title, ImVec2(availableWidth * .5f, availableHeight * .5f), flags))
     {
@@ -145,7 +141,7 @@ void RocketStateUI::PlotHistory(const std::vector<float> &data, const glm::vec2 
     }
 }
 
-void RocketStateUI::ShowHistoryGraph(RocketObject* const rocketObj, const float rocketVelocityRel, const float rocketPosRel) {
+void RocketStateUI::ShowHistoryGraph() {
     ImPlot::PushStyleVar(ImPlotStyleVar_PlotPadding, ImVec2(0, 0));
     ImPlot::PushStyleVar(ImPlotStyleVar_PlotBorderSize, 0.0f);
     ImPlot::PushStyleVar(ImPlotStyleVar_PlotMinSize, ImVec2(0, 0));
@@ -164,10 +160,11 @@ void RocketStateUI::ShowHistoryGraph(RocketObject* const rocketObj, const float 
     PlotHistory(angleHistory_, {-21, 21}, "Angle in °");
 
     // find min and max for velocity and altitude to set y axis limits
-    float velMin = rocketVelocityRel - 1.0f;
-    float velMax = rocketVelocityRel + 1.0f;
-    float altMin = rocketPosRel - 1.0f;
-    float altMax = rocketPosRel + 1.0f;
+    const auto lastIdx = velocityHistory_.size()-1;
+    float velMin = velocityHistory_[lastIdx] - 1.0f;
+    float velMax = velocityHistory_[lastIdx] + 1.0f;
+    float altMin = altitudeHistory_[lastIdx] - 1.0f;
+    float altMax = altitudeHistory_[lastIdx] + 1.0f;
     for (const auto& v : velocityHistory_) {
         if (v < velMin) velMin = v;
         if (v > velMax) velMax = v;
