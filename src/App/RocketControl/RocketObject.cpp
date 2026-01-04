@@ -54,9 +54,7 @@ void RocketObject::StartSound() {
 
 void RocketObject::StopSound() {
     if(rocketSound_) {
-        ma_sound_stop(rocketSound_.get());
-        ma_sound_uninit(rocketSound_.get());
-        rocketSound_ = nullptr;
+        Core::Application::Get().GetLayer<AudioLayer>()->StopSound(std::move(rocketSound_));
     }
 }
 

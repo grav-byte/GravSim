@@ -17,7 +17,7 @@ public:
 
     static void AdjustSoundVolume(float volume, ma_sound *sound);
     static void AdjustSoundPitch(float pitch, ma_sound *sound);
-    static void StopSound(ma_sound * ma_sound);
+    void StopSound(std::unique_ptr<ma_sound> ma_sound);
 
 
     void SetGlobalVolume(float volume);
@@ -41,6 +41,7 @@ public:
     void OnRender() override;
 
 private:
+    std::vector<std::unique_ptr<ma_sound>> soundsToStop_;
     bool shouldPlayNextSong_;
     ma_engine engine_;
     ma_sound currentSong_;
