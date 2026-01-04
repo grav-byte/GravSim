@@ -1,6 +1,7 @@
 #include <vector>
 #include "RocketStateUI.h"
 #include "imgui.h"
+#include "implot.h"
 
 RocketStateUI::RocketStateUI() {
     controlLayer_ = Core::Application::Get().GetLayer<ControlLayer>();
@@ -8,6 +9,13 @@ RocketStateUI::RocketStateUI() {
 }
 
 void RocketStateUI::OnEvent(Core::Event &event) {
+    if (event.GetEventType() == Core::SceneLoaded) {
+        // clear history on scene load
+        thrustHistory_.clear();
+        angleHistory_.clear();
+        velocityHistory_.clear();
+        altitudeHistory_.clear();
+    }
 }
 
 void RocketStateUI::Draw() {
@@ -22,9 +30,6 @@ void RocketStateUI::Draw() {
     ImGui::SetNextWindowPos(ImVec2(1000, 750), ImGuiCond_FirstUseEver);
     ImGui::SetNextWindowSize(ImVec2(419, 163), ImGuiCond_FirstUseEver);
     ImGui::Begin("Rocket State",nullptr, ImGuiWindowFlags_NoDocking);
-    ImGui::SliderFloat("Thrust", &rocketObj->thrustPercent, 0.0f, 1.0f, "%.2f");
-    ImGui::SliderFloat("Thrust Angle", &rocketObj->thrustAngle, -20.0f, 20.0f, "%.2f °");
-
     static int selectedIndex = -1; // -1 = World
     const auto& objects = engineLayer_->GetScene()->GetAllObjects();
 
@@ -38,8 +43,35 @@ void RocketStateUI::Draw() {
         referencePos
     );
 
-    ImGui::LabelText("Velocity", "%.2f m/s", glm::length(rocketObj->velocity - referenceVelocity));
-    ImGui::LabelText("Altitude", "%.2f m", glm::length(rocketObj->transform.position - referencePos));
+    const auto rocketVelocityRel = glm::length(rocketObj->velocity - referenceVelocity);
+    const auto rocketPosRel = glm::length(rocketObj->transform.position - referencePos);
+    if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_DrawSelectedOverline)) {
+        if (ImGui::BeginTabItem("Current"))
+        {
+            ShowCurrentState(rocketObj, rocketVelocityRel, rocketPosRel);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Graph"))
+        {
+            ShowHistoryGraph(rocketObj,rocketVelocityRel,rocketPosRel);
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
+    }
+
+    // record history
+    thrustHistory_.push_back(rocketObj->thrustPercent);
+    angleHistory_.push_back(rocketObj->thrustAngle);
+    velocityHistory_.push_back(rocketVelocityRel);
+    altitudeHistory_.push_back(rocketPosRel);
+
+    if (thrustHistory_.size() > maxHistorySize_) {
+        // remove oldest data points
+        thrustHistory_.erase(thrustHistory_.begin());
+        angleHistory_.erase(angleHistory_.begin());
+        velocityHistory_.erase(velocityHistory_.begin());
+        altitudeHistory_.erase(altitudeHistory_.begin());
+    }
 
     DrawReferenceCombo(selectedIndex, objects);
 
@@ -93,4 +125,69 @@ void RocketStateUI::DrawReferenceCombo(int& selectedIndex,const std::vector<Scen
     }
 
     ImGui::EndCombo();
+}
+
+void RocketStateUI::ShowCurrentState(RocketObject* const rocketObj, const float rocketVelocityRel, const float rocketPosRel) {
+    ImGui::SliderFloat("Thrust", &rocketObj->thrustPercent, 0.0f, 1.0f, "%.2f");
+    ImGui::SliderFloat("Thrust Angle", &rocketObj->thrustAngle, -20.0f, 20.0f, "%.2f °");
+    ImGui::LabelText("Velocity", "%.2f m/s", rocketVelocityRel);
+    ImGui::LabelText("Altitude", "%.2f m", rocketPosRel);
+}
+
+void RocketStateUI::PlotHistory(const std::vector<float> &data, const glm::vec2 yLimits, const char* title) {
+
+    ImPlot::SetNextAxisLimits(ImAxis_Y1, yLimits.x, yLimits.y, ImPlotCond_Always);
+    if (ImPlot::BeginPlot(title, ImVec2(availableWidth * .5f, availableHeight * .5f), flags))
+    {
+        ImPlot::SetupAxis(ImAxis_X1, nullptr, axisFlags);
+        ImPlot::PlotLine(title, data.data(), static_cast<int>(data.size()));
+        ImPlot::EndPlot();
+    }
+}
+
+void RocketStateUI::ShowHistoryGraph(RocketObject* const rocketObj, const float rocketVelocityRel, const float rocketPosRel) {
+    ImPlot::PushStyleVar(ImPlotStyleVar_PlotPadding, ImVec2(0, 0));
+    ImPlot::PushStyleVar(ImPlotStyleVar_PlotBorderSize, 0.0f);
+    ImPlot::PushStyleVar(ImPlotStyleVar_PlotMinSize, ImVec2(0, 0));
+
+    availableWidth = ImGui::GetWindowWidth() - spacing - ImGui::GetStyle().WindowPadding.x * 2.0f;
+    availableHeight = ImGui::GetWindowHeight() - spacing - ImGui::GetStyle().WindowPadding.y * 2.0f - 75.0f;
+
+    // Plot Thrust (red)
+    ImPlot::PushStyleColor(ImPlotCol_Line, IM_COL32(255, 0, 0, 255));
+    PlotHistory(thrustHistory_, {-.1, 1.1}, "Thrust");
+    ImPlot::PopStyleColor();
+
+    ImGui::SameLine(availableWidth * .5f + spacing);
+
+    // Plot Angle (blue)
+    PlotHistory(angleHistory_, {-21, 21}, "Angle in °");
+
+    // find min and max for velocity and altitude to set y axis limits
+    float velMin = rocketVelocityRel - 1.0f;
+    float velMax = rocketVelocityRel + 1.0f;
+    float altMin = rocketPosRel - 1.0f;
+    float altMax = rocketPosRel + 1.0f;
+    for (const auto& v : velocityHistory_) {
+        if (v < velMin) velMin = v;
+        if (v > velMax) velMax = v;
+    }
+    for (const auto& a : altitudeHistory_) {
+        if (a < altMin) altMin = a;
+        if (a > altMax) altMax = a;
+    }
+
+    // Plot Velocity (green)
+    ImPlot::PushStyleColor(ImPlotCol_Line, IM_COL32(0, 255, 0, 255));
+    PlotHistory(velocityHistory_, {velMin, velMax}, "Velocity in m/s");
+    ImPlot::PopStyleColor();
+
+    ImGui::SameLine(availableWidth * .5f + spacing);
+
+    // Plot Altitude (orange)
+    ImPlot::PushStyleColor(ImPlotCol_Line, IM_COL32(255, 165, 0, 255));
+    PlotHistory(altitudeHistory_, {altMin, altMax}, "Altitude in m");
+    ImPlot::PopStyleColor();
+
+    ImPlot::PopStyleVar(3);
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include "implot.h"
 #include "IUserInterface.h"
 #include "App/RocketControl/ControlLayer.h"
 
@@ -18,6 +19,25 @@ private:
                                       glm::vec2& outVelocity,
                                       glm::vec2& outPosition
     );
+
+    static void ShowCurrentState(RocketObject *rocketObj, float rocketVelocityRel, float rocketPosRel);
+
+    void PlotHistory(const std::vector<float> &data, glm::vec2 yLimits, const char* title);
+
+    void ShowHistoryGraph(RocketObject* rocket_object, float rocket_velocity_rel, float rocket_pos_rel);
+
+    const int maxHistorySize_ = 100;
+    std::vector<float> thrustHistory_;
+    std::vector<float> angleHistory_;
+    std::vector<float> velocityHistory_;
+    std::vector<float> altitudeHistory_;
+
+    const ImPlotFlags flags = ImPlotFlags_NoTitle | ImPlotFlags_NoMouseText;
+    const ImPlotAxisFlags axisFlags = ImPlotAxisFlags_NoLabel | ImPlotAxisFlags_NoTickLabels;
+    const float spacing = 10.0f;
+    float availableWidth;
+    float availableHeight;
+
     ControlLayer* controlLayer_;
     EngineLayer * engineLayer_;
 };
