@@ -17,10 +17,13 @@ void RocketStateUI::Draw() {
     if (!rocketObj)
         return;
 
-    ImGui::Begin("Rocket State");
+
+
+    ImGui::SetNextWindowPos(ImVec2(1000, 750), ImGuiCond_FirstUseEver);
+    ImGui::SetNextWindowSize(ImVec2(419, 163), ImGuiCond_FirstUseEver);
+    ImGui::Begin("Rocket State",nullptr, ImGuiWindowFlags_NoDocking);
     ImGui::SliderFloat("Thrust", &rocketObj->thrustPercent, 0.0f, 1.0f, "%.2f");
     ImGui::SliderFloat("Thrust Angle", &rocketObj->thrustAngle, -20.0f, 20.0f, "%.2f °");
-
 
     static int selectedIndex = -1; // -1 = World
     const auto& objects = engineLayer_->GetScene()->GetAllObjects();
