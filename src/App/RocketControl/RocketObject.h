@@ -13,7 +13,12 @@ class RocketObject : public SceneObject {
 public:
     RocketObject();
     explicit RocketObject(Scene& scene);
-    ~RocketObject() override = default;
+
+    void StartSound();
+
+    void StopSound();
+
+    ~RocketObject() override;
 
     float thrustPercent = 0.0f; // thrust level from 0 to 1
     float thrustAngle = 0.0f; // angle of thrust vector in degrees from -20 to 20

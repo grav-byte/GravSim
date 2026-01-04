@@ -58,6 +58,21 @@ void ControlLayer::OnEvent(Core::Event &event) {
         FindRocket(event);
     }
 
+    if (event.GetEventType() == Core::SimulationStarted || event.GetEventType() == Core::SimulationResumed) {
+        if (rocketObj_)
+            rocketObj_->StartSound();
+    }
+
+    if (event.GetEventType() == Core::SimulationPaused || event.GetEventType() == Core::SimulationStopped) {
+        if (rocketObj_)
+            rocketObj_->StopSound();
+    }
+
+    if (event.GetEventType() == Core::SimulationPaused || event.GetEventType() == Core::SimulationStepped) {
+        if (rocketObj_)
+            rocketObj_->UpdateVisualisation();
+    }
+
     if (event.GetEventType() == Core::KeyPressed) {
         const auto keyEvent = dynamic_cast<Core::KeyPressedEvent&>(event);
         //std::cout << "Key Pressed: " << keyEvent.GetKeyCode() << std::endl;

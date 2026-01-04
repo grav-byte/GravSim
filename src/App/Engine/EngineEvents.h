@@ -12,6 +12,41 @@ private:
     Scene* scene_;
 };
 
+class SimulationStartedEvent: public Core::Event {
+public:
+    Core::EventType GetEventType() const override { return Core::SimulationStarted; }
+
+    explicit SimulationStartedEvent()= default;
+};
+
+class SimulationStoppedEvent: public Core::Event {
+public:
+    Core::EventType GetEventType() const override { return Core::SimulationStopped; }
+
+    explicit SimulationStoppedEvent() = default;
+};
+
+class SimulationPausedEvent: public Core::Event {
+public:
+    Core::EventType GetEventType() const override { return Core::SimulationPaused; }
+
+    explicit SimulationPausedEvent() = default;
+};
+
+class SimulationResumedEvent: public Core::Event {
+public:
+    Core::EventType GetEventType() const override { return Core::SimulationResumed; }
+
+    explicit SimulationResumedEvent() = default;
+};
+
+class SimulationSteppedEvent: public Core::Event {
+public:
+    Core::EventType GetEventType() const override { return Core::SimulationStepped; }
+
+    explicit SimulationSteppedEvent() = default;
+};
+
 class ObjectDestroyedEvent: public Core::Event {
 public:
     uint32_t GetObjId() const { return objectId_; }

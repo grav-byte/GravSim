@@ -10,7 +10,7 @@ public:
     CameraController();
     void SetZoomToMouse(bool enabled);
 
-    void Update(float deltaTime) const;
+    void Update() const;
 
     void HandleMouseMoved(Core::Event &event);
 

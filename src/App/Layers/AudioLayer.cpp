@@ -49,6 +49,10 @@ void AudioLayer::AdjustSoundPitch(const float pitch, ma_sound* sound) {
     ma_sound_set_pitch(sound, pitch);
 }
 
+void AudioLayer::StopSound(ma_sound *ma_sound) {
+    ma_sound_stop(ma_sound);
+}
+
 void AudioLayer::SetGlobalVolume(float volume) {
     ma_engine_set_volume(&engine_, volume);
 }

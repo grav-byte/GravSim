@@ -9,7 +9,6 @@ class AudioLayer : public Core::AppLayer {
 public:
     AudioLayer();
     ~AudioLayer() override;
-
     std::string currentSongTitle;
 
     void PlaySound(const char *path);
@@ -18,6 +17,8 @@ public:
 
     static void AdjustSoundVolume(float volume, ma_sound *sound);
     static void AdjustSoundPitch(float pitch, ma_sound *sound);
+    static void StopSound(ma_sound * ma_sound);
+
 
     void SetGlobalVolume(float volume);
     float GetGlobalVolume();

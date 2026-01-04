@@ -30,6 +30,8 @@ public:
     bool gravitates;
     bool affectedByGravity;
 
+    bool canFocusCamera = true;
+
     std::unique_ptr<IVisual> visual;
     // not yet serialized
     std::vector<std::unique_ptr<ColliderBase>> colliders;

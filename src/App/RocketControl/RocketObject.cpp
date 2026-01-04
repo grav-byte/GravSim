@@ -8,6 +8,8 @@
 RocketObject::RocketObject() : nozzleObj_(nullptr), exhaustObj_(nullptr), exhaustShaderData_(nullptr), exhaustId_(0),
                                nozzleId_(0),
                                rocketSound_(nullptr) {
+    thrustPercent = 0.0f;
+    thrustAngle = 0.0f;
 }
 
 RocketObject::RocketObject(Scene& scene) {
@@ -17,10 +19,12 @@ RocketObject::RocketObject(Scene& scene) {
 
     auto sprite = std::make_unique<SpriteVisual>("../assets/sprites/rocket_nozzle.png");
     nozzleUq->visual = std::move(sprite);
+    nozzleUq->canFocusCamera = false;
     nozzleUq->transform.scale = glm::vec2(0.2);
 
     auto shaderVisual = std::make_unique<ShaderVisual>();
     shaderVisual->shaderPath = "exhaust.frag";
+    exhaustUq->canFocusCamera = false;
     exhaustShaderData_ = &shaderVisual->shaderData;
     exhaustUq->visual = std::move(shaderVisual);
     exhaustUq->transform.scale = glm::vec2(6.0, 4.0);
@@ -34,10 +38,23 @@ RocketObject::RocketObject(Scene& scene) {
     name = "Rocket";
     mass = 50.0f;
     visual = std::make_unique<SpriteVisual>("../assets/sprites/rocket_main.png");
+}
 
-    // audio
+RocketObject::~RocketObject() {
+    StopSound();
+}
+
+void RocketObject::StartSound() {
+    if (rocketSound_)
+        StopSound();
     auto* audioLayer = Core::Application::Get().GetLayer<AudioLayer>();
     rocketSound_ = audioLayer->PlaySoundRepeating("../assets/audio/rocket_engine.wav");
+}
+
+void RocketObject::StopSound() {
+    if (rocketSound_) {
+        AudioLayer::StopSound(rocketSound_);
+    }
 }
 
 void RocketObject::UpdateVisualisation() const {
@@ -68,4 +85,8 @@ void RocketObject::RelinkObjects(const Scene &scene) {
     nozzleObj_ = scene.GetObjById(nozzleId_);
     exhaustObj_ = scene.GetObjById(exhaustId_);
     exhaustShaderData_ = &dynamic_cast<ShaderVisual*>(exhaustObj_->visual.get())->shaderData;
+    exhaustObj_->canFocusCamera = false;
+    nozzleObj_->canFocusCamera = false;
+
+    UpdateVisualisation();
 }

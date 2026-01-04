@@ -7,7 +7,8 @@ namespace Core {
         WindowClosed, WindowResized,
         KeyPressed, KeyReleased,
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
-        SceneLoaded, ObjectDestroyed
+        SceneLoaded, ObjectDestroyed,
+        SimulationStarted, SimulationPaused, SimulationStopped, SimulationResumed, SimulationStepped
     };
 
     class Event {

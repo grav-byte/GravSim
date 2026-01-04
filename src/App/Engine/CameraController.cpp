@@ -22,8 +22,9 @@ void CameraController::SetZoomToMouse(const bool enabled) {
     zoomToMouse_ = enabled;
 }
 
-void CameraController::Update(float deltaTime) const {
+void CameraController::Update() const {
     if (followObj_ && camera_) {
+        std::cout << followObj_->name << std::endl;
         camera_->transform.position = followObj_->transform.position;
     }
 }
@@ -33,7 +34,7 @@ void CameraController::HandleMouseMoved(Core::Event &event) {
     currentMouseScreenPos_ = glm::vec2(mouseEvent.GetX(), mouseEvent.GetY());
 
     // convert to world space
-    glm::vec2 currentMousePos = camera_->ScreenToWorld(currentMouseScreenPos_);
+    const glm::vec2 currentMousePos = camera_->ScreenToWorld(currentMouseScreenPos_);
 
     if (shouldMove_ && lastMouseWorldPos_ != glm::vec2(0.0f, 0.0f)) {
         camera_->transform.position += lastMouseWorldPos_ - currentMousePos;
@@ -81,7 +82,7 @@ void CameraController::HandleMousePressed() {
             glm::vec2 objScreenPos = camera_->WorldToScreen(obj->transform.position);
             float distance = glm::length(currentMouseScreenPos_ - objScreenPos);
             // threshold in pixels
-            if (distance < 100.0f) {
+            if (obj->canFocusCamera && distance < 100.0f) {
                 followObj_ = obj;
                 break;
             }

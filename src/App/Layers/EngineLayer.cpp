@@ -71,15 +71,24 @@ bool EngineLayer::SaveScene() const {
 
 void EngineLayer::StartSimulation() {
     if (runningSimulation_) {
+        // resume simulation
         pausedSimulation_ = false;
+        auto event = SimulationResumedEvent();
+        Core::Application::Get().RaiseEvent(event);
         return;
     }
+
     SceneLoader::SaveTempScene(*scene_);
     runningSimulation_ = true;
+
+    auto event = SimulationStartedEvent();
+    Core::Application::Get().RaiseEvent(event);
 }
 
 void EngineLayer::PauseSimulation() {
     pausedSimulation_ = true;
+    auto event = SimulationPausedEvent();
+    Core::Application::Get().RaiseEvent(event);
 }
 
 void EngineLayer::StepSimulation() const {
@@ -88,12 +97,18 @@ void EngineLayer::StepSimulation() const {
         return;
     }
     physicsSolver_->StepPropagation(scene_.get());
+    auto event = SimulationSteppedEvent();
+    Core::Application::Get().RaiseEvent(event);
 }
 
 void EngineLayer::StopSimulation() {
     runningSimulation_ = false;
     pausedSimulation_ = false;
     scene_ = std::move(SceneLoader::LoadTempScene());
+
+    auto event = SimulationStoppedEvent();
+    Core::Application::Get().RaiseEvent(event);
+
     OnSceneLoaded();
 }
 
@@ -139,7 +154,7 @@ void EngineLayer::OnUpdate(const float deltaTime) {
     if (runningSimulation_ && !pausedSimulation_)
         physicsSolver_->UpdatePhysics(scene_.get(), deltaTime);
 
-    cameraController_.Update(deltaTime);
+    cameraController_.Update();
 }
 
 void EngineLayer::OnEvent(Core::Event &event) {
@@ -164,6 +179,8 @@ void EngineLayer::OnRender() {
 
     // render framebuffer to screen
     renderingSystem_->OutputFrameToScreen();
+
+
 }
 
 void EngineLayer::CreateObject() const {
