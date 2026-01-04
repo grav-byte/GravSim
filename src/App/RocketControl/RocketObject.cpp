@@ -53,8 +53,11 @@ void RocketObject::StartSound() {
 }
 
 void RocketObject::StopSound() {
-    if (rocketSound_) {
-        AudioLayer::StopSound(rocketSound_);
+    if(rocketSound_) {
+        ma_sound_stop(rocketSound_);
+        ma_sound_uninit(rocketSound_);
+        delete rocketSound_;
+        rocketSound_ = nullptr;
     }
 }
 
