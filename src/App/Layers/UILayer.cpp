@@ -8,6 +8,7 @@
 #include "App/UI/SceneUI.h"
 #include "App/UI/CustomImGuiStyle.h"
 #include "App/UI/FollowingUI.h"
+#include "App/UI/RocketStateUI.h"
 #include "Core/Application.h"
 
 UILayer::UILayer() {
@@ -15,6 +16,7 @@ UILayer::UILayer() {
     sceneUI_ = std::make_unique<SceneUI>();
     simulationUI_ = std::make_unique<SimulationUI>();
     followingUI_ = std::make_unique<FollowingUI>();
+    stateUI_ = std::make_unique<RocketStateUI>();
     showDemo_ = false;
     io_ = nullptr;
 }
@@ -112,6 +114,7 @@ void UILayer::OnUpdate(float deltaTime) {
     followingUI_->Draw();
     if (interactionUI_)
         interactionUI_->Draw();
+    stateUI_->Draw();
 
     DrawFPSCounter();
 

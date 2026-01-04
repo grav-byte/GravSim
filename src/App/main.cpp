@@ -15,8 +15,8 @@ int main() {
 
     app.PushLayer<EngineLayer>();
     app.PushLayer<AudioLayer>();
-    app.PushLayer<UILayer>();
     app.PushLayer<ControlLayer>();
+    app.PushLayer<UILayer>();
 
     app.Run();
 }
