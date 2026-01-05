@@ -60,8 +60,11 @@ void ControlLayer::OnEvent(Core::Event &event) {
     }
 
     if (event.GetEventType() == Core::SimulationStarted || event.GetEventType() == Core::SimulationResumed) {
-        if (rocketObj_)
+        if (rocketObj_) {
             rocketObj_->StartSound();
+            if (!manualControlEnabled)
+                autonomousControl_->Start();
+        }
     }
 
     if (event.GetEventType() == Core::SimulationPaused) {

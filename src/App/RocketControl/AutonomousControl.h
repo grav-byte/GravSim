@@ -8,6 +8,8 @@ public:
     AutonomousControl();
     void ApplyControlInputs(RocketObject* rocketObject, float deltaTime) const;
 
+    void Start();
+
     PIDController* GetAltitudeController() const;
     float targetAltitude;
 

@@ -38,7 +38,7 @@ void RocketControllerUI::Draw() {
 
     ImGui::Separator();
 
-    ImGui::SliderFloat("Target Altitude (m)", &autoCtrl->targetAltitude, -1000.0f, 1000.0f, "%.1f");
+    ImGui::DragFloat("Target Altitude (m)", &autoCtrl->targetAltitude, 1.0f);
 
     ImGui::Separator();
 
@@ -50,7 +50,7 @@ void RocketControllerUI::Draw() {
     ImGui::Separator();
 
     if (ImGui::Button("Reset PID Integral")) {
-        //autoCtrl->Reset();
+        altitudePID->Reset();
     }
 
     ImGui::End();

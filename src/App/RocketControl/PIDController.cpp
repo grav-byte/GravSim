@@ -26,3 +26,7 @@ float PIDController::Evaluate(const float setpoint, const float measuredValue, c
 
     return glm::clamp(result, -1.0f, 1.0f);
 }
+
+void PIDController::Reset() {
+    integral_ = 0.0f;
+}
