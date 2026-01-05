@@ -37,6 +37,7 @@ void ControlLayer::OnUpdate(const float deltaTime) {
 }
 
 void ControlLayer::FindRocket(Core::Event &event) {
+    rocketObj_ = nullptr;
     const auto sceneEvent = dynamic_cast<SceneLoadedEvent&>(event);
     for (const auto obj : sceneEvent.GetScene()->GetAllObjects()) {
         if (obj->name == "Rocket" && dynamic_cast<RocketObject*>(obj)) {
