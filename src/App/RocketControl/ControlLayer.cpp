@@ -11,8 +11,10 @@ void ControlLayer::OnInit() {
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
     const auto scene = engine_->GetScene();
 
-    CreateRocket(scene);
     userControl_ = std::make_unique<UserControl>();
+    autonomousControl_ = std::make_unique<AutonomousControl>();
+
+    CreateRocket(scene);
 }
 
 void ControlLayer::CreateRocket(Scene * const scene) {
@@ -27,7 +29,10 @@ void ControlLayer::OnUpdate(const float deltaTime) {
     if (!engine_->IsRunningSimulation() || engine_->IsSimulationPaused() || !rocketObj_)
         return;
 
-    userControl_->ApplyUserControl(rocketObj_, deltaTime);
+    if (manualControlEnabled)
+        userControl_->ApplyUserControl(rocketObj_, deltaTime);
+    else
+        autonomousControl_->ApplyControlInputs(rocketObj_, deltaTime);
 
     rocketObj_->thrustAngle = std::clamp(rocketObj_->thrustAngle, -20.0f, 20.0f);
     rocketObj_->thrustPercent = std::clamp(rocketObj_->thrustPercent, 0.0f, 1.0f);
@@ -78,6 +83,8 @@ void ControlLayer::OnEvent(Core::Event &event) {
 }
 
 RocketObject * ControlLayer::GetRocketObject() const { return rocketObj_; }
+
+AutonomousControl * ControlLayer::GetAutoControl() const { return autonomousControl_.get(); }
 
 void ControlLayer::OnRender() {
 }

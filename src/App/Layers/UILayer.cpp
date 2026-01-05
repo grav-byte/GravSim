@@ -17,6 +17,7 @@ UILayer::UILayer() {
     simulationUI_ = std::make_unique<SimulationUI>();
     followingUI_ = std::make_unique<FollowingUI>();
     stateUI_ = std::make_unique<RocketStateUI>();
+    controlUI_ = std::make_unique<RocketControllerUI>();
     showDemo_ = false;
     io_ = nullptr;
 }
@@ -115,6 +116,7 @@ void UILayer::OnUpdate(float deltaTime) {
     if (interactionUI_)
         interactionUI_->Draw();
     stateUI_->Draw();
+    controlUI_->Draw();
 
     DrawFPSCounter();
 

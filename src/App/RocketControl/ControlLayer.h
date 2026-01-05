@@ -1,4 +1,5 @@
 #pragma once
+#include "AutonomousControl.h"
 #include "RocketObject.h"
 #include "UserControl.h"
 #include "App/Layers/EngineLayer.h"
@@ -20,11 +21,17 @@ public:
 
     RocketObject* GetRocketObject() const;
 
+    AutonomousControl* GetAutoControl() const;
+
     void OnRender() override;
+
+    bool manualControlEnabled = true;
 
 private:
     void CreateRocket(Scene *scene);
+
     std::unique_ptr<UserControl> userControl_;
+    std::unique_ptr<AutonomousControl> autonomousControl_;
     RocketObject* rocketObj_;
     EngineLayer * engine_;
 };

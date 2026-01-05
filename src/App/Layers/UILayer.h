@@ -9,6 +9,7 @@
 #include "App/UI/SimulationUI.h"
 #include "App/UI/InteractionState.h"
 #include "App/UI/InteractionUI.h"
+#include "App/UI/RocketControllerUI.h"
 #include "App/UI/RocketStateUI.h"
 
 class UILayer : public Core::AppLayer {
@@ -36,4 +37,5 @@ private:
     InteractionState interactionState_;
     std::unique_ptr<InteractionUI> interactionUI_;
     std::unique_ptr<RocketStateUI>  stateUI_;
+    std::unique_ptr<RocketControllerUI>  controlUI_;
 };

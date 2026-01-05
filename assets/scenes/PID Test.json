@@ -1,0 +1,293 @@
+{
+    "value0": {
+        "value0": "PID Test",
+        "value1": {
+            "ptr_wrapper": {
+                "valid": 1,
+                "data": {
+                    "value0": {
+                        "value0": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value1": 0.0,
+                        "value2": {
+                            "value0": 1.0,
+                            "value1": 1.0
+                        }
+                    },
+                    "value1": 0.10000000149011612,
+                    "value2": {
+                        "value0": 0.05000000074505806,
+                        "value1": 0.05000000074505806,
+                        "value2": 0.05000000074505806,
+                        "value3": 1.0
+                    }
+                }
+            }
+        },
+        "value2": {
+            "value0": 0.0,
+            "value1": -10.0
+        },
+        "value3": [
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 0,
+                        "value1": "Rocket Nozzle",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.0,
+                                "value1": -0.800000011920929
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.20000000298023225,
+                                "value1": 0.20000000298023225
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value4": 1.0,
+                        "value5": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 2147483649,
+                                "polymorphic_name": "CircleCollider",
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.800000011920929
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2147483650,
+                            "polymorphic_name": "SpriteVisual",
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {},
+                                    "value1": "../assets/sprites/rocket_nozzle.png",
+                                    "value2": {
+                                        "value0": 1.0,
+                                        "value1": 1.0,
+                                        "value2": 1.0,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": false,
+                        "value11": true
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 1,
+                        "value1": "Rocket Exhaust",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.0,
+                                "value1": -0.6000000238418579
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 6.0,
+                                "value1": 4.0
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value4": 1.0,
+                        "value5": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.800000011920929
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2147483651,
+                            "polymorphic_name": "ShaderVisual",
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {},
+                                    "value1": "exhaust.frag",
+                                    "value2": {
+                                        "value0": [
+                                            {
+                                                "key": "uThrust",
+                                                "value": 0.0
+                                            }
+                                        ],
+                                        "value1": []
+                                    }
+                                }
+                            }
+                        },
+                        "value10": false,
+                        "value11": true
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 2147483652,
+                "polymorphic_name": "RocketObject",
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": {
+                            "value0": 2,
+                            "value1": "Rocket",
+                            "value2": {
+                                "value0": {
+                                    "value0": 0.0,
+                                    "value1": 0.0
+                                },
+                                "value1": 0.0,
+                                "value2": {
+                                    "value0": 1.0,
+                                    "value1": 1.0
+                                }
+                            },
+                            "value3": {
+                                "value0": 0.0,
+                                "value1": 0.0
+                            },
+                            "value4": 50.0,
+                            "value5": {
+                                "value0": 0.0,
+                                "value1": 0.0
+                            },
+                            "value6": [],
+                            "value7": 0.0,
+                            "value8": 0.0,
+                            "value9": {
+                                "polymorphic_id": 2,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": "../assets/sprites/rocket_main.png",
+                                        "value2": {
+                                            "value0": 1.0,
+                                            "value1": 1.0,
+                                            "value2": 1.0,
+                                            "value3": 1.0
+                                        }
+                                    }
+                                }
+                            },
+                            "value10": false,
+                            "value11": true
+                        },
+                        "value1": 0.0,
+                        "value2": 0.0,
+                        "value3": 0,
+                        "value4": 1
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 3,
+                        "value1": "Target",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.0,
+                                "value1": 5.0
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.4000000059604645,
+                                "value1": 0.4000000059604645
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0,
+                            "value1": 5.0
+                        },
+                        "value4": 1.0,
+                        "value5": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value6": [],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2147483653,
+                            "polymorphic_name": "CircleVisual",
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {},
+                                    "value1": {
+                                        "value0": 1.0,
+                                        "value1": 1.0,
+                                        "value2": 1.0,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": false,
+                        "value11": false
+                    }
+                }
+            }
+        ],
+        "value4": [],
+        "value5": 4
+    }
+}
