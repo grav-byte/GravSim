@@ -24,7 +24,6 @@
 #include "App/RocketControl/RocketObject.h"
 
 CEREAL_REGISTER_TYPE(CircleVisual)
-
 CEREAL_REGISTER_POLYMORPHIC_RELATION(IVisual, CircleVisual)
 
 CEREAL_REGISTER_TYPE(SpriteVisual)

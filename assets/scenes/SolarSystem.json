@@ -32,6 +32,7 @@
         },
         "value3": [
             {
+                "polymorphic_id": 1073741824,
                 "ptr_wrapper": {
                     "valid": 1,
                     "data": {
@@ -106,6 +107,7 @@
                 }
             },
             {
+                "polymorphic_id": 1073741824,
                 "ptr_wrapper": {
                     "valid": 1,
                     "data": {
