@@ -21,36 +21,21 @@ void LineRenderer::RenderLine(const glm::vec2& start, const glm::vec2& end, int 
     glm::mat4 proj = activeCamera->GetProjectionMatrix();
     glm::mat4 invProj = glm::inverse(proj);
 
-    // convert start/end to NDC
-    glm::vec4 startNDC4 = proj * glm::vec4(start, 0.0f, 1.0f);
-    glm::vec4 endNDC4   = proj * glm::vec4(end, 0.0f, 1.0f);
-
-    glm::vec2 startNDC = glm::vec2(startNDC4) / startNDC4.w;
-    glm::vec2 endNDC   = glm::vec2(endNDC4) / endNDC4.w;
-
-    // snap endpoints to pixel grid
-    startNDC = glm::round(startNDC / glm::vec2(pixelWidth, pixelHeight)) * glm::vec2(pixelWidth, pixelHeight);
-    endNDC   = glm::round(endNDC / glm::vec2(pixelWidth, pixelHeight)) * glm::vec2(pixelWidth, pixelHeight);
-
-    // back to world space
-    glm::vec2 snappedStart = glm::vec2(invProj * glm::vec4(startNDC, 0.0f, 1.0f));
-    glm::vec2 snappedEnd   = glm::vec2(invProj * glm::vec4(endNDC, 0.0f, 1.0f));
-
     // line vector
-    glm::vec2 dir = snappedEnd - snappedStart;
-    float length = glm::length(dir);
-    float angle  = std::atan2(dir.y, dir.x);
-    glm::vec2 mid = (snappedStart + snappedEnd) * 0.5f;
+    const glm::vec2 dir = start - end;
+    const float length = glm::length(dir);
+    const float angle  = std::atan2(dir.y, dir.x);
+    const glm::vec2 mid = (start + end) * 0.5f;
 
     // compute world-space thickness
-    glm::vec2 pixelWorld = glm::vec2(invProj * glm::vec4(pixelWidth, pixelHeight, 0.0f, 0.0f));
-    auto thickness = glm::length(pixelWorld) * lineThickPx * .5f;
+    const glm::vec2 pixelWorld = glm::vec2(invProj * glm::vec4(pixelWidth, pixelHeight, 0.0f, 0.0f));
+    const auto thickness = glm::length(pixelWorld) * static_cast<float>(lineThickPx) * .5f;
 
     // build transform
     glm::mat4 transform(1.0f);
     transform = glm::translate(transform, glm::vec3(mid, 0.0f));
     transform = glm::rotate(transform, angle, glm::vec3(0.0f, 0.0f, 1.0f));
-    transform = glm::scale(transform, glm::vec3(length, thickness, 1.0f));
+    transform = glm::scale(transform, glm::vec3(length * .5f, thickness, 1.0f));
 
     // final transform
     glm::mat4 finalTransform = proj * transform;
