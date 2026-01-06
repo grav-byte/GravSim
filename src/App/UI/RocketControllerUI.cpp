@@ -6,26 +6,6 @@
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "App/Layers/EngineLayer.h"
 
-
-class TargetObject final : public SceneObject {
-public:
-    explicit TargetObject(Scene& /*scene*/) : SceneObject(0, "Target") {
-        auto shaderVisual = std::make_unique<ShaderVisual>();
-        shaderVisual->shaderPath = "target.frag";
-        visual = std::move(shaderVisual);
-
-        canFocusCamera = false;
-        mass = 0.0f;
-        velocity = glm::vec2(0.0f);
-        angularVelocity = 0.0f;
-
-        gravitates = false;
-        affectedByGravity = false;
-
-        transform.scale = glm::vec2(6.0f, 6.0f);
-    }
-};
-
 RocketControllerUI::RocketControllerUI() : pidSelector_(FileSelector(std::filesystem::path("../assets/pid_parameters"))) {
     controlLayer_ = Core::Application::Get().GetLayer<ControlLayer>();
     engineLayer_  = Core::Application::Get().GetLayer<EngineLayer>();
@@ -79,7 +59,7 @@ void RocketControllerUI::Draw() {
     AutonomousControl* autoCtrl = controlLayer_->GetAutoControl();
     if (!autoCtrl) return;
 
-    PIDController* altitudePID = autoCtrl->GetAltitudeController();
+    PIDController* altitudePID = autoCtrl->GetVerticalController();
     if (!altitudePID) return;
 
     const bool manual = controlLayer_->manualControlEnabled;
@@ -127,7 +107,7 @@ void RocketControllerUI::Draw() {
         Serialiser::SavePIDData(altitudePID->pidData, std::filesystem::path("../assets/pid_parameters") / std::string(nameBuffer));
     }
 
-    DrawPIDLoading(autoCtrl->GetAltitudeController());
+    DrawPIDLoading(autoCtrl->GetVerticalController());
 
     ImGui::Separator();
 

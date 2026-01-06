@@ -1,11 +1,11 @@
 #include "AutonomousControl.h"
 
 AutonomousControl::AutonomousControl() : targetAltitude(0) {
-    altitudeController_ = std::make_unique<PIDController>();
+    verticalController_ = std::make_unique<PIDController>();
 }
 
 void AutonomousControl::DrawArrows(RocketObject *rocketObject) const {
-    const auto terms = altitudeController_->GetTerms() * 5.0f; // scale for visualisation
+    const auto terms = verticalController_->GetTerms() * 5.0f; // scale for visualisation
     glm::vec2 origin = rocketObject->transform.position;
     const glm::vec2 yDir = rocketObject->transform.GetMatrix() * glm::vec4(0, 1, 0, 0);
 
@@ -21,7 +21,7 @@ void AutonomousControl::ApplyControlInputs(RocketObject *rocketObject, const flo
     const float currentY = rocketObject->transform.position.y;
     const float vY = rocketObject->velocity.y; // world reference frame for now
 
-    const float yCorrection = altitudeController_->Evaluate(targetAltitude, currentY, vY, deltaTime);
+    const float yCorrection = verticalController_->Evaluate(targetAltitude, currentY, vY, deltaTime);
 
     const float thrust = yCorrection;
     rocketObject->thrustPercent = glm::clamp(thrust, 0.0f, 1.0f); // clamp to valid range
@@ -31,10 +31,11 @@ void AutonomousControl::ApplyControlInputs(RocketObject *rocketObject, const flo
 }
 
 void AutonomousControl::Start() const {
-    altitudeController_->Reset();
+    verticalController_->Reset();
 }
 
-PIDController * AutonomousControl::GetAltitudeController() const {
-    if (!altitudeController_) return nullptr;
-    return altitudeController_.get();
-}
+PIDController * AutonomousControl::GetVerticalController() const { return verticalController_.get(); }
+
+PIDController * AutonomousControl::GetHorizontalController() const { return horizontalController_.get(); }
+
+PIDController * AutonomousControl::GetAttitudeController() const { return attitudeController_.get(); }
