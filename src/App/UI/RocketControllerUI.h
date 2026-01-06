@@ -11,13 +11,14 @@ public:
 
     void Draw() override;
 
-    void DrawPIDLoading(PIDController *pidController);
+    void DrawPIDLoading();
 
     void OnEvent(Core::Event &event) override;
 
 private:
     ControlLayer* controlLayer_ = nullptr;
     EngineLayer* engineLayer_ = nullptr;
+    PIDController* activePID;
 
     FileSelector pidFileSelector_;
 

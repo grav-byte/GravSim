@@ -2,6 +2,8 @@
 
 AutonomousControl::AutonomousControl() : targetAltitude(0) {
     verticalController_ = std::make_unique<PIDController>();
+    horizontalController_ = std::make_unique<PIDController>();
+    attitudeController_ = std::make_unique<PIDController>();
 }
 
 void AutonomousControl::DrawArrows(RocketObject *rocketObject) const {

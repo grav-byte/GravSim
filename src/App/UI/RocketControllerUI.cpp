@@ -3,6 +3,7 @@
 #include "App/Engine/Loading/Serialiser.h"
 #include "App/Engine/Scene.h"
 #include "App/Engine/SceneObject.h"
+#include "App/Engine/Loading/TextureLoader.h"
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "App/Layers/EngineLayer.h"
 #include "App/RocketControl/TargetObject.h"
@@ -112,15 +113,30 @@ void RocketControllerUI::Draw() {
 }
 
 void RocketControllerUI::DrawPIDSettings(AutonomousControl *autoCtrl) {
-    auto altitudePID = autoCtrl->GetVerticalController();
-
-    DrawPIDLoading(autoCtrl->GetVerticalController());
+    DrawPIDLoading();
 
     ImGui::SeparatorText("Set PID Values");
     ImGui::Spacing();
 
+    // PID selection dropdown
+    static int pidSelection = 0;
+    const char* pidNames[] = { "Vertical", "Horizontal", "Attitude" };
 
-    ImGui::Text("Altitude PID");
+    ImGui::Text("Selected PID:");
+    ImGui::SameLine();
+    ImGui::TextLinkOpenURL("(Click for overview)", "https://github.com/grav-byte/GravSim/blob/d9fad45460bd06021d731f6bce4695e4bb6d9295/docs/PIDOverview.png");
+    ImGui::Combo("PID", &pidSelection, pidNames, IM_ARRAYSIZE(pidNames));
+
+    // select active PID controller
+    switch (pidSelection) {
+        case 0: activePID = autoCtrl->GetVerticalController();   break;
+        case 1: activePID = autoCtrl->GetHorizontalController(); break;
+        case 2: activePID = autoCtrl->GetAttitudeController();   break;
+    }
+    if (!activePID)
+        return;
+
+    ImGui::Spacing();
     ImGui::Checkbox("Visualize", &autoCtrl->visualizePID);
     if (autoCtrl->visualizePID) {
         ImGui::SameLine();
@@ -131,13 +147,13 @@ void RocketControllerUI::DrawPIDSettings(AutonomousControl *autoCtrl) {
         ImGui::TextColored(ImVec4(0,1,0,1),"D");
     }
 
-    ImGui::DragFloat("Kp", &altitudePID->pidData.pGain, .02f, 0.0f, 5.0f);
-    ImGui::DragFloat("Ki", &altitudePID->pidData.iGain, .02f, 0.0f, 5.0f);
-    ImGui::DragFloat("Kd", &altitudePID->pidData.dGain, .02f, 0.0f, 5.0f);
+    ImGui::DragFloat("Kp", &activePID->pidData.pGain, .02f, 0.0f, 5.0f);
+    ImGui::DragFloat("Ki", &activePID->pidData.iGain, .02f, 0.0f, 5.0f);
+    ImGui::DragFloat("Kd", &activePID->pidData.dGain, .02f, 0.0f, 5.0f);
 
-    ImGui::InputText("Name", &altitudePID->pidData.name);
+    ImGui::InputText("Name", &activePID->pidData.name);
     if (ImGui::Button("Save")) {
-        Serialiser::SavePIDData(altitudePID->pidData, std::filesystem::path("../assets/pid_parameters") / altitudePID->pidData.name);
+        Serialiser::SavePIDData(activePID->pidData, std::filesystem::path("../assets/pid_parameters") / activePID->pidData.name);
     }
 }
 
@@ -169,7 +185,7 @@ void RocketControllerUI::DrawTargetSettings(Scene *scene) {
     }
 }
 
-void RocketControllerUI::DrawPIDLoading(PIDController* pidController) {
+void RocketControllerUI::DrawPIDLoading() {
 
     ImGui::SeparatorText("Load PID Values:");
     ImGui::Spacing();
@@ -180,7 +196,7 @@ void RocketControllerUI::DrawPIDLoading(PIDController* pidController) {
         if (ImGui::Button("Load Value")) {
             std::unique_ptr<PIDData> result = Serialiser::LoadPIDData(pidFileSelector_.GetSelectedFile());
             if (result != nullptr)
-                pidController->pidData = *result;
+                activePID->pidData = *result;
         }
         ImGui::SameLine();
 
