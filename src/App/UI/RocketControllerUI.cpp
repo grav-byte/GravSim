@@ -25,10 +25,7 @@ void RocketControllerUI::Draw() {
 
     ImGui::Begin("Rocket Controller", nullptr, ImGuiWindowFlags_NoDocking);
 
-    if (ImGui::Checkbox("Manual Control Enabled", &controlLayer_->manualControlEnabled)) {
-        const bool newManual = controlLayer_->manualControlEnabled;
-        ImGui::SetWindowSize(newManual ? sizeManual : sizeAuto, ImGuiCond_Always);
-    }
+    ImGui::Checkbox("Manual Control Enabled", &controlLayer_->manualControlEnabled);
 
     ImGui::Separator();
 
@@ -56,6 +53,15 @@ void RocketControllerUI::Draw() {
     ImGui::SliderFloat("Kp", &altitudePID->pidData.pGain, 0.0f, 10.0f, "%.4f");
     ImGui::SliderFloat("Ki", &altitudePID->pidData.iGain, 0.0f, 5.0f, "%.4f");
     ImGui::SliderFloat("Kd", &altitudePID->pidData.dGain, 0.0f, 10.0f, "%.4f");
+    ImGui::Checkbox("Visualize", &autoCtrl->visualizePID);
+    if (autoCtrl->visualizePID) {
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0,0,1,1),"P");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(1,0,0,1),"I");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0,1,0,1),"D");
+    }
 
     ImGui::Separator();
 

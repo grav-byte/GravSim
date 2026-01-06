@@ -7,20 +7,16 @@ class AutonomousControl {
 public:
     AutonomousControl();
 
-    void UpdateGravityEstimate(float deltaTime, float currentY);
-
-    void DrawArrows(RocketObject *rocketObject);
-
-    void ApplyControlInputs(RocketObject* rocketObject, float deltaTime);
-
-    void Start();
+    void Start() const;
+    void ApplyControlInputs(RocketObject* rocketObject, float deltaTime) const;
 
     PIDController* GetAltitudeController() const;
 
+    bool visualizePID = false;
     float targetAltitude;
 
 private:
     std::unique_ptr<PIDController> altitudeController_;
 
-    float gravityThrust_; // estimated thrust needed to counteract gravity. acts as bias for the controller
+    void DrawArrows(RocketObject *rocketObject) const;
 };
