@@ -21,3 +21,11 @@ An overview of the PID controllers can be seen below:
 ___
 ## Building
 To build the project, you can use CMake.
+
+or Visual Studio 2022 by running the following command in the root folder:
+
+```bash
+cmake -S . -B build_vs -G "Visual Studio 17 2022"
+```
+Then open the generated solution file in the `build_vs` folder.
+
