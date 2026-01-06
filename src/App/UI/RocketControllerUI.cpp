@@ -10,15 +10,25 @@ void RocketControllerUI::Draw() {
         return;
 
     AutonomousControl* autoCtrl = controlLayer_->GetAutoControl();
+    if (!autoCtrl) return;
 
     PIDController* altitudePID = autoCtrl->GetAltitudeController();
+    if (!altitudePID) return;
+
+    const bool manual = controlLayer_->manualControlEnabled;
+
+    constexpr ImVec2 sizeManual(200, 90);
+    constexpr ImVec2 sizeAuto(445, 250);
 
     ImGui::SetNextWindowPos(ImVec2(1000, 580), ImGuiCond_FirstUseEver);
-    ImGui::SetNextWindowSize(ImVec2(419, 160), ImGuiCond_FirstUseEver);
+    ImGui::SetNextWindowSize(manual ? sizeManual : sizeAuto, ImGuiCond_FirstUseEver);
 
     ImGui::Begin("Rocket Controller", nullptr, ImGuiWindowFlags_NoDocking);
 
-    ImGui::Checkbox("Manual Control Enabled", &controlLayer_->manualControlEnabled);
+    if (ImGui::Checkbox("Manual Control Enabled", &controlLayer_->manualControlEnabled)) {
+        const bool newManual = controlLayer_->manualControlEnabled;
+        ImGui::SetWindowSize(newManual ? sizeManual : sizeAuto, ImGuiCond_Always);
+    }
 
     ImGui::Separator();
 
