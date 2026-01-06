@@ -130,9 +130,9 @@ void RocketControllerUI::DrawPIDSettings(AutonomousControl *autoCtrl) {
         ImGui::TextColored(ImVec4(0,1,0,1),"D");
     }
 
-    ImGui::SliderFloat("Kp", &altitudePID->pidData.pGain, 0.0f, 10.0f, "%.4f");
-    ImGui::SliderFloat("Ki", &altitudePID->pidData.iGain, 0.0f, 5.0f, "%.4f");
-    ImGui::SliderFloat("Kd", &altitudePID->pidData.dGain, 0.0f, 10.0f, "%.4f");
+    ImGui::DragFloat("Kp", &altitudePID->pidData.pGain, .02f, 0.0f, 5.0f);
+    ImGui::DragFloat("Ki", &altitudePID->pidData.iGain, .02f, 0.0f, 5.0f);
+    ImGui::DragFloat("Kd", &altitudePID->pidData.dGain, .02f, 0.0f, 5.0f);
 
     static const auto nameBuffer = new char[128];
     ImGui::InputTextWithHint("Name", "New Values", nameBuffer, 128);
