@@ -9,6 +9,8 @@ public:
 
     void UpdateGravityEstimate(float deltaTime, float currentY);
 
+    void DrawArrows(RocketObject *rocketObject);
+
     void ApplyControlInputs(RocketObject* rocketObject, float deltaTime);
 
     void Start();

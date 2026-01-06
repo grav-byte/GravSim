@@ -180,7 +180,10 @@ void EngineLayer::OnRender() {
     // render framebuffer to screen
     renderingSystem_->OutputFrameToScreen();
 
-
+    // clear debug arrows
+    for (const auto& obj : scene_->GetAllObjects()) {
+        obj->debugArrows.clear();
+    }
 }
 
 void EngineLayer::CreateObject() const {

@@ -5,9 +5,9 @@
 #include "Physics/Colliders/CircleCollider.h"
 
 SceneObject::SceneObject(): id(0), transform(Transform()), mass(0.0f), velocity(glm::vec2(0, 0)),
-                            angularVelocity(0.0f), gravitates(false), affectedByGravity(true), visual(nullptr),
-                            lastPosition(glm::vec2(0, 0)),
-                            lastRotation(0), accelerationAccumulated(glm::vec2(0.0f)), angularAccelerationAccumulated(0) {
+                            angularVelocity(0.0f), gravitates(false), affectedByGravity(true), accelerationAccumulated(glm::vec2(0.0f)),
+                            angularAccelerationAccumulated(0),
+                            visual(nullptr), lastPosition(glm::vec2(0, 0)), lastRotation(0) {
 }
 
 SceneObject::SceneObject(const uint32_t objectId, const std::string& objectName)
@@ -17,12 +17,12 @@ SceneObject::SceneObject(const uint32_t objectId, const std::string& objectName)
     mass(1.0f),
     velocity(0.0f, 0.0f),
     angularVelocity(0.0f),
-    visual(std::make_unique<CircleVisual>()),
-    lastPosition(glm::vec2(0,0)),
-    affectedByGravity(true),
     gravitates(false),
-    lastRotation(0),
-    accelerationAccumulated(glm::vec2(0.0f)), angularAccelerationAccumulated(0)
+    affectedByGravity(true),
+    accelerationAccumulated(glm::vec2(0.0f)),
+    angularAccelerationAccumulated(0),
+    visual(std::make_unique<CircleVisual>()),
+    lastPosition(glm::vec2(0,0)), lastRotation(0)
 {
     colliders = std::vector<std::unique_ptr<ColliderBase>>();
     transform = Transform();

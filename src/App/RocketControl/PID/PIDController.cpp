@@ -10,18 +10,23 @@ float PIDController::Evaluate(const float setpoint, const float measuredValue, c
                               const float deltaTime) {
     const float error = setpoint - measuredValue;
 
-    const float p = pidData.pGain * error;
+    pTerm = pidData.pGain * error;
 
     integral_ += error * deltaTime;
     const float iMax = 1.0f / glm::max(pidData.iGain, 0.0001f); // prevent division by zero
     integral_ = glm::clamp(integral_, -iMax, iMax);
-    const float i = pidData.iGain * integral_;
+    iTerm = pidData.iGain * integral_;
 
-    const float d = -pidData.dGain * derivative;
-    const float result = p + i + d;
+    dTerm = -pidData.dGain * derivative;
+    const float result = pTerm + iTerm + dTerm;
 
     return glm::clamp(result, -1.0f, 1.0f);
 }
+
+glm::vec3 PIDController::GetTerms() const {
+    return {pTerm, iTerm, dTerm};
+}
+
 
 void PIDController::Reset() {
     integral_ = 0.0f;

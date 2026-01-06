@@ -136,6 +136,8 @@ add_executable(GravSim
         src/App/RocketControl/AutonomousControl.cpp
         src/App/RocketControl/AutonomousControl.h
         src/App/RocketControl/PID/PIDData.h
+        src/App/Rendering/Renderers/ArrowRenderer.cpp
+        src/App/Rendering/Renderers/ArrowRenderer.h
 )
 
 # Include directories

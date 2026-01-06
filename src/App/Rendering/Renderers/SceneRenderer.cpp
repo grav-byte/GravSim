@@ -9,6 +9,7 @@ SceneRenderer::SceneRenderer(RenderingSystem* system) :
     circleRenderer_(system),
     constraintRenderer_(system),
     gridRenderer_(LineRenderer(system), system),
+    arrowRenderer(LineRenderer(system), system),
     shaderRenderer_(system),
     colliderColor_(glm::vec4(1.0f, 0.0f, 0.0f, 0.5f)),
     renderer_(system)
@@ -39,28 +40,34 @@ void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) co
                 break;
             case VisualType::Shader:
                 const auto visual = dynamic_cast<ShaderVisual*>(obj->visual.get());
-                shaderRenderer_.Render(obj, visual->shaderPath, visual->shaderData);
+                shaderRenderer_.Render(&obj->transform, visual->shaderPath, visual->shaderData);
                 break;
         }
     }
 
-    // render colliders and debug info
-    if (showColliders) {
-        for (const SceneObject* obj : scene->GetAllObjects()) {
-            for (const auto& collider : obj->colliders)
-                circleRenderer_.RenderCircle(collider->GetTransformMatrix(), colliderColor_);
-            for (const auto& contact : obj->contactPoints) {
-                // render contact point
-                auto transform = glm::mat4(1.0f);
-                // position
-                transform = glm::translate(transform, glm::vec3(contact.point, 0.0f));
-                // scale
-                transform = glm::scale(transform, glm::vec3(0.1f));
+    // render debug info and colliders
+    for (const SceneObject* obj : scene->GetAllObjects()) {
+        for (auto& arrow : obj->debugArrows) {
+            arrowRenderer.RenderArrow(arrow->origin, arrow->direction, arrow->color, 2);
+        }
 
-                circleRenderer_.RenderCircle(transform, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-            }
+        if (!showColliders) continue;
+
+        for (const auto& collider : obj->colliders)
+            circleRenderer_.RenderCircle(collider->GetTransformMatrix(), colliderColor_);
+        for (const auto& contact : obj->contactPoints) {
+            // render contact point
+            auto transform = glm::mat4(1.0f);
+            // position
+            transform = glm::translate(transform, glm::vec3(contact.point, 0.0f));
+            // scale
+            transform = glm::scale(transform, glm::vec3(0.1f));
+
+            circleRenderer_.RenderCircle(transform, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
         }
     }
+
+
 }
 
 void SceneRenderer::ApplyPostProcess() const {

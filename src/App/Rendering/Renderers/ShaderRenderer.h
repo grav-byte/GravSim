@@ -23,7 +23,7 @@ class ShaderRenderer {
 public:
     explicit ShaderRenderer(const RenderingSystem* renderer);
 
-    void Render(const SceneObject *obj,
+    void Render(const Transform *transform,
                 const std::string &fragPath, const ShaderUniforms &uniforms = ShaderUniforms()) const;
 
 protected:

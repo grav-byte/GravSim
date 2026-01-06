@@ -8,7 +8,7 @@
 
 ShaderRenderer::ShaderRenderer(const RenderingSystem *renderer): renderingSys_(renderer) {}
 
-void ShaderRenderer::Render(const SceneObject *obj, const std::string &fragPath, const ShaderUniforms &uniforms) const {
+void ShaderRenderer::Render(const Transform *transform, const std::string &fragPath, const ShaderUniforms &uniforms) const {
     const auto shaderProgram = ShaderLoader::LoadShader("sprite.vert", fragPath);
     if(!shaderProgram) return;
 
@@ -16,8 +16,8 @@ void ShaderRenderer::Render(const SceneObject *obj, const std::string &fragPath,
 
     // upload transform
     const auto activeCamera = renderingSys_->GetActiveCamera();
-    if(activeCamera && obj) {
-        glm::mat4 finalTransform = activeCamera->GetProjectionMatrix() * obj->transform.GetMatrix();
+    if(activeCamera && transform) {
+        glm::mat4 finalTransform = activeCamera->GetProjectionMatrix() * transform->GetMatrix();
         GLint transformLoc = glGetUniformLocation(shaderProgram, "uTransform");
         if(transformLoc != -1)
             glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(finalTransform));

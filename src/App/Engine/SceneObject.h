@@ -17,11 +17,13 @@ public:
     SceneObject(uint32_t objectId, const std::string &objectName);
     virtual ~SceneObject() = default;
 
+    // --- id, name ---
     uint32_t id;
     std::string name;
 
     Transform transform;
 
+    // --- physics ---
     float mass;
 
     glm::vec2 velocity;
@@ -30,30 +32,38 @@ public:
     bool gravitates;
     bool affectedByGravity;
 
-    bool canFocusCamera = true;
+    glm::vec2 accelerationAccumulated;
+    float angularAccelerationAccumulated;
 
+    // --- visual ---
     std::unique_ptr<IVisual> visual;
-    // not yet serialized
+    // --- colliders ---
     std::vector<std::unique_ptr<ColliderBase>> colliders;
+    std::vector<ContactPoint> contactPoints;
+
+    // debug arrows
+    struct DebugArrow {
+        glm::vec2 origin;
+        glm::vec2 direction;
+        glm::vec4 color;
+        DebugArrow(const glm::vec2 &orig, const glm::vec2 &dir, const glm::vec4 &col)
+        : origin(orig), direction(dir), color(col) {}
+    };
+    std::vector<std::unique_ptr<DebugArrow>> debugArrows;
 
     // needed for verlet
     glm::vec2 lastPosition;
     float lastRotation;
 
+    // camera focus flag
+    bool canFocusCamera = true;
+
     void AddContactPoint(const ContactPoint &point);
-
-    std::vector<ContactPoint> contactPoints;
-
     void AddCollider(ColliderType type);
-
-    float GetInertia() const;
-
     void RemoveCollider(int idx);
 
-    glm::vec2 accelerationAccumulated;
-    float angularAccelerationAccumulated;
+    float GetInertia() const;
     void ApplyForce(const glm::vec2 & force, const glm::vec2 & atPoint = glm::vec2(0, 0));
-
     void ResetAccumulatedForces();
 
     // Cereal serialization
