@@ -43,9 +43,9 @@ void RocketControllerUI::Draw() {
     ImGui::Separator();
 
     ImGui::Text("Altitude PID");
-    ImGui::SliderFloat("Kp", &altitudePID->pGain, 0.0f, 10.0f, "%.4f");
-    ImGui::SliderFloat("Ki", &altitudePID->iGain, 0.0f, 5.0f, "%.4f");
-    ImGui::SliderFloat("Kd", &altitudePID->dGain, 0.0f, 10.0f, "%.4f");
+    ImGui::SliderFloat("Kp", &altitudePID->pidData.pGain, 0.0f, 10.0f, "%.4f");
+    ImGui::SliderFloat("Ki", &altitudePID->pidData.iGain, 0.0f, 5.0f, "%.4f");
+    ImGui::SliderFloat("Kd", &altitudePID->pidData.dGain, 0.0f, 10.0f, "%.4f");
 
     ImGui::Separator();
 

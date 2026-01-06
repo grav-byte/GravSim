@@ -1,13 +1,12 @@
 #pragma once
+#include "PIDData.h"
 
 class PIDController {
 public:
     PIDController();
+    explicit PIDController(PIDData data);
 
-    PIDController(float p, float i, float d);
-    float pGain;
-    float iGain;
-    float dGain;
+    PIDData pidData;
 
     float Evaluate(float setpoint, float measuredValue, float derivative, float deltaTime);
     void Reset();

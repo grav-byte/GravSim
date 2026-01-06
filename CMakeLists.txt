@@ -129,12 +129,13 @@ add_executable(GravSim
         src/App/UI/RocketStateUI.h
         src/App/RocketControl/UserControl.cpp
         src/App/RocketControl/UserControl.h
-        src/App/RocketControl/PIDController.cpp
-        src/App/RocketControl/PIDController.h
+        src/App/RocketControl/PID/PIDController.cpp
+        src/App/RocketControl/PID/PIDController.h
         src/App/UI/RocketControllerUI.cpp
         src/App/UI/RocketControllerUI.h
         src/App/RocketControl/AutonomousControl.cpp
         src/App/RocketControl/AutonomousControl.h
+        src/App/RocketControl/PID/PIDData.h
 )
 
 # Include directories
