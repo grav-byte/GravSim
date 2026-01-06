@@ -19,12 +19,17 @@ private:
     ControlLayer* controlLayer_ = nullptr;
     EngineLayer* engineLayer_ = nullptr;
 
+    FileSelector pidFileSelector_;
+
     uint32_t targetId_ = 0;
     bool targetCreated_ = false;
     glm::vec2 targetPos_ = glm::vec2(0.0f, 0.0f);
 
     void CreateTarget(Scene& scene);
     void DeleteTarget(Scene& scene);
+    void DrawPIDSettings(AutonomousControl *autoCtrl);
+
+    void DrawTargetSettings(Scene *scene);
+
     SceneObject* GetTarget(Scene& scene) const;
-    FileSelector pidSelector_;
 };
