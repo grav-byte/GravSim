@@ -64,8 +64,8 @@ add_executable(GravSim
         src/App/Engine/EngineEvents.h
         src/App/Engine/CameraController.cpp
         src/App/Engine/CameraController.h
-        src/App/Engine/Loading/SceneLoader.cpp
-        src/App/Engine/Loading/SceneLoader.h
+        src/App/Engine/Loading/Serialiser.cpp
+        src/App/Engine/Loading/Serialiser.h
         src/App/UI/FileSelector.cpp
         src/App/UI/FileSelector.h
         src/App/Rendering/Visuals/SpriteVisual.cpp

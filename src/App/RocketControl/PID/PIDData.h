@@ -1,8 +1,9 @@
 #pragma once
 
-
 class PIDData {
 public:
+    PIDData() = default; // Default constructor for deserialization
+
     PIDData(const float p, const float i, const float d): pGain(p), iGain(i), dGain(d) {}
 
     float pGain;

@@ -1,7 +1,8 @@
 #include "RocketControllerUI.h"
 #include "imgui.h"
+#include "App/Engine/Loading/Serialiser.h"
 
-RocketControllerUI::RocketControllerUI() {
+RocketControllerUI::RocketControllerUI() : pidSelector_(FileSelector(std::filesystem::path("../assets/pid_parameters"))) {
     controlLayer_ = Core::Application::Get().GetLayer<ControlLayer>();
 }
 
@@ -30,24 +31,20 @@ void RocketControllerUI::Draw() {
     ImGui::Separator();
 
     if (controlLayer_->manualControlEnabled) {
-        ImGui::TextWrapped(
-            "Manual mode active."
-        );
-
-
+        ImGui::TextWrapped("Manual mode active.");
         ImGui::End();
         return;
-    } else {
-        ImGui::TextWrapped(
-            "Autonomous mode active."
-        );
     }
+
+    ImGui::TextWrapped("Autonomous mode active.");
 
     ImGui::Separator();
 
     ImGui::DragFloat("Target Altitude (m)", &autoCtrl->targetAltitude, 1.0f);
 
     ImGui::Separator();
+
+    DrawPIDLoading(autoCtrl->GetAltitudeController());
 
     ImGui::Text("Altitude PID");
     ImGui::SliderFloat("Kp", &altitudePID->pidData.pGain, 0.0f, 10.0f, "%.4f");
@@ -70,6 +67,39 @@ void RocketControllerUI::Draw() {
     }
 
     ImGui::End();
+}
+
+void RocketControllerUI::DrawPIDLoading(PIDController* pidController) {
+
+    ImGui::SeparatorText("Available PID Values:");
+    ImGui::Spacing();
+
+
+    pidSelector_.Draw();
+    if (!pidSelector_.GetSelectedFile().empty()) {
+        if (ImGui::Button("Load Value")) {
+            pidController->pidData = *Serialiser::LoadPIDData(pidSelector_.GetSelectedFile());
+        }
+        ImGui::SameLine();
+
+        if (ImGui::Button("Delete Value")) {
+            const auto filePath = pidSelector_.GetSelectedFile();
+            try {
+                if (std::filesystem::exists(filePath)) {
+                    std::filesystem::remove(filePath);
+                    pidSelector_.RefreshFiles(); // update list
+                }
+            } catch (const std::filesystem::filesystem_error& e) {
+                std::cerr << "Failed to delete pid: " << e.what() << std::endl;
+            }
+        }
+    }
+
+    static const auto nameBuffer = new char[128];
+    ImGui::InputTextWithHint("Name", "New Values", nameBuffer, 128);
+    if (ImGui::Button("Save")) {
+        Serialiser::SavePIDData(pidController->pidData, std::filesystem::path("../assets/pid_parameters") / std::string(nameBuffer));
+    }
 }
 
 void RocketControllerUI::OnEvent(Core::Event &event) {

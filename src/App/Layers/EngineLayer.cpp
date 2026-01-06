@@ -8,12 +8,12 @@
 #include "Core/Application.h"
 #include "App/Engine/EngineEvents.h"
 #include "App/Rendering/RenderingSystem.h"
-#include "App/Engine/Loading/SceneLoader.h"
+#include "App/Engine/Loading/Serialiser.h"
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "App/RocketControl/RocketObject.h"
 
 EngineLayer::EngineLayer() : AppLayer() {
-    SceneLoader::EnsureSceneFolderExists();
+    Serialiser::EnsureSceneFolderExists();
     physicsSolver_ = std::make_unique<PhysicsSolver>();
     scene_ = nullptr;
     runningSimulation_ = false;
@@ -39,7 +39,7 @@ void EngineLayer::NewScene() {
 }
 
 bool EngineLayer::LoadScene(const std::string &filePath) {
-    auto loadedScene = SceneLoader::LoadScene(filePath);
+    auto loadedScene = Serialiser::LoadScene(filePath);
     if (!loadedScene)
         return false;
 
@@ -66,7 +66,7 @@ void EngineLayer::OnSceneLoaded() const {
 }
 
 bool EngineLayer::SaveScene() const {
-    return SceneLoader::SaveScene(*scene_);
+    return Serialiser::SaveScene(*scene_);
 }
 
 void EngineLayer::StartSimulation() {
@@ -78,7 +78,7 @@ void EngineLayer::StartSimulation() {
         return;
     }
 
-    SceneLoader::SaveTempScene(*scene_);
+    Serialiser::SaveTempScene(*scene_);
     runningSimulation_ = true;
 
     auto event = SimulationStartedEvent();
@@ -104,7 +104,7 @@ void EngineLayer::StepSimulation() const {
 void EngineLayer::StopSimulation() {
     runningSimulation_ = false;
     pausedSimulation_ = false;
-    scene_ = std::move(SceneLoader::LoadTempScene());
+    scene_ = std::move(Serialiser::LoadTempScene());
 
     auto event = SimulationStoppedEvent();
     Core::Application::Get().RaiseEvent(event);

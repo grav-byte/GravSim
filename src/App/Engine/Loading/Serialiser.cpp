@@ -3,7 +3,7 @@
 //
 
 #include "CerealHelpers.h"
-#include "SceneLoader.h"
+#include "Serialiser.h"
 
 #include <fstream>
 #include <filesystem>
@@ -21,9 +21,12 @@
 #include <cereal/types/map.hpp>
 #include <cereal/types/memory.hpp>
 
+
 #include "App/RocketControl/RocketObject.h"
+#include "App/RocketControl/PID/PIDData.h"
 
 CEREAL_REGISTER_TYPE(CircleVisual)
+
 CEREAL_REGISTER_POLYMORPHIC_RELATION(IVisual, CircleVisual)
 
 CEREAL_REGISTER_TYPE(SpriteVisual)
@@ -38,14 +41,15 @@ CEREAL_REGISTER_POLYMORPHIC_RELATION(ColliderBase, CircleCollider)
 CEREAL_REGISTER_TYPE(RocketObject)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(SceneObject, RocketObject)
 
-std::string SceneLoader::sceneFolder = "scenes";
+std::string Serialiser::sceneFolder = "scenes";
 
-void SceneLoader::EnsureSceneFolderExists() {
+void Serialiser::EnsureSceneFolderExists() {
     const std::filesystem::path fullPath = Core::Application::GetAppDataFolder() / sceneFolder;
     std::filesystem::create_directories(fullPath);
 }
 
-bool SceneLoader::SaveSceneInternal(Scene &scene, std::filesystem::path &filePath) {
+template<typename T>
+bool Serialiser::SaveObjInternal(T &obj, std::filesystem::path &filePath) {
     try {
         filePath += ".json";
         std::ofstream os(filePath);
@@ -54,32 +58,32 @@ bool SceneLoader::SaveSceneInternal(Scene &scene, std::filesystem::path &filePat
             return false;
 
         cereal::JSONOutputArchive archive(os);
-        archive (scene);
-        std::cout << "Saved scene to " << filePath << std::endl;
+        archive(obj);
+        std::cout << "Saved object to " << filePath << std::endl;
         return true;
     } catch (const std::exception& e) {
-        std::cerr << "Failed to save scene: " << e.what() << std::endl;
+        std::cerr << "Failed to save object: " << e.what() << std::endl;
         return false;
     }
 }
 
-bool SceneLoader::SaveScene(Scene &scene) {
+bool Serialiser::SaveScene(Scene &scene) {
     std::filesystem::path base = "../assets/";
     auto path = base / sceneFolder / *scene.GetName();
-    return SaveSceneInternal(scene, path);
+    return SaveObjInternal(scene, path);
 }
 
-bool SceneLoader::SaveTempScene(Scene &scene) {
+bool Serialiser::SaveTempScene(Scene &scene) {
     auto path = Core::Application::GetAppDataFolder() / "tempScene";
-    return SaveSceneInternal(scene, path);
+    return SaveObjInternal(scene, path);
 }
 
-std::unique_ptr<Scene> SceneLoader::LoadTempScene() {
+std::unique_ptr<Scene> Serialiser::LoadTempScene() {
     auto path = Core::Application::GetAppDataFolder() / "tempScene.json";
     return LoadScene(path.string());
 }
 
-std::unique_ptr<Scene> SceneLoader::LoadScene(const std::string &filepath) {
+std::unique_ptr<Scene> Serialiser::LoadScene(const std::string &filepath) {
     try {
         std::ifstream is(filepath);
         if (!is.is_open()) {
@@ -93,6 +97,29 @@ std::unique_ptr<Scene> SceneLoader::LoadScene(const std::string &filepath) {
         return scene;
     } catch (const std::exception& e) {
         std::cerr << "Failed to load scene: " << e.what() << std::endl;
+        return nullptr;
+    }
+}
+
+bool Serialiser::SavePIDData(PIDData &pid, const std::filesystem::path &filePath) {
+    std::filesystem::path path = filePath;
+    return SaveObjInternal(pid, path);
+}
+
+std::unique_ptr<PIDData> Serialiser::LoadPIDData(const std::filesystem::path &filePath) {
+    try {
+        std::ifstream is(filePath);
+        if (!is.is_open()) {
+            std::cerr << "Failed to open PIDData file: " << filePath << std::endl;
+            return nullptr;
+        }
+
+        cereal::JSONInputArchive archive(is);
+        auto pid = std::make_unique<PIDData>();
+        archive(*pid);
+        return pid;
+    } catch (const std::exception& e) {
+        std::cerr << "Failed to load PIDData: " << e.what() << std::endl;
         return nullptr;
     }
 }
