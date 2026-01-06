@@ -44,12 +44,20 @@ void RocketControllerUI::Draw() {
 
     ImGui::Separator();
 
-    DrawPIDLoading(autoCtrl->GetAltitudeController());
-
     ImGui::Text("Altitude PID");
     ImGui::SliderFloat("Kp", &altitudePID->pidData.pGain, 0.0f, 10.0f, "%.4f");
     ImGui::SliderFloat("Ki", &altitudePID->pidData.iGain, 0.0f, 5.0f, "%.4f");
     ImGui::SliderFloat("Kd", &altitudePID->pidData.dGain, 0.0f, 10.0f, "%.4f");
+    static const auto nameBuffer = new char[128];
+    ImGui::InputTextWithHint("Name", "New Values", nameBuffer, 128);
+    if (ImGui::Button("Save")) {
+        Serialiser::SavePIDData(altitudePID->pidData, std::filesystem::path("../assets/pid_parameters") / std::string(nameBuffer));
+    }
+
+    DrawPIDLoading(autoCtrl->GetAltitudeController());
+
+    ImGui::Separator();
+
     ImGui::Checkbox("Visualize", &autoCtrl->visualizePID);
     if (autoCtrl->visualizePID) {
         ImGui::SameLine();
@@ -60,18 +68,12 @@ void RocketControllerUI::Draw() {
         ImGui::TextColored(ImVec4(0,1,0,1),"D");
     }
 
-    ImGui::Separator();
-
-    if (ImGui::Button("Reset PID Integral")) {
-        altitudePID->Reset();
-    }
-
     ImGui::End();
 }
 
 void RocketControllerUI::DrawPIDLoading(PIDController* pidController) {
 
-    ImGui::SeparatorText("Available PID Values:");
+    ImGui::SeparatorText("Load PID Values:");
     ImGui::Spacing();
 
 
@@ -93,12 +95,6 @@ void RocketControllerUI::DrawPIDLoading(PIDController* pidController) {
                 std::cerr << "Failed to delete pid: " << e.what() << std::endl;
             }
         }
-    }
-
-    static const auto nameBuffer = new char[128];
-    ImGui::InputTextWithHint("Name", "New Values", nameBuffer, 128);
-    if (ImGui::Button("Save")) {
-        Serialiser::SavePIDData(pidController->pidData, std::filesystem::path("../assets/pid_parameters") / std::string(nameBuffer));
     }
 }
 
