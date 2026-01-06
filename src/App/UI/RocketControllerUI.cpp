@@ -5,6 +5,7 @@
 #include "App/Engine/SceneObject.h"
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "App/Layers/EngineLayer.h"
+#include "App/RocketControl/TargetObject.h"
 
 RocketControllerUI::RocketControllerUI() : pidSelector_(FileSelector(std::filesystem::path("../assets/pid_parameters"))) {
     controlLayer_ = Core::Application::Get().GetLayer<ControlLayer>();
