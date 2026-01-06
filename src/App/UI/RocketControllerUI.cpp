@@ -6,6 +6,7 @@
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "App/Layers/EngineLayer.h"
 #include "App/RocketControl/TargetObject.h"
+#include "misc/cpp/imgui_stdlib.h"
 
 RocketControllerUI::RocketControllerUI() : pidFileSelector_(FileSelector(std::filesystem::path("../assets/pid_parameters"))) {
     controlLayer_ = Core::Application::Get().GetLayer<ControlLayer>();
@@ -134,10 +135,9 @@ void RocketControllerUI::DrawPIDSettings(AutonomousControl *autoCtrl) {
     ImGui::DragFloat("Ki", &altitudePID->pidData.iGain, .02f, 0.0f, 5.0f);
     ImGui::DragFloat("Kd", &altitudePID->pidData.dGain, .02f, 0.0f, 5.0f);
 
-    static const auto nameBuffer = new char[128];
-    ImGui::InputTextWithHint("Name", "New Values", nameBuffer, 128);
+    ImGui::InputText("Name", &altitudePID->pidData.name);
     if (ImGui::Button("Save")) {
-        Serialiser::SavePIDData(altitudePID->pidData, std::filesystem::path("../assets/pid_parameters") / std::string(nameBuffer));
+        Serialiser::SavePIDData(altitudePID->pidData, std::filesystem::path("../assets/pid_parameters") / altitudePID->pidData.name);
     }
 }
 
@@ -178,7 +178,9 @@ void RocketControllerUI::DrawPIDLoading(PIDController* pidController) {
     pidFileSelector_.Draw();
     if (!pidFileSelector_.GetSelectedFile().empty()) {
         if (ImGui::Button("Load Value")) {
-            pidController->pidData = *Serialiser::LoadPIDData(pidFileSelector_.GetSelectedFile());
+            std::unique_ptr<PIDData> result = Serialiser::LoadPIDData(pidFileSelector_.GetSelectedFile());
+            if (result != nullptr)
+                pidController->pidData = *result;
         }
         ImGui::SameLine();
 
