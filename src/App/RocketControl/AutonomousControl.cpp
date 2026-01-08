@@ -1,6 +1,6 @@
 #include "AutonomousControl.h"
 
-AutonomousControl::AutonomousControl() : targetAltitude(0) {
+AutonomousControl::AutonomousControl() {
     verticalController_ = std::make_unique<PIDController>();
     horizontalController_ = std::make_unique<PIDController>();
     attitudeController_ = std::make_unique<PIDController>();
@@ -23,7 +23,8 @@ void AutonomousControl::ApplyControlInputs(RocketObject *rocketObject, const flo
     const float currentY = rocketObject->transform.position.y;
     const float vY = rocketObject->velocity.y; // world reference frame for now
 
-    const float yCorrection = verticalController_->Evaluate(targetAltitude, currentY, vY, deltaTime);
+    const float desiredY = targetPos.y; // take from targetPos
+    const float yCorrection = verticalController_->Evaluate(desiredY, currentY, vY, deltaTime);
 
     const float thrust = yCorrection;
     rocketObject->thrustPercent = glm::clamp(thrust, 0.0f, 1.0f); // clamp to valid range

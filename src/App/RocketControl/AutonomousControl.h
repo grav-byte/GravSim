@@ -14,8 +14,9 @@ public:
     PIDController* GetHorizontalController() const;
     PIDController* GetAttitudeController() const;
 
+    glm::vec2 targetPos = glm::vec2(0.0f); // world space target (x,y)
+
     bool visualizePID = false;
-    float targetAltitude;
 
 private:
     std::unique_ptr<PIDController> verticalController_;

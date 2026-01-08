@@ -27,13 +27,15 @@ void RocketControllerUI::CreateTarget(Scene& scene) {
 }
 
 void RocketControllerUI::DeleteTarget(Scene& scene) {
-    scene.DeleteObject(targetId_); // adapt if API differs
+    if (!targetCreated_ || targetId_ == InvalidId) return;
+
+    scene.DeleteObject(targetId_);
     targetCreated_ = false;
-    targetId_ = 0;
+    targetId_ = InvalidId;
 }
 
 SceneObject* RocketControllerUI::GetTarget(Scene& scene) const {
-    if (!targetCreated_ || targetId_ == 0)
+    if (!targetCreated_ || targetId_ == InvalidId)
         return nullptr;
 
     return scene.GetObjById(targetId_);
@@ -101,7 +103,7 @@ void RocketControllerUI::Draw() {
             ImGui::Spacing();
             ImGui::Spacing();
 
-            DrawTargetSettings(scene);
+            DrawTargetSettings(scene, autoCtrl);
 
             ImGui::EndTabItem();
         }
@@ -157,7 +159,7 @@ void RocketControllerUI::DrawPIDSettings(AutonomousControl *autoCtrl) {
     }
 }
 
-void RocketControllerUI::DrawTargetSettings(Scene *scene) {
+void RocketControllerUI::DrawTargetSettings(Scene *scene, AutonomousControl* autoCtrl) {
     ImGui::SeparatorText("Target Settings");
 
     // Create/Delete target scene object (rendered by SceneRenderer)
@@ -175,12 +177,15 @@ void RocketControllerUI::DrawTargetSettings(Scene *scene) {
 
     if (SceneObject* targetObj = GetTarget(*scene)) {
 
-        if (DrawFloat2Control("Position", &targetPos_, 0.1f)) {
-            targetObj->transform.position = targetPos_;
+        // Edit targetPos_ via UI
+        DrawFloat2Control("Position", &targetPos_, 0.1f);
 
-            targetObj->lastPosition = targetObj->transform.position;
-        } else {
-            targetObj->transform.position = targetPos_;
+        // Apply to scene object
+        targetObj->transform.position = targetPos_;
+        targetObj->lastPosition       = targetPos_;
+
+        if (autoCtrl) {
+            autoCtrl->targetPos      = targetPos_;
         }
     }
 }
@@ -217,6 +222,6 @@ void RocketControllerUI::DrawPIDLoading() {
 void RocketControllerUI::OnEvent(Core::Event &event) {
     if (event.GetEventType() == Core::SceneLoaded) {
         targetCreated_ = false;
-        targetId_ = 0;
+        targetId_ = InvalidId;
     }
 }
