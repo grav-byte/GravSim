@@ -4,6 +4,7 @@ AutonomousControl::AutonomousControl() {
     verticalController_ = std::make_unique<PIDController>();
     horizontalController_ = std::make_unique<PIDController>();
     attitudeController_ = std::make_unique<PIDController>();
+    attitudeController_->SetUseAngleDifference(true);
 }
 
 void AutonomousControl::DrawArrows(RocketObject *rocketObject) const {
@@ -20,14 +21,28 @@ void AutonomousControl::DrawArrows(RocketObject *rocketObject) const {
 }
 
 void AutonomousControl::ApplyControlInputs(RocketObject *rocketObject, const float deltaTime) const {
+    const float currentX = rocketObject->transform.position.x;
     const float currentY = rocketObject->transform.position.y;
+    const float currentPhi = rocketObject->transform.rotation;
+    const float vX = rocketObject->velocity.x; // world reference frame for now
     const float vY = rocketObject->velocity.y; // world reference frame for now
+    const float vPhi = rocketObject->angularVelocity;
 
-    const float desiredY = targetPos.y; // take from targetPos
-    const float yCorrection = verticalController_->Evaluate(desiredY, currentY, vY, deltaTime);
+    // PID evaluations
 
-    const float thrust = yCorrection;
-    rocketObject->thrustPercent = glm::clamp(thrust, 0.0f, 1.0f); // clamp to valid range
+    // vertical -> thrust
+    float thrust = verticalController_->Evaluate(targetPos.y, currentY, vY, deltaTime);
+    thrust = glm::clamp(thrust, 0.0f, 1.0f);
+    rocketObject->thrustPercent =  thrust;
+
+    // horizontal -> target angle (phi)
+    float phiTarget = horizontalController_->Evaluate(targetPos.x, currentX, vX, deltaTime);
+    phiTarget = -phiTarget * maxSteeringAngle;
+
+    // attitude -> thrust angle
+    const float thrustAngle = attitudeController_->Evaluate(phiTarget, currentPhi, vPhi, deltaTime);
+    std::cout << currentPhi << std::endl;
+    rocketObject->thrustAngle = -thrustAngle * rocketObject->GetMaxThrustAngle();
 
     if (visualizePID)
         DrawArrows(rocketObject);

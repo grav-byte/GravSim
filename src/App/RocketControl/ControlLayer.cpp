@@ -34,7 +34,8 @@ void ControlLayer::OnUpdate(const float deltaTime) {
     else
         autonomousControl_->ApplyControlInputs(rocketObj_, deltaTime);
 
-    rocketObj_->thrustAngle = std::clamp(rocketObj_->thrustAngle, -20.0f, 20.0f);
+    const float maxThrustAngle = rocketObj_->GetMaxThrustAngle();
+    rocketObj_->thrustAngle = std::clamp(rocketObj_->thrustAngle, -maxThrustAngle, maxThrustAngle);
     rocketObj_->thrustPercent = std::clamp(rocketObj_->thrustPercent, 0.0f, 1.0f);
 
     rocketObj_->UpdateVisualisation();

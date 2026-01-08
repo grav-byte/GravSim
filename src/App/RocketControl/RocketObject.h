@@ -26,6 +26,8 @@ public:
     glm::vec2 GetThrustPosition() const;
     glm::vec2 GetThrustVector() const;
 
+    float GetMaxThrustAngle() const;
+
     void RelinkObjects(const Scene& scene);
 
     // Cereal serialization
@@ -36,6 +38,7 @@ public:
 
 private:
     const float maxTrustForce_ = 250.0f; // max thrust force in N
+    const float maxThrustAngle = 20.0f; // degrees
     const float nozzleOffset = -.8f;
     const float exhaustOffset = -.6f;
 

@@ -82,6 +82,8 @@ glm::vec2 RocketObject::GetThrustVector() const {
     return dir * magnitude;
 }
 
+float RocketObject::GetMaxThrustAngle() const { return maxThrustAngle; }
+
 void RocketObject::RelinkObjects(const Scene &scene) {
     nozzleObj_ = scene.GetObjById(nozzleId_);
     exhaustObj_ = scene.GetObjById(exhaustId_);

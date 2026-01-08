@@ -11,13 +11,16 @@ public:
 
     float Evaluate(float setpoint, float measuredValue, float derivative, float deltaTime);
 
+    void SetUseAngleDifference(bool useAngleDifference);
+
     glm::vec3 GetTerms() const;
 
     void Reset();
 
 private:
+    bool useAngleDifference_ = false;
     float integral_ = 0.0f;
-    float pTerm = 0.0f;
-    float iTerm = 0.0f;
-    float dTerm = 0.0f;
+    float pTerm_ = 0.0f;
+    float iTerm_ = 0.0f;
+    float dTerm_ = 0.0f;
 };

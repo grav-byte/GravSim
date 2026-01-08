@@ -121,6 +121,10 @@ void PhysicsSolver::UpdatePhysics(Scene* scene, float deltaTime) {
         StepPropagation(scene);
         timeAccumulator_ -= timeStep_;
     }
+
+    for (auto object : scene->GetAllObjects()) {
+        object->transform.rotation = glm::mod(object->transform.rotation, 360.0f);
+    }
 }
 
 std::vector<const char *> PhysicsSolver::GetPropagatorNames() {
