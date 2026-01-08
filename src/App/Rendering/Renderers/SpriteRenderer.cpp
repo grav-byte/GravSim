@@ -10,6 +10,10 @@ SpriteRenderer::SpriteRenderer(const RenderingSystem* renderer) : BaseRenderer(r
     spriteShaderProgram_ = ShaderLoader::LoadShader("sprite.vert", "sprite.frag");
 }
 
+SpriteRenderer::~SpriteRenderer() {
+    ShaderLoader::UnloadShader(spriteShaderProgram_);
+}
+
 void SpriteRenderer::RenderSprite(const SceneObject *obj) const {
     const auto spriteVisual = dynamic_cast<SpriteVisual*>(obj->visual.get());
     const auto activeCamera = renderingSys_->GetActiveCamera();

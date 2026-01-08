@@ -5,5 +5,5 @@
 
 class TargetObject final : public SceneObject {
 public:
-    explicit TargetObject(Scene& /*scene*/);
+    explicit TargetObject();
 };

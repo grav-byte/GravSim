@@ -166,3 +166,5 @@ elseif(APPLE)
 else()
     target_link_libraries(GravSim PRIVATE glfw glew GL)
 endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer -g")

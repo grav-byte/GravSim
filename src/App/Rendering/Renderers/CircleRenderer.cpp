@@ -14,6 +14,13 @@ CircleRenderer::CircleRenderer(const RenderingSystem* renderer) : BaseRenderer(r
     UploadCircleToGPU();
 }
 
+CircleRenderer::~CircleRenderer() {
+    // cleanup
+    if (circleVbo_ != 0) glDeleteBuffers(1, &circleVbo_);
+    if (circleVao_ != 0) glDeleteVertexArrays(1, &circleVao_);
+    ShaderLoader::UnloadShader(circleShaderProgram_);
+}
+
 void CircleRenderer::BuildCircleVertices() {
     circleVertices_.clear();
     circleVertices_.reserve(circleSegments_ + 2);
@@ -22,9 +29,9 @@ void CircleRenderer::BuildCircleVertices() {
     circleVertices_.emplace_back(0.0f, 0.0f);
 
     // edges (unit circle, radius = 1)
-    const float twoPi = 2.0f * glm::pi<float>();
+    constexpr float twoPi = 2.0f * glm::pi<float>();
     for (int i = 0; i <= circleSegments_; ++i) {
-        float angle = static_cast<float>(i) / static_cast<float>(circleSegments_) * twoPi;
+        const float angle = static_cast<float>(i) / static_cast<float>(circleSegments_) * twoPi;
         float x = std::cos(angle);
         float y = std::sin(angle);
         circleVertices_.emplace_back(x, y);

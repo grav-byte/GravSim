@@ -18,7 +18,6 @@ UILayer::UILayer() {
     followingUI_ = std::make_unique<FollowingUI>();
     stateUI_ = std::make_unique<RocketStateUI>();
     controlUI_ = std::make_unique<RocketControllerUI>();
-    showDemo_ = false;
     io_ = nullptr;
 }
 
@@ -99,40 +98,9 @@ void UILayer::DrawFPSCounter() {
 }
 
 void UILayer::OnUpdate(float deltaTime) {
-    // Start ImGui frame
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    // make background transparent
-    ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, ImVec4(0, 0, 0, 0));
 
-    ImGui::NewFrame();
-
-    ImGuiID mainId = ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_AutoHideTabBar);
-
-    settingsUI_->Draw();
-    sceneUI_->Draw();
-    simulationUI_->Draw();
-    followingUI_->Draw();
-    if (interactionUI_)
-        interactionUI_->Draw();
-    stateUI_->Draw();
-    controlUI_->Draw();
-
-    DrawFPSCounter();
-
-    DockWindowsFirstFrame(mainId);
-
-    // --------- TEST UI ----------
-    ImGui::Begin("ImGui Working!");
-    ImGui::Text("If you see this, ImGui works!");
-    ImGui::Checkbox("Show Demo Window", &showDemo_);
-    ImGui::End();
-
-    ImGui::PopStyleColor(1);
-
-    if (showDemo_)
-        ImGui::ShowDemoWindow(&showDemo_);
 }
+
 
 void UILayer::OnEvent(Core::Event &event) {
     settingsUI_->OnEvent(event);
@@ -155,6 +123,31 @@ void UILayer::OnEvent(Core::Event &event) {
 
 
 void UILayer::OnRender() {
+    // Start ImGui frame
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    // make background transparent
+    ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, ImVec4(0, 0, 0, 0));
+
+    ImGui::NewFrame();
+
+    ImGuiID mainId = ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_AutoHideTabBar);
+
+    settingsUI_->Draw();
+    sceneUI_->Draw();
+    simulationUI_->Draw();
+    followingUI_->Draw();
+    if (interactionUI_)
+        interactionUI_->Draw();
+    stateUI_->Draw();
+    controlUI_->Draw();
+
+    DrawFPSCounter();
+
+    DockWindowsFirstFrame(mainId);
+    ImGui::PopStyleColor();
+
+    // Render ImGui
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

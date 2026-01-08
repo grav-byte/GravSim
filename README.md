@@ -20,7 +20,7 @@ An overview of the PID controllers can be seen below:
 
 ___
 ## Building
-To build the project, you can use CMake.
+To build the project, you can use CMake
 
 or Visual Studio 2022 by running the following command in the root folder:
 

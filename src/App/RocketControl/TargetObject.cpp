@@ -2,7 +2,7 @@
 
 #include "App/Rendering/Visuals/ShaderVisual.h"
 
-TargetObject::TargetObject(Scene &): SceneObject(0, "Target") {
+TargetObject::TargetObject(): SceneObject(0, "Target") {
     auto shaderVisual = std::make_unique<ShaderVisual>();
     shaderVisual->shaderPath = "target.frag";
     visual = std::move(shaderVisual);

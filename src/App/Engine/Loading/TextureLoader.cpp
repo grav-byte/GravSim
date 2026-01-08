@@ -8,13 +8,13 @@
 GLuint TextureLoader::whiteTex_ = 0;
 
 TextureLoader::TextureInfo TextureLoader::GetTexture(const std::filesystem::path &path) {
-    const auto it = textures_.find(path);
-    if (it != textures_.end()) {
+    const auto it = loadedTextures_.find(path);
+    if (it != loadedTextures_.end()) {
         return it->second; // already loaded
     }
 
     TextureInfo tex = LoadTextureFromFile(path);
-    textures_[path] = tex;
+    loadedTextures_[path] = tex;
     return tex;
 }
 
@@ -72,10 +72,10 @@ GLuint TextureLoader::GetWhiteTexture() {
 }
 
 void TextureLoader::Clear() {
-    for (auto& [path, tex]: textures_) {
+    for (auto& [path, tex]: loadedTextures_) {
         glDeleteTextures(1, &tex.id);
     }
-    textures_.clear();
+    loadedTextures_.clear();
 }
 
 

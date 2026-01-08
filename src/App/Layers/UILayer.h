@@ -15,7 +15,7 @@
 class UILayer : public Core::AppLayer {
 public:
     UILayer();
-    ~UILayer();
+    ~UILayer() override;
 
     void OnInit() override;
     void OnUpdate(float deltaTime) override;
@@ -26,7 +26,6 @@ public:
     void DrawFPSCounter();
 
 private:
-    bool showDemo_;
     ImGuiIO* io_;
 
     std::unique_ptr<SettingsUI> settingsUI_;

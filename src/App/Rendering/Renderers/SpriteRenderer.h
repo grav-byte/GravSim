@@ -10,7 +10,7 @@ public:
 
     void RenderSprite(const SceneObject *obj) const;
 
-    ~SpriteRenderer() override = default;
+    ~SpriteRenderer() override;
 
 protected:
     unsigned int spriteShaderProgram_ = 0;

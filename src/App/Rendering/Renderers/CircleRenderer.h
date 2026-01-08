@@ -6,7 +6,7 @@
 class CircleRenderer : public BaseRenderer {
 public:
     explicit CircleRenderer(const RenderingSystem* renderer);
-    ~CircleRenderer() override = default;
+    ~CircleRenderer() override;
 
 
     void BuildCircleVertices();

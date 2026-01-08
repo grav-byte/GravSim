@@ -24,6 +24,7 @@ public:
 private:
     SpriteRenderer spriteRenderer_;
     CircleRenderer circleRenderer_;
+    LineRenderer lineRenderer_;
     ConstraintRenderer constraintRenderer_;
     ShaderRenderer shaderRenderer_;
     GridRenderer gridRenderer_;

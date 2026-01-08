@@ -15,7 +15,7 @@ RocketControllerUI::RocketControllerUI() : pidFileSelector_(FileSelector(std::fi
 }
 
 void RocketControllerUI::CreateTarget(Scene& scene) {
-    auto targetUq = std::make_unique<TargetObject>(scene);
+    auto targetUq = std::make_unique<SceneObject>();
 
     targetUq->transform.position = glm::vec2(0.0f, 0.0f);
 

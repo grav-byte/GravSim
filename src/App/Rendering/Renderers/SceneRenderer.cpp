@@ -8,8 +8,9 @@ SceneRenderer::SceneRenderer(RenderingSystem* system) :
     spriteRenderer_(system),
     circleRenderer_(system),
     constraintRenderer_(system),
-    gridRenderer_(LineRenderer(system), system),
-    arrowRenderer(LineRenderer(system), system),
+    lineRenderer_(system),
+    gridRenderer_(lineRenderer_, system),
+    arrowRenderer(lineRenderer_, system),
     shaderRenderer_(system),
     colliderColor_(glm::vec4(1.0f, 0.0f, 0.0f, 0.5f)),
     renderer_(system)

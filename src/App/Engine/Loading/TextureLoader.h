@@ -20,6 +20,6 @@ public:
     static void Clear();
 
 private:
-    inline static std::unordered_map<std::filesystem::path, TextureInfo> textures_;
+    inline static std::unordered_map<std::filesystem::path, TextureInfo> loadedTextures_;
     static unsigned int whiteTex_;
 };

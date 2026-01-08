@@ -4,7 +4,13 @@
 #include "ShaderLoader.h"
 
 GLuint ShaderLoader::LoadShader(const std::string &vertexPath, const std::string &fragmentPath) {
-    // Create shader program and compile & attach shaders
+    // check if already loaded
+    const auto it = loadedShaders_.find(vertexPath + "|" + fragmentPath);
+    if (it != loadedShaders_.end()) {
+        return it->second; // already loaded - return cached
+    }
+
+    // create shader program and compile and attach shaders
     const GLuint program = glCreateProgram();
 
     const char* vertexSource = LoadSource(vertexPath);
@@ -13,6 +19,9 @@ GLuint ShaderLoader::LoadShader(const std::string &vertexPath, const std::string
     const unsigned int vertexShader = CompileShader(GL_VERTEX_SHADER, vertexSource);
     const unsigned int fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
 
+    delete[] vertexSource;
+    delete[] fragmentSource;
+
     glAttachShader(program, vertexShader);
     glAttachShader(program, fragmentShader);
     glLinkProgram(program);
@@ -20,12 +29,32 @@ GLuint ShaderLoader::LoadShader(const std::string &vertexPath, const std::string
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+
+
+    // cache
+    if (program != 0)
+        loadedShaders_[vertexPath + "|" + fragmentPath] = program;
+
     return program;
 }
 
-char* ShaderLoader::LoadSource(std::string path) {
-    // Load shader source from file path
+void ShaderLoader::UnloadShader(unsigned int sprite_shader_program) {
+    if (sprite_shader_program == 0)
+        return;
 
+    // delete and erase if found
+    for (auto it = loadedShaders_.begin(); it != loadedShaders_.end(); ) {
+        if (it->second == sprite_shader_program) {
+            glDeleteProgram(it->second);
+            it = loadedShaders_.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+char* ShaderLoader::LoadSource(std::string path) {
+    // load shader source from file path
     const auto pathPrefix = "../assets/shaders/";
     path = std::string(pathPrefix) + std::string(path);
     FILE* file = fopen(path.c_str(), "rb");
@@ -47,12 +76,12 @@ char* ShaderLoader::LoadSource(std::string path) {
 }
 
 unsigned int ShaderLoader::CompileShader(const unsigned int type, const char* source) {
-    // Create and compile shader
+    // create and compile shader
     const unsigned int id = glCreateShader(type);
     glShaderSource(id, 1, &source, nullptr);
     glCompileShader(id);
 
-    // Error handling
+    // error handling
     int result;
     glGetShaderiv(id, GL_COMPILE_STATUS, &result);
     if (result == GL_FALSE) {
