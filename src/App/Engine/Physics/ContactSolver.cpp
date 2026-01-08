@@ -11,6 +11,8 @@ void ContactSolver::FindContacts(const Scene *scene) {
         for (size_t j = i + 1; j < objCount; ++j) { // check all from next obj to end - avoid double checks
             SceneObject& objB = *objects[j];
 
+            if (objA.mass == 0.0f || objB.mass == 0.0f)
+                continue; // mass-less objects do not collide
             CheckAllColliders(objA, objB);
         }
     }

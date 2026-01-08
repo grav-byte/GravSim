@@ -23,6 +23,7 @@
 
 
 #include "App/RocketControl/RocketObject.h"
+#include "App/RocketControl/TargetObject.h"
 #include "App/RocketControl/PID/PIDData.h"
 
 CEREAL_REGISTER_TYPE(CircleVisual)
@@ -40,6 +41,9 @@ CEREAL_REGISTER_POLYMORPHIC_RELATION(ColliderBase, CircleCollider)
 
 CEREAL_REGISTER_TYPE(RocketObject)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(SceneObject, RocketObject)
+
+CEREAL_REGISTER_TYPE(TargetObject)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(SceneObject, TargetObject)
 
 std::string Serialiser::sceneFolder = "scenes";
 

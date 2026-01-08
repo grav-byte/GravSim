@@ -80,11 +80,11 @@ namespace Core {
             lastDeltaTimes_[deltaTimeIndex_] = deltaTime;
             deltaTimeIndex_ = (deltaTimeIndex_ + 1) % numFramerateSamples;
 
-            // Main layer update
+            // main layer update
             for (const std::unique_ptr<AppLayer>& layer : layerStack_)
                 layer->OnUpdate(deltaTime);
 
-            // NOTE: rendering can be done elsewhere (eg. render thread)
+            // render all layers
             for (const std::unique_ptr<AppLayer>& layer : layerStack_)
                 layer->OnRender();
 
