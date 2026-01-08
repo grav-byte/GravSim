@@ -16,7 +16,7 @@ public:
 
     glm::vec2 targetPos = glm::vec2(0.0f); // world space target (x,y)
 
-    bool visualizePID = false;
+    glm::bvec3 visualizePID = glm::bvec3(false); // visualize PID terms via arrows
 
 private:
     const float maxSteeringAngle = 15.0f; // degrees
@@ -24,5 +24,9 @@ private:
     std::unique_ptr<PIDController> horizontalController_;
     std::unique_ptr<PIDController> attitudeController_;
 
-    void DrawArrows(RocketObject *rocketObject) const;
+    void DrawVerticalArrows(RocketObject *rocketObject) const;
+
+    void DrawAttitudeArrows(RocketObject *rocketObject) const;
+
+    void DrawHorizontalArrows(RocketObject *rocketObject, float targetAngle) const;
 };

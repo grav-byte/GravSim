@@ -12,7 +12,7 @@ public:
 
     void Draw() override;
 
-    void DrawPIDLoading();
+    void DrawPIDLoading(PIDController *(&pids)[3]);
 
     void OnEvent(Core::Event &event) override;
 
@@ -29,10 +29,13 @@ private:
     bool targetCreated_ = false;
     uint32_t targetId_ = InvalidId;
     glm::vec2 targetPos_ = glm::vec2(0.0f, 0.0f);
+    std::string saveName;
 
     void CreateTarget(Scene& scene);
     void DeleteTarget(Scene& scene);
     void DrawPIDSettings(AutonomousControl *autoCtrl);
+
+    void SaveConfig(const AutonomousControl *autoCtrl) const;
 
     void DrawTargetSettings(Scene *scene, AutonomousControl* autoCtrl);
 

@@ -18,12 +18,14 @@
 #include <cereal/types/polymorphic.hpp>
 #include <cereal/archives/json.hpp>
 #include <cereal/types/vector.hpp>
+#include <cereal/types/array.hpp>
 #include <cereal/types/map.hpp>
 #include <cereal/types/memory.hpp>
 
 
 #include "App/RocketControl/RocketObject.h"
 #include "App/RocketControl/TargetObject.h"
+#include "App/RocketControl/PID/PIDConfig.h"
 #include "App/RocketControl/PID/PIDData.h"
 
 CEREAL_REGISTER_TYPE(CircleVisual)
@@ -105,25 +107,25 @@ std::unique_ptr<Scene> Serialiser::LoadScene(const std::string &filepath) {
     }
 }
 
-bool Serialiser::SavePIDData(PIDData &pid, const std::filesystem::path &filePath) {
+bool Serialiser::SavePIDConfig(PIDConfig &pid, const std::filesystem::path &filePath) {
     std::filesystem::path path = filePath;
     return SaveObjInternal(pid, path);
 }
 
-std::unique_ptr<PIDData> Serialiser::LoadPIDData(const std::filesystem::path &filePath) {
+std::unique_ptr<PIDConfig> Serialiser::LoadPIDConfig(const std::filesystem::path &filePath) {
     try {
         std::ifstream is(filePath);
         if (!is.is_open()) {
-            std::cerr << "Failed to open PIDData file: " << filePath << std::endl;
+            std::cerr << "Failed to open PIDConfig file: " << filePath << std::endl;
             return nullptr;
         }
 
         cereal::JSONInputArchive archive(is);
-        auto pid = std::make_unique<PIDData>();
+        auto pid = std::make_unique<PIDConfig>();
         archive(*pid);
         return pid;
     } catch (const std::exception& e) {
-        std::cerr << "Failed to load PIDData: " << e.what() << std::endl;
+        std::cerr << "Failed to load PIDConfig: " << e.what() << std::endl;
         return nullptr;
     }
 }

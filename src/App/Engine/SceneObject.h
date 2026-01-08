@@ -46,6 +46,9 @@ public:
         glm::vec2 origin;
         glm::vec2 direction;
         glm::vec4 color;
+
+        bool hasArrow = true;
+        bool dashed = false;
         DebugArrow(const glm::vec2 &orig, const glm::vec2 &dir, const glm::vec4 &col)
         : origin(orig), direction(dir), color(col) {}
     };

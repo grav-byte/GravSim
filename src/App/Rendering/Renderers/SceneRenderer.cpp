@@ -49,7 +49,7 @@ void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) co
     // render debug info and colliders
     for (const SceneObject* obj : scene->GetAllObjects()) {
         for (auto& arrow : obj->debugArrows) {
-            arrowRenderer.RenderArrow(arrow->origin, arrow->direction, arrow->color, 2);
+            arrowRenderer.RenderArrow(*arrow, 2);
         }
 
         if (!showColliders) continue;

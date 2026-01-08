@@ -2,6 +2,7 @@
 #include <filesystem>
 
 #include "App/Engine/Scene.h"
+#include "App/RocketControl/PID/PIDConfig.h"
 #include "App/RocketControl/PID/PIDData.h"
 
 
@@ -17,8 +18,8 @@ public:
     static bool SaveTempScene(Scene &scene);
     static std::unique_ptr<Scene> LoadTempScene();
 
-    static bool SavePIDData(PIDData &pid, const std::filesystem::path &filePath);
-    static std::unique_ptr<PIDData> LoadPIDData(const std::filesystem::path &filePath);
+    static bool SavePIDConfig(PIDConfig &pid, const std::filesystem::path &filePath);
+    static std::unique_ptr<PIDConfig> LoadPIDConfig(const std::filesystem::path &filePath);
 
 private:
     template<typename T>

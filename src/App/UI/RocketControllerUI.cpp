@@ -115,48 +115,101 @@ void RocketControllerUI::Draw() {
 }
 
 void RocketControllerUI::DrawPIDSettings(AutonomousControl *autoCtrl) {
-    DrawPIDLoading();
+    // array of PID controllers
+    PIDController* pids[] = {
+        autoCtrl->GetVerticalController(),
+        autoCtrl->GetHorizontalController(),
+        autoCtrl->GetAttitudeController()
+    };
+
+    DrawPIDLoading(pids);
 
     ImGui::SeparatorText("Set PID Values");
     ImGui::Spacing();
 
-    // PID selection dropdown
-    static int pidSelection = 0;
-    const char* pidNames[] = { "Vertical", "Horizontal", "Attitude" };
+    activePID = pids[0];
 
-    ImGui::Text("Selected PID:");
-    ImGui::SameLine();
-    ImGui::TextLinkOpenURL("(Click for overview)", "https://github.com/grav-byte/GravSim/blob/d9fad45460bd06021d731f6bce4695e4bb6d9295/docs/PIDOverview.png");
-    ImGui::Combo("PID", &pidSelection, pidNames, IM_ARRAYSIZE(pidNames));
+    // start table with 4 columns: label + 3 PIDs
+    if (ImGui::BeginTable("PIDTable", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg))
+    {
+        const char* pidNames[] = { "Vertical", "Horizontal", "Attitude" };
+        // header row
+        ImGui::TableSetupColumn("Gain");
+        ImGui::TableSetupColumn(pidNames[0]);
+        ImGui::TableSetupColumn(pidNames[1]);
+        ImGui::TableSetupColumn(pidNames[2]);
+        ImGui::TableHeadersRow();
 
-    // select active PID controller
-    switch (pidSelection) {
-        case 0: activePID = autoCtrl->GetVerticalController();   break;
-        case 1: activePID = autoCtrl->GetHorizontalController(); break;
-        case 2: activePID = autoCtrl->GetAttitudeController();   break;
-    }
-    if (!activePID)
-        return;
+        // Helper lambda to draw each gain row
+        auto drawGainRow = [&](const char* label,
+                               float* v0, float* v1, float* v2,
+                               float speed = 0.005f, float min = 0.f, float max = 1.f)
+        {
+            ImGui::PushID(label);
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            ImGui::Text("%s", label);
 
-    ImGui::Spacing();
-    ImGui::Checkbox("Visualize", &autoCtrl->visualizePID);
-    if (autoCtrl->visualizePID) {
-        ImGui::SameLine();
+            ImGui::TableSetColumnIndex(1);
+            if (v0) ImGui::DragFloat("##v0", v0, speed, min, max);
+
+            ImGui::TableSetColumnIndex(2);
+            if (v1) ImGui::DragFloat("##v1", v1, speed, min, max);
+
+            ImGui::TableSetColumnIndex(3);
+            if (v2) ImGui::DragFloat("##v2", v2, speed, min, max);
+            ImGui::PopID();
+        };
+
+        // Kp row
+        drawGainRow("Kp",
+                    &pids[0]->pidData.pGain,
+                    &pids[1]->pidData.pGain,
+                    &pids[2]->pidData.pGain);
+
+        // Ki row
+        drawGainRow("Ki",
+                    &pids[0]->pidData.iGain,
+                    &pids[1]->pidData.iGain,
+                    &pids[2]->pidData.iGain);
+
+        // Kd row
+        drawGainRow("Kd",
+                    &pids[0]->pidData.dGain,
+                    &pids[1]->pidData.dGain,
+                    &pids[2]->pidData.dGain);
+
+        ImGui::TableNextRow();
+        ImGui::TableSetColumnIndex(0);
+        ImGui::Text("Visualise");
         ImGui::TextColored(ImVec4(0,0,1,1),"P");
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(1,0,0,1),"I");
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(0,1,0,1),"D");
+        ImGui::TableSetColumnIndex(1);
+        ImGui::Checkbox("##vis0", &autoCtrl->visualizePID.x);
+        ImGui::TableSetColumnIndex(2);
+        ImGui::Checkbox("##vis1", &autoCtrl->visualizePID.y);
+        ImGui::TableSetColumnIndex(3);
+        ImGui::Checkbox("##vis2", &autoCtrl->visualizePID.z);
+
+        ImGui::EndTable();
     }
 
-    ImGui::DragFloat("Kp", &activePID->pidData.pGain, .02f, 0.0f, 5.0f);
-    ImGui::DragFloat("Ki", &activePID->pidData.iGain, .02f, 0.0f, 5.0f);
-    ImGui::DragFloat("Kd", &activePID->pidData.dGain, .02f, 0.0f, 5.0f);
-
-    ImGui::InputText("Name", &activePID->pidData.name);
+    ImGui::InputText("Save Name", &saveName);
     if (ImGui::Button("Save")) {
-        Serialiser::SavePIDData(activePID->pidData, std::filesystem::path("../assets/pid_parameters") / activePID->pidData.name);
+        SaveConfig(autoCtrl);
     }
+}
+
+void RocketControllerUI::SaveConfig(const AutonomousControl* autoCtrl) const {
+    std::array<PIDData,3> pidDataArray;
+    pidDataArray[0] = autoCtrl->GetVerticalController()->pidData;
+    pidDataArray[1] = autoCtrl->GetHorizontalController()->pidData;
+    pidDataArray[2] = autoCtrl->GetAttitudeController()->pidData;
+    auto config = PIDConfig(pidDataArray);
+    Serialiser::SavePIDConfig(config, std::filesystem::path("../assets/pid_parameters") / saveName);
 }
 
 void RocketControllerUI::DrawTargetSettings(Scene *scene, AutonomousControl* autoCtrl) {
@@ -190,7 +243,7 @@ void RocketControllerUI::DrawTargetSettings(Scene *scene, AutonomousControl* aut
     }
 }
 
-void RocketControllerUI::DrawPIDLoading() {
+void RocketControllerUI::DrawPIDLoading(PIDController *(&pids)[3]) {
 
     ImGui::SeparatorText("Load PID Values:");
     ImGui::Spacing();
@@ -198,14 +251,15 @@ void RocketControllerUI::DrawPIDLoading() {
 
     pidFileSelector_.Draw();
     if (!pidFileSelector_.GetSelectedFile().empty()) {
-        if (ImGui::Button("Load Value")) {
-            std::unique_ptr<PIDData> result = Serialiser::LoadPIDData(pidFileSelector_.GetSelectedFile());
-            if (result != nullptr)
-                activePID->pidData = *result;
+        if (ImGui::Button("Load")) {
+            const std::unique_ptr<PIDConfig> result = Serialiser::LoadPIDConfig(pidFileSelector_.GetSelectedFile());
+            if (result != nullptr) {
+                pids[0]->pidData = result->GetPIDData(0);
+                pids[1]->pidData = result->GetPIDData(1);
+                pids[2]->pidData = result->GetPIDData(2);
+            }
         }
-        ImGui::SameLine();
-
-        if (ImGui::Button("Delete Value")) {
+        if (ImGui::Button("Delete")) {
             const auto filePath = pidFileSelector_.GetSelectedFile();
             try {
                 if (std::filesystem::exists(filePath)) {
