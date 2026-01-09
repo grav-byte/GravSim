@@ -2,7 +2,7 @@
 
 in vec2 vTex;                 // uv
 uniform float uTime;          // time in seconds
-uniform sampler2D uNoiseTex;  // equivalent of iChannel0
+uniform sampler2D uNoiseTex;
 
 out vec4 fragColor;
 

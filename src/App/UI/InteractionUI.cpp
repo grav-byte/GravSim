@@ -7,8 +7,7 @@
 #include "App/Engine/Loading/TextureLoader.h"
 #include <iostream>
 
-InteractionUI::InteractionUI(InteractionState* state)
-    : state_(state)
+InteractionUI::InteractionUI()
 {
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
     activeMode_ = Mode::None;
@@ -85,7 +84,7 @@ void InteractionUI::Draw()
         activeMode_ = (activeMode_ == Mode::ClickToPlace) ? Mode::None : Mode::ClickToPlace;
     }
     ImGui::SameLine();
-    ImGui::Text("Objekt");
+    ImGui::Text("Object");
 
     ImGui::Dummy(ImVec2(0, 6));
 
@@ -121,18 +120,16 @@ void InteractionUI::Draw()
     ImGuiIO& io = ImGui::GetIO();
     if (io.WantCaptureMouse) return;
 
-    {
-        ImVec2 mouse = ImGui::GetMousePos();
-        previewScreenPos_ = mouse;
-        isPreviewActive_ = true;
+    ImVec2 mouse = ImGui::GetMousePos();
+    previewScreenPos_ = mouse;
+    isPreviewActive_ = true;
 
-        ImDrawList* drawList = ImGui::GetForegroundDrawList();
-        const float radius = 12.0f;
+    ImDrawList* drawList = ImGui::GetForegroundDrawList();
+    const float radius = 12.0f;
 
-        ImU32 color = IM_COL32(50, 150, 230, 180);
-        drawList->AddCircleFilled(previewScreenPos_, radius, color);
-        drawList->AddCircle(previewScreenPos_, radius, IM_COL32(255,255,255,120), 0, 2.0f);
-    }
+    ImU32 color = IM_COL32(50, 150, 230, 180);
+    drawList->AddCircleFilled(previewScreenPos_, radius, color);
+    drawList->AddCircle(previewScreenPos_, radius, IM_COL32(255,255,255,120), 0, 2.0f);
 
     if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) || ImGui::IsKeyPressed(ImGuiKey_Escape)) {
         activeMode_ = Mode::None;

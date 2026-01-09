@@ -5,10 +5,6 @@
 
 #include "App/UI/SceneUI.h"
 #include "App/UI/SettingsUI.h"
-#include "App/UI/FollowingUI.h"
-#include "App/UI/SimulationUI.h"
-#include "App/UI/InteractionState.h"
-#include "App/UI/InteractionUI.h"
 
 class UILayer : public Core::AppLayer {
 public:

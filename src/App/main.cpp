@@ -3,6 +3,7 @@
 #include "Layers/AudioLayer.h"
 #include "Layers/UILayer.h"
 #include "RocketControl/ControlLayer.h"
+#include "UI/SimulationUI.h"
 
 int main() {
     Core::AppConfig config;

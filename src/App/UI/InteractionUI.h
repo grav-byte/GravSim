@@ -5,15 +5,13 @@
 #include "IUserInterface.h"
 #include "glm/glm.hpp"
 #include "imgui.h"
-#include "App/UI/InteractionState.h"
-
 
 class EngineLayer;
 struct InteractionState;
 
 class InteractionUI : public IUserInterface {
 public:
-    explicit InteractionUI(InteractionState* state);
+    explicit InteractionUI();
     void Draw() override;
     void OnEvent(Core::Event& event) override {}
 
@@ -24,10 +22,7 @@ public:
     };
 
 private:
-    InteractionState* state_;
     EngineLayer* engine_;
-
-    bool clickToPlaceEnabled_ = true;
 
     Mode activeMode_ = Mode::None;
 
