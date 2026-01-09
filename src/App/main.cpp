@@ -18,5 +18,12 @@ int main() {
     app.PushLayer<ControlLayer>();
     app.PushLayer<UILayer>();
 
+    if (UILayer* uiLayer = Core::Application::Get().GetLayer<UILayer>()) {
+        // add uis
+        uiLayer->AddUIElement(std::make_unique<SceneUI>());
+        uiLayer->AddUIElement(std::make_unique<SimulationUI>());
+        uiLayer->AddUIElement(std::make_unique<SettingsUI>());
+    }
+
     app.Run();
 }

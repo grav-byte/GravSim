@@ -17,10 +17,11 @@ void ControlLayer::OnInit() {
     userControl_ = std::make_unique<ManualRocketController>();
     autonomousControl_ = std::make_unique<AutonomousPIDRocketController>();
 
-    UILayer* uiLayer = Core::Application::Get().GetLayer<UILayer>();
-
-    uiLayer->AddUIElement(std::make_unique<RocketStateUI>());
-    uiLayer->AddUIElement(std::make_unique<RocketControllerUI>());
+    if (UILayer* uiLayer = Core::Application::Get().GetLayer<UILayer>()) {
+        // add uis
+        uiLayer->AddUIElement(std::make_unique<RocketStateUI>());
+        uiLayer->AddUIElement(std::make_unique<RocketControllerUI>());
+    }
 
     CreateRocket(scene);
 }

@@ -5,7 +5,6 @@
 
 #include <iostream>
 
-#include "UILayer.h"
 #include "Core/Application.h"
 #include "App/Engine/EngineEvents.h"
 #include "App/Rendering/RenderingSystem.h"
@@ -147,12 +146,6 @@ void EngineLayer::OnInit() {
     renderingSystem_ = std::make_unique<RenderingSystem>();
     renderingSystem_->CreateSceneFramebuffer();
     sceneRenderer_ = std::make_unique<SceneRenderer>(renderingSystem_.get());
-
-    // add uis
-    UILayer* uiLayer = Core::Application::Get().GetLayer<UILayer>();
-    uiLayer->AddUIElement(std::make_unique<SceneUI>());
-    uiLayer->AddUIElement(std::make_unique<SimulationUI>());
-    uiLayer->AddUIElement(std::make_unique<SettingsUI>());
 
     NewScene();
 }
