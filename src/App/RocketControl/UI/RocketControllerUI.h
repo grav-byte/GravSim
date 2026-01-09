@@ -15,8 +15,6 @@ public:
 
     void Draw() override;
 
-    void DrawPIDLoading(PIDController *(&pids)[3]);
-
     void OnEvent(Core::Event &event) override;
 
 private:
@@ -36,6 +34,7 @@ private:
 
     void CreateTarget(Scene& scene);
     void DeleteTarget(Scene& scene);
+    void DrawPIDLoading(PIDController *(&pids)[3], float &steeringAngle);
     void DrawPIDSettings(AutonomousPIDRocketController *autoCtrl);
 
     void SaveConfig(const AutonomousPIDRocketController *autoCtrl) const;

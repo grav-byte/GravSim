@@ -8,18 +8,20 @@ class PIDConfig {
 public:
     PIDConfig() = default;
 
-    explicit PIDConfig(const std::array<PIDData,3>& data) : pidData_(data) {}
+    explicit PIDConfig(const std::array<PIDData,3>& data, const float steeringAngle)
+            : pidData_(data), steeringAngle_(steeringAngle) {}
 
-    const PIDData& GetPIDData(const int index) const {
-        return pidData_.at(index);
-    }
+    const PIDData& GetPIDData(const int index) const { return pidData_.at(index); }
+    float GetSteeringAngle() const { return steeringAngle_; }
 
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(pidData_);
+        ar(pidData_, steeringAngle_);
     }
+
 
 private:
     std::array<PIDData, 3> pidData_;
+    float steeringAngle_ = 0.0f;
 };

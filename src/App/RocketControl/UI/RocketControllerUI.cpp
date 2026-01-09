@@ -127,16 +127,14 @@ void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl
         autoCtrl->GetAttitudeController()
     };
 
-    DrawPIDLoading(pids);
-
-    ImGui::Spacing();
-    ImGui::SetNextItemWidth(100);
-    ImGui::DragFloat("Max Steering Angle (°)", &autoCtrl->maxSteeringAngle, 0.1f, 0.f, 90.f);
-    ImGui::Spacing();
+    DrawPIDLoading(pids, autoCtrl->maxSteeringAngle);
 
     ImGui::SeparatorText("Set PID Parameters");
     ImGui::Spacing();
     ImGui::TextLinkOpenURL("(Click for overview)", "https://github.com/grav-byte/GravSim/blob/d9fad45460bd06021d731f6bce4695e4bb6d9295/docs/PIDOverview.png");
+    ImGui::Spacing();
+    ImGui::SetNextItemWidth(100);
+    ImGui::DragFloat("Max Steering Angle (°)", &autoCtrl->maxSteeringAngle, 0.1f, 0.f, 90.f);
     ImGui::Spacing();
 
     activePID = pids[0];
@@ -232,7 +230,7 @@ void RocketControllerUI::SaveConfig(const AutonomousPIDRocketController* autoCtr
     pidDataArray[0] = autoCtrl->GetVerticalController()->pidData;
     pidDataArray[1] = autoCtrl->GetHorizontalController()->pidData;
     pidDataArray[2] = autoCtrl->GetAttitudeController()->pidData;
-    auto config = PIDConfig(pidDataArray);
+    auto config = PIDConfig(pidDataArray, autoCtrl->maxSteeringAngle);
     Serialiser::SavePIDConfig(config, std::filesystem::path("../assets/pid_parameters") / saveName);
 }
 
@@ -267,7 +265,7 @@ void RocketControllerUI::DrawTargetSettings(Scene *scene, AutonomousPIDRocketCon
     }
 }
 
-void RocketControllerUI::DrawPIDLoading(PIDController *(&pids)[3]) {
+void RocketControllerUI::DrawPIDLoading(PIDController *(&pids)[3], float& steeringAngle) {
 
     ImGui::SeparatorText("Load PID Values:");
     ImGui::Spacing();
@@ -281,6 +279,7 @@ void RocketControllerUI::DrawPIDLoading(PIDController *(&pids)[3]) {
                 pids[0]->pidData = result->GetPIDData(0);
                 pids[1]->pidData = result->GetPIDData(1);
                 pids[2]->pidData = result->GetPIDData(2);
+                steeringAngle = result->GetSteeringAngle();
             }
             // Set saveName to filename without path and without .json extension
             const std::filesystem::path selectedPath = pidFileSelector_.GetSelectedFile();

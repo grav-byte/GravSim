@@ -78,7 +78,6 @@ glm::vec2 RocketObject::GetThrustVector() const {
     const float angleRad = glm::radians(thrustAngle + transform.rotation);
     const glm::vec2 dir = { -sin(angleRad), cos(angleRad) };
     const float magnitude = thrustPercent * maxTrustForce_;
-    // std::cout << "dir: " << dir.x << " ," << dir.y << std::endl;
     return dir * magnitude;
 }
 

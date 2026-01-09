@@ -16,11 +16,14 @@ void AutonomousPIDRocketController::ApplyControlInputs(RocketObject *rocketObjec
     const float vX = rocketObject->velocity.x;
     const float vY = rocketObject->velocity.y;
     const float vPhi = rocketObject->angularVelocity;
-
     // --- PID evaluations ---
 
     // vertical -> thrust
     float thrust = verticalController_->Evaluate(targetPos.y, currentY, vY, deltaTime);
+    const float angleRad = glm::radians(rocketObject->thrustAngle + rocketObject->transform.rotation);
+    const glm::vec2 dir = { -sin(angleRad), cos(angleRad) };
+    const float projection = glm::dot(glm::vec2(.0f,-1.0f), -dir);
+    thrust /= glm::clamp(projection, .001f, 1.0f); // compensate for tilted thrust vector
     thrust = glm::clamp(thrust, 0.0f, 1.0f);
     rocketObject->thrustPercent = thrust;
 
