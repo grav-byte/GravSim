@@ -1,9 +1,12 @@
 #pragma once
-#include "FileSelector.h"
-#include "IUserInterface.h"
-#include "App/RocketControl/ControlLayer.h"
+#include "App/UI/FileSelector.h"
+#include "App/RocketControl/PID/PIDController.h"
+#include "App/UI/IUserInterface.h"
 #include "App/Layers/EngineLayer.h"
 #include <limits>
+
+#include "App/RocketControl/ControlLayer.h"
+#include "App/RocketControl/Controllers/AutonomousPIDRocketController.h"
 
 
 class RocketControllerUI : public IUserInterface {
@@ -33,11 +36,11 @@ private:
 
     void CreateTarget(Scene& scene);
     void DeleteTarget(Scene& scene);
-    void DrawPIDSettings(AutonomousControl *autoCtrl);
+    void DrawPIDSettings(AutonomousPIDRocketController *autoCtrl);
 
-    void SaveConfig(const AutonomousControl *autoCtrl) const;
+    void SaveConfig(const AutonomousPIDRocketController *autoCtrl) const;
 
-    void DrawTargetSettings(Scene *scene, AutonomousControl* autoCtrl);
+    void DrawTargetSettings(Scene *scene, AutonomousPIDRocketController* autoCtrl);
 
     SceneObject* GetTarget(Scene& scene) const;
 };

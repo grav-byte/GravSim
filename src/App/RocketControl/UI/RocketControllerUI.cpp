@@ -3,10 +3,10 @@
 #include "App/Engine/Loading/Serialiser.h"
 #include "App/Engine/Scene.h"
 #include "App/Engine/SceneObject.h"
-#include "App/Engine/Loading/TextureLoader.h"
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "App/Layers/EngineLayer.h"
 #include "App/RocketControl/TargetObject.h"
+#include "App/RocketControl/Controllers/AutonomousPIDRocketController.h"
 #include "misc/cpp/imgui_stdlib.h"
 
 RocketControllerUI::RocketControllerUI() : pidFileSelector_(FileSelector(std::filesystem::path("../assets/pid_parameters"))) {
@@ -58,7 +58,7 @@ void RocketControllerUI::Draw() {
     if (!scene)
         return;
 
-    AutonomousControl* autoCtrl = controlLayer_->GetAutoControl();
+    AutonomousPIDRocketController* autoCtrl = controlLayer_->GetAutoControl();
     if (!autoCtrl) return;
 
     constexpr ImVec2 sizeAuto(445, 300);
@@ -119,7 +119,7 @@ void RocketControllerUI::Draw() {
     ImGui::End();
 }
 
-void RocketControllerUI::DrawPIDSettings(AutonomousControl *autoCtrl) {
+void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl) {
     // array of PID controllers
     PIDController* pids[] = {
         autoCtrl->GetVerticalController(),
@@ -214,7 +214,7 @@ void RocketControllerUI::DrawPIDSettings(AutonomousControl *autoCtrl) {
     }
 }
 
-void RocketControllerUI::SaveConfig(const AutonomousControl* autoCtrl) const {
+void RocketControllerUI::SaveConfig(const AutonomousPIDRocketController* autoCtrl) const {
     std::array<PIDData,3> pidDataArray;
     pidDataArray[0] = autoCtrl->GetVerticalController()->pidData;
     pidDataArray[1] = autoCtrl->GetHorizontalController()->pidData;
@@ -223,7 +223,7 @@ void RocketControllerUI::SaveConfig(const AutonomousControl* autoCtrl) const {
     Serialiser::SavePIDConfig(config, std::filesystem::path("../assets/pid_parameters") / saveName);
 }
 
-void RocketControllerUI::DrawTargetSettings(Scene *scene, AutonomousControl* autoCtrl) {
+void RocketControllerUI::DrawTargetSettings(Scene *scene, AutonomousPIDRocketController* autoCtrl) {
     ImGui::SeparatorText("Target Settings");
 
     // Create/Delete target scene object (rendered by SceneRenderer)

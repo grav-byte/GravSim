@@ -1,8 +1,11 @@
 #include "ControlLayer.h"
 
 #include "App/Layers/EngineLayer.h"
+#include "App/Layers/UILayer.h"
 #include "Core/Application.h"
 #include "Core/InputEvents.h"
+#include "UI/RocketControllerUI.h"
+#include "UI/RocketStateUI.h"
 
 
 ControlLayer::ControlLayer(): rocketObj_(nullptr), engine_(nullptr) {}
@@ -11,8 +14,13 @@ void ControlLayer::OnInit() {
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
     const auto scene = engine_->GetScene();
 
-    userControl_ = std::make_unique<UserControl>();
-    autonomousControl_ = std::make_unique<AutonomousControl>();
+    userControl_ = std::make_unique<ManualRocketController>();
+    autonomousControl_ = std::make_unique<AutonomousPIDRocketController>();
+
+    UILayer* uiLayer = Core::Application::Get().GetLayer<UILayer>();
+
+    uiLayer->AddUIElement(std::make_unique<RocketStateUI>());
+    uiLayer->AddUIElement(std::make_unique<RocketControllerUI>());
 
     CreateRocket(scene);
 }
@@ -30,7 +38,7 @@ void ControlLayer::OnUpdate(const float deltaTime) {
         return;
 
     if (manualControlEnabled)
-        userControl_->ApplyUserControl(rocketObj_, deltaTime);
+        userControl_->ApplyControlInputs(rocketObj_, deltaTime);
     else
         autonomousControl_->ApplyControlInputs(rocketObj_, deltaTime);
 
@@ -88,7 +96,7 @@ void ControlLayer::OnEvent(Core::Event &event) {
 
 RocketObject * ControlLayer::GetRocketObject() const { return rocketObj_; }
 
-AutonomousControl * ControlLayer::GetAutoControl() const { return autonomousControl_.get(); }
+AutonomousPIDRocketController* ControlLayer::GetAutoControl() const { return autonomousControl_.get(); }
 
 void ControlLayer::OnRender() {
 }

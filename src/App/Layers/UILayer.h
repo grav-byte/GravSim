@@ -9,8 +9,6 @@
 #include "App/UI/SimulationUI.h"
 #include "App/UI/InteractionState.h"
 #include "App/UI/InteractionUI.h"
-#include "App/UI/RocketControllerUI.h"
-#include "App/UI/RocketStateUI.h"
 
 class UILayer : public Core::AppLayer {
 public:
@@ -22,19 +20,13 @@ public:
     void OnEvent(Core::Event &event) override;
     void OnRender() override;
 
+    void AddUIElement(std::unique_ptr<IUserInterface> uiElement);
+
     static void DockWindowsFirstFrame(ImGuiID mainId);
     void DrawFPSCounter();
 
 private:
     ImGuiIO* io_;
 
-    std::unique_ptr<SettingsUI> settingsUI_;
-    std::unique_ptr<SceneUI> sceneUI_;
-    std::unique_ptr<SimulationUI> simulationUI_;
-    std::unique_ptr<FollowingUI> followingUI_;
-
-    InteractionState interactionState_;
-    std::unique_ptr<InteractionUI> interactionUI_;
-    std::unique_ptr<RocketStateUI>  stateUI_;
-    std::unique_ptr<RocketControllerUI>  controlUI_;
+    std::vector<std::unique_ptr<IUserInterface>> uiElements_;
 };

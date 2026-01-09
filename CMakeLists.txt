@@ -125,16 +125,16 @@ add_executable(GravSim
         src/App/RocketControl/RocketObject.h
         src/App/RocketControl/ControlLayer.cpp
         src/App/RocketControl/ControlLayer.h
-        src/App/UI/RocketStateUI.cpp
-        src/App/UI/RocketStateUI.h
-        src/App/RocketControl/UserControl.cpp
-        src/App/RocketControl/UserControl.h
+        src/App/RocketControl/UI/RocketStateUI.cpp
+        src/App/RocketControl/UI/RocketStateUI.h
+        src/App/RocketControl/Controllers/ManualRocketController.cpp
+        src/App/RocketControl/Controllers/ManualRocketController.h
         src/App/RocketControl/PID/PIDController.cpp
         src/App/RocketControl/PID/PIDController.h
-        src/App/UI/RocketControllerUI.cpp
-        src/App/UI/RocketControllerUI.h
-        src/App/RocketControl/AutonomousControl.cpp
-        src/App/RocketControl/AutonomousControl.h
+        src/App/RocketControl/UI/RocketControllerUI.cpp
+        src/App/RocketControl/UI/RocketControllerUI.h
+        src/App/RocketControl/Controllers/AutonomousPIDRocketController.cpp
+        src/App/RocketControl/Controllers/AutonomousPIDRocketController.h
         src/App/RocketControl/PID/PIDData.h
         src/App/Rendering/Renderers/ArrowRenderer.cpp
         src/App/Rendering/Renderers/ArrowRenderer.h
@@ -142,6 +142,7 @@ add_executable(GravSim
         src/App/RocketControl/TargetObject.h
         src/App/RocketControl/PID/PIDVisualizer.cpp
         src/App/RocketControl/PID/PIDVisualizer.h
+        src/App/RocketControl/Controllers/IRocketController.h
 )
 
 # Include directories

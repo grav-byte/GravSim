@@ -1,14 +1,16 @@
 #pragma once
-#include "PID/PIDController.h"
-#include "RocketObject.h"
+#include "IRocketController.h"
+#include "App/RocketControl/PID/PIDController.h"
+#include "App/RocketControl/RocketObject.h"
 
 
-class AutonomousControl {
+class AutonomousPIDRocketController : public IRocketController {
 public:
-    AutonomousControl();
+    AutonomousPIDRocketController();
+    ~AutonomousPIDRocketController() override = default;
 
     void Start() const;
-    void ApplyControlInputs(RocketObject* rocketObject, float deltaTime) const;
+    void ApplyControlInputs(RocketObject* rocketObject, float deltaTime) const override;
 
     PIDController* GetVerticalController() const;
     PIDController* GetHorizontalController() const;
@@ -23,10 +25,4 @@ private:
     std::unique_ptr<PIDController> verticalController_;
     std::unique_ptr<PIDController> horizontalController_;
     std::unique_ptr<PIDController> attitudeController_;
-
-    void DrawVerticalArrows(RocketObject *rocketObject) const;
-
-    void DrawAttitudeArrows(RocketObject *rocketObject) const;
-
-    void DrawHorizontalArrows(RocketObject *rocketObject, float targetAngle) const;
 };

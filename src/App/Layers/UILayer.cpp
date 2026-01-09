@@ -8,16 +8,9 @@
 #include "App/UI/SceneUI.h"
 #include "App/UI/CustomImGuiStyle.h"
 #include "App/UI/FollowingUI.h"
-#include "App/UI/RocketStateUI.h"
 #include "Core/Application.h"
 
 UILayer::UILayer() {
-    settingsUI_ = std::make_unique<SettingsUI>();
-    sceneUI_ = std::make_unique<SceneUI>();
-    simulationUI_ = std::make_unique<SimulationUI>();
-    followingUI_ = std::make_unique<FollowingUI>();
-    stateUI_ = std::make_unique<RocketStateUI>();
-    controlUI_ = std::make_unique<RocketControllerUI>();
     io_ = nullptr;
 }
 
@@ -46,8 +39,6 @@ void UILayer::OnInit() {
 
     ImGui_ImplGlfw_InitForOpenGL(window_->GetHandle(), true);
     ImGui_ImplOpenGL3_Init("#version 150");
-
-    interactionUI_ = std::make_unique<InteractionUI>(&interactionState_);
 }
 
 void UILayer::DockWindowsFirstFrame(ImGuiID mainId) {
@@ -103,14 +94,12 @@ void UILayer::OnUpdate(float deltaTime) {
 
 
 void UILayer::OnEvent(Core::Event &event) {
-    settingsUI_->OnEvent(event);
-    sceneUI_->OnEvent(event);
+    for (const auto& uiElement : uiElements_) {
+        uiElement->OnEvent(event);
+    }
 
     if (!io_)
        return;
-
-    if (interactionUI_)
-        interactionUI_->OnEvent(event);
 
     // Stop mouse event propagation if the mouse is over any ImGui window and ImGui wants to capture the mouse
     if (io_->WantCaptureMouse) {
@@ -133,14 +122,10 @@ void UILayer::OnRender() {
 
     ImGuiID mainId = ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_AutoHideTabBar);
 
-    settingsUI_->Draw();
-    sceneUI_->Draw();
-    simulationUI_->Draw();
-    followingUI_->Draw();
-    if (interactionUI_)
-        interactionUI_->Draw();
-    stateUI_->Draw();
-    controlUI_->Draw();
+    // Draw UI elements
+    for (const auto& uiElement : uiElements_) {
+        uiElement->Draw();
+    }
 
     DrawFPSCounter();
 
@@ -159,4 +144,8 @@ void UILayer::OnRender() {
         ImGui::RenderPlatformWindowsDefault();
         glfwMakeContextCurrent(backup);
     }
+}
+
+void UILayer::AddUIElement(std::unique_ptr<IUserInterface> uiElement) {
+    uiElements_.push_back(std::move(uiElement));
 }

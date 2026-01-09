@@ -1,7 +1,8 @@
 #pragma once
 #include "implot.h"
-#include "IUserInterface.h"
 #include "App/RocketControl/ControlLayer.h"
+#include "App/UI/IUserInterface.h"
+#include "App/RocketControl/RocketObject.h"
 
 
 class RocketStateUI : public IUserInterface {

@@ -1,6 +1,6 @@
-#include "UserControl.h"
+#include "ManualRocketController.h"
 
-void UserControl::OnKeyPressed(const int keyCode) {
+void ManualRocketController::OnKeyPressed(const int keyCode) {
     switch (keyCode) {
         case 'A':
             leftHeld_ = true;
@@ -19,7 +19,7 @@ void UserControl::OnKeyPressed(const int keyCode) {
     }
 }
 
-void UserControl::OnKeyReleased(const int keyCode) {
+void ManualRocketController::OnKeyReleased(const int keyCode) {
     switch (keyCode) {
         case 'A':
             leftHeld_ = false;
@@ -38,7 +38,7 @@ void UserControl::OnKeyReleased(const int keyCode) {
     }
 }
 
-void UserControl::ApplyUserControl(RocketObject *rocketObj, const float deltaTime) const {
+void ManualRocketController::ApplyControlInputs(RocketObject *rocketObj, const float deltaTime) const {
     if (upHeld_)
         rocketObj->thrustPercent += 2.0f * deltaTime;
     else if (downHeld_)

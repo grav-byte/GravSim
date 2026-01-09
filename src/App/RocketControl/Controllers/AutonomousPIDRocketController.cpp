@@ -1,15 +1,15 @@
-#include "AutonomousControl.h"
+#include "AutonomousPIDRocketController.h"
 
-#include "PID/PIDVisualizer.h"
+#include "../PID/PIDVisualizer.h"
 
-AutonomousControl::AutonomousControl() {
+AutonomousPIDRocketController::AutonomousPIDRocketController() {
     verticalController_ = std::make_unique<PIDController>();
     horizontalController_ = std::make_unique<PIDController>();
     attitudeController_ = std::make_unique<PIDController>();
     attitudeController_->SetUseAngleDifference(true);
 }
 
-void AutonomousControl::ApplyControlInputs(RocketObject *rocketObject, const float deltaTime) const {
+void AutonomousPIDRocketController::ApplyControlInputs(RocketObject *rocketObject, const float deltaTime) const {
     const float currentX = rocketObject->transform.position.x;
     const float currentY = rocketObject->transform.position.y;
     const float currentPhi = rocketObject->transform.rotation;
@@ -41,12 +41,12 @@ void AutonomousControl::ApplyControlInputs(RocketObject *rocketObject, const flo
          PIDVisualizer::DrawAttitudeArrows(rocketObject, attitudeController_->GetTerms());
 }
 
-void AutonomousControl::Start() const {
+void AutonomousPIDRocketController::Start() const {
     verticalController_->Reset();
 }
 
-PIDController * AutonomousControl::GetVerticalController() const { return verticalController_.get(); }
+PIDController * AutonomousPIDRocketController::GetVerticalController() const { return verticalController_.get(); }
 
-PIDController * AutonomousControl::GetHorizontalController() const { return horizontalController_.get(); }
+PIDController * AutonomousPIDRocketController::GetHorizontalController() const { return horizontalController_.get(); }
 
-PIDController * AutonomousControl::GetAttitudeController() const { return attitudeController_.get(); }
+PIDController * AutonomousPIDRocketController::GetAttitudeController() const { return attitudeController_.get(); }
