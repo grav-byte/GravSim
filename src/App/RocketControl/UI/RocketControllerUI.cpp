@@ -151,22 +151,32 @@ void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl
 
         // Helper lambda to draw each gain row
         auto drawGainRow = [&](const char* label,
-                               float* v0, float* v1, float* v2,
-                               const float speed = 0.005f, const float min = 0.f, const float max = 1.f)
+                       float* v0, float* v1, float* v2,
+                       const float speed = 0.005f, const float min = 0.f, const float max = 1.f)
         {
             ImGui::PushID(label);
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
             ImGui::Text("%s", label);
 
-            ImGui::TableSetColumnIndex(1);
-            if (v0) ImGui::DragFloat("##v0", v0, speed, min, max);
+            auto drawCell = [&](int column, float* value) {
+                ImGui::TableSetColumnIndex(column);
+                if (!value) return;
 
-            ImGui::TableSetColumnIndex(2);
-            if (v1) ImGui::DragFloat("##v1", v1, speed, min, max);
+                // set background color based on value
+                const auto intensity = *value * 2.0f;
+                const auto bgCol = ImVec4( intensity+ .2f,  .2f, intensity+.2f, 0.2f);
 
-            ImGui::TableSetColumnIndex(3);
-            if (v2) ImGui::DragFloat("##v2", v2, speed, min, max);
+                ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ImGui::GetColorU32(bgCol));
+                ImGui::PushID(column);
+                ImGui::DragFloat("##v", value, speed, min, max);
+                ImGui::PopID();
+            };
+
+            drawCell(1, v0);
+            drawCell(2, v1);
+            drawCell(3, v2);
+
             ImGui::PopID();
         };
 
