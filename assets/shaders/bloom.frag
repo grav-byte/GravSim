@@ -15,8 +15,8 @@ void main()
 
     // ---- bright-pass: only keep pixels above threshold ----
     float lum = dot(base, vec3(0.2126, 0.7152, 0.0722));
-    float thresholdLow = 0.6;
-    float thresholdHigh = 1.4;
+    float thresholdLow = 0.5;
+    float thresholdHigh = 1.3;
     vec3 bright = base * smoothstep(thresholdLow, thresholdHigh, lum);
 
     // ---- simple wide blur (9-tap cross) ----
