@@ -13,29 +13,27 @@ void main()
 
     vec3 base = texture(uScreenBuffer, vTex).rgb;
 
-    // luminance
+    // ---- bright-pass: only keep pixels above threshold ----
     float lum = dot(base, vec3(0.2126, 0.7152, 0.0722));
+    float thresholdLow = 0.6;
+    float thresholdHigh = 1.4;
+    vec3 bright = base * smoothstep(thresholdLow, thresholdHigh, lum);
 
-    // soft threshold instead of hard cutoff
-    float bloomMask = smoothstep(.5, 1.4, lum);
+    // ---- simple wide blur (9-tap cross) ----
+    vec3 bloom = vec3(0.0);
+    for(int x = -2; x <= 2; x++)
+    {
+        for(int y = -2; y <= 2; y++)
+        {
+            vec2 offset = texel * vec2(x, y);
+            bloom += texture(uScreenBuffer, vTex + offset).rgb * smoothstep(thresholdLow, thresholdHigh,
+                        dot(texture(uScreenBuffer, vTex + offset).rgb, vec3(0.2126,0.7152,0.0722)));
+        }
+    }
+    bloom /= 25.0; // normalize 5x5 kernel
 
-    // ---- wider, softer blur ----
-    vec3 blur = vec3(0.0);
-
-    blur += texture(uScreenBuffer, vTex + texel * vec2( 1, 0)).rgb;
-    blur += texture(uScreenBuffer, vTex + texel * vec2(-1, 0)).rgb;
-    blur += texture(uScreenBuffer, vTex + texel * vec2( 0, 1)).rgb;
-    blur += texture(uScreenBuffer, vTex + texel * vec2( 0,-1)).rgb;
-
-    blur += texture(uScreenBuffer, vTex + texel * vec2( 2, 0)).rgb;
-    blur += texture(uScreenBuffer, vTex + texel * vec2(-2, 0)).rgb;
-    blur += texture(uScreenBuffer, vTex + texel * vec2( 0, 2)).rgb;
-    blur += texture(uScreenBuffer, vTex + texel * vec2( 0,-2)).rgb;
-
-    blur /= 8.0;
-
-    // apply bloom mask + reduce intensity
-    vec3 bloom = blur * bloomMask * .15;
+    // scale bloom intensity for HDR particles
+    bloom *= 1.2;
 
     fragColor = vec4(base + bloom, 1.0);
 }
