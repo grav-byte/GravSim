@@ -1,58 +1,12 @@
 #include "AutonomousControl.h"
 
+#include "PID/PIDVisualizer.h"
+
 AutonomousControl::AutonomousControl() {
     verticalController_ = std::make_unique<PIDController>();
     horizontalController_ = std::make_unique<PIDController>();
     attitudeController_ = std::make_unique<PIDController>();
     attitudeController_->SetUseAngleDifference(true);
-}
-
-void AutonomousControl::DrawVerticalArrows(RocketObject *rocketObject) const {
-    const auto terms = verticalController_->GetTerms() * 5.0f; // scale for visualisation
-    glm::vec2 origin = rocketObject->transform.position;
-    const glm::vec2 yDir = rocketObject->transform.GetMatrix() * glm::vec4(0, 1, 0, 0);
-
-    auto pArrow = std::make_unique<SceneObject::DebugArrow>(origin, yDir * terms.x, glm::vec4(0,0,1,1));
-    auto iArrow = std::make_unique<SceneObject::DebugArrow>(origin, yDir * terms.y, glm::vec4(1,0,0,1));
-    auto dArrow = std::make_unique<SceneObject::DebugArrow>(origin, yDir * terms.z, glm::vec4(0,1,0,1));
-    rocketObject->debugArrows.push_back(std::move(pArrow));
-    rocketObject->debugArrows.push_back(std::move(iArrow));
-    rocketObject->debugArrows.push_back(std::move(dArrow));
-}
-
-void AutonomousControl::DrawAttitudeArrows(RocketObject *rocketObject) const {
-    const auto terms = -attitudeController_->GetTerms() * 1.0f; // scale for visualisation
-    const glm::vec2 xDir = rocketObject->transform.GetMatrix() * glm::vec4(1, 0, 0, 0);
-    const glm::vec2 yDir = rocketObject->transform.GetMatrix() * glm::vec4(0, 1, 0, 0);
-    glm::vec2 origin = rocketObject->transform.position + yDir * -1.0f; // at nozzle
-
-    auto pArrow = std::make_unique<SceneObject::DebugArrow>(origin, xDir * terms.x, glm::vec4(0,0,1,1));
-    auto iArrow = std::make_unique<SceneObject::DebugArrow>(origin, xDir * terms.y, glm::vec4(1,0,0,1));
-    auto dArrow = std::make_unique<SceneObject::DebugArrow>(origin, xDir * terms.z, glm::vec4(0,1,0,1));
-    rocketObject->debugArrows.push_back(std::move(pArrow));
-    rocketObject->debugArrows.push_back(std::move(iArrow));
-    rocketObject->debugArrows.push_back(std::move(dArrow));
-}
-
-void AutonomousControl::DrawHorizontalArrows(RocketObject *rocketObject, const float targetAngle) const {
-    const auto terms = horizontalController_->GetTerms() * 5.0f; // scale for visualisation
-    glm::vec2 origin = rocketObject->transform.position;
-    const glm::vec2 xDir = rocketObject->transform.GetMatrix() * glm::vec4(1, 0, 0, 0);
-
-    auto pArrow = std::make_unique<SceneObject::DebugArrow>(origin, xDir * terms.x, glm::vec4(0,0,1,1));
-    auto iArrow = std::make_unique<SceneObject::DebugArrow>(origin, xDir * terms.y, glm::vec4(1,0,0,1));
-    auto dArrow = std::make_unique<SceneObject::DebugArrow>(origin, xDir * terms.z, glm::vec4(0,1,0,1));
-
-    const float absoluteAngle = glm::radians(-targetAngle) + rocketObject->transform.rotation;
-    const glm::vec2 targetDir = glm::vec2(sin(absoluteAngle), cos(absoluteAngle));
-    auto targetLine = std::make_unique<SceneObject::DebugArrow>(origin, targetDir * 3.0f, glm::vec4(1,1,1,1));
-    targetLine->dashed = true;
-    targetLine->hasArrow = false;
-
-    rocketObject->debugArrows.push_back(std::move(targetLine));
-    rocketObject->debugArrows.push_back(std::move(pArrow));
-    rocketObject->debugArrows.push_back(std::move(iArrow));
-    rocketObject->debugArrows.push_back(std::move(dArrow));
 }
 
 void AutonomousControl::ApplyControlInputs(RocketObject *rocketObject, const float deltaTime) const {
@@ -78,12 +32,13 @@ void AutonomousControl::ApplyControlInputs(RocketObject *rocketObject, const flo
     const float thrustAngle = attitudeController_->Evaluate(phiTarget, currentPhi, vPhi, deltaTime);
     rocketObject->thrustAngle = -thrustAngle * rocketObject->GetMaxThrustAngle();
 
+    // PID visualization
     if (visualizePID.x)
-        DrawVerticalArrows(rocketObject);
+        PIDVisualizer::DrawVerticalArrows(rocketObject, verticalController_->GetTerms());
     if (visualizePID.y)
-        DrawHorizontalArrows(rocketObject, phiTarget);
+         PIDVisualizer::DrawHorizontalArrows(rocketObject, horizontalController_->GetTerms(), phiTarget);
     if (visualizePID.z)
-        DrawAttitudeArrows(rocketObject);
+         PIDVisualizer::DrawAttitudeArrows(rocketObject, attitudeController_->GetTerms());
 }
 
 void AutonomousControl::Start() const {

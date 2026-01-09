@@ -3,6 +3,7 @@
 #include <array>
 #include "PIDData.h"
 
+// config is used for saving/loading PID parameters for all 3 controllers
 class PIDConfig {
 public:
     PIDConfig() = default;

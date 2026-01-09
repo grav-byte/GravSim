@@ -61,7 +61,7 @@ void RocketControllerUI::Draw() {
     AutonomousControl* autoCtrl = controlLayer_->GetAutoControl();
     if (!autoCtrl) return;
 
-    constexpr ImVec2 sizeAuto(445, 270);
+    constexpr ImVec2 sizeAuto(445, 300);
 
     ImGui::SetNextWindowPos(ImVec2(1000, 580), ImGuiCond_FirstUseEver);
     ImGui::SetNextWindowSize(sizeAuto, ImGuiCond_FirstUseEver);
@@ -70,6 +70,7 @@ void RocketControllerUI::Draw() {
 
     if (ImGui::BeginTabBar("RocketControllerTabs", ImGuiTabBarFlags_DrawSelectedOverline)) {
         if (ImGui::BeginTabItem("Control")) {
+            ImGui::BeginChild("ControlContent", ImVec2(0, 0), false);
             ImGui::Spacing();
             ImGui::Spacing();
             ImGui::Checkbox("Enable User Control", &controlLayer_->manualControlEnabled);
@@ -82,6 +83,7 @@ void RocketControllerUI::Draw() {
                                  "Thrust:     Shift   |   Ctrl \n"
                                  " Angle:        A     |    D");
 
+                ImGui::EndChild();
                 ImGui::EndTabItem();
                 ImGui::EndTabBar();
                 ImGui::End();
@@ -95,16 +97,19 @@ void RocketControllerUI::Draw() {
             ImGui::Spacing();
 
             DrawPIDSettings(autoCtrl);
-
+            ImGui::EndChild();
             ImGui::EndTabItem();
         }
 
         if (ImGui::BeginTabItem("Target")) {
+            ImGui::BeginChild("TargetContent", ImVec2(0, 0), false);
+
             ImGui::Spacing();
             ImGui::Spacing();
 
             DrawTargetSettings(scene, autoCtrl);
 
+            ImGui::EndChild();
             ImGui::EndTabItem();
         }
 
@@ -124,7 +129,11 @@ void RocketControllerUI::DrawPIDSettings(AutonomousControl *autoCtrl) {
 
     DrawPIDLoading(pids);
 
-    ImGui::SeparatorText("Set PID Values");
+    ImGui::Spacing();
+
+    ImGui::SeparatorText("Set PID Parameters");
+    ImGui::Spacing();
+    ImGui::TextLinkOpenURL("(Click for overview)", "https://github.com/grav-byte/GravSim/blob/d9fad45460bd06021d731f6bce4695e4bb6d9295/docs/PIDOverview.png");
     ImGui::Spacing();
 
     activePID = pids[0];
@@ -134,7 +143,7 @@ void RocketControllerUI::DrawPIDSettings(AutonomousControl *autoCtrl) {
     {
         const char* pidNames[] = { "Vertical", "Horizontal", "Attitude" };
         // header row
-        ImGui::TableSetupColumn("Gain");
+        ImGui::TableSetupColumn("Parameter");
         ImGui::TableSetupColumn(pidNames[0]);
         ImGui::TableSetupColumn(pidNames[1]);
         ImGui::TableSetupColumn(pidNames[2]);
@@ -143,7 +152,7 @@ void RocketControllerUI::DrawPIDSettings(AutonomousControl *autoCtrl) {
         // Helper lambda to draw each gain row
         auto drawGainRow = [&](const char* label,
                                float* v0, float* v1, float* v2,
-                               float speed = 0.005f, float min = 0.f, float max = 1.f)
+                               const float speed = 0.005f, const float min = 0.f, const float max = 1.f)
         {
             ImGui::PushID(label);
             ImGui::TableNextRow();
@@ -196,6 +205,8 @@ void RocketControllerUI::DrawPIDSettings(AutonomousControl *autoCtrl) {
 
         ImGui::EndTable();
     }
+
+    ImGui::Spacing();
 
     ImGui::InputText("Save Name", &saveName);
     if (ImGui::Button("Save")) {
@@ -258,7 +269,11 @@ void RocketControllerUI::DrawPIDLoading(PIDController *(&pids)[3]) {
                 pids[1]->pidData = result->GetPIDData(1);
                 pids[2]->pidData = result->GetPIDData(2);
             }
+            // Set saveName to filename without path and without .json extension
+            const std::filesystem::path selectedPath = pidFileSelector_.GetSelectedFile();
+            saveName = selectedPath.stem().string();
         }
+        ImGui::SameLine();
         if (ImGui::Button("Delete")) {
             const auto filePath = pidFileSelector_.GetSelectedFile();
             try {
