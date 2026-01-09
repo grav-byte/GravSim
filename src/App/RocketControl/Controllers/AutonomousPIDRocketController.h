@@ -17,11 +17,12 @@ public:
     PIDController* GetAttitudeController() const;
 
     glm::vec2 targetPos = glm::vec2(0.0f); // world space target (x,y)
+    float maxSteeringAngle = 15.0f; // degrees
 
     glm::bvec3 visualizePID = glm::bvec3(false); // visualize PID terms via arrows
 
+
 private:
-    const float maxSteeringAngle = 15.0f; // degrees
     std::unique_ptr<PIDController> verticalController_;
     std::unique_ptr<PIDController> horizontalController_;
     std::unique_ptr<PIDController> attitudeController_;

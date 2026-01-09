@@ -130,6 +130,9 @@ void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl
     DrawPIDLoading(pids);
 
     ImGui::Spacing();
+    ImGui::SetNextItemWidth(100);
+    ImGui::DragFloat("Max Steering Angle (°)", &autoCtrl->maxSteeringAngle, 0.1f, 0.f, 90.f);
+    ImGui::Spacing();
 
     ImGui::SeparatorText("Set PID Parameters");
     ImGui::Spacing();
@@ -165,7 +168,7 @@ void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl
 
                 // set background color based on value
                 const auto intensity = *value * 2.0f;
-                const auto bgCol = ImVec4( intensity+ .2f,  .2f, intensity+.2f, 0.2f);
+                const auto bgCol = ImVec4( intensity+ .2f,  .2f, .2f, 0.2f);
 
                 ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ImGui::GetColorU32(bgCol));
                 ImGui::PushID(column);

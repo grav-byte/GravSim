@@ -13,26 +13,26 @@ void AutonomousPIDRocketController::ApplyControlInputs(RocketObject *rocketObjec
     const float currentX = rocketObject->transform.position.x;
     const float currentY = rocketObject->transform.position.y;
     const float currentPhi = rocketObject->transform.rotation;
-    const float vX = rocketObject->velocity.x; // world reference frame for now
-    const float vY = rocketObject->velocity.y; // world reference frame for now
+    const float vX = rocketObject->velocity.x;
+    const float vY = rocketObject->velocity.y;
     const float vPhi = rocketObject->angularVelocity;
 
-    // PID evaluations
+    // --- PID evaluations ---
 
     // vertical -> thrust
     float thrust = verticalController_->Evaluate(targetPos.y, currentY, vY, deltaTime);
     thrust = glm::clamp(thrust, 0.0f, 1.0f);
-    rocketObject->thrustPercent =  thrust;
+    rocketObject->thrustPercent = thrust;
 
     // horizontal -> target angle (phi)
     float phiTarget = horizontalController_->Evaluate(targetPos.x, currentX, vX, deltaTime);
-    phiTarget = -phiTarget * maxSteeringAngle;
+    phiTarget *= -maxSteeringAngle;
 
     // attitude -> thrust angle
     const float thrustAngle = attitudeController_->Evaluate(phiTarget, currentPhi, vPhi, deltaTime);
     rocketObject->thrustAngle = -thrustAngle * rocketObject->GetMaxThrustAngle();
 
-    // PID visualization
+    // --- PID visualisation ---
     if (visualizePID.x)
         PIDVisualizer::DrawVerticalArrows(rocketObject, verticalController_->GetTerms());
     if (visualizePID.y)
