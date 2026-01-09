@@ -2,6 +2,7 @@
 
 in vec2 vTex;                 // uv
 uniform float uTime;          // time in seconds
+uniform float uTimeOffset;    // time offset in seconds
 uniform sampler2D uNoiseTex;
 
 out vec4 fragColor;
@@ -51,7 +52,7 @@ vec3 drawParticle(vec2 p, float size, vec3 col)
 
 vec3 drawFly(vec2 uv, vec2 o, float off, vec3 color, vec2 initDir)
 {
-    float t = uTime * 3.0 * SPEED + off;
+    float t = (uTime - uTimeOffset) * 3.0 * SPEED + off;
     if (t < 0.0 || t > DD1) return vec3(0.0);
 
     float nt = off + o.x + o.y;
@@ -87,7 +88,7 @@ vec3 drawFly(vec2 uv, vec2 o, float off, vec3 color, vec2 initDir)
 
 vec3 drawFlyCircle(vec2 uv, vec2 o, float off, vec3 color, vec2 initDir, float r)
 {
-    float t = uTime * 5.0 * SPEED + off;
+    float t = (uTime - uTimeOffset) * 5.0 * SPEED + off;
     if (t < 0.0 || t > DD2) return vec3(0.0);
 
     float nt = off + o.x + o.y;

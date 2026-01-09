@@ -25,16 +25,17 @@ EngineLayer::~EngineLayer() = default;
 
 void EngineLayer::NewScene() {
     scene_ = std::make_unique<Scene>();
-/*
+
     auto obj = std::make_unique<SceneObject>();
     auto visual = ShaderVisual();
-    visual.shaderPath = "exhaust.frag";
-    visual.shaderData.floats["uThrust"] = .8f;
+    visual.shaderPath = "completed.frag";
+    visual.shaderData.textures["uNoiseTex"] = std::string("../assets/textures/noise_tex.png");
+    visual.shaderData.floats["uTimeOffset"] = 5.0f;
 
-    obj->transform.scale = glm::vec2(4.0f, 3.0f);
+    obj->transform.scale = glm::vec2(5.0f, 5.0f);
     obj->visual = std::make_unique<ShaderVisual>(visual);
     scene_->AddObject(std::move(obj));
-*/
+
     OnSceneLoaded();
 }
 
