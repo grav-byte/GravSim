@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+#include "AudioLayer.h"
 #include "Core/Application.h"
 #include "App/Engine/EngineEvents.h"
 #include "App/Rendering/RenderingSystem.h"
@@ -26,15 +27,16 @@ EngineLayer::~EngineLayer() = default;
 void EngineLayer::NewScene() {
     scene_ = std::make_unique<Scene>();
 
-    auto obj = std::make_unique<SceneObject>();
+    /*auto obj = std::make_unique<SceneObject>();
     auto visual = ShaderVisual();
     visual.shaderPath = "completed.frag";
     visual.shaderData.textures["uNoiseTex"] = std::string("../assets/textures/noise_tex.png");
-    visual.shaderData.floats["uTimeOffset"] = 5.0f;
+    visual.shaderData.floats["uTimeOffset"] = 0.0f;
 
-    obj->transform.scale = glm::vec2(5.0f, 5.0f);
+    obj->transform.scale = glm::vec2(15.0f);
     obj->visual = std::make_unique<ShaderVisual>(visual);
     scene_->AddObject(std::move(obj));
+    */
 
     OnSceneLoaded();
 }

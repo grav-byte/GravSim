@@ -38,6 +38,6 @@ private:
 
     void DrawConstraints(Scene *scene);
 
-    void DrawColorControl(const char *title, glm::vec4 * color);
+    void DrawColorControl(const char *title, glm::vec4 * color, bool includeAlpha=false);
     bool DrawFloat2Control(const char *title, glm::vec2 * vec2, float speed = .1f);
 };

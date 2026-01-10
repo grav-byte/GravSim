@@ -7,6 +7,8 @@
 #include "App/Engine/Physics/Colliders/CircleCollider.h"
 #include "App/Rendering/Visuals/CircleVisual.h"
 #include "App/Rendering/Visuals/SpriteVisual.h"
+#include "Core/AppLayer.h"
+#include "Core/AppLayer.h"
 #include "misc/cpp/imgui_stdlib.h"
 #include "Core/Application.h"
 
@@ -146,12 +148,12 @@ void SceneUI::DrawScene() {
     auto cam = scene_->GetCamera();
     DrawFloat2Control("Position", &cam->transform.position);
     ImGui::DragFloat("Zoom", &cam->zoom, .02f, 0.1f, 20.0f);
-    DrawColorControl("Bg Color", &cam->backgroundColor);
-
     ImGui::Spacing();
     ImGui::Spacing();
     ImGui::SeparatorText("Scene Settings");
     DrawFloat2Control("Global Gravity", &scene_->globalGravity);
+    DrawColorControl("Bg Color", &cam->backgroundColor);
+    DrawColorControl("Grid Color", &scene_->gridColor, true);
 
     DrawConstraints(scene_);
 
@@ -379,8 +381,15 @@ void SceneUI::DrawConstraints(Scene* scene)
     }
 }
 
-void SceneUI::DrawColorControl(const char *title, glm::vec4 *color) {
-
+void SceneUI::DrawColorControl(const char *title, glm::vec4 *color, bool includeAlpha) {
+    if (includeAlpha) {
+        float value[4] = { color->x, color->y, color->z, color->a };
+        if (ImGui::ColorEdit4(title, value)) {
+            // Update
+            *color = glm::vec4(value[0], value[1], value[2], value[3]);
+        }
+        return;
+    }
     float value[3] = { color->x, color->y, color->z };
     if (ImGui::ColorEdit3(title, value)) {
         // Update

@@ -31,6 +31,7 @@ public:
 
 
     glm::vec2 globalGravity{};
+    glm::vec4 gridColor{1.0f, 1.0f, 1.0f, .2f};
 
 private:
     std::string name_;
@@ -43,6 +44,6 @@ public:
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(name_, camera_, globalGravity, sceneObjects_, sceneConstraints_, nextID_);
+        ar(name_, camera_, globalGravity, sceneObjects_, sceneConstraints_, nextID_, gridColor);
     }
 };

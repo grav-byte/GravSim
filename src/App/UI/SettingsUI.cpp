@@ -49,11 +49,6 @@ void SettingsUI::Draw() {
     ImGui::Text("Grid Spacing");
     renderer->gridSpacing_ = std::pow(2, logSpacing);
 
-    float value[4] = { renderer->gridColor_.x, renderer->gridColor_.y, renderer->gridColor_.z, renderer->gridColor_.a };
-    if (ImGui::ColorEdit4("Grid Color", value, 0)) {
-        renderer->gridColor_ = glm::vec4(value[0], value[1], value[2], value[3]);
-    }
-
     ImGui::Spacing();
     ImGui::Spacing();
 

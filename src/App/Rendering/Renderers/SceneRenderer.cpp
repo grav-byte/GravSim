@@ -22,7 +22,8 @@ SceneRenderer::SceneRenderer(RenderingSystem* system) :
 
 void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) const {
     // render grid
-    gridRenderer_.RenderGrid(gridColor_, gridSpacing_);
+    if (showGrid)
+        gridRenderer_.RenderGrid(scene->gridColor, gridSpacing_);
 
     // render constraints
     for (const Constraint* c : scene->GetConstraints())
