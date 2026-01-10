@@ -7,8 +7,8 @@
                 "data": {
                     "value0": {
                         "value0": {
-                            "value0": 0.0,
-                            "value1": 0.0
+                            "value0": -0.6624976396560669,
+                            "value1": -0.255989670753479
                         },
                         "value1": 0.0,
                         "value2": {
@@ -16,11 +16,11 @@
                             "value1": 1.0
                         }
                     },
-                    "value1": 0.10000000149011612,
+                    "value1": 0.07301370054483414,
                     "value2": {
-                        "value0": 0.05000000074505806,
-                        "value1": 0.05000000074505806,
-                        "value2": 0.05000000074505806,
+                        "value0": 0.0403224378824234,
+                        "value1": 0.05864188075065613,
+                        "value2": 0.08177906274795532,
                         "value3": 1.0
                     }
                 }
@@ -41,7 +41,7 @@
                         "value2": {
                             "value0": {
                                 "value0": 0.0,
-                                "value1": -0.800000011920929
+                                "value1": 0.20000000298023225
                             },
                             "value1": 0.0,
                             "value2": {
@@ -51,38 +51,18 @@
                         },
                         "value3": {
                             "value0": 0.0,
-                            "value1": 0.0
+                            "value1": 0.20000000298023225
                         },
-                        "value4": 1.0,
+                        "value4": 0.0,
                         "value5": {
                             "value0": 0.0,
                             "value1": 0.0
                         },
-                        "value6": [
-                            {
-                                "polymorphic_id": 2147483649,
-                                "polymorphic_name": "CircleCollider",
-                                "ptr_wrapper": {
-                                    "valid": 1,
-                                    "data": {
-                                        "value0": {},
-                                        "value1": {
-                                            "value0": 1.0,
-                                            "value1": 1.0
-                                        },
-                                        "value2": {
-                                            "value0": 0.0,
-                                            "value1": 0.0
-                                        },
-                                        "value3": 0.800000011920929
-                                    }
-                                }
-                            }
-                        ],
+                        "value6": [],
                         "value7": 0.0,
                         "value8": 0.0,
                         "value9": {
-                            "polymorphic_id": 2147483650,
+                            "polymorphic_id": 2147483649,
                             "polymorphic_name": "SpriteVisual",
                             "ptr_wrapper": {
                                 "valid": 1,
@@ -99,7 +79,8 @@
                             }
                         },
                         "value10": false,
-                        "value11": true
+                        "value11": true,
+                        "value12": false
                     }
                 }
             },
@@ -113,7 +94,7 @@
                         "value2": {
                             "value0": {
                                 "value0": 0.0,
-                                "value1": -0.6000000238418579
+                                "value1": 0.4000000059604645
                             },
                             "value1": 0.0,
                             "value2": {
@@ -123,37 +104,18 @@
                         },
                         "value3": {
                             "value0": 0.0,
-                            "value1": 0.0
+                            "value1": 0.4000000059604645
                         },
-                        "value4": 1.0,
+                        "value4": 0.0,
                         "value5": {
                             "value0": 0.0,
                             "value1": 0.0
                         },
-                        "value6": [
-                            {
-                                "polymorphic_id": 1,
-                                "ptr_wrapper": {
-                                    "valid": 1,
-                                    "data": {
-                                        "value0": {},
-                                        "value1": {
-                                            "value0": 1.0,
-                                            "value1": 1.0
-                                        },
-                                        "value2": {
-                                            "value0": 0.0,
-                                            "value1": 0.0
-                                        },
-                                        "value3": 0.800000011920929
-                                    }
-                                }
-                            }
-                        ],
+                        "value6": [],
                         "value7": 0.0,
                         "value8": 0.0,
                         "value9": {
-                            "polymorphic_id": 2147483651,
+                            "polymorphic_id": 2147483650,
                             "polymorphic_name": "ShaderVisual",
                             "ptr_wrapper": {
                                 "valid": 1,
@@ -173,12 +135,13 @@
                             }
                         },
                         "value10": false,
-                        "value11": true
+                        "value11": true,
+                        "value12": false
                     }
                 }
             },
             {
-                "polymorphic_id": 2147483652,
+                "polymorphic_id": 2147483651,
                 "polymorphic_name": "RocketObject",
                 "ptr_wrapper": {
                     "valid": 1,
@@ -189,7 +152,7 @@
                             "value2": {
                                 "value0": {
                                     "value0": 0.0,
-                                    "value1": 0.0
+                                    "value1": 1.0
                                 },
                                 "value1": 0.0,
                                 "value2": {
@@ -199,18 +162,110 @@
                             },
                             "value3": {
                                 "value0": 0.0,
-                                "value1": 0.0
+                                "value1": 1.0
                             },
                             "value4": 50.0,
                             "value5": {
                                 "value0": 0.0,
                                 "value1": 0.0
                             },
-                            "value6": [],
+                            "value6": [
+                                {
+                                    "polymorphic_id": 2147483652,
+                                    "polymorphic_name": "CircleCollider",
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {},
+                                            "value1": {
+                                                "value0": 0.2199999988079071,
+                                                "value1": 0.2199999988079071
+                                            },
+                                            "value2": {
+                                                "value0": 0.0,
+                                                "value1": 0.699999988079071
+                                            },
+                                            "value3": 0.10000000149011612
+                                        }
+                                    }
+                                },
+                                {
+                                    "polymorphic_id": 4,
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {},
+                                            "value1": {
+                                                "value0": 0.2199999988079071,
+                                                "value1": 0.2199999988079071
+                                            },
+                                            "value2": {
+                                                "value0": -0.3499999940395355,
+                                                "value1": -0.44999998807907107
+                                            },
+                                            "value3": 0.10000000149011612
+                                        }
+                                    }
+                                },
+                                {
+                                    "polymorphic_id": 4,
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {},
+                                            "value1": {
+                                                "value0": 0.2199999988079071,
+                                                "value1": 0.2199999988079071
+                                            },
+                                            "value2": {
+                                                "value0": 0.3499999940395355,
+                                                "value1": -0.44999998807907107
+                                            },
+                                            "value3": 0.10000000149011612
+                                        }
+                                    }
+                                },
+                                {
+                                    "polymorphic_id": 4,
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {},
+                                            "value1": {
+                                                "value0": 0.2199999988079071,
+                                                "value1": 0.2199999988079071
+                                            },
+                                            "value2": {
+                                                "value0": -0.20000000298023225,
+                                                "value1": -0.800000011920929
+                                            },
+                                            "value3": 0.10000000149011612
+                                        }
+                                    }
+                                },
+                                {
+                                    "polymorphic_id": 4,
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {},
+                                            "value1": {
+                                                "value0": 0.2199999988079071,
+                                                "value1": 0.2199999988079071
+                                            },
+                                            "value2": {
+                                                "value0": 0.20000000298023225,
+                                                "value1": -0.800000011920929
+                                            },
+                                            "value3": 0.10000000149011612
+                                        }
+                                    }
+                                }
+                            ],
                             "value7": 0.0,
                             "value8": 0.0,
                             "value9": {
-                                "polymorphic_id": 2,
+                                "polymorphic_id": 1,
                                 "ptr_wrapper": {
                                     "valid": 1,
                                     "data": {
@@ -226,7 +281,8 @@
                                 }
                             },
                             "value10": false,
-                            "value11": true
+                            "value11": true,
+                            "value12": false
                         },
                         "value1": 0.0,
                         "value2": 0.0,
@@ -234,86 +290,25 @@
                         "value4": 1
                     }
                 }
-            },
+            }
+        ],
+        "value4": [
             {
-                "polymorphic_id": 2147483653,
-                "polymorphic_name": "TargetObject",
                 "ptr_wrapper": {
                     "valid": 1,
                     "data": {
-                        "value0": {
-                            "value0": 4,
-                            "value1": "Target",
-                            "value2": {
-                                "value0": {
-                                    "value0": 5.0,
-                                    "value1": 5.0
-                                },
-                                "value1": 0.0,
-                                "value2": {
-                                    "value0": 6.0,
-                                    "value1": 6.0
-                                }
-                            },
-                            "value3": {
-                                "value0": 5.0,
-                                "value1": 5.0
-                            },
-                            "value4": 0.0,
-                            "value5": {
-                                "value0": 0.0,
-                                "value1": 0.0
-                            },
-                            "value6": [
-                                {
-                                    "polymorphic_id": 1,
-                                    "ptr_wrapper": {
-                                        "valid": 1,
-                                        "data": {
-                                            "value0": {},
-                                            "value1": {
-                                                "value0": 1.0,
-                                                "value1": 1.0
-                                            },
-                                            "value2": {
-                                                "value0": 0.0,
-                                                "value1": 0.0
-                                            },
-                                            "value3": 0.800000011920929
-                                        }
-                                    }
-                                }
-                            ],
-                            "value7": 0.0,
-                            "value8": 0.0,
-                            "value9": {
-                                "polymorphic_id": 3,
-                                "ptr_wrapper": {
-                                    "valid": 1,
-                                    "data": {
-                                        "value0": {},
-                                        "value1": "target.frag",
-                                        "value2": {
-                                            "value0": [],
-                                            "value1": []
-                                        }
-                                    }
-                                }
-                            },
-                            "value10": false,
-                            "value11": false
-                        }
+                        "value0": 0.0,
+                        "value1": 2
                     }
                 }
             }
         ],
-        "value4": [],
-        "value5": 5,
+        "value5": 3,
         "value6": {
-            "value0": 0.10000000149011612,
-            "value1": 0.10000000149011612,
-            "value2": 0.10000000149011612,
-            "value3": 1.0
+            "value0": 0.9808704257011414,
+            "value1": 0.9808704257011414,
+            "value2": 0.9808704257011414,
+            "value3": 0.14901961386203767
         }
     }
 }

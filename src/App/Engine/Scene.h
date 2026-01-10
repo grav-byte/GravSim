@@ -31,7 +31,7 @@ public:
 
 
     glm::vec2 globalGravity{};
-    glm::vec4 gridColor{1.0f, 1.0f, 1.0f, .2f};
+    glm::vec4 gridColor{1.0f, 1.0f, 1.0f, .1f};
 
 private:
     std::string name_;

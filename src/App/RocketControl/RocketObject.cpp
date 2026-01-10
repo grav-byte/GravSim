@@ -1,5 +1,6 @@
 #include "RocketObject.h"
 
+#include "App/Engine/Physics/Colliders/CircleCollider.h"
 #include "App/Layers/AudioLayer.h"
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "App/Rendering/Visuals/SpriteVisual.h"
@@ -13,15 +14,17 @@ RocketObject::RocketObject() : nozzleObj_(nullptr), exhaustObj_(nullptr), exhaus
 }
 
 RocketObject::RocketObject(Scene& scene) {
-    // setup objects
+    // setup child objects
     auto nozzleUq = std::make_unique<SceneObject>(0, "Rocket Nozzle");
     auto exhaustUq = std::make_unique<SceneObject>(0, "Rocket Exhaust");
 
+    // nozzle visual
     auto sprite = std::make_unique<SpriteVisual>("../assets/sprites/rocket_nozzle.png");
     nozzleUq->visual = std::move(sprite);
     nozzleUq->canFocusCamera = false;
     nozzleUq->transform.scale = glm::vec2(0.2);
 
+    // exhaust visual
     auto shaderVisual = std::make_unique<ShaderVisual>();
     shaderVisual->shaderPath = "exhaust.frag";
     exhaustUq->canFocusCamera = false;
@@ -29,15 +32,42 @@ RocketObject::RocketObject(Scene& scene) {
     exhaustUq->visual = std::move(shaderVisual);
     exhaustUq->transform.scale = glm::vec2(6.0, 4.0);
 
+    // remove colliders
+    exhaustUq->colliders.clear();
+    nozzleUq->colliders.clear();
+
+    // store raw pointers
     nozzleObj_ = nozzleUq.get();
     exhaustObj_ = exhaustUq.get();
 
+    // add to scene
     nozzleId_ = scene.AddObject(std::move(nozzleUq));
     exhaustId_ = scene.AddObject(std::move(exhaustUq));
 
+    // setup rocket object
     name = "Rocket";
     mass = 50.0f;
     visual = std::make_unique<SpriteVisual>("../assets/sprites/rocket_main.png");
+    colliders.clear();
+    auto col1 = std::make_unique<CircleCollider>(this);
+    auto col2 = std::make_unique<CircleCollider>(this);
+    auto col3 = std::make_unique<CircleCollider>(this);
+    auto col4 = std::make_unique<CircleCollider>(this);
+    auto col5 = std::make_unique<CircleCollider>(this);
+    col1->localPosition = glm::vec2(0.0f, 0.7f);
+    col2->localPosition = glm::vec2(-.35f, -.45f);
+    col3->localPosition = glm::vec2(.35f, -.45f);
+    col4->localPosition = glm::vec2(-.2f, -.8f);
+    col5->localPosition = glm::vec2(.2f, -.8f);
+    colliders.emplace_back(std::move(col1));
+    colliders.emplace_back(std::move(col2));
+    colliders.emplace_back(std::move(col3));
+    colliders.emplace_back(std::move(col4));
+    colliders.emplace_back(std::move(col5));
+    for (auto& col : colliders) {
+        col->localSize = glm::vec2(0.22f);
+        col->elasticity = .1f;
+    }
     rocketSound_ = nullptr;
 }
 

@@ -24,8 +24,7 @@ void TrailRenderer::RenderTrail(const SceneObject &obj, const int width) {
         auto currentPoint = trail[i];
 
         // only render if the points are sufficiently far apart
-        bool renderSegment = dot(nextStartPoint, currentPoint) > .1;
-        if (renderSegment) {
+        if (glm::distance(nextStartPoint, currentPoint) > 0.1f) {
             auto col = color;
             col.a *= static_cast<float>(i) / trail.size();
             if (col.a > 0.01f)
