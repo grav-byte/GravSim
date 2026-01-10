@@ -60,6 +60,14 @@ void SettingsUI::Draw() {
     if (ImGui::Button("Skip Song")) {
         audioLayer_->NextSong();
     }
+
+    ImGui::SeparatorText("Trails");
+    int length = TrailRenderer::MaxTrailLength;
+    if (ImGui::DragInt("Length", &length, 1, 1, 10000) ) {
+        TrailRenderer::MaxTrailLength = std::clamp(length, 1, 10000);
+    }
+
+
     ImGui::End();
 }
 

@@ -40,6 +40,4 @@ private:
     void UploadQuadToGPU();
 
     const Camera* activeCamera_;
-
-
 };

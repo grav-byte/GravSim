@@ -37,6 +37,7 @@ public:
 
     // --- visual ---
     std::unique_ptr<IVisual> visual;
+    bool renderTrail = false;
     // --- colliders ---
     std::vector<std::unique_ptr<ColliderBase>> colliders;
     std::vector<ContactPoint> contactPoints;
@@ -72,7 +73,7 @@ public:
     // Cereal serialization
     template<class Archive>
     void serialize(Archive& ar) {
-        ar(id, name, transform, lastPosition, mass, velocity, colliders, lastRotation, angularVelocity, visual, gravitates, affectedByGravity);
+        ar(id, name, transform, lastPosition, mass, velocity, colliders, lastRotation, angularVelocity, visual, gravitates, affectedByGravity, renderTrail);
         if constexpr (Archive::is_loading::value) {
             // re-link parents after loading
             for (const auto& collider : colliders) {

@@ -11,6 +11,7 @@ SceneRenderer::SceneRenderer(RenderingSystem* system) :
     lineRenderer_(system),
     gridRenderer_(lineRenderer_, system),
     arrowRenderer(lineRenderer_, system),
+    trailRenderer_(lineRenderer_, system),
     shaderRenderer_(system),
     colliderColor_(glm::vec4(1.0f, 0.0f, 0.0f, 0.5f)),
     renderer_(system)
@@ -20,7 +21,11 @@ SceneRenderer::SceneRenderer(RenderingSystem* system) :
     //passes_.push_back(std::make_unique<PostProcessPass>(renderer_, "ripple.frag"));
 }
 
-void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) const {
+void SceneRenderer::OnSceneLoaded() {
+    trailRenderer_.Clear();
+}
+
+void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) {
     // render grid
     if (showGrid)
         gridRenderer_.RenderGrid(scene->gridColor, gridSpacing_);
@@ -31,6 +36,11 @@ void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) co
 
     // render scene objs
     for (const SceneObject* obj : scene->GetAllObjects()) {
+        // render trail if enabled
+        if (obj->renderTrail) {
+            trailRenderer_.RenderTrail(*obj, 1);
+        }
+
         if (!obj->visual) continue;
 
         switch (obj->visual->GetType()) {
@@ -68,8 +78,6 @@ void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) co
             circleRenderer_.RenderCircle(transform, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
         }
     }
-
-
 }
 
 void SceneRenderer::ApplyPostProcess() const {

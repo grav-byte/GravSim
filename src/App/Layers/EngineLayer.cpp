@@ -66,6 +66,7 @@ void EngineLayer::OnSceneLoaded() const {
 
     SceneLoadedEvent event(scene_.get());
     Core::Application::Get().RaiseEvent(event);
+    sceneRenderer_->OnSceneLoaded();
 }
 
 bool EngineLayer::SaveScene() const {

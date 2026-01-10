@@ -5,6 +5,7 @@
 #include "GridRenderer.h"
 #include "ShaderRenderer.h"
 #include "SpriteRenderer.h"
+#include "TrailRenderer.h"
 #include "App/Engine/Scene.h"
 #include "App/Rendering/RenderingSystem.h"
 #include "PostProcess/PostProcessPass.h"
@@ -14,7 +15,8 @@ class SceneRenderer {
 public:
     explicit SceneRenderer(RenderingSystem* system);
 
-    void RenderScene(const Scene *scene, bool showColliders) const;
+    void OnSceneLoaded();
+    void RenderScene(const Scene *scene, bool showColliders);
 
     void ApplyPostProcess() const;
 
@@ -28,6 +30,7 @@ private:
     ShaderRenderer shaderRenderer_;
     GridRenderer gridRenderer_;
     ArrowRenderer arrowRenderer;
+    TrailRenderer trailRenderer_;
 
     glm::vec4 colliderColor_;
     RenderingSystem* renderer_;

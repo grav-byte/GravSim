@@ -327,6 +327,10 @@ void SceneUI::DrawRendering(SceneObject *obj) {
 
     DrawColorControl("Color", &obj->visual->color);
 
+    ImGui::Spacing();
+
+    ImGui::Checkbox("Trail", &obj->renderTrail);
+
     ImGui::TreePop();
 }
 
