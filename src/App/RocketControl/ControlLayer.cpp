@@ -23,7 +23,7 @@ void ControlLayer::OnInit() {
         uiLayer->AddUIElement(std::make_unique<RocketControllerUI>());
     }
 
-    CreateRocket(scene);
+    //CreateRocket(scene);
 }
 
 void ControlLayer::CreateRocket(Scene * const scene) {

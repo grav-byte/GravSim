@@ -24,7 +24,7 @@ public:
     glm::vec2 GetWorldSize() const;
     glm::mat4 GetTransformMatrix() const;
 
-    float elasticity = 0.8f;
+    float elasticity = 0.4f;
     float friction = 0.5f;
     glm::vec2 localSize;
     glm::vec2 localPosition;

@@ -21,20 +21,21 @@ void PIDVisualizer::PushArrow(std::vector<std::unique_ptr<SceneObject::DebugArro
 void PIDVisualizer::DrawPIDArrows(std::vector<std::unique_ptr<SceneObject::DebugArrow> > &arrows,
                    const glm::vec2 &origin,
                    const glm::vec2 &dir,
-                   const glm::vec3 &terms,
+                   const glm::vec4 &terms,
                    const float scale) {
     PushArrow(arrows, origin, dir * terms.x * scale, glm::vec4(0, 0, 1, 1)); // P = Blue
     PushArrow(arrows, origin, dir * terms.y * scale, glm::vec4(1, 0, 0, 1)); // I = Red
     PushArrow(arrows, origin, dir * terms.z * scale, glm::vec4(0, 1, 0, 1)); // D = Green
+    PushArrow(arrows, origin, dir * terms.w * scale, glm::vec4(0, .4, .5, 1)); // Bias = Cyan
 }
 
-void PIDVisualizer::DrawVerticalArrows(SceneObject *rocketObject, const glm::vec3 &terms) {
+void PIDVisualizer::DrawVerticalArrows(SceneObject *rocketObject, const glm::vec4 &terms) {
     const glm::vec2 yDir = rocketObject->transform.GetMatrix() * glm::vec4(0, 1, 0, 0);
     const glm::vec2 origin = rocketObject->transform.position;
     DrawPIDArrows(rocketObject->debugArrows, origin, yDir, terms, 3.0f);
 }
 
-void PIDVisualizer::DrawHorizontalArrows(SceneObject *rocketObject, const glm::vec3 &terms, float targetAngle) {
+void PIDVisualizer::DrawHorizontalArrows(SceneObject *rocketObject, const glm::vec4 &terms, float targetAngle) {
     const glm::vec2 xDir = rocketObject->transform.GetMatrix() * glm::vec4(1, 0, 0, 0);
 
     const glm::vec2 origin = rocketObject->transform.position;
@@ -48,7 +49,7 @@ void PIDVisualizer::DrawHorizontalArrows(SceneObject *rocketObject, const glm::v
     PushArrow(rocketObject->debugArrows, origin, targetDir * 3.0f, glm::vec4(1, 1, 1, 1), true, false);
 }
 
-void PIDVisualizer::DrawAttitudeArrows(SceneObject *rocketObject, const glm::vec3 &terms) {
+void PIDVisualizer::DrawAttitudeArrows(SceneObject *rocketObject, const glm::vec4 &terms) {
     const glm::vec2 xDir = rocketObject->transform.GetMatrix() * glm::vec4(1, 0, 0, 0);
     const glm::vec2 yDir = rocketObject->transform.GetMatrix() * glm::vec4(0, 1, 0, 0);
     const glm::vec2 origin = rocketObject->transform.position + yDir * -1.0f;

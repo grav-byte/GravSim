@@ -66,15 +66,18 @@ void PhysicsSolver::StepPropagation(Scene *scene) {
             object->lastRotation = object->transform.rotation - object->angularVelocity * timeStep_;
         }
 
-        ContactSolver::ClearContacts(scene);
+        if (object->mass > 0.0f) {
+            // for massive objects, resolve contacts and constraints
+            ContactSolver::ClearContacts(scene);
 
-        // apply constraints
-        for (const Constraint* constraint : scene->GetConstraints()) {
-            constraint->ApplyConstraint(object);
+            // apply constraints
+            for (const Constraint* constraint : scene->GetConstraints()) {
+                constraint->ApplyConstraint(object);
+            }
+
+            ContactSolver::FindContacts(scene);
+            ContactSolver::ResolveContacts(object);
         }
-
-        ContactSolver::FindContacts(scene);
-        ContactSolver::ResolveContacts(object);
 
         // reset accumulated forces
         object->ResetAccumulatedForces();

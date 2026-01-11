@@ -1,11 +1,12 @@
 #pragma once
 #include "PIDData.h"
 #include "glm/vec3.hpp"
+#include "glm/vec4.hpp"
 
 class PIDController {
 public:
     PIDController();
-    explicit PIDController(PIDData data);
+    explicit PIDController(const PIDData &data);
 
     PIDData pidData;
 
@@ -13,7 +14,7 @@ public:
 
     void SetUseAngleDifference(bool useAngleDifference);
 
-    glm::vec3 GetTerms() const;
+    glm::vec4 GetTerms() const;
 
     void Reset();
 
@@ -23,4 +24,5 @@ private:
     float pTerm_ = 0.0f;
     float iTerm_ = 0.0f;
     float dTerm_ = 0.0f;
+    float biasTerm_ = 0.0f;
 };

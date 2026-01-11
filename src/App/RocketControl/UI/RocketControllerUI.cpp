@@ -132,6 +132,8 @@ void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl
     ImGui::SeparatorText("Set PID Parameters");
     ImGui::Spacing();
     ImGui::TextLinkOpenURL("(Click for overview)", "https://github.com/grav-byte/GravSim/blob/d9fad45460bd06021d731f6bce4695e4bb6d9295/docs/PIDOverview.png");
+    ImGui::SameLine();
+    ImGui::TextLinkOpenURL("(Click for implementation)", "https://github.com/grav-byte/GravSim/blob/d9fad45460bd06021d731f6bce4695e4bb6d9295/docs/PIDImplemenation.png");
     ImGui::Spacing();
     ImGui::SetNextItemWidth(100);
     ImGui::DragFloat("Max Steering Angle (°)", &autoCtrl->maxSteeringAngle, 0.1f, 0.f, 90.f);
@@ -198,6 +200,11 @@ void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl
                     &pids[0]->pidData.dGain,
                     &pids[1]->pidData.dGain,
                     &pids[2]->pidData.dGain);
+        // Bias row
+        drawGainRow("Bias",
+            &pids[0]->pidData.bias,
+            &pids[1]->pidData.bias,
+            &pids[2]->pidData.bias);
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
@@ -207,6 +214,9 @@ void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl
         ImGui::TextColored(ImVec4(1,0,0,1),"I");
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(0,1,0,1),"D");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0,.4,.5,1),"B");
+
         ImGui::TableSetColumnIndex(1);
         ImGui::Checkbox("##vis0", &autoCtrl->visualizePID.x);
         ImGui::TableSetColumnIndex(2);
