@@ -129,7 +129,7 @@ void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl
 
                 // set background color based on value
                 const auto intensity = *value * 2.0f;
-                const auto bgCol = ImVec4( intensity+ .2f,  .2f, .2f, 0.2f);
+                const auto bgCol = ImVec4( intensity+ .2f,  .2f, .2f, 0.3f);
 
                 ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ImGui::GetColorU32(bgCol));
                 ImGui::PushID(column);
@@ -178,11 +178,16 @@ void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(0,.4,.5,1),"B");
 
+
+        ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ImGui::GetColorU32(ImVec4(0.05f, 0.05f, 0.05f, 1.0f)));
         ImGui::TableSetColumnIndex(1);
+        ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ImGui::GetColorU32(ImVec4(0.05f, 0.05f, 0.05f, 1.0f)));
         ImGui::Checkbox("##vis0", &autoCtrl->visualizePID.x);
         ImGui::TableSetColumnIndex(2);
+        ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ImGui::GetColorU32(ImVec4(0.05f, 0.05f, 0.05f, 1.0f)));
         ImGui::Checkbox("##vis1", &autoCtrl->visualizePID.y);
         ImGui::TableSetColumnIndex(3);
+        ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ImGui::GetColorU32(ImVec4(0.05f, 0.05f, 0.05f, 1.0f)));
         ImGui::Checkbox("##vis2", &autoCtrl->visualizePID.z);
 
         ImGui::EndTable();
@@ -242,5 +247,8 @@ void RocketControllerUI::DrawPIDLoading(PIDController *(&pids)[3], float& steeri
 void RocketControllerUI::OnEvent(Core::Event &event) {
     if (event.GetEventType() == Core::SceneLoaded) {
         targetUI_.OnSceneLoaded();
+        // TODO pass:
+        // scene = dynamic_cast<SceneLoadedEvent&>(event).GetScene();
+        // rocket =  controlLayer_->GetRocketObject();
     }
 }

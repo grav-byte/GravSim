@@ -24,6 +24,8 @@ bool TargetUI::DrawFloat2Control(const char* label, glm::vec2* v, float speed) {
 }
 
 static RocketObject* FindRocket(Scene& scene) {
+    // TODO pass from parent and cache instead of searching every time
+
     for (auto* obj : scene.GetAllObjects()) {
         if (!obj) continue;
         if (obj->name == "Rocket") {
@@ -39,6 +41,9 @@ static RocketObject* FindRocket(Scene& scene) {
 
 void TargetUI::OnSceneLoaded() {
     // Rebuild targets from the scene on next Draw()
+
+    // TODO: why not immediately here? pass scene as argument: scene_ = dynamic_cast<SceneLoadedEvent&>(event).GetScene();
+
     needsSync_ = true;
 
     targetReached_ = false;
@@ -65,6 +70,7 @@ void TargetUI::SyncTargetsFromScene(Scene& scene) {
         }
     }
 
+    // TODO they will be in order - dont worry
     // Stable order so "oldest" is deterministic
     std::sort(targets_.begin(), targets_.end(),
               [](TargetObject* a, TargetObject* b) { return a->id < b->id; });
@@ -78,6 +84,8 @@ void TargetUI::SyncTargetsFromScene(Scene& scene) {
 }
 
 void TargetUI::CleanupMissingTargets(Scene& scene) {
+    // TODO optimize by tracking deletions only
+
     for (int i = (int)targets_.size() - 1; i >= 0; --i) {
         if (!IsAlive(scene, targets_[i])) {
             targets_.erase(targets_.begin() + i);
@@ -125,6 +133,7 @@ void TargetUI::DeleteTargetAt(Scene& scene, int index) {
 
     targets_.erase(targets_.begin() + index);
 
+    // TODO why are there indeces at all?
     // Fix indices after erase
     auto fixIndex = [index](int& idx) {
         if (idx < 0) return;
@@ -171,6 +180,8 @@ void TargetUI::TargetReached(Scene& scene) {
     explodeTimer_  = explodeDuration_;
     reachedTimer_  = 0.0f;
 
+    // TODO just remove first target from the list and always fly to the first target if there is one?
+
     // Switch solver immediately to the next target
     if ((int)targets_.size() >= 2) {
         solverIndex_ = (active + 1 < (int)targets_.size()) ? (active + 1) : -1;
@@ -190,6 +201,7 @@ void TargetUI::UpdateCompletion(Scene& scene) {
         return;
     }
 
+    // TODO shouldn't completing index always be 0 since its the first target we fly to?
     // Delete the completing target when the timer is over
     if (completingIndex_ >= 0) {
         DeleteTargetAt(scene, completingIndex_);
@@ -210,6 +222,7 @@ void TargetUI::UpdateReachedDetection(Scene& scene) {
     const int active = ActiveIndex();
     if (active < 0) return;
 
+    // TODO cache rocket
     RocketObject* rocket = FindRocket(scene);
     TargetObject* target = GetTargetAt(scene, active);
     if (!rocket || !target) {

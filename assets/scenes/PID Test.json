@@ -7,8 +7,8 @@
                 "data": {
                     "value0": {
                         "value0": {
-                            "value0": -0.6624976396560669,
-                            "value1": -0.255989670753479
+                            "value0": 1.6859287023544312,
+                            "value1": -0.855937123298645
                         },
                         "value1": 0.0,
                         "value2": {
@@ -16,7 +16,7 @@
                             "value1": 1.0
                         }
                     },
-                    "value1": 0.07301370054483414,
+                    "value1": 0.05180726945400238,
                     "value2": {
                         "value0": 0.0403224378824234,
                         "value1": 0.05864188075065613,
@@ -41,7 +41,7 @@
                         "value2": {
                             "value0": {
                                 "value0": 0.0,
-                                "value1": 0.20000000298023225
+                                "value1": 0.19999998807907105
                             },
                             "value1": 0.0,
                             "value2": {
@@ -94,7 +94,7 @@
                         "value2": {
                             "value0": {
                                 "value0": 0.0,
-                                "value1": 0.4000000059604645
+                                "value1": 0.3999999761581421
                             },
                             "value1": 0.0,
                             "value2": {
@@ -290,6 +290,78 @@
                         "value4": 1
                     }
                 }
+            },
+            {
+                "polymorphic_id": 2147483653,
+                "polymorphic_name": "TargetObject",
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": {
+                            "value0": 3,
+                            "value1": "Target",
+                            "value2": {
+                                "value0": {
+                                    "value0": 0.0,
+                                    "value1": 5.0
+                                },
+                                "value1": 0.0,
+                                "value2": {
+                                    "value0": 15.0,
+                                    "value1": 15.0
+                                }
+                            },
+                            "value3": {
+                                "value0": 0.0,
+                                "value1": 5.0
+                            },
+                            "value4": 0.0,
+                            "value5": {
+                                "value0": 0.0,
+                                "value1": 0.0
+                            },
+                            "value6": [
+                                {
+                                    "polymorphic_id": 4,
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {},
+                                            "value1": {
+                                                "value0": 1.0,
+                                                "value1": 1.0
+                                            },
+                                            "value2": {
+                                                "value0": 0.0,
+                                                "value1": 0.0
+                                            },
+                                            "value3": 0.4000000059604645
+                                        }
+                                    }
+                                }
+                            ],
+                            "value7": 0.0,
+                            "value8": 0.0,
+                            "value9": {
+                                "polymorphic_id": 2,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": "target.frag",
+                                        "value2": {
+                                            "value0": [],
+                                            "value1": []
+                                        }
+                                    }
+                                }
+                            },
+                            "value10": false,
+                            "value11": false,
+                            "value12": false
+                        }
+                    }
+                }
             }
         ],
         "value4": [
@@ -303,7 +375,7 @@
                 }
             }
         ],
-        "value5": 3,
+        "value5": 4,
         "value6": {
             "value0": 0.9808704257011414,
             "value1": 0.9808704257011414,
