@@ -2,12 +2,11 @@
 #include "imgui.h"
 #include "App/Engine/Loading/Serialiser.h"
 #include "App/Engine/Scene.h"
-#include "App/Engine/SceneObject.h"
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "App/Layers/EngineLayer.h"
-#include "App/RocketControl/TargetObject.h"
 #include "App/RocketControl/Controllers/AutonomousPIDRocketController.h"
 #include "misc/cpp/imgui_stdlib.h"
+
 
 RocketControllerUI::RocketControllerUI() : pidFileSelector_(FileSelector(std::filesystem::path("../assets/pid_parameters"))) {
     controlLayer_ = Core::Application::Get().GetLayer<ControlLayer>();
@@ -247,9 +246,7 @@ void RocketControllerUI::DrawPIDLoading(PIDController *(&pids)[3], float& steeri
 
 void RocketControllerUI::OnEvent(Core::Event &event) {
     if (event.GetEventType() == Core::SceneLoaded) {
-        targetUI_.OnSceneLoaded();
-        // TODO pass:
-        // scene = dynamic_cast<SceneLoadedEvent&>(event).GetScene();
-        // rocket =  controlLayer_->GetRocketObject();
+        Scene *scene = dynamic_cast<SceneLoadedEvent &>(event).GetScene();
+        targetUI_.OnSceneLoaded(*scene);
     }
 }

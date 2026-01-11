@@ -5,66 +5,65 @@
 #pragma once
 
 #include <cstdint>
+#include <limits>
 #include <vector>
+
 #include <glm/vec2.hpp>
 
 class Scene;
 class AutonomousPIDRocketController;
+class RocketObject;
 class TargetObject;
 
 class TargetUI {
 public:
     TargetUI() = default;
 
-    // Main ImGui entry point
+    // ImGui entry point
     void Draw(Scene* scene, AutonomousPIDRocketController* autoCtrl);
 
-    // Call on scene change; rebuilds internal target list from the scene
-    void OnSceneLoaded();
+    // Call once after a scene was loaded
+    void OnSceneLoaded(Scene& scene);
 
 private:
-    // ----- Scene sync / ownership -----
-    // Raw pointers are non-owning; Scene owns TargetObjects
+    static constexpr uint32_t kInvalidId = std::numeric_limits<uint32_t>::max();
+
+    // ----- Scene sync / lookups -----
     void SyncTargetsFromScene(Scene& scene);
     void CleanupMissingTargets(Scene& scene);
     bool IsAlive(Scene& scene, TargetObject* t) const;
 
-    // ----- Target lifecycle -----
+    // Cached rocket lookup (Scene owns the rocket)
+    RocketObject* GetRocket(Scene& scene);
+
+    // ----- Target lifecycle (Scene owns targets) -----
     void CreateTarget(Scene& scene);
     void DeleteTargetAt(Scene& scene, int index);
     TargetObject* GetTargetAt(Scene& scene, int index) const;
 
-    // ----- Gameplay logic -----
-    void TargetReached(Scene& scene);      // starts completion on current solver target
-    void UpdateCompletion(Scene& scene);   // deletes completing target after timer
+    // ----- Target selection / gameplay -----
+    int ActiveIndex() const;            // which target the controller should fly to
+    void TargetReached(Scene& scene);   // starts completion on active target
+    void UpdateCompletion(Scene& scene);
     void UpdateReachedDetection(Scene& scene);
     void MirrorActiveTargetToController(Scene& scene, AutonomousPIDRocketController* autoCtrl);
 
-    // Which target the controller should fly to (can differ from the completing target)
-    int ActiveIndex() const { return solverIndex_; }
-
-    // ----- UI drawing (pure ImGui) -----
+    // ----- UI helpers -----
     void DrawCreateButtons(Scene& scene);
-    void DrawTargetsList(Scene& scene);
     void DrawReachParams();
+    void DrawTargetsList(Scene& scene);
     static bool DrawFloat2Control(const char* label, glm::vec2* v, float speed = 0.1f);
 
-    // True after a scene load; triggers SyncTargetsFromScene() once in Draw()
+    // Re-sync targets once in Draw() if needed
     bool needsSync_ = true;
 
-    // Non-owning pointers to TargetObjects currently in the scene
+    // Non-owning pointers (Scene owns TargetObjects)
     std::vector<TargetObject*> targets_;
 
-    // Spawn defaults for newly created targets
+    // Default spawn position for new targets
     glm::vec2 spawnDefaultPos_ = {0.0f, 5.0f};
 
-    // Indices into targets_:
-    // - solverIndex_: current target passed to the controller
-    // - completingIndex_: target playing the completion effect (deleted after timer)
-    int solverIndex_ = -1;
-    int completingIndex_ = -1;
-
-    // Completion timing
+    // Completion state (completed target stays in Scene until timer ends)
     bool targetReached_ = false;
     float explodeTimer_ = 0.0f;
     float explodeDuration_ = 5.0f;
@@ -73,4 +72,8 @@ private:
     float reachedTimer_ = 0.0f;
     float reachedHoldTime_ = 3.0f;
     float reachedTolerance_ = 1.0f;
+
+    // Rocket cache (validated via id each time)
+    RocketObject* cachedRocket_ = nullptr;
+    uint32_t cachedRocketId_ = kInvalidId;
 };
