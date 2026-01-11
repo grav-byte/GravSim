@@ -41,7 +41,15 @@ public:
     void OnRender() override;
 
 private:
+
+    struct OneShotSound {
+        ma_sound sound;
+        std::atomic<bool> finished{false};
+    };
+
     std::vector<std::unique_ptr<ma_sound>> soundsToStop_;
+    std::vector<OneShotSound*> pendingCleanup_;
+
     bool shouldPlayNextSong_;
     ma_engine engine_;
     ma_sound currentSong_;

@@ -84,7 +84,9 @@ void RocketObject::StartSound() {
 
 void RocketObject::StopSound() {
     if(rocketSound_) {
-        Core::Application::Get().GetLayer<AudioLayer>()->StopSound(std::move(rocketSound_));
+        auto layer = Core::Application::Get().GetLayer<AudioLayer>();
+        if (layer)
+            layer->StopSound(std::move(rocketSound_));
     }
 }
 
