@@ -131,9 +131,9 @@ void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl
 
     ImGui::SeparatorText("Set PID Parameters");
     ImGui::Spacing();
-    ImGui::TextLinkOpenURL("(Click for overview)", "https://github.com/grav-byte/GravSim/blob/d9fad45460bd06021d731f6bce4695e4bb6d9295/docs/PIDOverview.png");
-    ImGui::SameLine();
-    ImGui::TextLinkOpenURL("(Click for implementation)", "https://github.com/grav-byte/GravSim/blob/d9fad45460bd06021d731f6bce4695e4bb6d9295/docs/PIDImplemenation.png");
+    ImGui::TextLinkOpenURL("(Click for overview)", "https://github.com/grav-byte/GravSim/blob/master/docs/PIDOverview.png");
+    ImGui::SameLine(250);
+    ImGui::TextLinkOpenURL("(Click for implementation)", "https://github.com/grav-byte/GravSim/blob/master/docs/PIDImplementation.png");
     ImGui::Spacing();
     ImGui::SetNextItemWidth(100);
     ImGui::DragFloat("Max Steering Angle (°)", &autoCtrl->maxSteeringAngle, 0.1f, 0.f, 90.f);
