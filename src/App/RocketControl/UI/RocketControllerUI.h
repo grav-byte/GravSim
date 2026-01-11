@@ -7,6 +7,7 @@
 
 #include "App/RocketControl/ControlLayer.h"
 #include "App/RocketControl/Controllers/AutonomousPIDRocketController.h"
+#include "App/RocketControl/UI/TargetUI.h"
 
 
 class RocketControllerUI : public IUserInterface {
@@ -24,22 +25,14 @@ private:
     ControlLayer* controlLayer_ = nullptr;
     EngineLayer* engineLayer_ = nullptr;
     PIDController* activePID;
+    TargetUI targetUI_;
 
     FileSelector pidFileSelector_;
 
-    bool targetCreated_ = false;
-    uint32_t targetId_ = InvalidId;
-    glm::vec2 targetPos_ = glm::vec2(0.0f, 0.0f);
     std::string saveName;
 
-    void CreateTarget(Scene& scene);
-    void DeleteTarget(Scene& scene);
-    void DrawPIDLoading(PIDController *(&pids)[3], float &steeringAngle);
     void DrawPIDSettings(AutonomousPIDRocketController *autoCtrl);
+    void DrawPIDLoading(PIDController *(&pids)[3], float &steeringAngle);
 
     void SaveConfig(const AutonomousPIDRocketController *autoCtrl) const;
-
-    void DrawTargetSettings(Scene *scene, AutonomousPIDRocketController* autoCtrl);
-
-    SceneObject* GetTarget(Scene& scene) const;
 };

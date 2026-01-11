@@ -14,42 +14,6 @@ RocketControllerUI::RocketControllerUI() : pidFileSelector_(FileSelector(std::fi
     engineLayer_  = Core::Application::Get().GetLayer<EngineLayer>();
 }
 
-void RocketControllerUI::CreateTarget(Scene& scene) {
-    auto targetUq = std::make_unique<TargetObject>();
-
-    targetUq->transform.position = glm::vec2(0.0f, 0.0f);
-
-    targetPos_ = targetUq->transform.position;
-
-    // Save ID after adding to scene
-    targetId_ = scene.AddObject(std::move(targetUq));
-    targetCreated_ = true;
-}
-
-void RocketControllerUI::DeleteTarget(Scene& scene) {
-    if (!targetCreated_ || targetId_ == InvalidId) return;
-
-    scene.DeleteObject(targetId_);
-    targetCreated_ = false;
-    targetId_ = InvalidId;
-}
-
-SceneObject* RocketControllerUI::GetTarget(Scene& scene) const {
-    if (!targetCreated_ || targetId_ == InvalidId)
-        return nullptr;
-
-    return scene.GetObjById(targetId_);
-}
-
-static bool DrawFloat2Control(const char* label, glm::vec2* v, float speed = 0.1f) {
-    float value[2] = { v->x, v->y };
-    const bool updated = ImGui::DragFloat2(label, value, speed);
-    if (updated) {
-        *v = glm::vec2(value[0], value[1]);
-    }
-    return updated;
-}
-
 void RocketControllerUI::Draw() {
     if (!controlLayer_ || !engineLayer_)
         return;
@@ -102,14 +66,11 @@ void RocketControllerUI::Draw() {
         }
 
         if (ImGui::BeginTabItem("Target")) {
-            ImGui::BeginChild("TargetContent", ImVec2(0, 0), false);
-
             ImGui::Spacing();
             ImGui::Spacing();
 
-            DrawTargetSettings(scene, autoCtrl);
+            targetUI_.Draw(scene, autoCtrl);
 
-            ImGui::EndChild();
             ImGui::EndTabItem();
         }
 
@@ -244,42 +205,10 @@ void RocketControllerUI::SaveConfig(const AutonomousPIDRocketController* autoCtr
     Serialiser::SavePIDConfig(config, std::filesystem::path("../assets/pid_parameters") / saveName);
 }
 
-void RocketControllerUI::DrawTargetSettings(Scene *scene, AutonomousPIDRocketController* autoCtrl) {
-    ImGui::SeparatorText("Target Settings");
-
-    // Create/Delete target scene object (rendered by SceneRenderer)
-    if (!targetCreated_) {
-        if (ImGui::Button("Create Target")) {
-            CreateTarget(*scene);
-        }
-    } else {
-        if (ImGui::Button("Delete Target")) {
-            DeleteTarget(*scene);
-        }
-    }
-
-    ImGui::Separator();
-
-    if (SceneObject* targetObj = GetTarget(*scene)) {
-
-        // Edit targetPos_ via UI
-        DrawFloat2Control("Position", &targetPos_, 0.1f);
-
-        // Apply to scene object
-        targetObj->transform.position = targetPos_;
-        targetObj->lastPosition       = targetPos_;
-
-        if (autoCtrl) {
-            autoCtrl->targetPos      = targetPos_;
-        }
-    }
-}
-
 void RocketControllerUI::DrawPIDLoading(PIDController *(&pids)[3], float& steeringAngle) {
 
     ImGui::SeparatorText("Load PID Values:");
     ImGui::Spacing();
-
 
     pidFileSelector_.Draw();
     if (!pidFileSelector_.GetSelectedFile().empty()) {
@@ -312,7 +241,6 @@ void RocketControllerUI::DrawPIDLoading(PIDController *(&pids)[3], float& steeri
 
 void RocketControllerUI::OnEvent(Core::Event &event) {
     if (event.GetEventType() == Core::SceneLoaded) {
-        targetCreated_ = false;
-        targetId_ = InvalidId;
+        targetUI_.OnSceneLoaded();
     }
 }

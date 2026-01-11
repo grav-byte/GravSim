@@ -111,6 +111,7 @@ add_executable(GravSim
         src/App/Rendering/Renderers/BaseRenderer.h
         src/App/Rendering/Renderers/PostProcess/PostProcessPass.h
         src/App/UI/InteractionUI.cpp
+        src/App/UI/InteractionUI.h
         src/App/Engine/Physics/ContactPoint.h
         src/App/Engine/Physics/ContactSolver.cpp
         src/App/Engine/Physics/ContactSolver.h
@@ -138,6 +139,8 @@ add_executable(GravSim
         src/App/Rendering/Renderers/ArrowRenderer.h
         src/App/RocketControl/TargetObject.cpp
         src/App/RocketControl/TargetObject.h
+        src/App/RocketControl/UI/TargetUI.cpp
+        src/App/RocketControl/UI/TargetUI.h
         src/App/RocketControl/PID/PIDVisualizer.cpp
         src/App/RocketControl/PID/PIDVisualizer.h
         src/App/RocketControl/Controllers/IRocketController.h

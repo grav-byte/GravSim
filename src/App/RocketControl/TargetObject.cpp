@@ -1,6 +1,7 @@
 #include "TargetObject.h"
 
 #include "App/Rendering/Visuals/ShaderVisual.h"
+#include "Core/Application.h"
 
 TargetObject::TargetObject(): SceneObject(0, "Target") {
     auto shaderVisual = std::make_unique<ShaderVisual>();
@@ -15,5 +16,13 @@ TargetObject::TargetObject(): SceneObject(0, "Target") {
     gravitates = false;
     affectedByGravity = false;
 
-    transform.scale = glm::vec2(6.0f, 6.0f);
+    transform.scale = glm::vec2(15.0f);
+}
+
+void TargetObject::PlayCompletionEffect() {
+    if (auto* shader = dynamic_cast<ShaderVisual*>(visual.get())) {
+        shader->shaderPath = "completed.frag";
+        shader->shaderData.textures ["uNoiseTex"] = "../assets/Textures/noise_tex.png";
+        shader->shaderData.floats ["uTimeOffset"] = Core::Application::GetTime();
+    }
 }

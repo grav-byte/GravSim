@@ -3,7 +3,9 @@
 #include "Layers/AudioLayer.h"
 #include "Layers/UILayer.h"
 #include "RocketControl/ControlLayer.h"
+#include "UI/FollowingUI.h"
 #include "UI/SimulationUI.h"
+
 
 int main() {
     Core::AppConfig config;
@@ -24,6 +26,7 @@ int main() {
         uiLayer->AddUIElement(std::make_unique<SceneUI>());
         uiLayer->AddUIElement(std::make_unique<SimulationUI>());
         uiLayer->AddUIElement(std::make_unique<SettingsUI>());
+        uiLayer->AddUIElement(std::make_unique<FollowingUI>());
     }
 
     app.Run();
