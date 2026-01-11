@@ -11,6 +11,8 @@
 #include "Core/AppLayer.h"
 #include "misc/cpp/imgui_stdlib.h"
 #include "Core/Application.h"
+#include "App/RocketControl/TargetObject.h"
+
 
 SceneUI::SceneUI() {
     scene_ = nullptr;
@@ -129,6 +131,8 @@ void SceneUI::DrawScene() {
     ImGui::PushStyleColor(ImGuiCol_HeaderHovered,ImVec4(.55, 0.107295036315918f, 0.1072961091995239f, 1.0f));
     ImGui::PushStyleColor(ImGuiCol_HeaderActive,ImVec4(.55, 0.08627451211214066f, 0.1019607856869698f, 1.0f));
     for (SceneObject *obj : scene_->GetAllObjects()) {
+        if (!obj) continue;
+        if (dynamic_cast<TargetObject*>(obj)) continue;
         DrawObjectUI(obj);
     }
     ImGui::PopStyleColor(3);
