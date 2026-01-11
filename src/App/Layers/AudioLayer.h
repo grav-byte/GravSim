@@ -11,7 +11,7 @@ public:
     ~AudioLayer() override;
     std::string currentSongTitle;
 
-    void PlaySound(const char *path);
+    void PlaySound(const char *path, float volume=1.0f);
 
     std::unique_ptr<ma_sound> PlaySoundRepeating(const char *path);
 

@@ -8,11 +8,11 @@ class EngineLayer;
 SettingsUI::SettingsUI() {
     audioLayer_ = Core::Application::Get().GetLayer<AudioLayer>();
     engineLayer_ = Core::Application::Get().GetLayer<EngineLayer>();
-    volume_ = .25f;
+    volume_ = .5f;
     zoomToMouse_ = true;
     showGrid_ = true;
     engineLayer_->GetCameraController()->SetZoomToMouse(zoomToMouse_);
-    audioLayer_->SetGlobalVolume(.5f);
+    audioLayer_->SetGlobalVolume(volume_ * .1f);
 }
 
 SettingsUI::~SettingsUI() = default;
@@ -54,7 +54,7 @@ void SettingsUI::Draw() {
 
     ImGui::SeparatorText("Audio");
     if (ImGui::SliderFloat("Volume", &volume_, 0.0f, 1.0f)) {
-        audioLayer_->SetGlobalVolume(volume_);
+        audioLayer_->SetGlobalVolume(volume_ * .1f);
     }
     ImGui::TextWrapped("Now Playing: \n%s", audioLayer_->currentSongTitle.c_str());
     if (ImGui::Button("Skip Song")) {

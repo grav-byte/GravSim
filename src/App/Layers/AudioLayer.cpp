@@ -25,8 +25,16 @@ AudioLayer::~AudioLayer() {
     ma_engine_uninit(&engine_);
 }
 
-void AudioLayer::PlaySound(const char* path) {
-    ma_engine_play_sound(&engine_, path, nullptr);
+void AudioLayer::PlaySound(const char* path, const float volume) {
+    const auto sound = std::make_unique<ma_sound>();
+
+    const ma_result result = ma_sound_init_from_file(&engine_, path, MA_SOUND_FLAG_LOOPING, nullptr, nullptr, sound.get());
+    if (result != MA_SUCCESS) {
+        printf("ma_sound_init looping failed\n");
+        return;
+    }
+    ma_sound_start(sound.get());
+    ma_sound_set_volume(sound.get(), volume);
 }
 
 std::unique_ptr<ma_sound> AudioLayer::PlaySoundRepeating(const char *path) {

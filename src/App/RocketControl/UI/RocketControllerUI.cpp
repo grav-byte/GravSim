@@ -23,7 +23,8 @@ void RocketControllerUI::Draw() {
         return;
 
     AutonomousPIDRocketController* autoCtrl = controlLayer_->GetAutoControl();
-    if (!autoCtrl) return;
+    auto rocket = controlLayer_->GetRocketObject();
+    if (!autoCtrl || !rocket) return;
 
     constexpr ImVec2 sizeAuto(445, 300);
 
