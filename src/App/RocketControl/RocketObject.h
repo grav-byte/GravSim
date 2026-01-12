@@ -28,6 +28,8 @@ public:
 
     float GetMaxThrustAngle() const;
 
+    float GetInertia() const override;
+
     void RelinkObjects(const Scene& scene);
 
     // Cereal serialization

@@ -107,6 +107,7 @@ void InteractionUI::Draw()
     if (ImageToggleButton(iconConstraint, activeMode_ == Mode::ClickToConstraint, disabled, tooltip)) {
         activeMode_ = activeMode_ == Mode::ClickToConstraint ? Mode::None : Mode::ClickToConstraint;
     }
+
     ImGui::SameLine();
     ImGui::AlignTextToFramePadding();
     ImGui::PushStyleColor(ImGuiCol_Text, disabled ? ImVec4(0.5f,0.5f,0.5f,1.0f) : ImGui::GetStyleColorVec4(ImGuiCol_Text));

@@ -66,7 +66,7 @@ public:
     void AddCollider(ColliderType type);
     void RemoveCollider(int idx);
 
-    float GetInertia() const;
+    virtual float GetInertia() const;
     void ApplyForce(const glm::vec2 & force, const glm::vec2 & atPoint = glm::vec2(0, 0));
     void ResetAccumulatedForces();
 

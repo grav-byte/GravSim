@@ -115,6 +115,12 @@ glm::vec2 RocketObject::GetThrustVector() const {
 
 float RocketObject::GetMaxThrustAngle() const { return maxThrustAngle; }
 
+float RocketObject::GetInertia() const {
+    const float width = transform.scale.x;
+    const float height = transform.scale.y * 2.0f;
+    return 1.0f / 12.0f * mass * (width * width + height * height);
+}
+
 void RocketObject::RelinkObjects(const Scene &scene) {
     nozzleObj_ = scene.GetObjById(nozzleId_);
     exhaustObj_ = scene.GetObjById(exhaustId_);
