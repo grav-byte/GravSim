@@ -23,7 +23,7 @@ void FollowingUI::Draw() {
     float textWidth = ImGui::CalcTextSize(obj->name.c_str()).x;
     float labelWidth = ImGui::CalcTextSize("Following ").x;
     float buttonWidth = 60.0f; // size of your "Stop" button
-    float padding = ImGui::GetStyle().WindowPadding.x * 2;
+    float padding = ImGui::GetStyle().WindowPadding.x * 2.5f;
 
     float width = labelWidth + textWidth + buttonWidth + padding;
 
@@ -45,6 +45,7 @@ void FollowingUI::Draw() {
 
 
     ImGui::Begin("Following", nullptr, flags);
+    ImGui::AlignTextToFramePadding();
     ImGui::Text("Following %s", obj->name.c_str());
     ImGui::SameLine();
     if (ImGui::Button("Stop")) {
