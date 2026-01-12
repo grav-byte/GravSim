@@ -247,6 +247,6 @@ void RocketControllerUI::DrawPIDLoading(PIDController *(&pids)[3], float& steeri
 void RocketControllerUI::OnEvent(Core::Event &event) {
     if (event.GetEventType() == Core::SceneLoaded) {
         Scene *scene = dynamic_cast<SceneLoadedEvent &>(event).GetScene();
-        targetUI_.OnSceneLoaded(*scene);
+        targetUI_.OnSceneLoaded(*scene, controlLayer_->GetRocketObject());
     }
 }

@@ -28,34 +28,14 @@ bool TargetUI::DrawFloat2Control(const char* label, glm::vec2* v, float speed) {
     return updated;
 }
 
-RocketObject* TargetUI::GetRocket(Scene& scene) {
-    // Valid cached pointer?
-    if (cachedRocket_ && scene.GetObjById(cachedRocketId_) == cachedRocket_) {
-        return cachedRocket_;
-    }
-
-    // Find and cache
-    for (auto* obj : scene.GetAllObjects()) {
-        if (!obj) continue;
-        if (auto* r = dynamic_cast<RocketObject*>(obj)) {
-            cachedRocket_  = r;
-            cachedRocketId_ = r->id;
-            return r;
-        }
-    }
-
-    cachedRocket_ = nullptr;
-    cachedRocketId_ = kInvalidId;
-    return nullptr;
-}
-
 // ------------------------------------------------------------
 // Scene lifecycle / sync
 // ------------------------------------------------------------
 
-void TargetUI::OnSceneLoaded(Scene& scene) {
+void TargetUI::OnSceneLoaded(Scene& scene, RocketObject* rocket) {
+    cachedRocket_ = rocket;
+
     // Rebuild immediately (no deferred sync needed)
-    needsSync_ = false;
     SyncTargetsFromScene(scene);
 
     // Reset runtime state
@@ -65,8 +45,6 @@ void TargetUI::OnSceneLoaded(Scene& scene) {
 
     spawnDefaultPos_ = glm::vec2(0.0f, 5.0f);
 
-    // Invalidate rocket cache (scene may contain a new rocket)
-    cachedRocket_ = nullptr;
     cachedRocketId_ = kInvalidId;
 }
 
@@ -97,15 +75,6 @@ void TargetUI::CleanupMissingTargets(Scene& scene) {
         targetReached_ = false;
         explodeTimer_  = 0.0f;
     }
-}
-
-int TargetUI::ActiveIndex() const {
-    if (targets_.empty()) return -1;
-
-    // While target 0 is completing, solver should aim for next one (if any)
-    if (targetReached_ && targets_.size() >= 2) return 1;
-
-    return 0;
 }
 
 // ------------------------------------------------------------
@@ -161,10 +130,7 @@ TargetObject* TargetUI::GetTargetAt(Scene& scene, int index) const {
 // ------------------------------------------------------------
 
 void TargetUI::TargetReached(Scene& scene) {
-    const int active = ActiveIndex();
-    if (active < 0) return;
-
-    TargetObject* targetObj = GetTargetAt(scene, active);
+    TargetObject* targetObj = GetTargetAt(scene, 0);
     if (!targetObj) return;
 
     targetObj->PlayCompletionEffect();
@@ -194,18 +160,14 @@ void TargetUI::UpdateCompletion(Scene& scene) {
 void TargetUI::UpdateReachedDetection(Scene& scene) {
     if (targetReached_) return;
 
-    const int active = ActiveIndex();
-    if (active < 0) return;
-
-    RocketObject* rocket = GetRocket(scene);
-    TargetObject* target = GetTargetAt(scene, active);
-    if (!rocket || !target) {
+    TargetObject* target = GetTargetAt(scene, 0);
+    if (!cachedRocket_ || !target) {
         reachedTimer_ = 0.0f;
         return;
     }
 
     const float dt = ImGui::GetIO().DeltaTime;
-    const float dist = glm::length(rocket->transform.position - target->transform.position);
+    const float dist = glm::length(cachedRocket_->transform.position - target->transform.position);
 
     if (dist <= reachedTolerance_) {
         reachedTimer_ += dt;
@@ -221,7 +183,7 @@ void TargetUI::UpdateReachedDetection(Scene& scene) {
 void TargetUI::MirrorActiveTargetToController(Scene& scene, AutonomousPIDRocketController* autoCtrl) {
     if (!autoCtrl) return;
 
-    TargetObject* activeObj = GetTargetAt(scene, ActiveIndex());
+    TargetObject* activeObj = GetTargetAt(scene, 0);
     if (activeObj) {
         autoCtrl->targetPos = activeObj->transform.position;
     }
@@ -237,9 +199,7 @@ void TargetUI::DrawCreateButtons(Scene& scene) {
 }
 
 void TargetUI::DrawTargetsList(Scene& scene) {
-    const int active = ActiveIndex();
-
-    for (int i = 0; i < (int)targets_.size(); ++i) {
+    for (int i = 0; i < static_cast<int>(targets_.size()); ++i) {
         // Hide completing target immediately from UI (still exists in scene for the shader)
         if (targetReached_ && i == 0) continue;
 
@@ -248,7 +208,7 @@ void TargetUI::DrawTargetsList(Scene& scene) {
 
         ImGui::PushID(i);
 
-        ImGui::Text(i == active ? "Target %d (active)" : "Target %d", i + 1);
+        ImGui::Text(i == 0 ? "Target %d (active)" : "Target %d", i + 1);
         ImGui::SameLine(kLabelX);
 
         ImGui::SetNextItemWidth(kFloat2Width);
@@ -289,11 +249,6 @@ void TargetUI::Draw(Scene* scene, AutonomousPIDRocketController* autoCtrl) {
     if (!scene) {
         ImGui::TextDisabled("No scene loaded.");
         return;
-    }
-
-    if (needsSync_) {
-        SyncTargetsFromScene(*scene);
-        needsSync_ = false;
     }
 
     // Always visible settings

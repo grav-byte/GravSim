@@ -20,8 +20,8 @@ int main() {
 
     app.PushLayer<EngineLayer>();
     app.PushLayer<AudioLayer>();
-    app.PushLayer<ControlLayer>();
     app.PushLayer<UILayer>();
+    app.PushLayer<ControlLayer>();
 
     if (UILayer* uiLayer = Core::Application::Get().GetLayer<UILayer>()) {
         // add uis

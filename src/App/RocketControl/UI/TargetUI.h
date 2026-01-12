@@ -10,6 +10,8 @@
 
 #include <glm/vec2.hpp>
 
+#include "App/RocketControl/RocketObject.h"
+
 class Scene;
 class AutonomousPIDRocketController;
 class RocketObject;
@@ -23,7 +25,7 @@ public:
     void Draw(Scene* scene, AutonomousPIDRocketController* autoCtrl);
 
     // Call once after a scene was loaded
-    void OnSceneLoaded(Scene& scene);
+    void OnSceneLoaded(Scene& scene, RocketObject* rocket);
 
 private:
     static constexpr uint32_t kInvalidId = std::numeric_limits<uint32_t>::max();
@@ -33,16 +35,12 @@ private:
     void CleanupMissingTargets(Scene& scene);
     bool IsAlive(Scene& scene, TargetObject* t) const;
 
-    // Cached rocket lookup (Scene owns the rocket)
-    RocketObject* GetRocket(Scene& scene);
-
     // ----- Target lifecycle (Scene owns targets) -----
     void CreateTarget(Scene& scene);
     void DeleteTargetAt(Scene& scene, int index);
     TargetObject* GetTargetAt(Scene& scene, int index) const;
 
     // ----- Target selection / gameplay -----
-    int ActiveIndex() const;            // which target the controller should fly to
     void TargetReached(Scene& scene);   // starts completion on active target
     void UpdateCompletion(Scene& scene);
     void UpdateReachedDetection(Scene& scene);
@@ -53,9 +51,6 @@ private:
     void DrawReachParams();
     void DrawTargetsList(Scene& scene);
     static bool DrawFloat2Control(const char* label, glm::vec2* v, float speed = 0.1f);
-
-    // Re-sync targets once in Draw() if needed
-    bool needsSync_ = true;
 
     // Non-owning pointers (Scene owns TargetObjects)
     std::vector<TargetObject*> targets_;
