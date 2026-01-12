@@ -24,7 +24,6 @@ void CameraController::SetZoomToMouse(const bool enabled) {
 
 void CameraController::Update() const {
     if (followObj_ && camera_) {
-        std::cout << followObj_->name << std::endl;
         camera_->transform.position = followObj_->transform.position;
     }
 }

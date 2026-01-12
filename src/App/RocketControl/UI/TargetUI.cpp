@@ -158,8 +158,8 @@ void TargetUI::UpdateReachedDetection() {
 
 void TargetUI::MirrorActiveTargetToController(AutonomousPIDRocketController *autoCtrl) const {
     if (!autoCtrl || targets_.empty()) return;
-
-    if (const TargetObject* activeObj = targets_[0]) {
+    const TargetObject* activeObj = targets_[0];
+    if (activeObj) {
         autoCtrl->targetPos = activeObj->transform.position;
     }
 }

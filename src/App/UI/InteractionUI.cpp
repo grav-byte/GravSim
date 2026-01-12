@@ -7,6 +7,8 @@
 #include "App/Engine/Loading/TextureLoader.h"
 #include <iostream>
 
+#include "App/Engine/Interaction/ApplyForceInteractor.h"
+#include "App/Engine/Interaction/PlaceInteractor.h"
 #include "Core/InputEvents.h"
 
 InteractionUI::InteractionUI()
@@ -17,7 +19,8 @@ InteractionUI::InteractionUI()
     btnTintColor_ = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
     btnActiveColor_ = ImVec4(0.2f, 0.6f, 0.9f, 0.9f);
     btnDisabledColor_ = ImVec4(1.0f, 1.0f, 1.0f, .4f);
-    isPreviewActive_ = false;
+    interactors_.emplace_back(std::make_unique<PlaceInteractor>());
+    interactors_.emplace_back(std::make_unique<ApplyForceInteractor>());
 }
 
 bool InteractionUI::ImageToggleButton(const std::string &texturePath, bool selected, bool disabled, const char *tooltip) const {
@@ -38,7 +41,6 @@ bool InteractionUI::ImageToggleButton(const std::string &texturePath, bool selec
 
     return pressed;
 }
-
 
 void InteractionUI::Draw()
 {
@@ -84,6 +86,7 @@ void InteractionUI::Draw()
 
     if (ImageToggleButton(iconNone, activeMode_ == Mode::None, false, "Drag camera")) {
         activeMode_ = Mode::None;
+        activeInteractorIdx_ = -1;
     }
     ImGui::SameLine();
     ImGui::AlignTextToFramePadding();
@@ -92,7 +95,8 @@ void InteractionUI::Draw()
     ImGui::Dummy(ImVec2(0, 6));
 
     if (ImageToggleButton(iconPlaceObj, activeMode_ == Mode::ClickToPlace, false, "Place object")) {
-        activeMode_ = activeMode_ == Mode::ClickToPlace ? Mode::None : Mode::ClickToPlace;
+        activeMode_ = Mode::ClickToPlace;
+        activeInteractorIdx_ = 0;
     }
     ImGui::SameLine();
     ImGui::AlignTextToFramePadding();
@@ -104,8 +108,9 @@ void InteractionUI::Draw()
 
     const auto tooltip = disabled ? "Only available during simulation" : "Apply push (left click) or pull (right click) force";
 
-    if (ImageToggleButton(iconConstraint, activeMode_ == Mode::ClickToConstraint, disabled, tooltip)) {
-        activeMode_ = activeMode_ == Mode::ClickToConstraint ? Mode::None : Mode::ClickToConstraint;
+    if (ImageToggleButton(iconConstraint, activeMode_ == Mode::ApplyForce, disabled, tooltip)) {
+        activeMode_ = Mode::ApplyForce;
+        activeInteractorIdx_ = 1;
     }
 
     ImGui::SameLine();
@@ -118,50 +123,58 @@ void InteractionUI::Draw()
 
     ImGui::End();
 
-    if (ImGui::GetIO().WantCaptureMouse)
-        return;
-
-    if (activeMode_ != Mode::ClickToPlace) {
-        isPreviewActive_ = false;
-        return;
-    }
-
-    if (!engine_) engine_ = Core::Application::Get().GetLayer<EngineLayer>();
-    if (!engine_) return;
-
-    const auto* scene = engine_->GetScene();
-    if (!scene) return;
-
-    const auto* cam = scene->GetCamera();
-    if (!cam) return;
-
-    const ImVec2 mouse = ImGui::GetMousePos();
-    previewScreenPos_ = mouse;
-    isPreviewActive_ = true;
-
-    ImDrawList* drawList = ImGui::GetForegroundDrawList();
-    constexpr float radius = 12.0f;
-
-    constexpr ImU32 color = IM_COL32(50, 150, 230, 180);
-    drawList->AddCircleFilled(previewScreenPos_, radius, color);
-    drawList->AddCircle(previewScreenPos_, radius, IM_COL32(255,255,255,120), 0, 2.0f);
-
-    if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) || ImGui::IsKeyPressed(ImGuiKey_Escape)) {
+    if (ImGui::IsKeyPressed(ImGuiKey_Escape)) {
         activeMode_ = Mode::None;
-        isPreviewActive_ = false;
+        activeInteractorIdx_ = -1;
+        interacting_ = false;
         return;
     }
 
-    if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-        const glm::vec2 world  = cam->ScreenToWorld(mouse_position_);
+    if (ImGui::GetIO().WantCaptureMouse || activeInteractorIdx_ == -1)
+        return;
 
-        engine_->GetScene()->CreateObject(world);
+    interactors_[activeInteractorIdx_]->DrawPreview(*engine_->GetScene(), mousePosition_);
+
+    if (interacting_) {
+        interactors_[activeInteractorIdx_]->Interact(*engine_->GetScene(), mousePosition_, usingLeftMouse_);
+
+        // if not continuous, stop interacting after one interaction
+        if (!interactors_[activeInteractorIdx_]->continuous) {
+            interacting_ = false;
+        }
     }
+
 }
 
 void InteractionUI::OnEvent(Core::Event &event) {
     if (event.GetEventType() == Core::MouseMoved) {
         const auto& mouseEvent = dynamic_cast<Core::MouseMovedEvent&>(event);
-        mouse_position_ = glm::vec2(mouseEvent.GetX(), mouseEvent.GetY());
+        mousePosition_ = glm::vec2(mouseEvent.GetX(), mouseEvent.GetY());
+    }
+
+    if (event.GetEventType() == Core::MouseButtonPressed) {
+        if (ImGui::GetIO().WantCaptureMouse || activeInteractorIdx_ == -1) {
+            interacting_ = false;
+            return;
+        }
+        interacting_ = true;
+        usingLeftMouse_ = dynamic_cast<Core::MouseButtonPressedEvent&>(event).GetMouseButton() == 0;
+    }
+
+    if (event.GetEventType() == Core::MouseButtonReleased) {
+        interacting_ = false;
+    }
+
+    if (event.GetEventType() == Core::MouseScrolled) {
+        if (ImGui::GetIO().WantCaptureMouse || activeInteractorIdx_ == -1)
+            return;
+
+        const auto amount = dynamic_cast<Core::MouseScrolledEvent&>(event).GetAmount();
+        interactors_[activeInteractorIdx_]->radius += amount * .02f;
+        // clamp radius to >= .1
+        interactors_[activeInteractorIdx_]->radius = glm::max(interactors_[activeInteractorIdx_]->radius, 0.1f);
+
+        // dont propagate scroll event
+        event.Handled = true;
     }
 }

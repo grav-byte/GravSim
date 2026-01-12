@@ -5,6 +5,8 @@
 #include "IUserInterface.h"
 #include "glm/glm.hpp"
 #include "imgui.h"
+#include "App/Engine/Camera.h"
+#include "App/Engine/Interaction/IInteractor.h"
 
 class EngineLayer;
 struct InteractionState;
@@ -18,22 +20,29 @@ public:
     enum class Mode {
         None = 0,
         ClickToPlace,
-        ClickToConstraint
+        ApplyForce
     };
 
 private:
     EngineLayer* engine_;
 
     Mode activeMode_ = Mode::None;
-    glm::vec2 mouse_position_ = glm::vec2(0.0f);
+    glm::vec2 mousePosition_ = glm::vec2(0.0f);
+
+    bool interacting_ = false;
+    bool usingLeftMouse_ = false;
 
     ImVec4 btnBgColor_;
     ImVec4 btnTintColor_;
     ImVec4 btnActiveColor_;
     ImVec4 btnDisabledColor_;
 
-    ImVec2 previewScreenPos_;
-    bool isPreviewActive_;
+    std::pmr::vector<std::unique_ptr<IInteractor>> interactors_;
+    int activeInteractorIdx_ = -1;
 
     bool ImageToggleButton(const std::string &texturePath, bool selected, bool disabled, const char *tooltip) const;
+
+    void HandleInteract(const Camera *cam) const;
+
+    bool DrawPreview(const Camera *&cam);
 };

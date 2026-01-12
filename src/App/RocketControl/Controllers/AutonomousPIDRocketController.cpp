@@ -9,7 +9,7 @@ AutonomousPIDRocketController::AutonomousPIDRocketController() {
     attitudeController_->SetUseAngleDifference(true);
 }
 
-void AutonomousPIDRocketController::ApplyControlInputs(RocketObject *rocketObject, const float deltaTime) const {
+void AutonomousPIDRocketController::ApplyControlInputs(RocketObject* rocketObject, const float deltaTime) const {
     const float currentX = rocketObject->transform.position.x;
     const float currentY = rocketObject->transform.position.y;
     const float currentPhi = rocketObject->transform.rotation;

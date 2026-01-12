@@ -57,6 +57,7 @@ add_executable(GravSim
         src/App/Engine/Camera.cpp
         src/App/Engine/Camera.h
         src/App/Rendering/Visuals/CircleVisual.cpp
+        src/App/Engine/Interaction/IInteractor.h
         src/App/Rendering/Visuals/CircleVisual.h
         src/App/Engine/Transform.h
         src/App/UI/SceneUI.cpp
@@ -148,6 +149,10 @@ add_executable(GravSim
         src/App/Rendering/Renderers/TrailRenderer.h
         src/App/UI/TimeControlUI.cpp
         src/App/UI/TimeControlUI.h
+        src/App/Engine/Interaction/PlaceInteractor.cpp
+        src/App/Engine/Interaction/PlaceInteractor.h
+        src/App/Engine/Interaction/ApplyForceInteractor.cpp
+        src/App/Engine/Interaction/ApplyForceInteractor.h
 )
 
 # Include directories
