@@ -153,6 +153,7 @@ void InteractionUI::OnEvent(Core::Event &event) {
     }
 
     if (event.GetEventType() == Core::MouseButtonPressed) {
+        event.Handled = true;
         if (ImGui::GetIO().WantCaptureMouse || activeInteractorIdx_ == -1) {
             interacting_ = false;
             return;

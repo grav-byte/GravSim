@@ -27,9 +27,6 @@ void RocketControllerUI::Draw() {
 
     constexpr ImVec2 sizeAuto(445, 300);
 
-    // Controller / logic
-    targetUI_.MirrorActiveTargetToController(autoCtrl);
-
     ImGui::SetNextWindowPos(ImVec2(1000, 580), ImGuiCond_FirstUseEver);
     ImGui::SetNextWindowSize(sizeAuto, ImGuiCond_FirstUseEver);
 
@@ -72,7 +69,7 @@ void RocketControllerUI::Draw() {
             ImGui::Spacing();
             ImGui::Spacing();
 
-            targetUI_.Draw(scene, autoCtrl);
+            targetUI_.Draw(scene);
 
             ImGui::EndTabItem();
         }
@@ -249,7 +246,7 @@ void RocketControllerUI::DrawPIDLoading(PIDController *(&pids)[3], float& steeri
 
 void RocketControllerUI::OnEvent(Core::Event &event) {
     if (event.GetEventType() == Core::SceneLoaded) {
-        Scene *scene = dynamic_cast<SceneLoadedEvent &>(event).GetScene();
-        targetUI_.OnSceneLoaded(*scene, controlLayer_->GetRocketObject());
+        const Scene* scene = dynamic_cast<SceneLoadedEvent &>(event).GetScene();
+        targetUI_.OnSceneLoaded(*scene, controlLayer_->GetRocketObject(), controlLayer_->GetAutoControl());
     }
 }

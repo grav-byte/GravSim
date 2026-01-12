@@ -32,15 +32,40 @@ bool TargetUI::DrawFloat2Control(const char* label, glm::vec2* v, const float sp
 // Scene lifecycle / sync
 // ------------------------------------------------------------
 
-void TargetUI::OnSceneLoaded(const Scene& scene, RocketObject* rocket) {
+void TargetUI::SetNextTarget() {
+    if (targets_.empty())
+        return;
+
+    targets_.erase(
+        std::remove_if(
+            targets_.begin(),
+            targets_.end(),
+            [](TargetObject* t) { return t->IsReached(); }
+        ),
+        targets_.end()
+    );
+
+    if (targets_.empty())
+        return;
+
+    autoCtrl_->SetActiveTarget(
+        targets_[0],
+        [this] {
+            this->SetNextTarget();
+        }
+    );
+}
+
+void TargetUI::OnSceneLoaded(const Scene& scene, RocketObject* rocket, AutonomousPIDRocketController* autoCtrl) {
     cachedRocket_ = rocket;
+    autoCtrl_ = autoCtrl;
 
     // Rebuild immediately (no deferred sync needed)
     SyncTargetsFromScene(scene);
 
-    spawnDefaultPos_ = glm::vec2(0.0f, 5.0f);
+    SetNextTarget();
 
-    cachedRocketId_ = kInvalidId;
+    spawnDefaultPos_ = glm::vec2(0.0f, 5.0f);
 }
 
 void TargetUI::SyncTargetsFromScene(const Scene& scene) {
@@ -69,6 +94,8 @@ void TargetUI::CreateTarget(Scene& scene) {
     if (!tgt) return;
 
     targets_.push_back(tgt);
+    if (targets_.size() == 1)
+        SetNextTarget();
 }
 
 void TargetUI::DeleteTargetAt(Scene& scene, const int index) {
@@ -85,19 +112,6 @@ void TargetUI::DeleteTargetAt(Scene& scene, const int index) {
 // ------------------------------------------------------------
 // Gameplay logic
 // ------------------------------------------------------------
-void TargetUI::MirrorActiveTargetToController(
-    AutonomousPIDRocketController* autoCtrl) const
-{
-    if (!autoCtrl || targets_.empty()) return;
-
-    for (int i = 0; i < static_cast<int>(targets_.size()); ++i) {
-        if (targets_[i]->IsReached()) {
-            if (TargetObject* activeObj = targets_[0]) {
-                autoCtrl->SetActiveTarget(activeObj);
-            }
-        }
-    }
-}
 
 // ------------------------------------------------------------
 // UI drawing
@@ -156,7 +170,7 @@ void TargetUI::DrawReachParams() {
 // Main
 // ------------------------------------------------------------
 
-void TargetUI::Draw(Scene* scene, AutonomousPIDRocketController* autoCtrl) {
+void TargetUI::Draw(Scene *scene) {
     ImGui::SeparatorText("Target Settings");
 
     if (!scene) {

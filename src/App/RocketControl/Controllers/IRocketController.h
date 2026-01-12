@@ -6,5 +6,5 @@ public:
     virtual ~IRocketController() = default;
 
 protected:
-    virtual void ApplyControlInputs(RocketObject *rocketObj, float deltaTime) = 0;
+    virtual void ApplyControlInputs(RocketObject *rocketObj, float deltaTime) const = 0;
 };

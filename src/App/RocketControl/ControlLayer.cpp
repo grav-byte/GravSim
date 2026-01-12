@@ -40,8 +40,10 @@ void ControlLayer::OnUpdate(const float deltaTime) {
 
     if (manualControlEnabled)
         userControl_->ApplyControlInputs(rocketObj_, deltaTime);
-    else
+    else {
         autonomousControl_->ApplyControlInputs(rocketObj_, deltaTime);
+        autonomousControl_->CheckTargetReached(rocketObj_, deltaTime);
+    }
 
     const float maxThrustAngle = rocketObj_->GetMaxThrustAngle();
     rocketObj_->thrustAngle = std::clamp(rocketObj_->thrustAngle, -maxThrustAngle, maxThrustAngle);

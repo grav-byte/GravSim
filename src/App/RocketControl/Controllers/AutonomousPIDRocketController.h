@@ -11,10 +11,10 @@ public:
     ~AutonomousPIDRocketController() override = default;
 
     void Start() const;
-    void ApplyControlInputs(RocketObject* rocketObject, float deltaTime) override;
-    void SetActiveTarget(TargetObject* target);
+    void ApplyControlInputs(RocketObject* rocketObject, float deltaTime) const override;
+    void SetActiveTarget(TargetObject* target, std::function<void()> targetReachedCallback);
 
-    TargetObject* GetActiveTarget() const { return target_; }
+    void CheckTargetReached(const RocketObject *rocketObject, float dt);
 
     PIDController* GetVerticalController() const;
     PIDController* GetHorizontalController() const;
@@ -23,13 +23,14 @@ public:
     float maxSteeringAngle = 15.0f; // degrees
 
     glm::bvec3 visualizePID = glm::bvec3(false); // visualize PID terms via arrows
+    std::function<void()> targetReachedCallback_;
+    glm::vec2 currentTargetPos_ = glm::vec2(0.0f);
 
 private:
     std::unique_ptr<PIDController> verticalController_;
     std::unique_ptr<PIDController> horizontalController_;
     std::unique_ptr<PIDController> attitudeController_;
 
-    void CheckTargetReached(RocketObject *rocketObject, float dt);
 
     RocketObject* rocket_ = nullptr;
     TargetObject* target_ = nullptr;

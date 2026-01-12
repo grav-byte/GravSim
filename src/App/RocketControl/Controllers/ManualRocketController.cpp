@@ -38,7 +38,7 @@ void ManualRocketController::OnKeyReleased(const int keyCode) {
     }
 }
 
-void ManualRocketController::ApplyControlInputs(RocketObject *rocketObj, const float deltaTime) {
+void ManualRocketController::ApplyControlInputs(RocketObject *rocketObj, const float deltaTime) const {
     if (upHeld_)
         rocketObj->thrustPercent += 2.0f * deltaTime;
     else if (downHeld_)
