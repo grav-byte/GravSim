@@ -21,7 +21,6 @@ public:
 
     std::vector<SceneObject*> GetAllObjects() const;
     std::vector<SceneObject *> GetAllObjectsOrderedByDrawOrder() const;
-
     std::vector<Constraint*> GetConstraints() const;
 
     void RemoveConstraint(Constraint::ConstraintDirection direction);

@@ -45,6 +45,9 @@ bool EngineLayer::LoadScene(const std::string &filePath) {
     if (runningSimulation_)
         StopSimulation();
 
+    // clear scheduled tasks because they are tied to previous scene
+    scheduledTasks.clear();
+
     auto loadedScene = Serialiser::LoadScene(filePath);
     if (!loadedScene)
         return false;
@@ -161,6 +164,17 @@ void EngineLayer::OnUpdate(const float deltaTime) {
     if (runningSimulation_ && !pausedSimulation_)
         physicsSolver_->UpdatePhysics(scene_.get(), deltaTime);
 
+    const float now = Core::Application::GetTime();
+    // execute tasks that are due
+    for (auto it = scheduledTasks.begin(); it != scheduledTasks.end(); ) {
+        if (now >= it->executeAt) {
+            it->callback();
+            it = scheduledTasks.erase(it); // remove after running
+        } else {
+            ++it;
+        }
+    }
+
     cameraController_.Update();
 }
 
@@ -193,12 +207,6 @@ void EngineLayer::OnRender() {
     }
 }
 
-void EngineLayer::CreateObject() const {
-    if (!scene_) return;
-    scene_->CreateObject();
-}
-
-void EngineLayer::CreateObjectAt(const glm::vec2& worldPos) const {
-    if (!scene_) return;
-    scene_->CreateObject(worldPos);
+void EngineLayer::Schedule(const std::function<void()> &func, const float delaySeconds) {
+    scheduledTasks.push_back({ Core::Application::GetTime() + delaySeconds, func });
 }

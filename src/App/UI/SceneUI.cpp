@@ -140,7 +140,7 @@ void SceneUI::DrawScene() {
     ImGui::Spacing();
 
     if (ImGui::Button("Add Object")) {
-        engine_->CreateObject();
+        scene_->CreateObject();
     }
 
     ImGui::Spacing();

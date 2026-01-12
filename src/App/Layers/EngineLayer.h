@@ -31,13 +31,10 @@ public:
 
     void StartSimulation();
     void PauseSimulation();
-
     void StepSimulation() const;
-
     void StopSimulation();
 
     void SetSolverType(const char *typeName) const;
-
     IPropagator *GetActivePropagator() const;
 
     void SetTimeStep(float timeStep) const;
@@ -47,18 +44,22 @@ public:
     bool IsSimulationPaused() const;
 
     Scene* GetScene() const { return scene_.get(); }
-
     CameraController* GetCameraController();
-
     SceneRenderer *GetSceneRenderer() const;
+
+    void Schedule(const std::function<void()>& func, float delaySeconds);
 
     bool showColliders = false;
 
-    void CreateObject() const;
-    void CreateObjectAt(const glm::vec2& worldPos) const;
-
 private:
     void OnSceneLoaded() const;
+
+    struct ScheduledTask {
+        float executeAt;                   // global time in seconds
+        std::function<void()> callback;
+    };
+
+    std::vector<ScheduledTask> scheduledTasks;
 
     bool runningSimulation_;
     bool pausedSimulation_;

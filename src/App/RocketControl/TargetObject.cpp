@@ -1,5 +1,9 @@
 #include "TargetObject.h"
 
+#include <thread>
+
+#include "App/Engine/Scene.h"
+#include "App/Layers/EngineLayer.h"
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "Core/Application.h"
 
@@ -26,10 +30,17 @@ void TargetObject::PlayCompletionEffect() const {
         shader->shaderData.textures ["uNoiseTex"] = "../assets/Textures/noise_tex.png";
         shader->shaderData.floats ["uTimeOffset"] = Core::Application::GetTime();
     }
+
+    const float delay = 2.0f / Core::Application::Get().GetTimeScale();
+    // schedule deletion after delay
+    auto* engineLayer = Core::Application::Get().GetLayer<EngineLayer>();
+    auto scene =engineLayer->GetScene();
+    engineLayer->Schedule([this, scene] { scene->DeleteObject(id); }, delay);
 }
 
 void TargetObject::MarkReached() {
     reached_ = true;
+    PlayCompletionEffect();
 }
 
 bool TargetObject::IsReached() const {

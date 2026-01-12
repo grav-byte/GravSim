@@ -42,9 +42,9 @@ bool InteractionUI::ImageToggleButton(const std::string &texturePath, bool selec
 
 void InteractionUI::Draw()
 {
-    const float width  = 100.0f;
-    const float height = 165.0f;
-    const float margin = 10.0f;
+    constexpr float width  = 100.0f;
+    constexpr float height = 165.0f;
+    constexpr float margin = 10.0f;
 
     const ImGuiViewport* vp = ImGui::GetMainViewport();
 
@@ -66,7 +66,7 @@ void InteractionUI::Draw()
     ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Always);
 
-    ImGuiWindowFlags flags =
+    constexpr ImGuiWindowFlags flags =
         ImGuiWindowFlags_NoDocking |
         ImGuiWindowFlags_NoResize |
         ImGuiWindowFlags_NoMove |
@@ -82,27 +82,32 @@ void InteractionUI::Draw()
     const std::string iconConstraint  = "../assets/icons/force.png";
     const std::string iconNone        = "../assets/icons/arrow.png";
 
-    if (ImageToggleButton(iconPlaceObj, activeMode_ == Mode::ClickToPlace, "Place object")) {
-        activeMode_ = (activeMode_ == Mode::ClickToPlace) ? Mode::None : Mode::ClickToPlace;
-    }
-    ImGui::SameLine();
-    ImGui::Text("Object");
 
-    ImGui::Dummy(ImVec2(0, 6));
-
-    if (ImageToggleButton(iconConstraint, activeMode_ == Mode::ClickToConstraint, "Place constraint")) {
-        activeMode_ = (activeMode_ == Mode::ClickToConstraint) ? Mode::None : Mode::ClickToConstraint;
-    }
-    ImGui::SameLine();
-    ImGui::Text("Force");
-
-    ImGui::Dummy(ImVec2(0, 8));
-
-    if (ImageToggleButton(iconNone, activeMode_ == Mode::None, "Keine Aktion")) {
+    if (ImageToggleButton(iconNone, activeMode_ == Mode::None, "Drag camera")) {
         activeMode_ = Mode::None;
     }
     ImGui::SameLine();
     ImGui::Text("Mouse");
+
+    ImGui::Dummy(ImVec2(0, 6));
+
+    if (ImageToggleButton(iconPlaceObj, activeMode_ == Mode::ClickToPlace, "Place object")) {
+        activeMode_ = activeMode_ == Mode::ClickToPlace ? Mode::None : Mode::ClickToPlace;
+    }
+    ImGui::SameLine();
+    ImGui::Text("Object");
+
+    ImGui::BeginDisabled(!engine_->IsRunningSimulation());
+    ImGui::Dummy(ImVec2(0, 6));
+
+    if (ImageToggleButton(iconConstraint, activeMode_ == Mode::ClickToConstraint, "Apply push (left click) or pull (right click) force")) {
+        activeMode_ = activeMode_ == Mode::ClickToConstraint ? Mode::None : Mode::ClickToConstraint;
+    }
+    ImGui::SameLine();
+    ImGui::Text("Force");
+
+    ImGui::EndDisabled();
+
     ImGui::End();
 
     if (activeMode_ != Mode::ClickToPlace) {
@@ -113,10 +118,10 @@ void InteractionUI::Draw()
     if (!engine_) engine_ = Core::Application::Get().GetLayer<EngineLayer>();
     if (!engine_) return;
 
-    auto* scene = engine_->GetScene();
+    const auto* scene = engine_->GetScene();
     if (!scene) return;
 
-    auto* cam = scene->GetCamera();
+    const auto* cam = scene->GetCamera();
     if (!cam) return;
 
     ImGuiIO& io = ImGui::GetIO();
@@ -129,7 +134,7 @@ void InteractionUI::Draw()
     ImDrawList* drawList = ImGui::GetForegroundDrawList();
     constexpr float radius = 12.0f;
 
-    const ImU32 color = IM_COL32(50, 150, 230, 180);
+    constexpr ImU32 color = IM_COL32(50, 150, 230, 180);
     drawList->AddCircleFilled(previewScreenPos_, radius, color);
     drawList->AddCircle(previewScreenPos_, radius, IM_COL32(255,255,255,120), 0, 2.0f);
 
@@ -142,7 +147,7 @@ void InteractionUI::Draw()
     if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
         const glm::vec2 world  = cam->ScreenToWorld(mouse_position_);
 
-        engine_->CreateObjectAt(world);
+        engine_->GetScene()->CreateObject(world);
     }
 }
 

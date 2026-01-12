@@ -105,10 +105,10 @@ void TargetUI::DeleteTargetAt(Scene& scene, const int index) {
 // ------------------------------------------------------------
 
 void TargetUI::TargetReached() {
-    const TargetObject* targetObj = targets_[0];
+    TargetObject* targetObj = targets_[0];
     if (!targetObj) return;
 
-    targetObj->PlayCompletionEffect();
+    targetObj->MarkReached();
 
     if (auto* audio = Core::Application::Get().GetLayer<AudioLayer>()) {
         audio->PlaySound("../assets/audio/completed.wav", 5.0);
