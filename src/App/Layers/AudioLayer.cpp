@@ -38,7 +38,7 @@ void AudioLayer::PlaySound(const char* path, const float volume) {
     ma_sound_set_end_callback(
         &s->sound,
         [](void* userData, ma_sound*) {
-            static_cast<OneShotSound*>(userData)->finished.store(true, std::memory_order_relaxed);
+            static_cast<OneShotSound*>(userData)->finished = true;
         },
         s
     );
@@ -96,7 +96,7 @@ void AudioLayer::OnUpdate(float deltaTime) {
 
     // cleanup sounds that are done
     for (auto it = pendingCleanup_.begin(); it != pendingCleanup_.end(); ) {
-        if ((*it)->finished.load(std::memory_order_relaxed)) {
+        if ((*it)->finished) {
             ma_sound_uninit(&(*it)->sound);
             delete *it;
             it = pendingCleanup_.erase(it);

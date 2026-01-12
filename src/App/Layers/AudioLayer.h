@@ -44,7 +44,7 @@ private:
 
     struct OneShotSound {
         ma_sound sound;
-        std::atomic<bool> finished{false};
+        bool finished = false;
     };
 
     std::vector<std::unique_ptr<ma_sound>> soundsToStop_;
