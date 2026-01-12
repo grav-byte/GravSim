@@ -5,6 +5,6 @@ class IRocketController {
 public:
     virtual ~IRocketController() = default;
 
-private:
-    virtual void ApplyControlInputs(RocketObject *rocketObj, float deltaTime) const = 0;
+protected:
+    virtual void ApplyControlInputs(RocketObject *rocketObj, float deltaTime) = 0;
 };

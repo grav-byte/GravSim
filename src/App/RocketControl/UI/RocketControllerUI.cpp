@@ -27,6 +27,9 @@ void RocketControllerUI::Draw() {
 
     constexpr ImVec2 sizeAuto(445, 300);
 
+    // Controller / logic
+    targetUI_.MirrorActiveTargetToController(autoCtrl);
+
     ImGui::SetNextWindowPos(ImVec2(1000, 580), ImGuiCond_FirstUseEver);
     ImGui::SetNextWindowSize(sizeAuto, ImGuiCond_FirstUseEver);
 

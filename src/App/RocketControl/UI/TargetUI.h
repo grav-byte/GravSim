@@ -26,6 +26,9 @@ public:
     // Call once after a scene was loaded
     void OnSceneLoaded(const Scene& scene, RocketObject* rocket);
 
+    // ----- gameplay -----
+    void MirrorActiveTargetToController(AutonomousPIDRocketController *autoCtrl) const;
+
 private:
     static constexpr uint32_t kInvalidId = std::numeric_limits<uint32_t>::max();
 
@@ -36,15 +39,9 @@ private:
     void CreateTarget(Scene& scene);
     void DeleteTargetAt(Scene& scene, int index);
 
-    // ----- Target selection / gameplay -----
-    void TargetReached();   // starts completion on active target
-    void UpdateCompletion(Scene& scene);
-    void UpdateReachedDetection();
-    void MirrorActiveTargetToController(AutonomousPIDRocketController *autoCtrl) const;
-
     // ----- UI helpers -----
     void DrawCreateButtons(Scene& scene);
-    void DrawReachParams();
+    static void DrawReachParams();
     void DrawTargetsList(Scene& scene);
     static bool DrawFloat2Control(const char* label, glm::vec2* v, float speed = 0.1f);
 
@@ -58,11 +55,6 @@ private:
     bool targetReached_ = false;
     float explodeTimer_ = 0.0f;
     float explodeDuration_ = 5.0f;
-
-    // Reach detection (hold inside tolerance)
-    float reachedTimer_ = 0.0f;
-    float reachedHoldTime_ = 3.0f;
-    float reachedTolerance_ = 1.0f;
 
     // Rocket cache (validated via id each time)
     RocketObject* cachedRocket_ = nullptr;

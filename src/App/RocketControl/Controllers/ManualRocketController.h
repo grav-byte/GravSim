@@ -9,7 +9,7 @@ public:
     void OnKeyPressed(int keyCode);
     void OnKeyReleased(int keyCode);
 
-    void ApplyControlInputs(RocketObject *rocketObj, float deltaTime) const override;
+    void ApplyControlInputs(RocketObject *rocketObj, float deltaTime) override;
 
 
     bool leftHeld_;

@@ -2,6 +2,7 @@
 
 #include "../PID/PIDVisualizer.h"
 
+
 AutonomousPIDRocketController::AutonomousPIDRocketController() {
     verticalController_ = std::make_unique<PIDController>();
     horizontalController_ = std::make_unique<PIDController>();
@@ -9,13 +10,22 @@ AutonomousPIDRocketController::AutonomousPIDRocketController() {
     attitudeController_->SetUseAngleDifference(true);
 }
 
-void AutonomousPIDRocketController::ApplyControlInputs(RocketObject *rocketObject, const float deltaTime) const {
+void AutonomousPIDRocketController::SetActiveTarget(TargetObject* target) {
+    if (target_ == target) return;
+    if (!target) return;
+
+    target_ = target;
+    reachedTimer_ = 0.0f;
+}
+
+void AutonomousPIDRocketController::ApplyControlInputs(RocketObject *rocketObject, const float deltaTime) {
     const float currentX = rocketObject->transform.position.x;
     const float currentY = rocketObject->transform.position.y;
     const float currentPhi = rocketObject->transform.rotation;
     const float vX = rocketObject->velocity.x;
     const float vY = rocketObject->velocity.y;
     const float vPhi = rocketObject->angularVelocity;
+    const glm::vec2 targetPos = target_ ? target_->transform.position : glm::vec2(0.0f);
     // --- PID evaluations ---
 
     // vertical -> thrust
@@ -42,6 +52,8 @@ void AutonomousPIDRocketController::ApplyControlInputs(RocketObject *rocketObjec
          PIDVisualizer::DrawHorizontalArrows(rocketObject, horizontalController_->GetTerms(), phiTarget);
     if (visualizePID.z)
          PIDVisualizer::DrawAttitudeArrows(rocketObject, attitudeController_->GetTerms());
+
+    CheckTargetReached(rocketObject, deltaTime);
 }
 
 void AutonomousPIDRocketController::Start() const {
@@ -53,3 +65,27 @@ PIDController * AutonomousPIDRocketController::GetVerticalController() const { r
 PIDController * AutonomousPIDRocketController::GetHorizontalController() const { return horizontalController_.get(); }
 
 PIDController * AutonomousPIDRocketController::GetAttitudeController() const { return attitudeController_.get(); }
+
+void AutonomousPIDRocketController::CheckTargetReached(RocketObject *rocketObject, float dt) {
+    if (!rocketObject || !target_) {
+        reachedTimer_ = 0.0f;
+        return;
+    }
+
+    if (target_->IsReached()) return;
+
+    const glm::vec2 rPos = rocketObject->transform.position;
+    const glm::vec2 tPos = target_->transform.position;
+    const float dist = glm::distance(rPos, tPos);
+
+    if (dist <= TargetObject::reachRadius) {
+        reachedTimer_ += dt;
+
+        if (reachedTimer_ >= TargetObject::reachTime) {
+            reachedTimer_ = 0.0f;
+            target_->MarkReached();
+        }
+    } else {
+        reachedTimer_ = 0.0f;
+    }
+}
