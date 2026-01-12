@@ -27,3 +27,11 @@ void TargetObject::PlayCompletionEffect() const {
         shader->shaderData.floats ["uTimeOffset"] = Core::Application::GetTime();
     }
 }
+
+void TargetObject::MarkReached() {
+    reached_ = true;
+}
+
+bool TargetObject::IsReached() const {
+    return reached_;
+}

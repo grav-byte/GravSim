@@ -125,6 +125,7 @@ void TargetUI::UpdateCompletion(Scene& scene) {
     explodeTimer_ -= ImGui::GetIO().DeltaTime;
 
     // After the effect duration, delete the completing target (always index 0)
+    if (explodeTimer_ > 0.0f) return;
     DeleteTargetAt(scene, 0);
 
     targetReached_ = false;
@@ -173,6 +174,8 @@ void TargetUI::DrawCreateButtons(Scene& scene) {
 }
 
 void TargetUI::DrawTargetsList(Scene& scene) {
+    int displayIdx = 0; // counts only visible targets
+
     for (int i = 0; i < static_cast<int>(targets_.size()); ++i) {
         // Hide completing target immediately from UI (still exists in scene for the shader)
         if (targetReached_ && i == 0) continue;
@@ -180,9 +183,11 @@ void TargetUI::DrawTargetsList(Scene& scene) {
         TargetObject* obj = targets_[i];
         if (!obj) continue;
 
+        ++displayIdx;
+
         ImGui::PushID(i);
 
-        ImGui::Text(i == 0 ? "Target %d (active)" : "Target %d", i + 1);
+        ImGui::Text(i == 0 ? "Target %d (active)" : "Target %d", displayIdx);
         ImGui::SameLine(kLabelX);
 
         ImGui::SetNextItemWidth(kFloat2Width);
