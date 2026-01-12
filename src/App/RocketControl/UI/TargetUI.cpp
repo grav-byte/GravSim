@@ -21,7 +21,7 @@ namespace {
 // Helpers
 // ------------------------------------------------------------
 
-bool TargetUI::DrawFloat2Control(const char* label, glm::vec2* v, float speed) {
+bool TargetUI::DrawFloat2Control(const char* label, glm::vec2* v, const float speed) {
     float value[2] = { v->x, v->y };
     const bool updated = ImGui::DragFloat2(label, value, speed);
     if (updated) *v = glm::vec2(value[0], value[1]);
@@ -32,7 +32,7 @@ bool TargetUI::DrawFloat2Control(const char* label, glm::vec2* v, float speed) {
 // Scene lifecycle / sync
 // ------------------------------------------------------------
 
-void TargetUI::OnSceneLoaded(Scene& scene, RocketObject* rocket) {
+void TargetUI::OnSceneLoaded(const Scene& scene, RocketObject* rocket) {
     cachedRocket_ = rocket;
 
     // Rebuild immediately (no deferred sync needed)
@@ -48,32 +48,13 @@ void TargetUI::OnSceneLoaded(Scene& scene, RocketObject* rocket) {
     cachedRocketId_ = kInvalidId;
 }
 
-bool TargetUI::IsAlive(Scene& scene, TargetObject* t) const {
-    return t && scene.GetObjById(t->id) == t;
-}
-
-void TargetUI::SyncTargetsFromScene(Scene& scene) {
+void TargetUI::SyncTargetsFromScene(const Scene& scene) {
     targets_.clear();
 
     for (auto* obj : scene.GetAllObjects()) {
         if (auto* t = dynamic_cast<TargetObject*>(obj)) {
             targets_.push_back(t);
         }
-    }
-}
-
-void TargetUI::CleanupMissingTargets(Scene& scene) {
-    for (int i = static_cast<int>(targets_.size()) - 1; i >= 0; --i) {
-        if (!IsAlive(scene, targets_[i])) {
-            targets_.erase(targets_.begin() + i);
-        }
-    }
-
-    if (targets_.empty()) {
-        // No targets left → clear state
-        reachedTimer_  = 0.0f;
-        targetReached_ = false;
-        explodeTimer_  = 0.0f;
     }
 }
 
@@ -95,8 +76,8 @@ void TargetUI::CreateTarget(Scene& scene) {
     targets_.push_back(tgt);
 }
 
-void TargetUI::DeleteTargetAt(Scene& scene, int index) {
-    if (index < 0 || index >= (int)targets_.size()) return;
+void TargetUI::DeleteTargetAt(Scene& scene, const int index) {
+    if (index < 0 || index >= static_cast<int>(targets_.size())) return;
 
     // If completing target gets deleted, cancel completion state
     if (targetReached_ && index == 0) {
@@ -119,18 +100,12 @@ void TargetUI::DeleteTargetAt(Scene& scene, int index) {
     }
 }
 
-TargetObject* TargetUI::GetTargetAt(Scene& scene, int index) const {
-    if (index < 0 || index >= (int)targets_.size()) return nullptr;
-    TargetObject* t = targets_[index];
-    return IsAlive(scene, t) ? t : nullptr;
-}
-
 // ------------------------------------------------------------
 // Gameplay logic
 // ------------------------------------------------------------
 
-void TargetUI::TargetReached(Scene& scene) {
-    TargetObject* targetObj = GetTargetAt(scene, 0);
+void TargetUI::TargetReached() {
+    const TargetObject* targetObj = targets_[0];
     if (!targetObj) return;
 
     targetObj->PlayCompletionEffect();
@@ -157,10 +132,10 @@ void TargetUI::UpdateCompletion(Scene& scene) {
     reachedTimer_  = 0.0f;
 }
 
-void TargetUI::UpdateReachedDetection(Scene& scene) {
+void TargetUI::UpdateReachedDetection() {
     if (targetReached_) return;
 
-    TargetObject* target = GetTargetAt(scene, 0);
+    const TargetObject* target = targets_[0];
     if (!cachedRocket_ || !target) {
         reachedTimer_ = 0.0f;
         return;
@@ -173,18 +148,17 @@ void TargetUI::UpdateReachedDetection(Scene& scene) {
         reachedTimer_ += dt;
         if (reachedTimer_ >= reachedHoldTime_) {
             reachedTimer_ = 0.0f;
-            TargetReached(scene);
+            TargetReached();
         }
     } else {
         reachedTimer_ = 0.0f;
     }
 }
 
-void TargetUI::MirrorActiveTargetToController(Scene& scene, AutonomousPIDRocketController* autoCtrl) {
-    if (!autoCtrl) return;
+void TargetUI::MirrorActiveTargetToController(AutonomousPIDRocketController *autoCtrl) const {
+    if (!autoCtrl || targets_.empty()) return;
 
-    TargetObject* activeObj = GetTargetAt(scene, 0);
-    if (activeObj) {
+    if (const TargetObject* activeObj = targets_[0]) {
         autoCtrl->targetPos = activeObj->transform.position;
     }
 }
@@ -203,7 +177,7 @@ void TargetUI::DrawTargetsList(Scene& scene) {
         // Hide completing target immediately from UI (still exists in scene for the shader)
         if (targetReached_ && i == 0) continue;
 
-        TargetObject* obj = GetTargetAt(scene, i);
+        TargetObject* obj = targets_[i];
         if (!obj) continue;
 
         ImGui::PushID(i);
@@ -258,14 +232,11 @@ void TargetUI::Draw(Scene* scene, AutonomousPIDRocketController* autoCtrl) {
     // Creation
     DrawCreateButtons(*scene);
 
-    // Keep list valid
-    CleanupMissingTargets(*scene);
-
     // Completion countdown + delayed delete
     UpdateCompletion(*scene);
 
     // Targets section only if at least one is visible
-    const bool hasVisibleTargets = !targets_.empty() && !(targetReached_ && targets_.size() == 1);
+    const bool hasVisibleTargets = !targets_.empty() && !targetReached_;
     if (hasVisibleTargets) {
         ImGui::SeparatorText("Targets");
         DrawTargetsList(*scene);
@@ -274,6 +245,6 @@ void TargetUI::Draw(Scene* scene, AutonomousPIDRocketController* autoCtrl) {
     }
 
     // Controller / logic
-    MirrorActiveTargetToController(*scene, autoCtrl);
-    UpdateReachedDetection(*scene);
+    MirrorActiveTargetToController(autoCtrl);
+    UpdateReachedDetection();
 }

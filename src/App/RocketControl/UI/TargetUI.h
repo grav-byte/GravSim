@@ -25,26 +25,23 @@ public:
     void Draw(Scene* scene, AutonomousPIDRocketController* autoCtrl);
 
     // Call once after a scene was loaded
-    void OnSceneLoaded(Scene& scene, RocketObject* rocket);
+    void OnSceneLoaded(const Scene& scene, RocketObject* rocket);
 
 private:
     static constexpr uint32_t kInvalidId = std::numeric_limits<uint32_t>::max();
 
     // ----- Scene sync / lookups -----
-    void SyncTargetsFromScene(Scene& scene);
-    void CleanupMissingTargets(Scene& scene);
-    bool IsAlive(Scene& scene, TargetObject* t) const;
+    void SyncTargetsFromScene(const Scene& scene);
 
     // ----- Target lifecycle (Scene owns targets) -----
     void CreateTarget(Scene& scene);
     void DeleteTargetAt(Scene& scene, int index);
-    TargetObject* GetTargetAt(Scene& scene, int index) const;
 
     // ----- Target selection / gameplay -----
-    void TargetReached(Scene& scene);   // starts completion on active target
+    void TargetReached();   // starts completion on active target
     void UpdateCompletion(Scene& scene);
-    void UpdateReachedDetection(Scene& scene);
-    void MirrorActiveTargetToController(Scene& scene, AutonomousPIDRocketController* autoCtrl);
+    void UpdateReachedDetection();
+    void MirrorActiveTargetToController(AutonomousPIDRocketController *autoCtrl) const;
 
     // ----- UI helpers -----
     void DrawCreateButtons(Scene& scene);
