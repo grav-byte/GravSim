@@ -17,11 +17,11 @@ public:
     void MarkReached();
     bool IsReached() const;
 
-    float GetReachRadius() const { return reachRadius_; }
+    static float reachRadius;
+    static float reachTime;
 
 private:
     void PlayCompletionEffect() const;
 
     bool reached_ = false;
-    float reachRadius_ = 1.0f;
 };

@@ -38,11 +38,6 @@ void TargetUI::OnSceneLoaded(const Scene& scene, RocketObject* rocket) {
     // Rebuild immediately (no deferred sync needed)
     SyncTargetsFromScene(scene);
 
-    // Reset runtime state
-    targetReached_ = false;
-    explodeTimer_  = 0.0f;
-    reachedTimer_  = 0.0f;
-
     spawnDefaultPos_ = glm::vec2(0.0f, 5.0f);
 
     cachedRocketId_ = kInvalidId;
@@ -79,88 +74,28 @@ void TargetUI::CreateTarget(Scene& scene) {
 void TargetUI::DeleteTargetAt(Scene& scene, const int index) {
     if (index < 0 || index >= static_cast<int>(targets_.size())) return;
 
-    // If completing target gets deleted, cancel completion state
-    if (targetReached_ && index == 0) {
-        targetReached_ = false;
-        explodeTimer_  = 0.0f;
-        reachedTimer_  = 0.0f;
-    }
-
     TargetObject* t = targets_[index];
     if (t && scene.GetObjById(t->id) == t) {
         scene.DeleteObject(t->id);
     }
 
     targets_.erase(targets_.begin() + index);
-
-    if (targets_.empty()) {
-        reachedTimer_  = 0.0f;
-        targetReached_ = false;
-        explodeTimer_  = 0.0f;
-    }
 }
 
 // ------------------------------------------------------------
 // Gameplay logic
 // ------------------------------------------------------------
-
-void TargetUI::TargetReached() {
-    TargetObject* targetObj = targets_[0];
-    if (!targetObj) return;
-
-    targetObj->MarkReached();
-
-    if (auto* audio = Core::Application::Get().GetLayer<AudioLayer>()) {
-        audio->PlaySound("../assets/audio/completed.wav", 5.0);
-    }
-
-    targetReached_ = true;
-    explodeTimer_  = explodeDuration_;
-    reachedTimer_  = 0.0f;
-}
-
-void TargetUI::UpdateCompletion(Scene& scene) {
-    if (!targetReached_) return;
-
-    explodeTimer_ -= ImGui::GetIO().DeltaTime;
-
-    // After the effect duration, delete the completing target (always index 0)
-    if (explodeTimer_ > 0.0f) return;
-    DeleteTargetAt(scene, 0);
-
-    targetReached_ = false;
-    explodeTimer_  = 0.0f;
-    reachedTimer_  = 0.0f;
-}
-
-void TargetUI::UpdateReachedDetection() {
-    if (targetReached_) return;
-
-    const TargetObject* target = targets_[0];
-    if (!cachedRocket_ || !target) {
-        reachedTimer_ = 0.0f;
-        return;
-    }
-
-    const float dt = ImGui::GetIO().DeltaTime;
-    const float dist = glm::length(cachedRocket_->transform.position - target->transform.position);
-
-    if (dist <= reachedTolerance_) {
-        reachedTimer_ += dt;
-        if (reachedTimer_ >= reachedHoldTime_) {
-            reachedTimer_ = 0.0f;
-            TargetReached();
-        }
-    } else {
-        reachedTimer_ = 0.0f;
-    }
-}
-
-void TargetUI::MirrorActiveTargetToController(AutonomousPIDRocketController *autoCtrl) const {
+void TargetUI::MirrorActiveTargetToController(
+    AutonomousPIDRocketController* autoCtrl) const
+{
     if (!autoCtrl || targets_.empty()) return;
-    const TargetObject* activeObj = targets_[0];
-    if (activeObj) {
-        autoCtrl->targetPos = activeObj->transform.position;
+
+    for (int i = 0; i < static_cast<int>(targets_.size()); ++i) {
+        if (targets_[i]->IsReached()) {
+            if (TargetObject* activeObj = targets_[0]) {
+                autoCtrl->SetActiveTarget(activeObj);
+            }
+        }
     }
 }
 
@@ -177,11 +112,10 @@ void TargetUI::DrawTargetsList(Scene& scene) {
     int displayIdx = 0; // counts only visible targets
 
     for (int i = 0; i < static_cast<int>(targets_.size()); ++i) {
-        // Hide completing target immediately from UI (still exists in scene for the shader)
-        if (targetReached_ && i == 0) continue;
-
         TargetObject* obj = targets_[i];
         if (!obj) continue;
+
+        if (obj->IsReached() && i == 0) continue;
 
         ++displayIdx;
 
@@ -212,10 +146,10 @@ void TargetUI::DrawTargetsList(Scene& scene) {
 
 void TargetUI::DrawReachParams() {
     ImGui::SetNextItemWidth(kFloatWidth);
-    ImGui::DragFloat("Reach tolerance", &reachedTolerance_, 0.01f, 0.0f, 100.0f, "%.2f");
+    ImGui::DragFloat("Reach tolerance", &TargetObject::reachRadius, 0.01f, 0.0f, 100.0f, "%.2f");
 
     ImGui::SetNextItemWidth(kFloatWidth);
-    ImGui::DragFloat("Hold time (s)", &reachedHoldTime_, 0.01f, 0.0f, 5.0f, "%.2f");
+    ImGui::DragFloat("Hold time (s)", &TargetObject::reachTime, 0.01f, 0.0f, 5.0f, "%.2f");
 }
 
 // ------------------------------------------------------------
@@ -237,19 +171,12 @@ void TargetUI::Draw(Scene* scene, AutonomousPIDRocketController* autoCtrl) {
     // Creation
     DrawCreateButtons(*scene);
 
-    // Completion countdown + delayed delete
-    UpdateCompletion(*scene);
-
     // Targets section only if at least one is visible
-    const bool hasVisibleTargets = !targets_.empty() && !targetReached_;
+    const bool hasVisibleTargets = !targets_.empty();
     if (hasVisibleTargets) {
         ImGui::SeparatorText("Targets");
         DrawTargetsList(*scene);
     } else {
         ImGui::TextDisabled("No targets created.");
     }
-
-    // Controller / logic
-    MirrorActiveTargetToController(autoCtrl);
-    UpdateReachedDetection();
 }

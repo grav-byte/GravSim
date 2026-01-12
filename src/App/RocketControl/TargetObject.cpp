@@ -4,8 +4,12 @@
 
 #include "App/Engine/Scene.h"
 #include "App/Layers/EngineLayer.h"
+#include "App/Layers/AudioLayer.h"
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "Core/Application.h"
+
+float TargetObject::reachRadius = 1.0f;
+float TargetObject::reachTime = 2.0f;
 
 TargetObject::TargetObject(): SceneObject(0, "Target") {
     auto shaderVisual = std::make_unique<ShaderVisual>();
@@ -41,6 +45,12 @@ void TargetObject::PlayCompletionEffect() const {
 void TargetObject::MarkReached() {
     reached_ = true;
     PlayCompletionEffect();
+
+    PlayCompletionEffect();
+
+    if (auto* audio = Core::Application::Get().GetLayer<AudioLayer>()) {
+        audio->PlaySound("../assets/audio/completed.wav", 5.0);
+    }
 }
 
 bool TargetObject::IsReached() const {
