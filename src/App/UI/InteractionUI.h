@@ -13,7 +13,7 @@ class InteractionUI : public IUserInterface {
 public:
     explicit InteractionUI();
     void Draw() override;
-    void OnEvent(Core::Event& event) override {}
+    void OnEvent(Core::Event& event) override;
 
     enum class Mode {
         None = 0,
@@ -25,6 +25,7 @@ private:
     EngineLayer* engine_;
 
     Mode activeMode_ = Mode::None;
+    glm::vec2 mouse_position_ = glm::vec2(0.0f);
 
     ImVec4 btnBgColor_;
     ImVec4 btnTintColor_;
