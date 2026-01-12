@@ -16,6 +16,7 @@ namespace Core {
         }
         s_Application = this;
         deltaTimeIndex_ = 0;
+        timeScale_ = 1.0f; // 1x
 
         fs::create_directories(GetAppDataFolder());
 
@@ -73,16 +74,18 @@ namespace Core {
                 break;
             }
 
-            float currentTime = GetTime();
-            float deltaTime = currentTime - lastTime;
+            const float currentTime = GetTime();
+            const float deltaTime = currentTime - lastTime;
             lastTime = currentTime;
 
             lastDeltaTimes_[deltaTimeIndex_] = deltaTime;
             deltaTimeIndex_ = (deltaTimeIndex_ + 1) % numFramerateSamples;
 
+            const float simulationDeltaTime = deltaTime * timeScale_;
+
             // main layer update
             for (const std::unique_ptr<AppLayer>& layer : layerStack_)
-                layer->OnUpdate(deltaTime);
+                layer->OnUpdate(simulationDeltaTime);
 
             // render all layers
             for (const std::unique_ptr<AppLayer>& layer : layerStack_)
@@ -94,6 +97,14 @@ namespace Core {
 
     void Application::Stop() {
         running_ = false;
+    }
+
+    void Application::SetTimeScale(const float timeScale) {
+        timeScale_ = timeScale;
+    }
+
+    float Application::GetTimeScale() const {
+        return timeScale_;
     }
 
     void Application::RaiseEvent(Event &event) const {

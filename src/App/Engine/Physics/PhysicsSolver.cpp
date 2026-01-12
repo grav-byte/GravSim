@@ -78,9 +78,6 @@ void PhysicsSolver::StepPropagation(Scene *scene) {
             ContactSolver::FindContacts(scene);
             ContactSolver::ResolveContacts(object);
         }
-
-        // reset accumulated forces
-        object->ResetAccumulatedForces();
     }
 }
 
@@ -111,12 +108,11 @@ glm::vec2 PhysicsSolver::GetAccelerationForObject(const SceneObject &object) con
     return acceleration;
 }
 
-void PhysicsSolver::UpdatePhysics(Scene* scene, float deltaTime) {
+void PhysicsSolver::UpdatePhysics(Scene* scene, const float deltaTime) {
     if (!activePropagator_) {
         std::cout << "No physics propagator set!" << std::endl;
         return;
     }
-
     timeAccumulator_ += deltaTime;
 
     // sub step the physics updates as often as necessary
@@ -125,7 +121,12 @@ void PhysicsSolver::UpdatePhysics(Scene* scene, float deltaTime) {
         timeAccumulator_ -= timeStep_;
     }
 
-    for (auto object : scene->GetAllObjects()) {
+
+    // reset accumulated forces
+    for (const auto object : scene->GetAllObjects())
+        object->ResetAccumulatedForces();
+
+    for (const auto object : scene->GetAllObjects()) {
         object->transform.rotation = glm::mod(object->transform.rotation, 360.0f);
     }
 }

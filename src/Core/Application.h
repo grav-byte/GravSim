@@ -28,6 +28,10 @@ namespace Core {
 
         void Run();
         void Stop();
+
+        void SetTimeScale(float timeScale);
+        float GetTimeScale() const;
+
         void RaiseEvent(Event& event) const;
 
         template<typename TLayer>
@@ -65,6 +69,7 @@ namespace Core {
         std::shared_ptr<Window> window_;
         int numFramerateSamples = 250;
         float lastDeltaTimes_[250];
+        float timeScale_ = 1.0f;
         int deltaTimeIndex_;
         bool running_ = false;
 

@@ -42,6 +42,9 @@ void EngineLayer::NewScene() {
 }
 
 bool EngineLayer::LoadScene(const std::string &filePath) {
+    if (runningSimulation_)
+        StopSimulation();
+
     auto loadedScene = Serialiser::LoadScene(filePath);
     if (!loadedScene)
         return false;

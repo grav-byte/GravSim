@@ -5,6 +5,7 @@
 #include "RocketControl/ControlLayer.h"
 #include "UI/FollowingUI.h"
 #include "UI/SimulationUI.h"
+#include "UI/TimeControlUI.h"
 
 
 int main() {
@@ -25,6 +26,7 @@ int main() {
         // add uis
         uiLayer->AddUIElement(std::make_unique<SceneUI>());
         uiLayer->AddUIElement(std::make_unique<SimulationUI>());
+        uiLayer->AddUIElement(std::make_unique<TimeControlUI>());
         uiLayer->AddUIElement(std::make_unique<SettingsUI>());
         uiLayer->AddUIElement(std::make_unique<FollowingUI>());
     }

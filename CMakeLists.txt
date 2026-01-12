@@ -146,6 +146,8 @@ add_executable(GravSim
         src/App/RocketControl/Controllers/IRocketController.h
         src/App/Rendering/Renderers/TrailRenderer.cpp
         src/App/Rendering/Renderers/TrailRenderer.h
+        src/App/UI/TimeControlUI.cpp
+        src/App/UI/TimeControlUI.h
 )
 
 # Include directories

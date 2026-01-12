@@ -11,13 +11,13 @@ public:
     SimulationUI();
     void OnEvent(Core::Event &event) override;
 
+    void Draw() override;
+
+private:
     void RunTest(const char *name);
 
     bool ImageBtn(const std::string &texturePath, bool disabled, const char *tooltip) const;
 
-    void Draw() override;
-
-private:
     ImVec4 btnBgColor_;
     ImVec4 btnTintColor_;
     ImVec4 btnDisabledColor_;

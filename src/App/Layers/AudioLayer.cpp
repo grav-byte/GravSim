@@ -87,15 +87,12 @@ void AudioLayer::OnInit() {
 
 void AudioLayer::OnUpdate(float deltaTime) {
     // Stop any sounds scheduled for stopping
-    for (auto it = pendingCleanup_.begin(); it != pendingCleanup_.end(); ) {
-        if ((*it)->finished.load(std::memory_order_relaxed)) {
-            ma_sound_uninit(&(*it)->sound);
-            delete *it;
-            it = pendingCleanup_.erase(it);
-        } else {
-            ++it;
-        }
+    for (auto& s : soundsToStop_) {
+        ma_sound_stop(s.get());
+        ma_sound_uninit(s.get());
     }
+    soundsToStop_.clear();
+
 
     // cleanup sounds that are done
     for (auto it = pendingCleanup_.begin(); it != pendingCleanup_.end(); ) {
