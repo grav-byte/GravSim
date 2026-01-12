@@ -67,7 +67,7 @@
                             "ptr_wrapper": {
                                 "valid": 1,
                                 "data": {
-                                    "value0": {},
+                                    "value0": {"value0":0},
                                     "value1": "../assets/sprites/rocket_nozzle.png",
                                     "value2": {
                                         "value0": 1.0,
@@ -120,7 +120,7 @@
                             "ptr_wrapper": {
                                 "valid": 1,
                                 "data": {
-                                    "value0": {},
+                                    "value0": {"value0":0},
                                     "value1": "exhaust.frag",
                                     "value2": {
                                         "value0": [
@@ -269,7 +269,7 @@
                                 "ptr_wrapper": {
                                     "valid": 1,
                                     "data": {
-                                        "value0": {},
+                                        "value0": {"value0":0},
                                         "value1": "../assets/sprites/rocket_main.png",
                                         "value2": {
                                             "value0": 1.0,
@@ -347,7 +347,7 @@
                                 "ptr_wrapper": {
                                     "valid": 1,
                                     "data": {
-                                        "value0": {},
+                                        "value0": {"value0":0},
                                         "value1": "target.frag",
                                         "value2": {
                                             "value0": [],
@@ -418,7 +418,7 @@
                                 "ptr_wrapper": {
                                     "valid": 1,
                                     "data": {
-                                        "value0": {},
+                                        "value0": {"value0":0},
                                         "value1": "target.frag",
                                         "value2": {
                                             "value0": [],
