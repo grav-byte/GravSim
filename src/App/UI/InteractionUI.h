@@ -35,5 +35,5 @@ private:
     ImVec2 previewScreenPos_;
     bool isPreviewActive_;
 
-    bool ImageToggleButton(const std::string &texturePath, bool selected, const char* tooltip) const;
+    bool ImageToggleButton(const std::string &texturePath, bool selected, bool disabled, const char *tooltip) const;
 };
