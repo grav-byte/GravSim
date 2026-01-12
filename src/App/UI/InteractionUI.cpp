@@ -7,6 +7,8 @@
 #include "App/Engine/Loading/TextureLoader.h"
 #include <iostream>
 
+#include "Core/InputEvents.h"
+
 InteractionUI::InteractionUI()
 {
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
@@ -125,9 +127,9 @@ void InteractionUI::Draw()
     isPreviewActive_ = true;
 
     ImDrawList* drawList = ImGui::GetForegroundDrawList();
-    const float radius = 12.0f;
+    constexpr float radius = 12.0f;
 
-    ImU32 color = IM_COL32(50, 150, 230, 180);
+    const ImU32 color = IM_COL32(50, 150, 230, 180);
     drawList->AddCircleFilled(previewScreenPos_, radius, color);
     drawList->AddCircle(previewScreenPos_, radius, IM_COL32(255,255,255,120), 0, 2.0f);
 
@@ -138,13 +140,15 @@ void InteractionUI::Draw()
     }
 
     if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-        const ImGuiViewport* mvp = ImGui::GetMainViewport();
-        ImVec2 mouse = ImGui::GetMousePos();
-        ImVec2 local(mouse.x - mvp->Pos.x, mouse.y - mvp->Pos.y);
-
-        glm::vec2 screen(local.x, local.y);
-        glm::vec2 world  = cam->ScreenToWorld(screen);
+        const glm::vec2 world  = cam->ScreenToWorld(mouse_position_);
 
         engine_->CreateObjectAt(world);
+    }
+}
+
+void InteractionUI::OnEvent(Core::Event &event) {
+    if (event.GetEventType() == Core::MouseMoved) {
+        const auto& mouseEvent = dynamic_cast<Core::MouseMovedEvent&>(event);
+        mouse_position_ = glm::vec2(mouseEvent.GetX(), mouseEvent.GetY());
     }
 }
