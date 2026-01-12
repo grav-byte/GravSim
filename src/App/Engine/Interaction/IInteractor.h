@@ -17,8 +17,9 @@ public:
         drawList->AddCircle(ImGui::GetMousePos(), screenRadius, IM_COL32(255, 255, 255, 255), segments, 2.0f);
     }
 
-    virtual void Interact(Scene &scene, glm::vec2 mousePos, bool leftMouse) = 0;
+    virtual void OnClick(Scene &scene, glm::vec2 mousePos, bool leftMouse) = 0;
+    virtual void OnRelease(Scene &scene, glm::vec2 mousePos, bool leftMouse) = 0;
 
     float radius = 1.0f;
-    bool continuous = true;
+    float strength = 5.0f;
 };

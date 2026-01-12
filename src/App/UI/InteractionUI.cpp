@@ -45,7 +45,7 @@ bool InteractionUI::ImageToggleButton(const std::string &texturePath, bool selec
 void InteractionUI::Draw()
 {
     constexpr float width  = 100.0f;
-    constexpr float height = 165.0f;
+    constexpr float height = 230.0f;
     constexpr float margin = 10.0f;
 
     const ImGuiViewport* vp = ImGui::GetMainViewport();
@@ -119,6 +119,9 @@ void InteractionUI::Draw()
     ImGui::Text("Force");
     ImGui::PopStyleColor();
 
+    ImGui::Text("Strength");
+    ImGui::DragFloat("##Strength", &interactors_[1]->strength, 0.1f, 0.0f, 100.0f, "%.1f");
+
     ImGui::EndDisabled();
 
     ImGui::End();
@@ -136,12 +139,7 @@ void InteractionUI::Draw()
     interactors_[activeInteractorIdx_]->DrawPreview(*engine_->GetScene(), mousePosition_);
 
     if (interacting_) {
-        interactors_[activeInteractorIdx_]->Interact(*engine_->GetScene(), mousePosition_, usingLeftMouse_);
-
-        // if not continuous, stop interacting after one interaction
-        if (!interactors_[activeInteractorIdx_]->continuous) {
-            interacting_ = false;
-        }
+        interactors_[activeInteractorIdx_]->OnClick(*engine_->GetScene(), mousePosition_, usingLeftMouse_);
     }
 
 }
@@ -153,16 +151,27 @@ void InteractionUI::OnEvent(Core::Event &event) {
     }
 
     if (event.GetEventType() == Core::MouseButtonPressed) {
-        event.Handled = true;
         if (ImGui::GetIO().WantCaptureMouse || activeInteractorIdx_ == -1) {
             interacting_ = false;
             return;
         }
+        event.Handled = true;
         interacting_ = true;
         usingLeftMouse_ = dynamic_cast<Core::MouseButtonPressedEvent&>(event).GetMouseButton() == 0;
     }
 
     if (event.GetEventType() == Core::MouseButtonReleased) {
+        interacting_ = false;
+        if (ImGui::GetIO().WantCaptureMouse || activeInteractorIdx_ == -1)
+            return;
+
+        interactors_[activeInteractorIdx_]->OnRelease(*engine_->GetScene(), mousePosition_, usingLeftMouse_);
+    }
+
+    if (event.GetEventType() == Core::SimulationStopped) {
+        // reset interactor on simulation stop
+        activeMode_ = Mode::None;
+        activeInteractorIdx_ = -1;
         interacting_ = false;
     }
 

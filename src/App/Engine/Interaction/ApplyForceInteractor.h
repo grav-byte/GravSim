@@ -4,5 +4,6 @@
 
 class ApplyForceInteractor : public IInteractor {
 public:
-    void Interact(Scene &scene, glm::vec2 mousePos, bool leftMouse) override;
+    void OnClick(Scene &scene, glm::vec2 mousePos, bool leftMouse) override;
+    void OnRelease(Scene &scene, glm::vec2 mousePos, bool leftMouse) override;
 };
