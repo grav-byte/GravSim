@@ -14,5 +14,5 @@ public:
         ar(cereal::base_class<SceneObject>(this));
     }
 
-    void PlayCompletionEffect();
+    void PlayCompletionEffect() const;
 };

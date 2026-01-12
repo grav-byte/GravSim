@@ -26,7 +26,6 @@
 #include "App/RocketControl/RocketObject.h"
 #include "App/RocketControl/TargetObject.h"
 #include "App/RocketControl/PID/PIDConfig.h"
-#include "App/RocketControl/PID/PIDData.h"
 
 CEREAL_REGISTER_TYPE(CircleVisual)
 

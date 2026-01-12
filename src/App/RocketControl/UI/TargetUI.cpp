@@ -85,7 +85,7 @@ void TargetUI::SyncTargetsFromScene(Scene& scene) {
 }
 
 void TargetUI::CleanupMissingTargets(Scene& scene) {
-    for (int i = (int)targets_.size() - 1; i >= 0; --i) {
+    for (int i = static_cast<int>(targets_.size()) - 1; i >= 0; --i) {
         if (!IsAlive(scene, targets_[i])) {
             targets_.erase(targets_.begin() + i);
         }

@@ -47,6 +47,17 @@ std::vector<SceneObject *> Scene::GetAllObjects() const {
     return sceneObjectsPtrs;
 }
 
+std::vector<SceneObject *> Scene::GetAllObjectsOrderedByDrawOrder() const {
+    auto objs = GetAllObjects();
+    std::sort(objs.begin(), objs.end(),
+              [](const SceneObject* a, const SceneObject* b) {
+                  const int drawOrderA = a->visual ? a->visual->drawOrder : 0;
+                  const int drawOrderB = b->visual ? b->visual->drawOrder : 0;
+                  return drawOrderA < drawOrderB;
+              });
+    return objs;
+}
+
 std::vector<Constraint *> Scene::GetConstraints() const {
     // return non-owning pointers to constraints
     auto constraints = std::vector<Constraint*>();

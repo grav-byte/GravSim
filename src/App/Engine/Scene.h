@@ -20,7 +20,10 @@ public:
     void AddConstraint(std::unique_ptr<Constraint> constraint);
 
     std::vector<SceneObject*> GetAllObjects() const;
+    std::vector<SceneObject *> GetAllObjectsOrderedByDrawOrder() const;
+
     std::vector<Constraint*> GetConstraints() const;
+
     void RemoveConstraint(Constraint::ConstraintDirection direction);
 
     void DeleteObject(uint32_t id);

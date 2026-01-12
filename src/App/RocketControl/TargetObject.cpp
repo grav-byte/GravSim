@@ -6,6 +6,7 @@
 TargetObject::TargetObject(): SceneObject(0, "Target") {
     auto shaderVisual = std::make_unique<ShaderVisual>();
     shaderVisual->shaderPath = "target.frag";
+    shaderVisual->drawOrder = -1; // draw behind other objects
     visual = std::move(shaderVisual);
 
     canFocusCamera = false;
@@ -19,7 +20,7 @@ TargetObject::TargetObject(): SceneObject(0, "Target") {
     transform.scale = glm::vec2(15.0f);
 }
 
-void TargetObject::PlayCompletionEffect() {
+void TargetObject::PlayCompletionEffect() const {
     if (auto* shader = dynamic_cast<ShaderVisual*>(visual.get())) {
         shader->shaderPath = "completed.frag";
         shader->shaderData.textures ["uNoiseTex"] = "../assets/Textures/noise_tex.png";

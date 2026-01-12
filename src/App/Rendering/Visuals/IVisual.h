@@ -14,12 +14,13 @@ class IVisual {
 public:
     virtual ~IVisual() = default;
     glm::vec4 color = glm::vec4(1.0f);
+    int drawOrder = 0; // lower drawn first
 
     virtual VisualType GetType() = 0;
 
     template<class Archive>
     void serialize(Archive& ar) {
-        // nothing in base class
+        ar(drawOrder);
     }
 };
 

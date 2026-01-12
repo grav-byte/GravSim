@@ -1,5 +1,5 @@
 {
-    "value0": {
+    "object": {
         "value0": "CollisionTest",
         "value1": {
             "ptr_wrapper": {
@@ -87,7 +87,7 @@
                             "ptr_wrapper": {
                                 "valid": 1,
                                 "data": {
-                                    "value0": {},
+                                    "value0": {"value0": 0},
                                     "value1": "../assets/sprites/circle_dots.png",
                                     "value2": {
                                         "value0": 0.1725490242242813,
@@ -158,7 +158,7 @@
                             "ptr_wrapper": {
                                 "valid": 1,
                                 "data": {
-                                    "value0": {},
+                                    "value0": {"value0": 0},
                                     "value1": "../assets/sprites/circle_dots.png",
                                     "value2": {
                                         "value0": 0.17264467477798463,

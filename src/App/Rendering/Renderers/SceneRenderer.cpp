@@ -34,8 +34,11 @@ void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) {
     for (const Constraint* c : scene->GetConstraints())
         constraintRenderer_.RenderConstraint(c, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
+    // get ordered objects
+    const auto orderedObjects = scene->GetAllObjectsOrderedByDrawOrder();
+
     // render scene objs
-    for (const SceneObject* obj : scene->GetAllObjects()) {
+    for (const SceneObject* obj : orderedObjects) {
         // render trail if enabled
         if (obj->renderTrail) {
             trailRenderer_.RenderTrail(*obj, 1);
