@@ -153,7 +153,6 @@ add_executable(GravSim
         src/App/Engine/Interaction/PlaceInteractor.h
         src/App/Engine/Interaction/ApplyForceInteractor.cpp
         src/App/Engine/Interaction/ApplyForceInteractor.h
-        cmake-build-debug/GravSim.app/Contents/Resources/app_icon.icns
 )
 
 # Include directories
@@ -180,6 +179,12 @@ if(WIN32)
     target_sources(GravSim PRIVATE ${APP_ICON_RESOURCE})
 
     target_link_libraries(GravSim PRIVATE glfw glew opengl32)
+
+    add_custom_command(TARGET GravSim POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/assets
+            $<TARGET_FILE_DIR:GravSim>/$<CONFIG>/assets
+    )
 elseif(APPLE)
     # macOS bundle
 
