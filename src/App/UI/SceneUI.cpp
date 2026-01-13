@@ -127,9 +127,10 @@ void SceneUI::DrawScene() {
     ImGui::SeparatorText("Objects");
     ImGui::Spacing();
 
-    ImGui::PushStyleColor(ImGuiCol_Header,ImVec4(.5, 0.1629818230867386f, 0.2060086131095886f, 1.0f));
-    ImGui::PushStyleColor(ImGuiCol_HeaderHovered,ImVec4(.55, 0.107295036315918f, 0.1072961091995239f, 1.0f));
-    ImGui::PushStyleColor(ImGuiCol_HeaderActive,ImVec4(.55, 0.08627451211214066f, 0.1019607856869698f, 1.0f));
+    // Use orange tints for object headers
+    ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.8f, 0.388f, 0.149f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.882f, 0.494f, 0.278f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(0.8f, 0.388f, 0.149f, 1.0f));
     for (SceneObject *obj : scene_->GetAllObjects()) {
         if (!obj) continue;
         if (dynamic_cast<TargetObject*>(obj)) continue;

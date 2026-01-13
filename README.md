@@ -1,4 +1,4 @@
-# GravSim
+# GravSim  <img src="resources/app_icon.png" width="50" style="margin-left: 5px;margin-bottom: -10px"/>
 ___
 This is a university project written in C++ using GLFW, OpenGL and ImGui.
 
