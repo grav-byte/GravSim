@@ -18,7 +18,12 @@ SceneRenderer::SceneRenderer(RenderingSystem* system) :
 {
     showGrid = true;
     passes_.push_back(std::make_unique<PostProcessPass>(renderer_, "bloom.frag"));
-    //passes_.push_back(std::make_unique<PostProcessPass>(renderer_, "ripple.frag"));
+}
+
+void SceneRenderer::AddTemporaryPostProcessPass(const std::string& frag, const ShaderUniforms& uniforms) {
+    auto pass = std::make_unique<PostProcessPass>(renderer_, frag);
+    pass->uniforms = uniforms;
+    temporaryPasses_.push_back(std::move(pass));
 }
 
 void SceneRenderer::OnSceneLoaded() {
@@ -83,12 +88,17 @@ void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) {
     }
 }
 
-void SceneRenderer::ApplyPostProcess() const {
+void SceneRenderer::ApplyPostProcess() {
     unsigned int readFBO = renderer_->sceneFBO;
     unsigned int writeFBO = renderer_->postFBO;
 
-    for (auto& pass : passes_) {
+    std::vector<PostProcessPass*> allPasses;
+    allPasses.reserve(passes_.size() + temporaryPasses_.size());
 
+    for (auto& pass : passes_) allPasses.push_back(pass.get());
+    for (auto& pass : temporaryPasses_) allPasses.push_back(pass.get());
+
+    for (auto* pass : allPasses) {
         glBindFramebuffer(GL_FRAMEBUFFER, writeFBO);
         glViewport(0, 0, renderer_->frameSize.x, renderer_->frameSize.y);
 
@@ -96,6 +106,8 @@ void SceneRenderer::ApplyPostProcess() const {
         std::swap(readFBO, writeFBO);
     }
 
+    temporaryPasses_.clear();
+
     // final output is always in readFBO
-    renderer_->sceneFBO = readFBO;
+    renderer_->finalFBO = readFBO;
 }

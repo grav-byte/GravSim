@@ -34,6 +34,8 @@ public:
     unsigned int postFBO = 0;
     unsigned int postTexture = 0;
 
+    unsigned int finalFBO = 0;
+
 private:
     void BuildQuadVertices();
 

@@ -70,3 +70,10 @@ glm::vec2 Camera::WorldToScreen(const glm::vec2& worldPos) const {
 
     return {screenX, screenY};
 }
+
+glm::vec2 Camera::ScreenToUV(const glm::vec2& screenPos) const {
+    const auto screenSize = Core::Application::Get().GetWindow()->GetFramebufferSize();
+    return {screenPos.x / static_cast<float>(screenSize.x),
+            1.0f - screenPos.y / static_cast<float>(screenSize.y)};
+}
+

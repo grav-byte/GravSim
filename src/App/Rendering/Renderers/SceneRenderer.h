@@ -15,10 +15,12 @@ class SceneRenderer {
 public:
     explicit SceneRenderer(RenderingSystem* system);
 
+    void AddTemporaryPostProcessPass(const std::string &frag, const ShaderUniforms &uniforms);
+
     void OnSceneLoaded();
     void RenderScene(const Scene *scene, bool showColliders);
 
-    void ApplyPostProcess() const;
+    void ApplyPostProcess();
 
     bool showGrid;
     float gridSpacing_ = 2.0f;
@@ -35,4 +37,5 @@ private:
     glm::vec4 colliderColor_;
     RenderingSystem* renderer_;
     std::vector<std::unique_ptr<PostProcessPass>> passes_;
+    std::vector<std::unique_ptr<PostProcessPass>> temporaryPasses_;
 };
