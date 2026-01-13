@@ -1,15 +1,16 @@
 #include "Window.h"
+#ifdef _WIN32
+#include <windows.h>
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
+#endif
+
 #include <stdexcept>
 #include <iostream>
 
 #include "InputEvents.h"
 #include "WindowEvents.h"
-#ifdef _WIN32
-#include <windows.h>
-#include <../resources/resource.h>
-#define GLFW_EXPOSE_NATIVE_WIN32
-#include <GLFW/glfw3native.h>
-#endif
+
 
 struct ImGuiContext;
 
@@ -41,7 +42,7 @@ namespace Core {
         }
 
 #ifdef _WIN32
-        HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
+        HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(101));
         if (hIcon)
         {
             HWND hwnd = glfwGetWin32Window(handle_); // requires GLFW_EXPOSE_NATIVE_WIN32
