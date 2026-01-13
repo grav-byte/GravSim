@@ -153,6 +153,7 @@ add_executable(GravSim
         src/App/Engine/Interaction/PlaceInteractor.h
         src/App/Engine/Interaction/ApplyForceInteractor.cpp
         src/App/Engine/Interaction/ApplyForceInteractor.h
+        resources/app_icon.icns
 )
 
 # Include directories
@@ -168,14 +169,35 @@ target_include_directories(GravSim PRIVATE
         libraries/glm
         libraries/miniaudio
         libraries/glew/include
-        ${CMAKE_SOURCE_DIR}/libraries/stb
+        libraries/stb
 )
 
+# Platform-specific linking
 if(WIN32)
+    # Use a resource file for the icon
+    set(APP_ICON_RESOURCE "${CMAKE_SOURCE_DIR}/resources/windows_icon.rc")
+    target_sources(GravSim PRIVATE ${APP_ICON_RESOURCE})
+
     target_link_libraries(GravSim PRIVATE glfw glew opengl32)
 elseif(APPLE)
+    # macOS bundle
+
+    # mark icon for the bundle
+    set_source_files_properties(resources/app_icon.icns PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+
+
+    set_target_properties(GravSim PROPERTIES
+            MACOSX_BUNDLE TRUE
+            MACOSX_BUNDLE_ICON_FILE app_icon.icns
+    )
+
+    # copy assets into the bundle
+    file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.app/Contents)
+
+
     find_library(OpenGL_LIBRARY OpenGL)
     target_link_libraries(GravSim PRIVATE glfw glew ${OpenGL_LIBRARY} "-framework Cocoa" "-framework IOKit" "-framework CoreVideo")
+
 else()
     target_link_libraries(GravSim PRIVATE glfw glew GL)
 endif()
