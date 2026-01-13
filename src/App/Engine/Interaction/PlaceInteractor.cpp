@@ -18,6 +18,7 @@ void PlaceInteractor::OnRelease(Scene &scene, const glm::vec2 mousePos, bool lef
     // set scale to radius
     SceneObject* obj = scene.GetObjById(id);
     obj->transform.scale = glm::vec2(radius);
+    obj->mass = radius * 2.0f; // mass proportional to size
 
     // set velocity based on mouse movement if simulating
     if (Core::Application::Get().GetLayer<EngineLayer>()->IsRunningSimulation()) {

@@ -39,7 +39,7 @@ public:
     }
 
 private:
-    const float maxTrustForce_ = 250.0f; // max thrust force in N
+    const float maxTrustForce_ = 25.0f; // max thrust force in N
     const float maxThrustAngle = 20.0f; // degrees
     const float nozzleOffset = -.8f;
     const float exhaustOffset = -.6f;
