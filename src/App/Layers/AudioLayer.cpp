@@ -5,6 +5,7 @@
 #include <random>
 
 #include "miniaudio.h"
+#include "App/Engine/EngineEvents.h"
 
 AudioLayer::AudioLayer() : AppLayer() {
     musicDirectory_ = "../assets/audio/portal2_soundtrack";
@@ -163,6 +164,13 @@ void AudioLayer::PlayRandomSongFromDirectory(const char *directoryPath, ma_sound
 }
 
 void AudioLayer::OnEvent(Core::Event &event) {
+    if (event.GetEventType() == Core::SceneLoaded) {
+        auto scene = static_cast<SceneLoadedEvent&>(event).GetScene();
+        if (!scene->sceneMusicPath.empty()) {
+            musicDirectory_ = scene->sceneMusicPath.c_str();
+            shouldPlayNextSong_ = true;
+        }
+    }
 }
 
 void AudioLayer::OnRender() {
