@@ -153,7 +153,7 @@ add_executable(GravSim
         src/App/Engine/Interaction/PlaceInteractor.h
         src/App/Engine/Interaction/ApplyForceInteractor.cpp
         src/App/Engine/Interaction/ApplyForceInteractor.h
-        resources/app_icon.icns
+        cmake-build-debug/GravSim.app/Contents/Resources/app_icon.icns
 )
 
 # Include directories
@@ -184,7 +184,7 @@ elseif(APPLE)
     # macOS bundle
 
     # mark icon for the bundle
-    set_source_files_properties(resources/app_icon.icns PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    set_source_files_properties(cmake-build-debug/GravSim.app/Contents/Resources/app_icon.icns PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 
 
     set_target_properties(GravSim PROPERTIES
