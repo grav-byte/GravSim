@@ -154,12 +154,13 @@ add_executable(GravSim
         src/App/Engine/Interaction/ApplyForceInteractor.cpp
         src/App/Engine/Interaction/ApplyForceInteractor.h
         resources/app_icon.icns
-        src/Core/resource.h
+        resources/resource.h
 )
 
 # Include directories
 target_include_directories(GravSim PRIVATE
         src
+	resources
         libraries/glfw/include
         libraries/imgui
         libraries/imgui/backends

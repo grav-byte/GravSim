@@ -4,6 +4,12 @@
 
 #include "InputEvents.h"
 #include "WindowEvents.h"
+#ifdef _WIN32
+#include <windows.h>
+#include <../resources/resource.h>
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
+#endif
 
 struct ImGuiContext;
 
@@ -24,25 +30,25 @@ namespace Core {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // macOS compatibility
 #endif
-#ifdef _WIN32
-#include <windows.h>
-#endif
 
-#ifdef _WIN32
-        HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
-        if(hIcon)
-        {
-            HWND hwnd = glfwGetWin32Window(window); // requires GLFW_EXPOSE_NATIVE_WIN32
-            SendMessage(hwnd, WM_SETICON, ICON_BIG,   (LPARAM)hIcon);
-            SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
-        }
-#endif
+
+
 
         handle_ = glfwCreateWindow(config_.Width, config_.Height, config_.Title, nullptr, nullptr);
         if (!handle_) {
             glfwTerminate();
             throw std::runtime_error("Failed to create GLFW window");
         }
+
+#ifdef _WIN32
+        HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
+        if (hIcon)
+        {
+            HWND hwnd = glfwGetWin32Window(handle_); // requires GLFW_EXPOSE_NATIVE_WIN32
+            SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+            SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+        }
+#endif
 
         glfwMakeContextCurrent(handle_);
         glfwSwapInterval(config_.VSync ? 1 : 0);
