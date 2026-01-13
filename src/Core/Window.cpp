@@ -24,6 +24,19 @@ namespace Core {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // macOS compatibility
 #endif
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
+#ifdef _WIN32
+        HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
+        if(hIcon)
+        {
+            HWND hwnd = glfwGetWin32Window(window); // requires GLFW_EXPOSE_NATIVE_WIN32
+            SendMessage(hwnd, WM_SETICON, ICON_BIG,   (LPARAM)hIcon);
+            SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+        }
+#endif
 
         handle_ = glfwCreateWindow(config_.Width, config_.Height, config_.Title, nullptr, nullptr);
         if (!handle_) {
