@@ -175,7 +175,7 @@ target_include_directories(GravSim PRIVATE
 # Platform-specific linking
 if(WIN32)
     # Use a resource file for the icon
-    set(APP_ICON_RESOURCE "${CMAKE_SOURCE_DIR}/resources/windows_icon.rc")
+    set(APP_ICON_RESOURCE "resources/windows_icon.rc")
     target_sources(GravSim PRIVATE ${APP_ICON_RESOURCE})
 
     target_link_libraries(GravSim PRIVATE glfw glew opengl32)

@@ -2,6 +2,7 @@
 #include "TextureLoader.h"
 
 #include <filesystem>
+#include <iostream>
 
 #include "stb_image.h"
 
@@ -24,7 +25,7 @@ TextureLoader::TextureInfo TextureLoader::LoadTextureFromFile(const std::filesys
 
     unsigned char* data = stbi_load(path.string().c_str(), &width, &height, &channels, 4);
     if (!data) {
-        std::printf("Failed to load texture: %s\n", path.c_str());
+        std::cout << "Failed to load texture: " << path.c_str() << std::endl;
         return {0, 0, 0};
     }
 
