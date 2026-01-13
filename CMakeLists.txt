@@ -183,7 +183,7 @@ if(WIN32)
     add_custom_command(TARGET GravSim POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/assets
-            $<TARGET_FILE_DIR:GravSim>/assets
+            $<TARGET_FILE_DIR:GravSim>/../assets
     )
 elseif(APPLE)
     # macOS bundle
