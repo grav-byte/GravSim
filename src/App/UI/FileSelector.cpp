@@ -7,10 +7,7 @@ FileSelector::FileSelector(std::string path): directory_(std::move(path)), selec
 
 void FileSelector::RefreshFiles() {
     files_.clear();
-    auto p = std::filesystem::current_path() ;
-#ifdef WIN32
-    directory_ = "data/" + directory_;
-#endif
+    auto p = std::filesystem::current_path();
     for (const auto& entry : fs::directory_iterator(directory_)) {
         if (entry.is_regular_file()) {
             files_.push_back(entry.path().filename().string());
