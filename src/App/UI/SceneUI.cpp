@@ -69,7 +69,7 @@ void SceneUI::Draw() {
 
 void SceneUI::DrawSceneLoading() {
 
-    ImGui::SeparatorText("All Scenes");
+    ImGui::SeparatorText("Load Scenes");
     ImGui::Spacing();
 
 

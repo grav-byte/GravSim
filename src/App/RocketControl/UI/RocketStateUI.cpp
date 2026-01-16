@@ -108,7 +108,7 @@ void RocketStateUI::DrawReferenceCombo(int& selectedIndex,const std::vector<Scen
     }
 
     for (int i = 0; i < objects.size(); ++i) {
-        const std::string& name = objects[i]->name;
+        const std::string& name = objects[i]->name + "##" + std::to_string(objects[i]->id);
 
         if (name.rfind("Rocket", 0) == 0)
             continue;
