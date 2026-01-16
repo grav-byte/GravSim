@@ -11,6 +11,7 @@ It features a 2D physics simulation engine with the following features:
 
 Scenes can be built and simulated in real-time using an ImGui based editor. Cereal is used for saving and loading them.
 
+A screenshot of the editor can be seen below:
 ![Screenshot](docs/Screenshot.png)
 ___
 Build on top of this engine a simple autonomous rocket simulation using PID control.
