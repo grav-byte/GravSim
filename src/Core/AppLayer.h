@@ -2,7 +2,6 @@
 
 #include "memory"
 #include "Window.h"
-#include "WindowEvents.h"
 
 
 namespace Core {

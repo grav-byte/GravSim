@@ -14,7 +14,7 @@ Scenes can be built and simulated in real-time using an ImGui based editor. Cere
 A screenshot of the editor can be seen below:
 ![Screenshot](docs/Screenshot.png)
 ___
-Build on top of this engine a simple autonomous rocket simulation using PID control.
+Built on top of this engine is a simple autonomous rocket simulation using PID control.
 
 An overview of the PID controllers can be seen below:
 ![Overview](docs/PIDOverview.png)

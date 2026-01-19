@@ -11,7 +11,13 @@ public:
     void SetZoomToMouse(bool enabled);
 
     void Update() const;
+    void OnEvent(Core::Event &event);
 
+    SceneObject* GetFollowingObject() const;
+
+    void StopFollowing();
+
+private:
     void HandleMouseMoved(Core::Event &event);
 
     void HandleMouseScrolled(Core::Event &event);
@@ -22,13 +28,7 @@ public:
 
     void HandleMouseReleased();
 
-    void OnEvent(Core::Event &event);
 
-    SceneObject* GetFollowingObject() const;
-
-    void StopFollowing();
-
-private:
     Camera* camera_;
     bool zoomToMouse_;
     glm::vec2 lastMouseWorldPos_{};

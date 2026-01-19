@@ -9,7 +9,7 @@ public:
 
     Transform transform;
     float zoom;
-    glm::vec4 backgroundColor{};
+    glm::vec4 backgroundColor;
 
     glm::mat4 GetProjectionMatrix() const;
     glm::vec2 ScreenToWorld(const glm::vec2& screenPos) const;
