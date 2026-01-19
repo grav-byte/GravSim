@@ -16,6 +16,10 @@ package Interaction {
         +virtual void OnRelease(Scene &scene, const vec2& worldPos, bool leftMouse)
     }
 
+    note right of IInteractor
+        Strategy Pattern
+    end note
+
     InteractionUI "1" *-- "many" IInteractor : owns
 
     class PlaceIneractor {
