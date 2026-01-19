@@ -246,6 +246,10 @@ package App {
             +void AddContactPoint(const ContactPoint& point)
         }
 
+        note right of SceneObject
+            Composition
+        end note
+
         Scene "1" *-- "many" SceneObject : owns
 
         struct Transform {
