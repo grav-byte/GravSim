@@ -1,0 +1,195 @@
+{
+    "value0": {
+        "value0": "SolarSystem_new",
+        "value1": {
+            "ptr_wrapper": {
+                "valid": 1,
+                "data": {
+                    "value0": {
+                        "value0": {
+                            "value0": 1.0863587856292725,
+                            "value1": 0.2821808457374573
+                        },
+                        "value1": 0.0,
+                        "value2": {
+                            "value0": 1.0,
+                            "value1": 1.0
+                        }
+                    },
+                    "value1": 0.5151751637458801,
+                    "value2": {
+                        "value0": 0.05000000074505806,
+                        "value1": 0.05000000074505806,
+                        "value2": 0.05000000074505806,
+                        "value3": 1.0
+                    }
+                }
+            }
+        },
+        "value2": {
+            "value0": 0.0,
+            "value1": 0.0
+        },
+        "value3": [
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 0,
+                        "value1": "Sun",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.00007031797576928511,
+                                "value1": 0.001270882785320282
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.6000000238418579,
+                                "value1": 0.6000000238418579
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.00007016133895376697,
+                            "value1": 0.0012706868583336473
+                        },
+                        "value4": 1.5777963399887086,
+                        "value5": {
+                            "value0": 0.00001879610681498889,
+                            "value1": 0.000023508939193561674
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 2147483649,
+                                "polymorphic_name": "CircleCollider",
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 0.7599999904632568,
+                                            "value1": 0.7599999904632568
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.800000011920929
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2147483650,
+                            "polymorphic_name": "ShaderVisual",
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": "sun.frag",
+                                    "value2": {
+                                        "value0": [],
+                                        "value1": [
+                                            {
+                                                "key": "uTexture",
+                                                "value": "../assets/textures/sun.png"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "value10": true,
+                        "value11": true,
+                        "value12": false
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 1,
+                        "value1": "Earth",
+                        "value2": {
+                            "value0": {
+                                "value0": 1.0,
+                                "value1": 0.0
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": -0.10000000149011612,
+                                "value1": -0.10000000149011612
+                            }
+                        },
+                        "value3": {
+                            "value0": 1.0,
+                            "value1": 0.0
+                        },
+                        "value4": 0.000014803490557824262,
+                        "value5": {
+                            "value0": 0.0,
+                            "value1": 1.256540060043335
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.800000011920929
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2147483651,
+                            "polymorphic_name": "CircleVisual",
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": {
+                                        "value0": 0.20866018533706666,
+                                        "value1": 0.6533039212226868,
+                                        "value2": 0.8708751797676086,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": true,
+                        "value11": true,
+                        "value12": true
+                    }
+                }
+            }
+        ],
+        "value4": [],
+        "value5": 2,
+        "value6": {
+            "value0": 0.10000000149011612,
+            "value1": 0.10000000149011612,
+            "value2": 0.10000000149011612,
+            "value3": 1.0
+        }
+    }
+}

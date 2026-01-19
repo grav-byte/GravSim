@@ -96,8 +96,8 @@ void RocketObject::UpdateVisualisation() const {
     AudioLayer::AdjustSoundPitch(thrustPercent * .4f + .2f, rocketSound_.get());
 
     const glm::vec2 yDir = transform.GetMatrix() * glm::vec4(0, 1, 0, 0);
-    exhaustObj_->transform.position = transform.position + yDir * exhaustOffset;
-    nozzleObj_->transform.position = transform.position + yDir * nozzleOffset;
+    exhaustObj_->transform.position = transform.position + yDir * exhaustOffset_;
+    nozzleObj_->transform.position = transform.position + yDir * nozzleOffset_;
     exhaustObj_->transform.rotation = transform.rotation + thrustAngle;
     nozzleObj_->transform.rotation = transform.rotation + thrustAngle;
 }
@@ -109,11 +109,11 @@ glm::vec2 RocketObject::GetThrustPosition() const {
 glm::vec2 RocketObject::GetThrustVector() const {
     const float angleRad = glm::radians(thrustAngle + transform.rotation);
     const glm::vec2 dir = { -sin(angleRad), cos(angleRad) };
-    const float magnitude = thrustPercent * maxTrustForce_;
+    const float magnitude = thrustPercent * maxThrustForce_;
     return dir * magnitude;
 }
 
-float RocketObject::GetMaxThrustAngle() const { return maxThrustAngle; }
+float RocketObject::GetMaxThrustAngle() const { return maxThrustAngle_; }
 
 float RocketObject::GetInertia() const {
     const float width = transform.scale.x;
