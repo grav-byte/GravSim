@@ -27,10 +27,7 @@ package RocketControl {
         -EngineLayer* engine_
     }
 
-    AppLayer <|-- ControlLayer
-
-    ControlLayer "1" o-- "0..1" RocketObject : references rocketObj_
-
+    AppLayer <|-- ControlLayer : implements
 
     class RocketObject {
         +explicit RocketObject(Scene& scene)
@@ -51,19 +48,16 @@ package RocketControl {
         +float GetInertia() const
 
         +void RelinkObjects(const Scene& scene)
-        +void serialize(Archive& ar)
 
         +void StartSound()
         +void StopSound()
     }
 
-    SceneObject <|-- RocketObject
-
-
+    SceneObject <|-- RocketObject : extends
+    
+    
     class TargetObject {
         +TargetObject()
-
-        +void serialize(Archive& ar)
 
         +void MarkReached()
         +bool IsReached() const
@@ -75,7 +69,7 @@ package RocketControl {
         -bool reached_
     }
 
-    SceneObject <|-- TargetObject
+    SceneObject <|-- TargetObject : extends
 
 
     package Controllers {
@@ -83,8 +77,11 @@ package RocketControl {
             +virtual void ApplyControlInputs(RocketObject *rocketObj, float deltaTime) const = 0
         }
 
-        ControlLayer ..> IRocketController : uses (strategy)
-
+        ControlLayer --> IRocketController : uses (strategy)
+        note right of IRocketController
+            Strategy Pattern
+        end note
+        
 
         class ManualRocketController {
             +OnKeyPressed(int keyCode)
@@ -94,28 +91,27 @@ package RocketControl {
 
         IRocketController <|-- ManualRocketController : implements
 
-        ManualRocketController o-- RocketObject : controls
+        ManualRocketController *-- RocketObject : controls
 
 
         class AutonomousPIDRocketController {
+            +float maxSteeringAngle
+            -float ReachedTimer_
+
             +void Start() const
             +void ApplyControlInputs(RocketObject* rocketObj, float deltaTime) const
             +void SetActiveTarget(TargetObject* target, function<void()> targetReachedCallback)
 
             +void CheckTargetReached(const RocketObject *rocketObject, float dt)
 
-            +float maxSteeringAngle
-
             +function<void()> targetReachedCallback_
             +vec2 currentTargetPos_ = vec2(0.0f)
-
-            -float ReachedTimer_
         }
 
         IRocketController <|-- AutonomousPIDRocketController : implements
 
-        AutonomousPIDRocketController o-- RocketObject : controls
-        AutonomousPIDRocketController o-- TargetObject : tracks
+        AutonomousPIDRocketController *-- RocketObject : controls
+        AutonomousPIDRocketController *-- TargetObject : tracks
     }
 
 
@@ -128,8 +124,6 @@ package RocketControl {
             +float dGain
             +float bias
             +string name
-
-            +void serialize(Archive& ar)
         }
 
         class PIDController {
@@ -137,17 +131,17 @@ package RocketControl {
 
             +PIDData pidData
 
-            +float Evaluate(float setpoint, float measuredValue, float derivative, float deltaTime)
-            +void SetUseAngleDifference(bool useAngleDifference)
-            +vec4 GetTerms() const
-            +void Reset()
-
             -bool useAngleDifference_
             -float integral_
             -float pTerm_
             -float iTerm_
             -float dTerm_
             -float biasTerm_
+
+            +float Evaluate(float setpoint, float measuredValue, float derivative, float deltaTime)
+            +void SetUseAngleDifference(bool useAngleDifference)
+            +vec4 GetTerms() const
+            +void Reset()
         }
 
         class PIDConfig {
@@ -155,29 +149,23 @@ package RocketControl {
 
             +const PIDData& GetPIDData(int index) const
             +float GetSteeringAngle() const
-            +void serialize(Archive& ar)
 
             -array<PIDData,3> pidData_
             -float steeringAngle_
         }
 
         class PIDVisualizer {
-            +static void PushArrow(vector<unique_ptr<SceneObject::DebugArrow>>& arrows, vec2 origin, vec2 dir, vec4 color, bool dashed=false, bool hasArrow=true)
-            +static void DrawPIDArrows(vector<unique_ptr<SceneObject::DebugArrow>>& arrows, vec2 origin, vec2 dir, vec4 terms, float scale=1.0f)
-
-            +static void DrawVerticalArrows(SceneObject* rocketObject, vec4 terms)
-            +static void DrawHorizontalArrows(SceneObject* rocketObject, vec4 terms, float targetAngle)
-            +static void DrawAttitudeArrows(SceneObject* rocketObject, vec4 terms)
+            +static void DrawPIDArrows()
         }
 
         PIDController *-- PIDData : has
         PIDConfig "1" *-- "3" PIDData : stores
-
-        PIDVisualizer ..> SceneObject : uses (debugArrows)
+        
+        Serialiser ..> PIDConfig : serializes
     }
 
-    Controllers::AutonomousPIDRocketController "1" *-- "3" PID::PIDController : owns
-    Controllers::AutonomousPIDRocketController ..> PID::PIDVisualizer : uses (visualize)
+    AutonomousPIDRocketController "1" *-- "3" PIDController : owns
+    AutonomousPIDRocketController ..> PIDVisualizer : uses (visualize)
 
 
     package UI {
@@ -236,9 +224,9 @@ package RocketControl {
             -AutonomousPIDRocketController* autoCtrl_
         }
 
-        TargetUI o-- TargetObject : references (Scene owns)
-        TargetUI o-- RocketObject : caches
-        TargetUI o-- Controllers::AutonomousPIDRocketController : controls
+        TargetUI *-- TargetObject : references (Scene owns)
+
+        TargetUI *-- Controllers::AutonomousPIDRocketController : controls
     }
 }
 @enduml

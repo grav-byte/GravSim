@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm.h>
+
 class RenderingSystem;
 
 enum class VisualType {
