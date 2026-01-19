@@ -54,6 +54,79 @@ package Physics {
     EngineLayer *-- PhysicsSolver : owns
     PhysicsSolver --> Constraint : applies
     PhysicsSolver --> ContactPoint : finds
+
+    package Colliders {
+        class ColliderBase {
+            +explicit ColliderBase(SceneObject* parent)
+
+            +virtual ColliderType GetType() const = 0
+            +virtual bool CheckCollision(ColliderBase &other, ContactPoint &contact)
+
+            +vec4 GetAABB() const
+            +vec2 GetWorldPosition() const
+            +vec2 GetWorldSize() const
+            +mat4 GetTransformMatrix() const
+
+            +float elasticity
+            +float friction
+            +vec2 localSize
+            +vec2 localPosition
+            +SceneObject* parentObject
+        }
+
+        SceneObject "1" *-- "many" ColliderBase : owns
+        ColliderBase --> ContactPoint : uses
+
+        enum ColliderType {
+            Circle
+        }
+
+        ColliderBase -- ColliderType : has
+
+        class CircleCollider {
+            +explicit CircleCollider(SceneObject* parent): ColliderBase(parent)
+
+            +ColliderType GetType() const override
+            +bool CheckCollision(ColliderBase &other, ContactPoint &contact) override
+        }
+
+        ColliderBase <|-- CircleCollider : implements
+        Scene *-- SceneObject
+        EngineLayer -- Scene
+
+
+        note right of ColliderBase
+            Strategy Pattern
+        end note
+    }
+
+    package Propagators {
+        class IPropagator {
+            +virtual void Propagate(SceneObject& object, std::function<vec2(const SceneObject&)> accelerationFunc, float deltaTime)
+        }
+
+        class EulerPropagator
+        class RK4Propagator
+        class SemiImplicitEulerPropagator
+        class VelocityVerletPropagator
+        class VerletPropagator
+
+        IPropagator <|-- EulerPropagator : implements
+        IPropagator <|-- RK4Propagator : implements
+        IPropagator <|-- SemiImplicitEulerPropagator : implements
+        IPropagator <|-- VelocityVerletPropagator : implements
+        IPropagator <|-- VerletPropagator : implements
+
+        PhysicsSolver --> IPropagator : uses
+
+        Constraint -[hidden]- Propagators
+
+
+        note left of IPropagator
+            Strategy Pattern
+        end note
+    }
+
 }
 EngineLayer -[hidden]-> Physics
 
