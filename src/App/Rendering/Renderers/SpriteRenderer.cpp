@@ -6,7 +6,7 @@
 #include "App/Rendering/Visuals/SpriteVisual.h"
 #include "GL/glew.h"
 
-SpriteRenderer::SpriteRenderer(const RenderingSystem* renderer) : BaseRenderer(renderer) {
+SpriteRenderer::SpriteRenderer(const RenderingSystem* renderer) : IRenderer(renderer) {
     spriteShaderProgram_ = ShaderLoader::LoadShader("sprite.vert", "sprite.frag");
 }
 

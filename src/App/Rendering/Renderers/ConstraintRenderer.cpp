@@ -5,7 +5,7 @@
 #include "App/Engine/Loading/ShaderLoader.h"
 #include "GL/glew.h"
 
-ConstraintRenderer::ConstraintRenderer(const RenderingSystem* renderer) : BaseRenderer(renderer) {
+ConstraintRenderer::ConstraintRenderer(const RenderingSystem* renderer) : IRenderer(renderer) {
     constraintShaderProgram_ = ShaderLoader::LoadShader("sprite.vert", "constraint.frag");
     radialConstShaderProgram_ = ShaderLoader::LoadShader("sprite.vert", "radial_constraint.frag");
 }

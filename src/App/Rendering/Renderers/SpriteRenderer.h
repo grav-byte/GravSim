@@ -1,10 +1,10 @@
 #pragma once
-#include "BaseRenderer.h"
+#include "IRenderer.h"
 #include "App/Engine/SceneObject.h"
 #include "App/Rendering/RenderingSystem.h"
 
 
-class SpriteRenderer: public BaseRenderer {
+class SpriteRenderer: public IRenderer {
 public:
     explicit SpriteRenderer(const RenderingSystem* renderer);
 

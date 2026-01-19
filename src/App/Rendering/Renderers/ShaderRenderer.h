@@ -3,6 +3,7 @@
 #include <string>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "IRenderer.h"
 #include "App/Engine/SceneObject.h"
 
 struct ShaderUniforms {
@@ -19,13 +20,10 @@ struct ShaderUniforms {
     }
 };
 
-class ShaderRenderer {
+class ShaderRenderer : public IRenderer {
 public:
     explicit ShaderRenderer(const RenderingSystem* renderer);
 
     void Render(const Transform *transform,
                 const std::string &fragPath, const ShaderUniforms &uniforms = ShaderUniforms()) const;
-
-protected:
-    const RenderingSystem* renderingSys_;
 };

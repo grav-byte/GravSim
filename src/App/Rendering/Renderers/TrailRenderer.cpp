@@ -1,7 +1,7 @@
 #include "TrailRenderer.h"
 
 TrailRenderer::TrailRenderer(const LineRenderer &renderer, const RenderingSystem *renderingSystem)
-    : BaseRenderer(renderingSystem), lineRenderer_(renderer) {
+    : IRenderer(renderingSystem), lineRenderer_(renderer) {
     MaxTrailLength = 500;
 }
 

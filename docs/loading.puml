@@ -1,0 +1,74 @@
+@startuml
+allowmixing
+skinparam classFontName Courier
+skinparam classFontSize 12
+'skinparam linetype ortho
+
+top to bottom direction
+
+class LineRenderer
+class CircleRenderer
+class ShaderRenderer
+class ConstraintRenderer
+class SpriteRenderer
+class SpriteVisual
+class EngineLayer
+class Scene
+class PIDConfig
+
+CircleRenderer -[hidden]-> Loading
+
+package Loading {
+    class Serialiser {
+        +static string sceneFolder
+
+        +static void EnsureSceneFolderExists()
+
+        +static bool SaveScene(Scene &scene)
+        +static unique_ptr<Scene> LoadScene(const string& filepath)
+
+        +static bool SaveTempScene(Scene &scene)
+        +static unique_ptr<Scene> LoadTempScene()
+
+        +static bool SavePIDConfig(PIDConfig &pid, const filesystem::path &filePath)
+        +static unique_ptr<PIDConfig> LoadPIDConfig(const filesystem::path &filePath)
+    }
+
+    EngineLayer ..> Serialiser : uses
+
+    Serialiser -- Scene : saves
+    Serialiser -- PIDConfig : saves
+
+    struct TextureInfo {
+        +unsigned int id
+        +int width
+        +int height
+    }
+    class TextureLoader {
+        +static TextureInfo GetTexture(const string &path)
+        +static TextureInfo LoadTextureFromFile(const string &path)
+        +static unsigned int GetWhiteTexture()
+        +static void Clear()
+        -inline static unordered_map<string, TextureInfo> loadedTextures_
+        -static unsigned int whiteTex_
+    }
+
+    TextureLoader -- TextureInfo : uses
+    LineRenderer ..> TextureLoader : uses
+    ShaderRenderer ..> TextureLoader : uses
+    SpriteVisual ..> TextureLoader : uses
+
+    class ShaderLoader {
+        +static unsigned int LoadShader(const string &vertexPath, const string &fragmentPath)
+        +static void UnloadShader(unsigned int shaderProgram)
+        -static unsigned int CompileShader(unsigned int type, const char* source)
+        -static char* LoadSource(string path)
+        -inline static unordered_map<string, unsigned int> loadedShaders_
+    }
+
+    CircleRenderer ..> ShaderLoader : uses
+    ConstraintRenderer ..> ShaderLoader : uses
+    ShaderRenderer ..> ShaderLoader : uses
+    SpriteRenderer ..> ShaderLoader : uses
+}
+@enduml

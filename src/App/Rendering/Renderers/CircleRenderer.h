@@ -1,9 +1,9 @@
 #pragma once
-#include "BaseRenderer.h"
+#include "IRenderer.h"
 #include "App/Rendering/RenderingSystem.h"
 
 
-class CircleRenderer : public BaseRenderer {
+class CircleRenderer : public IRenderer {
 public:
     explicit CircleRenderer(const RenderingSystem* renderer);
     ~CircleRenderer() override;

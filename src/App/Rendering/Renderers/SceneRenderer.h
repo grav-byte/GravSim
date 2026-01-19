@@ -8,7 +8,7 @@
 #include "TrailRenderer.h"
 #include "App/Engine/Scene.h"
 #include "App/Rendering/RenderingSystem.h"
-#include "PostProcess/PostProcessPass.h"
+#include "PostProcessPass.h"
 
 
 class SceneRenderer {

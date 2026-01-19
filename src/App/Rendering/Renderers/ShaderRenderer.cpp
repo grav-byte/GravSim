@@ -6,7 +6,7 @@
 #include "App/Engine/Loading/ShaderLoader.h"
 #include "Core/Application.h"
 
-ShaderRenderer::ShaderRenderer(const RenderingSystem *renderer): renderingSys_(renderer) {}
+ShaderRenderer::ShaderRenderer(const RenderingSystem* renderer) : IRenderer(renderer) {}
 
 void ShaderRenderer::Render(const Transform *transform, const std::string &fragPath, const ShaderUniforms &uniforms) const {
     const auto shaderProgram = ShaderLoader::LoadShader("sprite.vert", fragPath);

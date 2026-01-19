@@ -1,9 +1,9 @@
 #pragma once
-#include "BaseRenderer.h"
+#include "IRenderer.h"
 #include "LineRenderer.h"
 
 
-class ArrowRenderer : public BaseRenderer {
+class ArrowRenderer : public IRenderer {
 public:
     explicit ArrowRenderer(const LineRenderer& renderer, const RenderingSystem* renderingSystem);
 

@@ -1,9 +1,9 @@
 #pragma once
-#include "BaseRenderer.h"
+#include "IRenderer.h"
 #include "App/Engine/Physics/Constraint.h"
 #include "App/Rendering/RenderingSystem.h"
 
-class ConstraintRenderer: public BaseRenderer {
+class ConstraintRenderer: public IRenderer {
 public:
     explicit ConstraintRenderer(const RenderingSystem* renderer);
     ~ConstraintRenderer() override = default;

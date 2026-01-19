@@ -1,7 +1,7 @@
 #pragma once
 #include "LineRenderer.h"
 
-class GridRenderer : public BaseRenderer {
+class GridRenderer : public IRenderer {
 public:
     explicit GridRenderer(const LineRenderer& renderer, const RenderingSystem* renderingSystem);
 

@@ -7,7 +7,7 @@
 #include "Core/AppLayer.h"
 
 
-CircleRenderer::CircleRenderer(const RenderingSystem* renderer) : BaseRenderer(renderer), circleSegments_(64) {
+CircleRenderer::CircleRenderer(const RenderingSystem* renderer) : IRenderer(renderer), circleSegments_(64) {
     circleShaderProgram_ = ShaderLoader::LoadShader("simple.vert", "simple.frag");
 
     BuildCircleVertices();

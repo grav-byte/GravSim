@@ -53,19 +53,19 @@ package App {
     package Layers {
         class UILayer {
             -vector<unique_ptr<IUserInterface>> uiElements_
-            +void OnInit()
-            +void OnUpdate(float deltaTime)
-            +void OnEvent(Event& event)
-            +void OnRender()
+            +void OnInit() override
+            +void OnUpdate(float deltaTime) override
+            +void OnEvent(Event& event) override
+            +void OnRender() override
             +void AddUIElement(unique_ptr<IUserInterface> uiElement)
         }
         AppLayer <|-- UILayer : extends
 
         class EngineLayer {
-            +void OnInit()
-            +void OnUpdate(float deltaTime)
-            +void OnEvent(Event& event)
-            +void OnRender()
+            +void OnInit() override
+            +void OnUpdate(float deltaTime) override
+            +void OnEvent(Event& event) override
+            +void OnRender() override
 
             +void NewScene()
             +bool LoadScene(string& filepath)
@@ -92,13 +92,10 @@ package App {
         AppLayer <|-- EngineLayer : extends
 
         class AudioLayer {
-            +AudioLayer()
-            +~AudioLayer()
-
-            +void OnInit()
-            +void OnUpdate(float deltaTime)
-            +void OnEvent(Event &event)
-            +void OnRender()
+            +void OnInit() override
+            +void OnUpdate(float deltaTime) override
+            +void OnEvent(Event &event) override
+            +void OnRender() override
 
             +void PlaySound(const char* path, float volume = 1.0f)
             +unique_ptr<ma_sound> PlaySoundRepeating(const char* path)
@@ -113,15 +110,13 @@ package App {
 
             -ma_engine engine_
             -ma_sound currentSong_
-            -vector<unique_ptr<ma_sound>> soundsToStop_
-            -bool shouldPlayNextSong_
         }
         AppLayer <|-- AudioLayer : extends
     }
 
     package UI {
 
-        rectangle "Alle UIs implementieren das IUserInterface, welches nur die notwendigen Methoden des UILayers besitzt.\nDie konkreten Implementationen sind nicht dargestellt." as InfoNode2
+        rectangle "Alle UIs implementieren das IUserInterface,\nwelches nur die notwendigen Methoden des UILayers besitzt.\nDie konkreten Implementationen sind nicht dargestellt.\nDie UIs benutzen Methoden der Layer- und Engine-Klassen, um Input umzusetzen." as InfoNode2
 
         TimeControlUI <-[hidden]- InfoNode2
         class IUserInterface {
@@ -149,6 +144,7 @@ package App {
 
         note left of IUserInterface
             Strategy Pattern
+            Observer Pattern
         end note
     }
     Layers -[hidden]-> UI
@@ -215,7 +211,7 @@ package App {
         }
 
         Scene *-- Camera : owns
-        CameraController *-- Camera : uses
+        CameraController --> Camera : uses
 
         class SceneObject {
             +uint32_t id
@@ -259,10 +255,29 @@ package App {
         package Physics {
             rectangle "Die Physics-Architektur ist in\neinem separaten Diagramm dargestellt\n(physics.puml)" as InfoNode3
         }
+
+        Transform -[hidden]-> Physics
+
+        package Interaction {
+            rectangle "Die Interaction-Architektur ist in\neinem separaten Diagramm dargestellt\n(interaction.puml)" as InfoNode5
+        }
+
+        Transform -[hidden]-> Interaction
+
+        package Loading {
+            rectangle "Die Lade-Architektur ist in\neinem separaten Diagramm dargestellt\n(loading.puml)" as InfoNode4
+        }
+        Loading -[hidden]-> Physics
+
     }
 
     EngineLayer -[hidden]-> Engine
-    
+
+    package Rendering {
+        rectangle "Das Rendering-System ist in einem separaten Diagramm dargestellt\n(rendering.puml)" as InfoNode6
+    }
+
+    EngineLayer *-- Rendering : owns
     
 }
 @enduml

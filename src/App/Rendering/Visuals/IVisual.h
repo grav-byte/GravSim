@@ -1,8 +1,6 @@
 #pragma once
-#include "App/Engine/Transform.h"
 
 class RenderingSystem;
-
 
 enum class VisualType {
     Circle,

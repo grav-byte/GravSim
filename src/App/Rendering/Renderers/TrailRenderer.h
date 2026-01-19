@@ -1,10 +1,10 @@
 #pragma once
-#include "BaseRenderer.h"
+#include "IRenderer.h"
 #include "LineRenderer.h"
 #include "App/Engine/SceneObject.h"
 
 
-class TrailRenderer : public BaseRenderer {
+class TrailRenderer : public IRenderer {
 public:
     explicit TrailRenderer(const LineRenderer &renderer, const RenderingSystem *renderingSystem);
 

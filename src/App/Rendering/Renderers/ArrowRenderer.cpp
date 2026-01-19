@@ -4,7 +4,7 @@
 #include "Core/AppLayer.h"
 
 ArrowRenderer::ArrowRenderer(const LineRenderer &renderer, const RenderingSystem *renderingSystem)
-        : BaseRenderer(renderingSystem), lineRenderer_(renderer) {}
+        : IRenderer(renderingSystem), lineRenderer_(renderer) {}
 
 void ArrowRenderer::RenderArrow(const SceneObject::DebugArrow &arrow, const int width) const {
         const glm::vec2 tip = arrow.origin + arrow.direction;

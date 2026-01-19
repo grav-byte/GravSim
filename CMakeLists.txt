@@ -109,8 +109,8 @@ add_executable(GravSim
         src/App/Rendering/Renderers/ConstraintRenderer.h
         src/App/Rendering/Renderers/LineRenderer.cpp
         src/App/Rendering/Renderers/LineRenderer.h
-        src/App/Rendering/Renderers/BaseRenderer.h
-        src/App/Rendering/Renderers/PostProcess/PostProcessPass.h
+        src/App/Rendering/Renderers/IRenderer.h
+        src/App/Rendering/Renderers/PostProcessPass.h
         src/App/UI/InteractionUI.cpp
         src/App/UI/InteractionUI.h
         src/App/Engine/Physics/ContactPoint.h

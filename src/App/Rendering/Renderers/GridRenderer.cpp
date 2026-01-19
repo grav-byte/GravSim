@@ -5,7 +5,7 @@
 #include "Core/Application.h"
 
 GridRenderer::GridRenderer(const LineRenderer &renderer, const RenderingSystem* renderingSystem):
-BaseRenderer(renderingSystem), lineRenderer_(renderer) {}
+IRenderer(renderingSystem), lineRenderer_(renderer) {}
 
 void GridRenderer::RenderGrid(const glm::vec4 &gridColor, float gridSpacing) const {
     const auto activeCamera = renderingSys_->GetActiveCamera();
