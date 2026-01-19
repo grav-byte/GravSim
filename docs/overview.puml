@@ -91,6 +91,10 @@ package App {
         }
         AppLayer <|-- EngineLayer : extends
 
+        note right of EngineLayer
+            Facade Pattern: Einfacher Zugriff auf Subsysteme
+        end note
+
         class AudioLayer {
             +void OnInit() override
             +void OnUpdate(float deltaTime) override
@@ -175,6 +179,7 @@ package App {
             +void DeleteObject(uint32_t id)
         }
         EngineLayer *-- Scene : owns
+
 
         class CameraController {
             +CameraController()
