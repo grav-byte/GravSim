@@ -52,7 +52,6 @@ package RocketControl {
         +void StartSound()
         +void StopSound()
     }
-
     SceneObject <|-- RocketObject : extends
     
     
@@ -115,6 +114,9 @@ package RocketControl {
     }
 
 
+    AutonomousPIDRocketController -[hidden]- SceneObject
+
+
     package PID {
         class PIDData {
             +PIDData(float p, float i, float d, float b)
@@ -158,6 +160,8 @@ package RocketControl {
             +static void DrawPIDArrows()
         }
 
+
+
         PIDController *-- PIDData : has
         PIDConfig "1" *-- "3" PIDData : stores
         
@@ -167,6 +171,7 @@ package RocketControl {
     AutonomousPIDRocketController "1" *-- "3" PIDController : owns
     AutonomousPIDRocketController ..> PIDVisualizer : uses (visualize)
 
+    RocketObject -[hidden]->PID
 
     package UI {
         class RocketControllerUI {
@@ -224,7 +229,7 @@ package RocketControl {
             -AutonomousPIDRocketController* autoCtrl_
         }
 
-        TargetUI *-- TargetObject : references (Scene owns)
+        'TargetUI *-- TargetObject : references (Scene owns)
 
         TargetUI *-- Controllers::AutonomousPIDRocketController : controls
     }
