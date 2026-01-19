@@ -283,6 +283,5 @@ package App {
     }
 
     EngineLayer *-- Rendering : owns
-    
 }
 @enduml
