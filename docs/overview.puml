@@ -93,6 +93,7 @@ package App {
 
         note right of EngineLayer
             Facade Pattern: Einfacher Zugriff auf Subsysteme
+            MVC: Model
         end note
 
         class AudioLayer {
@@ -149,6 +150,7 @@ package App {
         note left of IUserInterface
             Strategy Pattern
             Observer Pattern
+            MVC: Controller
         end note
     }
     Layers -[hidden]-> UI
@@ -280,8 +282,12 @@ package App {
 
     package Rendering {
         rectangle "Das Rendering-System ist in einem separaten Diagramm dargestellt\n(rendering.puml)" as InfoNode6
+        note left of InfoNode6
+            MVC: View
+        end note
     }
 
-    EngineLayer *-- Rendering : owns
+
+    EngineLayer *-- InfoNode6 : owns
 }
 @enduml
