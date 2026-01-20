@@ -5,6 +5,7 @@
 #include "RocketControl/ControlLayer.h"
 #include "UI/FollowingUI.h"
 #include "UI/InteractionUI.h"
+#include "UI/PredictionUI.h"
 #include "UI/SimulationUI.h"
 #include "UI/TimeControlUI.h"
 
@@ -31,6 +32,7 @@ int main() {
         uiLayer->AddUIElement(std::make_unique<InteractionUI>());
         uiLayer->AddUIElement(std::make_unique<SettingsUI>());
         uiLayer->AddUIElement(std::make_unique<FollowingUI>());
+        uiLayer->AddUIElement(std::make_unique<PredictionUI>());
     }
 
     app.Run();

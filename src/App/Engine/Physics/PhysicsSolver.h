@@ -28,7 +28,6 @@ public:
     static std::vector<PropagatorEntry> propagators;
 
 private:
-
     std::unique_ptr<IPropagator> activePropagator_;
     float timeStep_;
 

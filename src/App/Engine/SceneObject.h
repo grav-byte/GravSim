@@ -9,7 +9,6 @@
 #include "App/Rendering/Visuals/IVisual.h"
 #include "Physics/ContactPoint.h"
 
-
 class SceneObject {
 public:
     SceneObject();
@@ -47,6 +46,9 @@ public:
         glm::vec2 origin;
         glm::vec2 direction;
         glm::vec4 color;
+
+        float arrowHeadLength = .1f;
+        int width = 2;
 
         bool hasArrow = true;
         bool dashed = false;

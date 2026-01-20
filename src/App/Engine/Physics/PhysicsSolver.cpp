@@ -42,7 +42,6 @@ IPropagator * PhysicsSolver::GetActivePropagator()
 
 void PhysicsSolver::SetTimeStep(const float timeStep) {
     timeStep_ = timeStep;
-    std::cout << "Set physics time step to " << timeStep_ << " seconds." << std::endl;
 }
 
 float PhysicsSolver::GetTimeStep() const {

@@ -192,8 +192,10 @@ void EngineLayer::OnEvent(Core::Event &event) {
 
 void EngineLayer::OnRender() {
     auto backgroundColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    if (scene_)
+    if (scene_) {
         backgroundColor = scene_->GetCamera()->backgroundColor;
+    }
+
 
     // render scene to framebuffer
     renderingSystem_->StartFrame(backgroundColor);
