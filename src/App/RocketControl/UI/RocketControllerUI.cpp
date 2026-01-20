@@ -5,6 +5,7 @@
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "App/Layers/EngineLayer.h"
 #include "App/RocketControl/Controllers/AutonomousPIDRocketController.h"
+#include "App/UI/CustomImGuiStyle.h"
 #include "misc/cpp/imgui_stdlib.h"
 
 
@@ -178,17 +179,14 @@ void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(0,.4,.5,1),"B");
 
-
-        ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ImGui::GetColorU32(ImVec4(0.05f, 0.05f, 0.05f, 1.0f)));
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, CustomImGuiStyle::ContrastColor);
         ImGui::TableSetColumnIndex(1);
-        ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ImGui::GetColorU32(ImVec4(0.05f, 0.05f, 0.05f, 1.0f)));
         ImGui::Checkbox("##vis0", &autoCtrl->visualizePID.x);
         ImGui::TableSetColumnIndex(2);
-        ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ImGui::GetColorU32(ImVec4(0.05f, 0.05f, 0.05f, 1.0f)));
         ImGui::Checkbox("##vis1", &autoCtrl->visualizePID.y);
         ImGui::TableSetColumnIndex(3);
-        ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ImGui::GetColorU32(ImVec4(0.05f, 0.05f, 0.05f, 1.0f)));
         ImGui::Checkbox("##vis2", &autoCtrl->visualizePID.z);
+        ImGui::PopStyleColor();
 
         ImGui::EndTable();
     }

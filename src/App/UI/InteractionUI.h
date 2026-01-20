@@ -33,9 +33,6 @@ private:
     bool usingLeftMouse_ = false;
 
     ImVec4 btnBgColor_;
-    ImVec4 btnTintColor_;
-    ImVec4 btnActiveColor_;
-    ImVec4 btnDisabledColor_;
 
     std::pmr::vector<std::unique_ptr<IInteractor>> interactors_;
     int activeInteractorIdx_ = -1;

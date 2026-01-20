@@ -4,7 +4,7 @@
 
 TimeControlUI::TimeControlUI() {
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
-    btnActiveColor_ = ImVec4(.25f, .25f, .25f, 1.0f);
+    btnActiveColor_ = ImVec4(0.80f, 0.39f, 0.15f, 1.0f); // orange accent
 }
 
 void TimeControlUI::OnEvent(Core::Event &event) {

@@ -3,8 +3,12 @@
 
 class CustomImGuiStyle {
 public:
-    static void ApplyStyle() {
+	inline static auto AccentColor = ImVec4(0.8f, 0.388f, 0.149f, 1.0f);
+	inline static auto ContrastColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+    static void ApplyStyleDarkMode() {
         ImGui::StyleColorsDark();
+    	ContrastColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
         ImGuiStyle& style = ImGui::GetStyle();
 
         constexpr float rounding = 3.0f;
@@ -56,9 +60,9 @@ public:
 		style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.1176470592617989f, 0.1333333402872086f, 0.1490196138620377f, 1.0f);
 		style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.1568627506494522f, 0.168627455830574f, 0.1921568661928177f, 1.0f);
 		style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.1176470592617989f, 0.1333333402872086f, 0.1490196138620377f, 1.0f);
-		style.Colors[ImGuiCol_CheckMark] = ImVec4(0.8f, 0.388f, 0.149f, 1.0f);
-		style.Colors[ImGuiCol_SliderGrab] = ImVec4(0.8f, 0.388f, 0.149f, 1.0f);
-		style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.8f, 0.388f, 0.149f, 1.0f);
+		style.Colors[ImGuiCol_CheckMark] = AccentColor;
+		style.Colors[ImGuiCol_SliderGrab] = AccentColor;
+		style.Colors[ImGuiCol_SliderGrabActive] = AccentColor;
 		style.Colors[ImGuiCol_Button] = ImVec4(0.1176470592617989f, 0.1333333402872086f, 0.1490196138620377f, 1.0f);
 		style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.1821731775999069f, 0.1897992044687271f, 0.1974248886108398f, 1.0f);
 		style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.1545050293207169f, 0.1545048952102661f, 0.1545064449310303f, 1.0f);
@@ -69,8 +73,8 @@ public:
 		style.Colors[ImGuiCol_SeparatorHovered] = ImVec4(0.1568627506494522f, 0.1843137294054031f, 0.250980406999588f, 1.0f);
 		style.Colors[ImGuiCol_SeparatorActive] = ImVec4(0.1568627506494522f, 0.1843137294054031f, 0.250980406999588f, 1.0f);
 		style.Colors[ImGuiCol_ResizeGrip] = ImVec4(0.1459212601184845f, 0.1459220051765442f, 0.1459227204322815f, 1.0f);
-		style.Colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.8f, 0.388f, 0.149f, 1.0f);
-		style.Colors[ImGuiCol_ResizeGripActive] = ImVec4(0.8f, 0.388f, 0.149f, 1.0f);
+		style.Colors[ImGuiCol_ResizeGripHovered] = AccentColor;
+		style.Colors[ImGuiCol_ResizeGripActive] = AccentColor;
 		style.Colors[ImGuiCol_Tab] = ImVec4(0.0784313753247261f, 0.08627451211214066f, 0.1019607856869698f, 1.0f);
 		style.Colors[ImGuiCol_TabHovered] = ImVec4(0.0784313753247261f, 0.08627451211214066f, 0.1019607856869698f, 1.0f);
 		style.Colors[ImGuiCol_TabActive] = ImVec4(0.0784313753247261f, 0.08627451211214066f, 0.1019607856869698f, 1.0f);
@@ -91,5 +95,111 @@ public:
 		style.Colors[ImGuiCol_NavWindowingHighlight] = ImVec4(0.4980392158031464f, 0.5137255191802979f, 1.0f, 1.0f);
 		style.Colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.196078434586525f, 0.1764705926179886f, 0.5450980663299561f, 0.501960813999176f);
 		style.Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.196078434586525f, 0.1764705926179886f, 0.5450980663299561f, 0.501960813999176f);
+    }
+
+    static void ApplyStyleLightMode() {
+        ImGui::StyleColorsLight();
+    	ContrastColor = ImVec4(.1f, .1f, .1f, 1.0f);
+        ImGuiStyle& style = ImGui::GetStyle();
+
+        constexpr float rounding = 3.0f;
+
+        style.Alpha = 1.0f;
+        style.DisabledAlpha = 1.0f;
+        style.WindowPadding = ImVec2(12.0f, 12.0f);
+        style.WindowRounding = rounding;
+        style.WindowBorderSize = 0.0f;
+        style.WindowMinSize = ImVec2(20.0f, 20.0f);
+        style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
+        style.WindowMenuButtonPosition = ImGuiDir_Right;
+        style.ChildRounding = 0.0f;
+        style.ChildBorderSize = 1.0f;
+        style.PopupRounding = 0.0f;
+        style.PopupBorderSize = 1.0f;
+        style.FramePadding = ImVec2(20.0f, 3.4f);
+        style.FrameRounding = rounding;
+        style.FrameBorderSize = 0.0f;
+        style.ItemSpacing = ImVec2(4.3f, 5.5f);
+        style.ItemInnerSpacing = ImVec2(7.1f, 1.8f);
+        style.CellPadding = ImVec2(12.1f, 9.2f);
+        style.ColumnsMinSpacing = 4.9f;
+        style.ScrollbarSize = 11.6f;
+        style.ScrollbarRounding = 15.9f;
+        style.GrabMinSize = 3.7f;
+        style.GrabRounding = rounding;
+        style.TabRounding = 0.0f;
+        style.TabBorderSize = 0.0f;
+        style.ColorButtonPosition = ImGuiDir_Right;
+        style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
+        style.SelectableTextAlign = ImVec2(0.0f, 0.0f);
+
+        // --- Solar beige light palette ---
+        constexpr ImVec4 text            = ImVec4(0.15f, 0.14f, 0.12f, 1.0f);
+        constexpr ImVec4 textDisabled    = ImVec4(0.45f, 0.42f, 0.36f, 1.0f);
+        constexpr ImVec4 bgMain          = ImVec4(0.96f, 0.94f, 0.89f, 1.0f); // solar beige
+        constexpr ImVec4 bgSecondary     = ImVec4(0.93f, 0.90f, 0.84f, 1.0f);
+        constexpr ImVec4 bgHover         = ImVec4(0.88f, 0.84f, 0.76f, 1.0f);
+        constexpr ImVec4 border          = ImVec4(0.75f, 0.71f, 0.63f, 1.0f);
+
+        style.Colors[ImGuiCol_Text] = text;
+        style.Colors[ImGuiCol_TextDisabled] = textDisabled;
+
+        style.Colors[ImGuiCol_WindowBg] = bgMain;
+        style.Colors[ImGuiCol_ChildBg] = bgSecondary;
+        style.Colors[ImGuiCol_PopupBg] = bgMain;
+
+        style.Colors[ImGuiCol_Border] = border;
+        style.Colors[ImGuiCol_BorderShadow] = ImVec4(0,0,0,0);
+
+        style.Colors[ImGuiCol_FrameBg] = bgSecondary;
+        style.Colors[ImGuiCol_FrameBgHovered] = bgHover;
+        style.Colors[ImGuiCol_FrameBgActive] = bgHover;
+
+        style.Colors[ImGuiCol_TitleBg] = bgSecondary;
+        style.Colors[ImGuiCol_TitleBgActive] = bgSecondary;
+        style.Colors[ImGuiCol_TitleBgCollapsed] = bgSecondary;
+
+        style.Colors[ImGuiCol_MenuBarBg] = bgSecondary;
+
+        style.Colors[ImGuiCol_ScrollbarBg] = bgMain;
+        style.Colors[ImGuiCol_ScrollbarGrab] = bgHover;
+        style.Colors[ImGuiCol_ScrollbarGrabHovered] = AccentColor;
+        style.Colors[ImGuiCol_ScrollbarGrabActive] = AccentColor;
+
+        style.Colors[ImGuiCol_CheckMark] = AccentColor;
+        style.Colors[ImGuiCol_SliderGrab] = AccentColor;
+        style.Colors[ImGuiCol_SliderGrabActive] = AccentColor;
+
+        style.Colors[ImGuiCol_Button] = bgHover;
+        style.Colors[ImGuiCol_ButtonHovered] = AccentColor;
+        style.Colors[ImGuiCol_ButtonActive] = AccentColor;
+
+        style.Colors[ImGuiCol_Header] = bgHover;
+        style.Colors[ImGuiCol_HeaderHovered] = AccentColor;
+        style.Colors[ImGuiCol_HeaderActive] = AccentColor;
+
+        style.Colors[ImGuiCol_Separator] = border;
+        style.Colors[ImGuiCol_SeparatorHovered] = AccentColor;
+        style.Colors[ImGuiCol_SeparatorActive] = AccentColor;
+
+        style.Colors[ImGuiCol_Tab] = bgSecondary;
+        style.Colors[ImGuiCol_TabHovered] = bgHover;
+        style.Colors[ImGuiCol_TabActive] = bgHover;
+        style.Colors[ImGuiCol_TabUnfocused] = bgSecondary;
+        style.Colors[ImGuiCol_TabUnfocusedActive] = bgSecondary;
+
+        style.Colors[ImGuiCol_TableHeaderBg] = bgSecondary;
+        style.Colors[ImGuiCol_TableBorderStrong] = border;
+        style.Colors[ImGuiCol_TableBorderLight] = border;
+        style.Colors[ImGuiCol_TableRowBg] = bgMain;
+        style.Colors[ImGuiCol_TableRowBgAlt] = bgSecondary;
+
+        style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(AccentColor.x, AccentColor.y, AccentColor.z, 0.25f);
+        style.Colors[ImGuiCol_DragDropTarget] = AccentColor;
+
+        style.Colors[ImGuiCol_NavHighlight] = AccentColor;
+        style.Colors[ImGuiCol_NavWindowingHighlight] = AccentColor;
+        style.Colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0,0,0,0.1f);
+        style.Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0,0,0,0.2f);
     }
 };

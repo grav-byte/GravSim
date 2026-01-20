@@ -18,5 +18,6 @@ private:
     EngineLayer* engineLayer_;
     float volume_;
     bool zoomToMouse_;
+    bool darkMode_;
     bool showGrid_;
 };

@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "CustomImGuiStyle.h"
 #include "imgui.h"
 #include "implot.h"
 #include "App/Layers/EngineLayer.h"
@@ -12,8 +13,6 @@ SimulationUI::SimulationUI() {
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
     stepsPerSec_ = 120;
     btnBgColor_ = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
-    btnTintColor_ = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-    btnDisabledColor_ = ImVec4(1.0f, 1.0f, 1.0f, .4f);
     showPlot_ = false;
     plotHideTime_ = 0.0f;
 
@@ -174,7 +173,9 @@ bool SimulationUI::ImageBtn(const std::string &texturePath, bool disabled, const
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2.0f, 2.0f));
     ImGui::SameLine();
     ImGui::PushID(static_cast<int>(tex.id));
-    bool pressed = ImGui::ImageButton("##btn", tex.id, size, uv0, uv1, btnBgColor_, disabled ? btnDisabledColor_ : btnTintColor_);
+    ImVec4 tint = CustomImGuiStyle::ContrastColor;
+    tint.w = disabled ? .4f : 1.0f;
+    const bool pressed = ImGui::ImageButton("##btn", tex.id, size, uv0, uv1, btnBgColor_, tint);
 
     ImGui::EndDisabled();
 

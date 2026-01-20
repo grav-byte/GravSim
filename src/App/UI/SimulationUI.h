@@ -19,8 +19,6 @@ private:
     bool ImageBtn(const std::string &texturePath, bool disabled, const char *tooltip) const;
 
     ImVec4 btnBgColor_;
-    ImVec4 btnTintColor_;
-    ImVec4 btnDisabledColor_;
     EngineLayer* engine_;
     int activePropagatorIdx_;
     int stepsPerSec_;

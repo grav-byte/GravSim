@@ -35,7 +35,7 @@ void UILayer::OnInit() {
     // allow transparent background for platform windows
     io_->ConfigViewportsNoTaskBarIcon = false;
 
-    CustomImGuiStyle::ApplyStyle();
+    CustomImGuiStyle::ApplyStyleDarkMode();
 
     ImGui_ImplGlfw_InitForOpenGL(window_->GetHandle(), true);
     ImGui_ImplOpenGL3_Init("#version 150");
@@ -81,10 +81,12 @@ void UILayer::DrawFPSCounter() {
         ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground;
 
     ImGui::Begin("FPS", nullptr, flags);
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, .9f));
     ImGui::Text("FPS: %i", Core::Application::Get().GetFramerate());
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("Framerate of the application");
     }
+    ImGui::PopStyleColor();
     ImGui::End();
 }
 

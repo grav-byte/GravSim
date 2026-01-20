@@ -1,5 +1,6 @@
 #include "SettingsUI.h"
 
+#include "CustomImGuiStyle.h"
 #include "imgui.h"
 #include "Core/Application.h"
 
@@ -10,6 +11,7 @@ SettingsUI::SettingsUI() {
     engineLayer_ = Core::Application::Get().GetLayer<EngineLayer>();
     volume_ = .5f;
     zoomToMouse_ = true;
+    darkMode_ = true;
     showGrid_ = true;
     engineLayer_->GetCameraController()->SetZoomToMouse(zoomToMouse_);
     audioLayer_->SetGlobalVolume(volume_ * .1f);
@@ -24,6 +26,15 @@ void SettingsUI::Draw() {
 
     ImGui::Spacing();
     ImGui::Spacing();
+
+    if (ImGui::Button(darkMode_ ? "Light Mode" : "Dark Mode")) {
+        darkMode_ = !darkMode_;
+        darkMode_ ? CustomImGuiStyle::ApplyStyleDarkMode() : CustomImGuiStyle::ApplyStyleLightMode();
+        const glm::vec4 bg = darkMode_ ? glm::vec4(0.05f, 0.05f, 0.05f, 1.0f) : glm::vec4(0.77f, 0.75f, 0.71f, 1.0f);
+        engineLayer_->GetScene()->GetCamera()->backgroundColor = bg;
+        const auto c = CustomImGuiStyle::ContrastColor;
+        engineLayer_->GetScene()->gridColor = glm::vec4(c.x, c.y, c.z, darkMode_ ? .15f : .6f);
+    }
 
     ImGui::SeparatorText("Camera");
     if (ImGui::Checkbox("Zoom to Mouse", &zoomToMouse_)) {

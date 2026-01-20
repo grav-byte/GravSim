@@ -5,8 +5,8 @@
 #include "Core/Application.h"
 #include "App/Layers/EngineLayer.h"
 #include "App/Engine/Loading/TextureLoader.h"
-#include <iostream>
 
+#include "CustomImGuiStyle.h"
 #include "App/Engine/Interaction/ApplyForceInteractor.h"
 #include "App/Engine/Interaction/PlaceInteractor.h"
 #include "Core/InputEvents.h"
@@ -16,9 +16,6 @@ InteractionUI::InteractionUI()
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
     activeMode_ = Mode::None;
     btnBgColor_ = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
-    btnTintColor_ = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-    btnActiveColor_ = ImVec4(0.2f, 0.6f, 0.9f, 0.9f);
-    btnDisabledColor_ = ImVec4(1.0f, 1.0f, 1.0f, .4f);
     interactors_.emplace_back(std::make_unique<PlaceInteractor>());
     interactors_.emplace_back(std::make_unique<ApplyForceInteractor>());
 }
@@ -29,9 +26,11 @@ bool InteractionUI::ImageToggleButton(const std::string &texturePath, bool selec
     constexpr auto uv0 = ImVec2(0, 1);
     constexpr auto uv1 = ImVec2(1, 0);
 
-    ImGui::PushStyleColor(ImGuiCol_Button, selected ? ImVec4(0.25f,0.25f,0.25f,1.0f) : ImGui::GetStyleColorVec4(ImGuiCol_FrameBg));
+    ImGui::PushStyleColor(ImGuiCol_Button, selected ? CustomImGuiStyle::AccentColor : ImGui::GetStyleColorVec4(ImGuiCol_FrameBg));
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(6.0f, 6.0f));
-    const bool pressed = ImGui::ImageButton(("##btn"+std::to_string(tex.id)).c_str(), tex.id, size, uv0, uv1, btnBgColor_, disabled ? btnDisabledColor_ : btnTintColor_);
+    ImVec4 tint = CustomImGuiStyle::ContrastColor;
+    tint.w = disabled ? .4f : 1.0f;
+    const bool pressed = ImGui::ImageButton(("##btn"+std::to_string(tex.id)).c_str(), tex.id, size, uv0, uv1, btnBgColor_, tint);
     ImGui::PopStyleVar();
     ImGui::PopStyleColor();
 
