@@ -13,7 +13,6 @@ public:
     void ApplyControlInputs(RocketObject *rocketObj, float deltaTime) const override;
 
 private:
-    bool fullManualMode_;
     bool leftHeld_;
     bool rightHeld_;
     bool upHeld_;

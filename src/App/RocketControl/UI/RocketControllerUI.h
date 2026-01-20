@@ -19,8 +19,7 @@ public:
     void OnEvent(Core::Event &event) override;
 
 private:
-    static constexpr uint32_t InvalidId =
-        std::numeric_limits<uint32_t>::max();
+    int currentMode_ = 0;
 
     ControlLayer* controlLayer_ = nullptr;
     EngineLayer* engineLayer_ = nullptr;

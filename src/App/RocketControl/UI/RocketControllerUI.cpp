@@ -6,6 +6,7 @@
 #include "App/Layers/EngineLayer.h"
 #include "App/RocketControl/Controllers/AutonomousPIDRocketController.h"
 #include "App/RocketControl/Controllers/ManualRocketController.h"
+#include "App/RocketControl/Controllers/OrbitRocketController.h"
 #include "App/UI/CustomImGuiStyle.h"
 #include "misc/cpp/imgui_stdlib.h"
 
@@ -23,12 +24,8 @@ void RocketControllerUI::Draw() {
     if (!scene)
         return;
 
-    auto activeCntrl = controlLayer_->GetActiveControl();
     if (!controlLayer_->GetRocketObject())
         return;
-
-    const auto autoCtrl = dynamic_cast<AutonomousPIDRocketController*>(activeCntrl);
-    bool manualControlEnabled = autoCtrl == nullptr;
 
     constexpr ImVec2 sizeAuto(445, 300);
 
@@ -42,36 +39,50 @@ void RocketControllerUI::Draw() {
             ImGui::BeginChild("ControlContent", ImVec2(0, 0), false);
             ImGui::Spacing();
             ImGui::Spacing();
-            if (ImGui::Checkbox("Enable User Control", &manualControlEnabled)) {
-                if (!manualControlEnabled) {
-                    controlLayer_->SetActiveControl<AutonomousPIDRocketController>();
-                } else {
-                    controlLayer_->SetActiveControl<ManualRocketController>();
+            const char* modes[] = { "Full Manual", "Orbit Mode", "Autonomous PID" };
+
+            if (ImGui::BeginCombo("Control Mode", modes[currentMode_])) {
+                for (int n = 0; n < IM_ARRAYSIZE(modes); n++) {
+                    bool isSelected = (currentMode_ == n);
+                    if (ImGui::Selectable(modes[n], isSelected)) {
+                        currentMode_ = n;
+
+                        // Activate the correct controller type
+                        switch (currentMode_) {
+                            case 0: // Full Manual
+                                controlLayer_->SetActiveControl<ManualRocketController>();
+                                break;
+                            case 1: // Orbit Mode
+                                controlLayer_->SetActiveControl<OrbitRocketController>();
+                                break;
+                            case 2: // Autonomous PID
+                                controlLayer_->SetActiveControl<AutonomousPIDRocketController>();
+                                break;
+                        }
+                    }
+                    if (isSelected)
+                        ImGui::SetItemDefaultFocus();
                 }
+                ImGui::EndCombo();
             }
 
-            if (manualControlEnabled || !autoCtrl) {
-                const char* modes[] = { "Full Manual", "Orbit Mode" };
+            if (currentMode_ == 0 || currentMode_ == 1) {
 
-                if (int currentMode = 0; ImGui::BeginCombo("Control Mode", modes[currentMode])) {
-                    for (int n = 0; n < IM_ARRAYSIZE(modes); n++) {
-                        bool isSelected = (currentMode == n);
-                        if (ImGui::Selectable(modes[n], isSelected)) {
-                            currentMode = n;
-
-                        }
-                        if (isSelected)
-                            ImGui::SetItemDefaultFocus();
-                    }
-                    ImGui::EndCombo();
-                }
-
-                ImGui::TextWrapped("Manual mode active.");
+                bool orbit = currentMode_ == 1;
+                ImGui::TextWrapped(orbit ? "Orbit mode active." : "Manual mode active.");
                 ImGui::Spacing();
                 ImGui::Spacing();
-                ImGui::Text(" Controls:     +     |    -   \n "
+                if (orbit) {
+                    ImGui::Text(" Controls:     +     |    -   \n "
+                                 "Thrust:     Shift   |   Ctrl \n"
+                                 " Face Prograde:        A     \n"
+                                 " Face Retrograde:      D");
+                } else {
+                    ImGui::Text(" Controls:     +     |    -   \n "
                                  "Thrust:     Shift   |   Ctrl \n"
                                  " Angle:        A     |    D");
+                }
+
 
                 ImGui::EndChild();
                 ImGui::EndTabItem();
@@ -86,7 +97,10 @@ void RocketControllerUI::Draw() {
             ImGui::Spacing();
             ImGui::Spacing();
 
-            DrawPIDSettings(autoCtrl);
+            auto activeCntrl = controlLayer_->GetActiveControl();
+            const auto autoCtrl = dynamic_cast<AutonomousPIDRocketController*>(activeCntrl);
+            if (autoCtrl)
+                DrawPIDSettings(autoCtrl);
             ImGui::EndChild();
             ImGui::EndTabItem();
         }

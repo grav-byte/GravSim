@@ -5,7 +5,6 @@ ManualRocketController::ManualRocketController(TargetManager* targetManager) : I
     rightHeld_ = false;
     upHeld_ = false;
     downHeld_ = false;
-    fullManualMode_ = false;
 }
 
 void ManualRocketController::Start() const {
@@ -55,11 +54,8 @@ void ManualRocketController::ApplyControlInputs(RocketObject *rocketObj, const f
     else if (downHeld_)
         rocketObj->thrustPercent -= 2.0f * deltaTime;
 
-    if (fullManualMode_) {
-        if (rightHeld_)
-            rocketObj->thrustAngle += 50.0f * deltaTime;
-        else if (leftHeld_)
-            rocketObj->thrustAngle -= 50.0f * deltaTime;
-    } else
-        rocketObj->thrustAngle = 0.0f;
+    if (rightHeld_)
+        rocketObj->thrustAngle += 50.0f * deltaTime;
+    else if (leftHeld_)
+        rocketObj->thrustAngle -= 50.0f * deltaTime;
 }

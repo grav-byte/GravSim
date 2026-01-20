@@ -161,6 +161,8 @@ add_executable(GravSim
         src/App/UI/PredictionUI.h
         src/App/RocketControl/TargetManager.cpp
         src/App/RocketControl/TargetManager.h
+        src/App/RocketControl/Controllers/OrbitRocketController.cpp
+        src/App/RocketControl/Controllers/OrbitRocketController.h
 )
 
 # Include directories
