@@ -13,11 +13,12 @@ public:
     void SetTimeStep(float timeStep);
     float GetTimeStep() const;
 
-    void UpdatePhysics(Scene *scene, float deltaTime);
+    void UpdatePhysics(const Scene *scene, float deltaTime) const;
 
     void DrawContactPoints();
 
-    void StepPropagation(Scene *scene);
+    void StepPropagation(const Scene *scene) const;
+    glm::vec2 GetAccelerationForObject(const Scene& scene, const SceneObject &object) const;
 
     struct PropagatorEntry {
         std::string name;
@@ -27,9 +28,8 @@ public:
     static std::vector<PropagatorEntry> propagators;
 
 private:
-    Scene* currentScene_;
+
     std::unique_ptr<IPropagator> activePropagator_;
-    float timeAccumulator_;
     float timeStep_;
-    glm::vec2 GetAccelerationForObject(const SceneObject &object) const;
+
 };

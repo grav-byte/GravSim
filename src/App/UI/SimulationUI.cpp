@@ -24,7 +24,11 @@ void SimulationUI::OnEvent(Core::Event &event) {
 
 void SimulationUI::RunTest(const char* name) {
     const float totalTime = 60.0f;
-    const auto results = engine_->GetActivePropagator()->RunTest(1.0f / stepsPerSec_, totalTime);
+    auto testScene = Scene();
+    testScene.globalGravity = glm::vec2(0.0f, -9.81f);
+    const auto solver = PhysicsSolver();
+    const auto testContext = PhysicsContext{ testScene, solver };
+    const auto results = engine_->GetActivePropagator()->RunTest(1.0f / stepsPerSec_, totalTime, testContext);
 
     const size_t count = results.size();
 

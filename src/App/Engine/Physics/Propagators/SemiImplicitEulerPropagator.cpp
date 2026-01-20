@@ -1,10 +1,8 @@
 #include "SemiImplicitEulerPropagator.h"
 
-void SemiImplicitEulerPropagator::Propagate(SceneObject &object,
-        const std::function<glm::vec2(const SceneObject &)> accelerationFunc,
-        const float deltaTime) {
+void SemiImplicitEulerPropagator::Propagate(SceneObject& object, const PhysicsContext& context, const float deltaTime) {
 
-    object.velocity += accelerationFunc(object) * deltaTime;
+    object.velocity += context.GetAcceleration(object) * deltaTime;
     object.transform.position += object.velocity * deltaTime;
 
     object.angularVelocity += object.angularAccelerationAccumulated * deltaTime;

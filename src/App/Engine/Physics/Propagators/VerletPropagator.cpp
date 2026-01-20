@@ -1,8 +1,6 @@
 #include "VerletPropagator.h"
 
-void VerletPropagator::Propagate(SceneObject &object,
-        const std::function<glm::vec2(const SceneObject &)> accelerationFunc,
-        const float deltaTime) {
+void VerletPropagator::Propagate(SceneObject& object, const PhysicsContext& context, const float deltaTime) {
 
     if (object.lastPosition != object.transform.position)
         object.velocity = (object.transform.position - object.lastPosition) / deltaTime; // use verlet if there is a valid last pos
@@ -10,7 +8,7 @@ void VerletPropagator::Propagate(SceneObject &object,
     object.lastPosition = object.transform.position;
 
     // position: x = 2*x1 - x0 + a*dt^2 = x1 + v + a*dt^2
-    object.transform.position = object.transform.position + object.velocity * deltaTime + accelerationFunc(object) * (deltaTime * deltaTime);
+    object.transform.position = object.transform.position + object.velocity * deltaTime + context.GetAcceleration(object) * (deltaTime * deltaTime);
 
     // update angular motion - similar to position
     if (object.lastRotation != object.transform.rotation)

@@ -1,7 +1,9 @@
 #pragma once
 #include "App/Engine/SceneObject.h"
-#include <functional>
+#include "App/Engine/Scene.h"
 #include <vector>
+#include "App/Engine/Physics/PhysicsContext.h"
+
 
 class IPropagator {
 public:
@@ -12,19 +14,19 @@ public:
         float y;
         float v;
     };
-    std::vector<Sample> RunTest(const float timeStep, const float totalTime) {
+    std::vector<Sample> RunTest(const float timeStep, const float totalTime, const PhysicsContext context) {
         float time = 0;
         auto results = std::vector<Sample>();
+
         SceneObject testObj;
         while (time < totalTime) {
-            // changed: pass a callable that returns the acceleration (constant gravity here)
-            Propagate(testObj, [](const SceneObject&){ return glm::vec2(0.0f, -9.81f); }, timeStep);
+            Propagate(testObj, context, timeStep);
             results.push_back({time, testObj.transform.position.y, testObj.velocity.y});
             time += timeStep;
         }
         return results;
     }
 
-    // accepts a callable that returns acceleration given the object
-    virtual void Propagate(SceneObject& object, std::function<glm::vec2(const SceneObject&)> accelerationFunc, float deltaTime) = 0;
+    // accepts a PhysicsContext instead of a callable
+    virtual void Propagate(SceneObject& object, const PhysicsContext& context, float deltaTime) = 0;
 };

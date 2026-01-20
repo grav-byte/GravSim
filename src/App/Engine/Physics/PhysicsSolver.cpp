@@ -12,6 +12,7 @@
 #include "Propagators/VelocityVerletPropagator.h"
 #include "Propagators/VerletPropagator.h"
 
+
 std::vector<PhysicsSolver::PropagatorEntry> PhysicsSolver::propagators = {
     {"Euler", [] { return std::make_unique<EulerPropagator>(); }},
     {"SI Euler", [] { return std::make_unique<SemiImplicitEulerPropagator>(); }},
@@ -21,9 +22,7 @@ std::vector<PhysicsSolver::PropagatorEntry> PhysicsSolver::propagators = {
 };
 
 PhysicsSolver::PhysicsSolver() {
-    timeAccumulator_= 0;
     timeStep_ = 1.0f / 120.0f; // 120 updates per second
-    currentScene_ = nullptr;
     activePropagator_ = std::make_unique<EulerPropagator>();
 }
 
@@ -50,15 +49,13 @@ float PhysicsSolver::GetTimeStep() const {
     return timeStep_;
 }
 
-void PhysicsSolver::StepPropagation(Scene *scene) {
-    currentScene_ = scene;
+void PhysicsSolver::StepPropagation(const Scene *scene) const {
+    PhysicsContext context{ *scene, *this };
+
     for (SceneObject* object : scene->GetAllObjects()) {
 
-        // get acceleration function so the propagator can query it
-        auto func = [this](const SceneObject& obj){ return GetAccelerationForObject(obj); };
-
         // propagate object
-        activePropagator_->Propagate(*object, func, timeStep_);
+        activePropagator_->Propagate(*object, context, timeStep_);
 
         // update last position for verlet (only if not using verlet already)
         if (typeid(*activePropagator_) != typeid(VerletPropagator)) {
@@ -81,13 +78,13 @@ void PhysicsSolver::StepPropagation(Scene *scene) {
     }
 }
 
-glm::vec2 PhysicsSolver::GetAccelerationForObject(const SceneObject &object) const {
+glm::vec2 PhysicsSolver::GetAccelerationForObject(const Scene& scene, const SceneObject &object) const {
     auto acceleration = object.accelerationAccumulated;
 
     if (object.affectedByGravity) {
-        acceleration += currentScene_->globalGravity;
+        acceleration += scene.globalGravity;
 
-        for (const auto& otherObject : currentScene_->GetAllObjects()) {
+        for (const auto& otherObject : scene.GetAllObjects()) {
             if (otherObject->id == object.id)
                 continue;
             if (otherObject->gravitates) {
@@ -108,19 +105,18 @@ glm::vec2 PhysicsSolver::GetAccelerationForObject(const SceneObject &object) con
     return acceleration;
 }
 
-void PhysicsSolver::UpdatePhysics(Scene* scene, const float deltaTime) {
+void PhysicsSolver::UpdatePhysics(const Scene* scene, const float deltaTime) const {
     if (!activePropagator_) {
         std::cout << "No physics propagator set!" << std::endl;
         return;
     }
-    timeAccumulator_ += deltaTime;
+    float timeAccumulator = deltaTime;
 
     // sub step the physics updates as often as necessary
-    while (timeAccumulator_ >= timeStep_) {
+    while (timeAccumulator >= timeStep_) {
         StepPropagation(scene);
-        timeAccumulator_ -= timeStep_;
+        timeAccumulator -= timeStep_;
     }
-
 
     // reset accumulated forces
     for (const auto object : scene->GetAllObjects())

@@ -36,6 +36,7 @@ public:
 
     void SetSolverType(const char *typeName) const;
     IPropagator *GetActivePropagator() const;
+    PhysicsContext GetPhysicsContext() const;
 
     void SetTimeStep(float timeStep) const;
     float GetTimeStep() const;

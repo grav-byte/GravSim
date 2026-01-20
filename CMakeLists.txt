@@ -153,6 +153,10 @@ add_executable(GravSim
         src/App/Engine/Interaction/PlaceInteractor.h
         src/App/Engine/Interaction/ApplyForceInteractor.cpp
         src/App/Engine/Interaction/ApplyForceInteractor.h
+        src/App/Engine/Prediction/Predictor.cpp
+        src/App/Engine/Prediction/Predictor.h
+        src/App/Engine/Physics/PhysicsContext.h
+        src/App/Engine/Physics/PhysicsContext.cpp
 )
 
 # Include directories

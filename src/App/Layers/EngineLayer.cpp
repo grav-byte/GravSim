@@ -130,6 +130,10 @@ IPropagator* EngineLayer::GetActivePropagator() const {
     return physicsSolver_->GetActivePropagator();
 }
 
+PhysicsContext EngineLayer::GetPhysicsContext() const {
+    return PhysicsContext{ *scene_, *physicsSolver_ };
+}
+
 void EngineLayer::SetTimeStep(const float timeStep) const {
     physicsSolver_->SetTimeStep(timeStep);
 }
