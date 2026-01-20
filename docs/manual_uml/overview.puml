@@ -47,6 +47,21 @@ package Core {
         +bool handled
     }
     Application ..> Event : raises
+
+    note top of Event
+        Observer Pattern
+    end note
+
+    enum EventType {
+            None,
+            WindowClosed, WindowResized,
+            KeyPressed, KeyReleased,
+            MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
+            SceneLoaded, ObjectDestroyed,
+            SimulationStarted, SimulationPaused, SimulationStopped, SimulationResumed, SimulationStepped
+        }
+
+    Event -- EventType : has
 }
 
 package App {
@@ -90,6 +105,7 @@ package App {
             -CameraController cameraController_
         }
         AppLayer <|-- EngineLayer : extends
+        EventType -[hidden]- EngineLayer
 
         note right of EngineLayer
             Facade Pattern: Einfacher Zugriff auf Subsysteme

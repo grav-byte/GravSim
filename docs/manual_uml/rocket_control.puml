@@ -2,7 +2,7 @@
 allowmixing
 skinparam classFontName Courier
 skinparam classFontSize 12
-'skinparam linetype ortho
+'skinparam linetype s
 
 top to bottom direction
 
