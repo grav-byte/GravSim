@@ -1,6 +1,6 @@
 #pragma once
 #include "RocketObject.h"
-#include "Controllers/ManualRocketController.h"
+#include <memory>
 #include "App/Layers/EngineLayer.h"
 #include "Controllers/AutonomousPIDRocketController.h"
 #include "Core/AppLayer.h"
@@ -19,17 +19,21 @@ public:
 
     RocketObject* GetRocketObject() const;
 
-    AutonomousPIDRocketController* GetAutoControl() const;
+    template<typename T>
+    void SetActiveControl() {
+        activeControl_ = std::make_unique<T>(targetManager_.get());
+    }
+
+    IRocketController* GetActiveControl() const;
 
     void OnRender() override;
 
-    bool manualControlEnabled = true;
 
 private:
     void CreateRocket(Scene *scene);
 
-    std::unique_ptr<ManualRocketController> userControl_;
-    std::unique_ptr<AutonomousPIDRocketController> autonomousControl_;
+    std::unique_ptr<IRocketController> activeControl_;
+    std::unique_ptr<TargetManager> targetManager_;
 
     RocketObject* rocketObj_;
     EngineLayer * engine_;

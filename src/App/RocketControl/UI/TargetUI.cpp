@@ -48,7 +48,8 @@ void TargetUI::SetNextTarget() {
     if (targets_.empty())
         return;
 
-    autoCtrl_->SetActiveTarget(
+    auto targetManager = controlLayer_->GetActiveControl()->GetTargetManager();
+    targetManager->SetActiveTarget(
         targets_[0],
         [this] {
             this->SetNextTarget();
@@ -56,10 +57,7 @@ void TargetUI::SetNextTarget() {
     );
 }
 
-void TargetUI::OnSceneLoaded(const Scene& scene, RocketObject* rocket, AutonomousPIDRocketController* autoCtrl) {
-    cachedRocket_ = rocket;
-    autoCtrl_ = autoCtrl;
-
+void TargetUI::OnSceneLoaded(const Scene &scene) {
     // Rebuild immediately (no deferred sync needed)
     SyncTargetsFromScene(scene);
 
@@ -169,6 +167,10 @@ void TargetUI::DrawReachParams() {
 // ------------------------------------------------------------
 // Main
 // ------------------------------------------------------------
+
+TargetUI::TargetUI() {
+    controlLayer_ = Core::Application::Get().GetLayer<ControlLayer>();
+}
 
 void TargetUI::Draw(Scene *scene) {
     ImGui::SeparatorText("Target Settings");

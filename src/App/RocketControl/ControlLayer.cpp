@@ -2,28 +2,27 @@
 
 #include "App/Layers/EngineLayer.h"
 #include "App/Layers/UILayer.h"
+#include "Controllers/ManualRocketController.h"
 #include "Core/Application.h"
 #include "Core/InputEvents.h"
 #include "UI/RocketControllerUI.h"
 #include "UI/RocketStateUI.h"
 
 
-ControlLayer::ControlLayer(): rocketObj_(nullptr), engine_(nullptr) {}
+ControlLayer::ControlLayer(): rocketObj_(nullptr), engine_(nullptr) {
+    targetManager_ = std::make_unique<TargetManager>();
+}
 
 void ControlLayer::OnInit() {
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
-    const auto scene = engine_->GetScene();
 
-    userControl_ = std::make_unique<ManualRocketController>();
-    autonomousControl_ = std::make_unique<AutonomousPIDRocketController>();
+    activeControl_ = std::make_unique<ManualRocketController>(targetManager_.get());
 
     if (UILayer* uiLayer = Core::Application::Get().GetLayer<UILayer>()) {
         // add uis
         uiLayer->AddUIElement(std::make_unique<RocketStateUI>());
         uiLayer->AddUIElement(std::make_unique<RocketControllerUI>());
     }
-
-    //CreateRocket(scene);
 }
 
 void ControlLayer::CreateRocket(Scene * const scene) {
@@ -38,12 +37,8 @@ void ControlLayer::OnUpdate(const float deltaTime) {
     if (!engine_->IsRunningSimulation() || engine_->IsSimulationPaused() || !rocketObj_)
         return;
 
-    if (manualControlEnabled)
-        userControl_->ApplyControlInputs(rocketObj_, deltaTime);
-    else {
-        autonomousControl_->ApplyControlInputs(rocketObj_, deltaTime);
-        autonomousControl_->CheckTargetReached(rocketObj_, deltaTime);
-    }
+    activeControl_->ApplyControlInputs(rocketObj_, deltaTime);
+    targetManager_->CheckTargetReached(rocketObj_, deltaTime);
 
     const float maxThrustAngle = rocketObj_->GetMaxThrustAngle();
     rocketObj_->thrustAngle = std::clamp(rocketObj_->thrustAngle, -maxThrustAngle, maxThrustAngle);
@@ -74,8 +69,7 @@ void ControlLayer::OnEvent(Core::Event &event) {
     if (event.GetEventType() == Core::SimulationStarted || event.GetEventType() == Core::SimulationResumed) {
         if (rocketObj_) {
             rocketObj_->StartSound();
-            if (!manualControlEnabled)
-                autonomousControl_->Start();
+            activeControl_->Start();
         }
     }
 
@@ -88,18 +82,20 @@ void ControlLayer::OnEvent(Core::Event &event) {
 
     if (event.GetEventType() == Core::KeyPressed) {
         const auto keyEvent = dynamic_cast<Core::KeyPressedEvent&>(event);
-        userControl_->OnKeyPressed(keyEvent.GetKeyCode());
+        activeControl_->OnKeyPressed(keyEvent.GetKeyCode());
 
     }
     if (event.GetEventType() == Core::KeyReleased) {
         const auto &keyEvent = dynamic_cast<Core::KeyReleasedEvent&>(event);
-        userControl_->OnKeyReleased(keyEvent.GetKeyCode());
+        activeControl_->OnKeyReleased(keyEvent.GetKeyCode());
     }
 }
 
 RocketObject * ControlLayer::GetRocketObject() const { return rocketObj_; }
 
-AutonomousPIDRocketController* ControlLayer::GetAutoControl() const { return autonomousControl_.get(); }
+IRocketController * ControlLayer::GetActiveControl() const {
+    return activeControl_.get();
+}
 
 void ControlLayer::OnRender() {
 }

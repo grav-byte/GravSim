@@ -8,7 +8,9 @@
 
 #include <glm/vec2.hpp>
 
+#include "App/RocketControl/ControlLayer.h"
 #include "App/RocketControl/RocketObject.h"
+#include "App/RocketControl/Controllers/IRocketController.h"
 
 class Scene;
 class AutonomousPIDRocketController;
@@ -17,13 +19,13 @@ class TargetObject;
 
 class TargetUI {
 public:
-    TargetUI() = default;
+    TargetUI();
 
     // ImGui entry point
     void Draw(Scene *scene);
 
     // Call once after a scene was loaded
-    void OnSceneLoaded(const Scene& scene, RocketObject* rocket, AutonomousPIDRocketController* autoCtrl);
+    void OnSceneLoaded(const Scene &scene);
 
 private:
     // ----- Scene sync / lookups -----
@@ -47,7 +49,5 @@ private:
     // Default spawn position for new targets
     glm::vec2 spawnDefaultPos_ = {0.0f, 5.0f};
 
-    // Rocket cache (validated via id each time)
-    RocketObject* cachedRocket_ = nullptr;
-    AutonomousPIDRocketController* autoCtrl_ = nullptr;
+    ControlLayer* controlLayer_ = nullptr;
 };

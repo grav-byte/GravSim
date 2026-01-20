@@ -54,8 +54,8 @@ void PredictionUI::Draw() {
         QueueDrawPrediction(objs[index]);
     }
 
-    ImGui::DragFloat("Time Horizon", &settings.timeHorizon, 0.1f, 0.1f, 10.0f, "%.1f s");
-    ImGui::DragFloat("Time Step", &settings.timeStep, 0.005f, 0.002f, .5f, "%.3f s");
+    ImGui::DragFloat("Time Horizon", &settings.timeHorizon, 0.1f, 0.1f, 60.0f, "%.1f s");
+    ImGui::DragFloat("Time Step", &settings.timeStep, 0.01f, 0.002f, .5f, "%.3f s");
     float value[4] = { color_.x, color_.y, color_.z, color_.a };
     if (ImGui::ColorEdit4("Color", value)) {
         // Update

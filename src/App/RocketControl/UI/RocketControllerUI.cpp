@@ -5,6 +5,7 @@
 #include "App/Rendering/Visuals/ShaderVisual.h"
 #include "App/Layers/EngineLayer.h"
 #include "App/RocketControl/Controllers/AutonomousPIDRocketController.h"
+#include "App/RocketControl/Controllers/ManualRocketController.h"
 #include "App/UI/CustomImGuiStyle.h"
 #include "misc/cpp/imgui_stdlib.h"
 
@@ -22,9 +23,12 @@ void RocketControllerUI::Draw() {
     if (!scene)
         return;
 
-    AutonomousPIDRocketController* autoCtrl = controlLayer_->GetAutoControl();
-    auto rocket = controlLayer_->GetRocketObject();
-    if (!autoCtrl || !rocket) return;
+    auto activeCntrl = controlLayer_->GetActiveControl();
+    if (!controlLayer_->GetRocketObject())
+        return;
+
+    const auto autoCtrl = dynamic_cast<AutonomousPIDRocketController*>(activeCntrl);
+    bool manualControlEnabled = autoCtrl == nullptr;
 
     constexpr ImVec2 sizeAuto(445, 300);
 
@@ -38,9 +42,30 @@ void RocketControllerUI::Draw() {
             ImGui::BeginChild("ControlContent", ImVec2(0, 0), false);
             ImGui::Spacing();
             ImGui::Spacing();
-            ImGui::Checkbox("Enable User Control", &controlLayer_->manualControlEnabled);
+            if (ImGui::Checkbox("Enable User Control", &manualControlEnabled)) {
+                if (!manualControlEnabled) {
+                    controlLayer_->SetActiveControl<AutonomousPIDRocketController>();
+                } else {
+                    controlLayer_->SetActiveControl<ManualRocketController>();
+                }
+            }
 
-            if (controlLayer_->manualControlEnabled) {
+            if (manualControlEnabled || !autoCtrl) {
+                const char* modes[] = { "Full Manual", "Orbit Mode" };
+
+                if (int currentMode = 0; ImGui::BeginCombo("Control Mode", modes[currentMode])) {
+                    for (int n = 0; n < IM_ARRAYSIZE(modes); n++) {
+                        bool isSelected = (currentMode == n);
+                        if (ImGui::Selectable(modes[n], isSelected)) {
+                            currentMode = n;
+
+                        }
+                        if (isSelected)
+                            ImGui::SetItemDefaultFocus();
+                    }
+                    ImGui::EndCombo();
+                }
+
                 ImGui::TextWrapped("Manual mode active.");
                 ImGui::Spacing();
                 ImGui::Spacing();
@@ -245,6 +270,6 @@ void RocketControllerUI::DrawPIDLoading(PIDController *(&pids)[3], float& steeri
 void RocketControllerUI::OnEvent(Core::Event &event) {
     if (event.GetEventType() == Core::SceneLoaded) {
         const Scene* scene = dynamic_cast<SceneLoadedEvent &>(event).GetScene();
-        targetUI_.OnSceneLoaded(*scene, controlLayer_->GetRocketObject(), controlLayer_->GetAutoControl());
+        targetUI_.OnSceneLoaded(*scene);
     }
 }

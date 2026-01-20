@@ -1,17 +1,19 @@
 #pragma once
 #include "IRocketController.h"
-#include "App/RocketControl/RocketObject.h"
 
 
 class ManualRocketController : public IRocketController {
 public:
+    explicit ManualRocketController(TargetManager* targetManager);
     ~ManualRocketController() override = default;
-    void OnKeyPressed(int keyCode);
-    void OnKeyReleased(int keyCode);
+    void Start() const override;
+    void OnKeyPressed(int keyCode) override;
+    void OnKeyReleased(int keyCode) override;
 
     void ApplyControlInputs(RocketObject *rocketObj, float deltaTime) const override;
 
 private:
+    bool fullManualMode_;
     bool leftHeld_;
     bool rightHeld_;
     bool upHeld_;

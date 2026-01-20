@@ -3,22 +3,12 @@
 #include "../PID/PIDVisualizer.h"
 
 
-AutonomousPIDRocketController::AutonomousPIDRocketController() {
+AutonomousPIDRocketController::AutonomousPIDRocketController(TargetManager *targetManager)
+ : IRocketController(targetManager)  {
     verticalController_ = std::make_unique<PIDController>();
     horizontalController_ = std::make_unique<PIDController>();
     attitudeController_ = std::make_unique<PIDController>();
     attitudeController_->SetUseAngleDifference(true);
-}
-
-void AutonomousPIDRocketController::SetActiveTarget(TargetObject* target, const std::function<void()> targetReachedCallback) {
-    if (target_ == target) return;
-    if (!target) return;
-
-    targetReachedCallback_ = targetReachedCallback;
-
-    target_ = target;
-    currentTargetPos_ = target->transform.position;
-    reachedTimer_ = 0.0f;
 }
 
 void AutonomousPIDRocketController::ApplyControlInputs(RocketObject *rocketObject, const float deltaTime) const {
@@ -31,7 +21,7 @@ void AutonomousPIDRocketController::ApplyControlInputs(RocketObject *rocketObjec
     // --- PID evaluations ---
 
     // vertical -> thrust
-    float thrust = verticalController_->Evaluate(currentTargetPos_.y, currentY, vY, deltaTime);
+    float thrust = verticalController_->Evaluate(targetManager_->currentTargetPos.y, currentY, vY, deltaTime);
     const float angleRad = glm::radians(rocketObject->thrustAngle + rocketObject->transform.rotation);
     const glm::vec2 dir = { -sin(angleRad), cos(angleRad) };
     const float projection = glm::dot(glm::vec2(.0f,-1.0f), -dir);
@@ -40,7 +30,7 @@ void AutonomousPIDRocketController::ApplyControlInputs(RocketObject *rocketObjec
     rocketObject->thrustPercent = thrust;
 
     // horizontal -> target angle (phi)
-    float phiTarget = horizontalController_->Evaluate(currentTargetPos_.x, currentX, vX, deltaTime);
+    float phiTarget = horizontalController_->Evaluate(targetManager_->currentTargetPos.x, currentX, vX, deltaTime);
     phiTarget *= -maxSteeringAngle;
 
     // attitude -> thrust angle
@@ -66,32 +56,8 @@ PIDController * AutonomousPIDRocketController::GetHorizontalController() const {
 
 PIDController * AutonomousPIDRocketController::GetAttitudeController() const { return attitudeController_.get(); }
 
-void AutonomousPIDRocketController::CheckTargetReached(const RocketObject *rocketObject, const float dt) {
-    if (!rocketObject || !target_) {
-        reachedTimer_ = 0.0f;
-        return;
-    }
+void AutonomousPIDRocketController::OnKeyPressed(int keyCode) {
+}
 
-    if (target_->IsReached())
-        return;
-
-    currentTargetPos_ = target_->transform.position;
-
-    const glm::vec2 rPos = rocketObject->transform.position;
-    const float dist = glm::distance(rPos, currentTargetPos_);
-
-    if (dist <= TargetObject::reachRadius) {
-        reachedTimer_ += dt;
-
-        if (reachedTimer_ >= TargetObject::reachTime) {
-            // target reached
-            reachedTimer_ = 0.0f;
-            target_->MarkReached();
-            if (targetReachedCallback_) {
-                (targetReachedCallback_)();
-            }
-        }
-    } else {
-        reachedTimer_ = 0.0f;
-    }
+void AutonomousPIDRocketController::OnKeyReleased(int keyCode) {
 }
