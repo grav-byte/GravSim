@@ -6,10 +6,21 @@
 #include "Core/Application.h"
 
 std::vector<glm::vec2> Predictor::PredictPath(const PredictionSettings settings, const Scene* scene) {
+    const auto sceneObjs = scene->GetAllObjects();
+    if (sceneObjs.empty())
+        return {};
+
     // create mock scene
     const Scene mockScene = CreateMockScene(scene);
 
-    const SceneObject* trackedMockObj = mockScene.GetObjById(settings.id);
+    int idx = 0;
+    for (const SceneObject* obj : sceneObjs) {
+        if (obj->id == settings.id)
+            break;
+        idx++;
+    }
+
+    const SceneObject* trackedMockObj = mockScene.GetAllObjects()[idx];
 
     auto solver = PhysicsSolver();
     // set new time step
@@ -29,12 +40,11 @@ std::vector<glm::vec2> Predictor::PredictPath(const PredictionSettings settings,
 }
 
 Scene Predictor::CreateMockScene(const Scene* realScene) {
-    // does not include visuals
+    // does not include visuals or colliders
     Scene mockScene;
     for (const SceneObject* realObj: realScene->GetAllObjects()) {
         // create mock objects
         auto mockObj = std::make_unique<SceneObject>(realObj->id, realObj->name);
-        mockObj->id = realObj->id;
         mockObj->transform.position = realObj->transform.position;
         mockObj->transform.rotation = realObj->transform.rotation;
         mockObj->transform.scale = realObj->transform.scale;
@@ -46,15 +56,6 @@ Scene Predictor::CreateMockScene(const Scene* realScene) {
 
         mockObj->colliders.clear();
 
-        // copy colliders
-        for (const auto& collider : realObj->colliders) {
-            mockObj->AddCollider(collider->GetType());
-            const auto newColl = mockObj->colliders[mockObj->colliders.size()-1].get();
-            newColl->friction = collider->friction;
-            newColl->localSize = collider->localSize;
-            newColl->localPosition = collider->localPosition;
-            newColl->elasticity = collider->elasticity;
-        }
         mockScene.AddObject(std::move(mockObj));
     }
 
