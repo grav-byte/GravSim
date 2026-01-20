@@ -1,7 +1,5 @@
 #pragma once
-
-#include <glm.h>
-
+#include "glm/vec4.hpp"
 class RenderingSystem;
 
 enum class VisualType {
