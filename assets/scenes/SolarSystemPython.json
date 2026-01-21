@@ -1,0 +1,700 @@
+{
+    "value0": {
+        "value0": "SolarSystemPython",
+        "value1": {
+            "ptr_wrapper": {
+                "valid": 1,
+                "data": {
+                    "value0": {
+                        "value0": {
+                            "value0": 0.32889389991760256,
+                            "value1": -0.04534327983856201
+                        },
+                        "value1": 0.0,
+                        "value2": {
+                            "value0": 1.0,
+                            "value1": 1.0
+                        }
+                    },
+                    "value1": 0.2591686546802521,
+                    "value2": {
+                        "value0": 0.05000000074505806,
+                        "value1": 0.05000000074505806,
+                        "value2": 0.05000000074505806,
+                        "value3": 1.0
+                    }
+                }
+            }
+        },
+        "value2": {
+            "value0": 0.0,
+            "value1": 0.0
+        },
+        "value3": [
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 0,
+                        "value1": "Sun",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.0,
+                                "value1": 0.0
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.5,
+                                "value1": 0.5
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value4": 1.5777963399887086,
+                        "value5": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 2147483649,
+                                "polymorphic_name": "CircleCollider",
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 0.7599999904632568,
+                                            "value1": 0.7599999904632568
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.800000011920929
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2147483650,
+                            "polymorphic_name": "ShaderVisual",
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": "sun.frag",
+                                    "value2": {
+                                        "value0": [],
+                                        "value1": [
+                                            {
+                                                "key": "uTexture",
+                                                "value": "../assets/textures/sun.png"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "value10": true,
+                        "value11": true,
+                        "value12": false
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 1,
+                        "value1": "Earth",
+                        "value2": {
+                            "value0": {
+                                "value0": -0.17421600222587586,
+                                "value1": 0.9677709937095642
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.10000000149011612,
+                                "value1": 0.10000000149011612
+                            }
+                        },
+                        "value3": {
+                            "value0": -0.17421600222587586,
+                            "value1": 0.9677709937095642
+                        },
+                        "value4": 0.000004737267772725318,
+                        "value5": {
+                            "value0": -1.256106972694397,
+                            "value1": -0.2274560034275055
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.800000011920929
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2147483651,
+                            "polymorphic_name": "CircleVisual",
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": {
+                                        "value0": 0.1123717874288559,
+                                        "value1": 0.24217136204242707,
+                                        "value2": 0.650884747505188,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": true,
+                        "value11": true,
+                        "value12": true
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 2,
+                        "value1": "Mars",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.3405109941959381,
+                                "value1": -1.3869940042495728
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.10000000149011612,
+                                "value1": 0.10000000149011612
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.3405109941959381,
+                            "value1": -1.3869940042495728
+                        },
+                        "value4": 5.090179797662131e-7,
+                        "value5": {
+                            "value0": 1.0308040380477906,
+                            "value1": 0.3314419984817505
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.4000000059604645
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 3,
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": {
+                                        "value0": 0.9665231704711914,
+                                        "value1": 0.2240569144487381,
+                                        "value2": 0.037440668791532519,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": true,
+                        "value11": true,
+                        "value12": true
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 3,
+                        "value1": "Mercury",
+                        "value2": {
+                            "value0": {
+                                "value0": -0.21522800624370576,
+                                "value1": -0.4091939926147461
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.10000000149011612,
+                                "value1": 0.10000000149011612
+                            }
+                        },
+                        "value3": {
+                            "value0": -0.21522800624370576,
+                            "value1": -0.4091939926147461
+                        },
+                        "value4": 2.6185000479017619e-7,
+                        "value5": {
+                            "value0": 1.4040546417236329,
+                            "value1": -0.8570438623428345
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.4000000059604645
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 3,
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": {
+                                        "value0": 0.2082534283399582,
+                                        "value1": 0.20043568313121797,
+                                        "value2": 0.2204686999320984,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": true,
+                        "value11": true,
+                        "value12": true
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 4,
+                        "value1": "Venus",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.0888340026140213,
+                                "value1": -0.7217640280723572
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.10000000149011612,
+                                "value1": 0.10000000149011612
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0888340026140213,
+                            "value1": -0.7217640280723572
+                        },
+                        "value4": 0.000003861004188365769,
+                        "value5": {
+                            "value0": 1.4557297229766846,
+                            "value1": 0.1751711517572403
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.4000000059604645
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 3,
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": {
+                                        "value0": 0.3782879114151001,
+                                        "value1": 0.22874049842357636,
+                                        "value2": 0.001990038901567459,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": true,
+                        "value11": true,
+                        "value12": true
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 5,
+                        "value1": "Jupyter",
+                        "value2": {
+                            "value0": {
+                                "value0": -1.6933280229568482,
+                                "value1": 4.929083824157715
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.10000000149011612,
+                                "value1": 0.10000000149011612
+                            }
+                        },
+                        "value3": {
+                            "value0": -1.6933280229568482,
+                            "value1": 4.929083824157715
+                        },
+                        "value4": 0.0015056924894452096,
+                        "value5": {
+                            "value0": -0.5280447006225586,
+                            "value1": -0.15323413908481599
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.4000000059604645
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 3,
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": {
+                                        "value0": 1.0,
+                                        "value1": 0.4878048896789551,
+                                        "value2": 0.0,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": true,
+                        "value11": true,
+                        "value12": true
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 6,
+                        "value1": "Saturn",
+                        "value2": {
+                            "value0": {
+                                "value0": 9.507193565368653,
+                                "value1": 0.2568120062351227
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.10000000149011612,
+                                "value1": 0.10000000149011612
+                            }
+                        },
+                        "value3": {
+                            "value0": 9.507193565368653,
+                            "value1": 0.2568120062351227
+                        },
+                        "value4": 0.0004508193233050406,
+                        "value5": {
+                            "value0": -0.03381162881851196,
+                            "value1": 0.4059951901435852
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.4000000059604645
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 3,
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": {
+                                        "value0": 0.7082735300064087,
+                                        "value1": 0.6468656659126282,
+                                        "value2": 0.3424507677555084,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": true,
+                        "value11": true,
+                        "value12": true
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 7,
+                        "value1": "Uranus",
+                        "value2": {
+                            "value0": {
+                                "value0": 9.88151741027832,
+                                "value1": 16.798351287841798
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.10000000149011612,
+                                "value1": 0.10000000149011612
+                            }
+                        },
+                        "value3": {
+                            "value0": 9.88151741027832,
+                            "value1": 16.798351287841798
+                        },
+                        "value4": 0.00006885953189339489,
+                        "value5": {
+                            "value0": -0.24910108745098115,
+                            "value1": 0.13237716257572175
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.4000000059604645
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 3,
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": {
+                                        "value0": 0.47829294204711916,
+                                        "value1": 0.7634124755859375,
+                                        "value2": 0.9426112174987793,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": true,
+                        "value11": true,
+                        "value12": true
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 8,
+                        "value1": "Neptun",
+                        "value2": {
+                            "value0": {
+                                "value0": 29.87276268005371,
+                                "value1": 0.5174279808998108
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 0.10000000149011612,
+                                "value1": 0.10000000149011612
+                            }
+                        },
+                        "value3": {
+                            "value0": 29.87276268005371,
+                            "value1": 0.5174279808998108
+                        },
+                        "value4": 0.00008123616134980693,
+                        "value5": {
+                            "value0": -0.005685850046575069,
+                            "value1": 0.23036952316761018
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 1.0,
+                                            "value1": 1.0
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.4000000059604645
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 3,
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": {
+                                        "value0": 0.0,
+                                        "value1": 0.41319966316223147,
+                                        "value2": 1.0,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": true,
+                        "value11": true,
+                        "value12": true
+                    }
+                }
+            }
+        ],
+        "value4": [],
+        "value5": 9,
+        "value6": {
+            "value0": 0.10000000149011612,
+            "value1": 0.10000000149011612,
+            "value2": 0.10000000149011612,
+            "value3": 1.0
+        },
+        "value7": "../assets/audio/ksp_soundtrack"
+    }
+}
