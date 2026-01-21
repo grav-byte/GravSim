@@ -23,6 +23,7 @@ std::vector<glm::vec2> Predictor::PredictPath(const PredictionSettings settings,
     const SceneObject* trackedMockObj = mockScene.GetAllObjects()[idx];
 
     auto solver = PhysicsSolver();
+    solver.SetActivePropagator("SI Euler");
     // set new time step
     solver.SetTimeStep(settings.timeStep);
 

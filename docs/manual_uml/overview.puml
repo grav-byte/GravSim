@@ -3,8 +3,8 @@ allowmixing
 skinparam classFontName Courier
 skinparam classFontSize 12
 'skinparam linetype ortho
+skinparam backgroundColor transparent
 
-top to bottom direction
 
 package Core {
     class Application {
