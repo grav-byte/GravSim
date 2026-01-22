@@ -20,6 +20,16 @@ An overview of the PID controllers can be seen below:
 ![Overview](docs/PIDOverview.png)
 
 ___
+## Cloning
+To clone the repository, use the following command:
+```bash
+git clone --recurse-submodules https://github.com/grav-byte/GravSim.git
+```
+or if you have already cloned the repository without submodules, run:
+```bash
+git submodule update --init --recursive
+```
+
 ## Building
 To build the project, you can use CMake
 
