@@ -41,10 +41,10 @@ package Physics {
         +void SetTimeStep(float timeStep)
         +float GetTimeStep() const
 
-        +void UpdatePhysics(Scene* scene, float deltaTime)
-        +void StepPropagation(Scene* scene)
+        +void UpdatePhysics(Scene* scene, float deltaTime) const
+        +void StepPropagation(Scene* scene) const
         +void DrawContactPoints()
-        -vec2 GetAccelerationForObject(const SceneObject* object) const
+        -vec2 GetAccelerationForObject(const Scene& scene, const SceneObject* object) const
 
         -Scene* currentScene_
         -unique_ptr<IPropagator> activePropagator_
@@ -54,6 +54,7 @@ package Physics {
     EngineLayer *-- PhysicsSolver : owns
     PhysicsSolver --> Constraint : applies
     PhysicsSolver --> ContactPoint : finds
+
 
     package Colliders {
         class ColliderBase {
@@ -102,7 +103,7 @@ package Physics {
 
     package Propagators {
         class IPropagator {
-            +virtual void Propagate(SceneObject& object, std::function<vec2(const SceneObject&)> accelerationFunc, float deltaTime)
+            +virtual void Propagate(SceneObject& object, const PhysicsContext& context, float deltaTime)
         }
 
         class EulerPropagator
@@ -126,6 +127,8 @@ package Physics {
             Strategy Pattern
         end note
     }
+
+
 
 }
 EngineLayer -[hidden]-> Physics

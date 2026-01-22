@@ -140,8 +140,6 @@ void RocketControllerUI::DrawPIDSettings(AutonomousPIDRocketController *autoCtrl
     ImGui::DragFloat("Max Steering Angle (°)", &autoCtrl->maxSteeringAngle, 0.1f, 0.f, 90.f);
     ImGui::Spacing();
 
-    activePID = pids[0];
-
     // start table with 4 columns: label + 3 PIDs
     if (ImGui::BeginTable("PIDTable", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg))
     {

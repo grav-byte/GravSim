@@ -23,7 +23,6 @@ private:
 
     ControlLayer* controlLayer_ = nullptr;
     EngineLayer* engineLayer_ = nullptr;
-    PIDController* activePID;
     TargetUI targetUI_;
 
     FileSelector pidFileSelector_;
