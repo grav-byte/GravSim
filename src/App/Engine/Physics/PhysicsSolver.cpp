@@ -23,6 +23,7 @@ std::vector<PhysicsSolver::PropagatorEntry> PhysicsSolver::propagators = {
 
 PhysicsSolver::PhysicsSolver() {
     timeStep_ = 1.0f / 120.0f; // 120 updates per second
+    timeAccumulator_ = 0.0f;
     activePropagator_ = std::make_unique<EulerPropagator>();
 }
 
@@ -49,51 +50,53 @@ float PhysicsSolver::GetTimeStep() const {
 }
 
 void PhysicsSolver::StepPropagation(const Scene *scene) const {
-    PhysicsContext context{ *scene, *this };
+    // find contacts
+    ContactSolver::ClearContacts(scene);
+    ContactSolver::FindContacts(scene);
+
+    // create context for propagation
+    const PhysicsContext context{ *scene, *this };
 
     for (SceneObject* object : scene->GetAllObjects()) {
 
         // propagate object
         activePropagator_->Propagate(*object, context, timeStep_);
 
-        // update last position for verlet (only if not using verlet already)
-        if (typeid(*activePropagator_) != typeid(VerletPropagator)) {
-            object->lastPosition = object->transform.position - object->velocity * timeStep_;
-            object->lastRotation = object->transform.rotation - object->angularVelocity * timeStep_;
-        }
+        // update last position
+        object->lastPosition = object->transform.position - object->velocity * timeStep_;
+        object->lastRotation = object->transform.rotation - object->angularVelocity * timeStep_;
 
         if (object->mass > 0.0f) {
-            // for massive objects, resolve contacts and constraints
-            ContactSolver::ClearContacts(scene);
-
-            // apply constraints
+            // apply constraints and resolve contacts for objects with mass
             for (const Constraint* constraint : scene->GetConstraints()) {
                 constraint->ApplyConstraint(object);
             }
 
-            ContactSolver::FindContacts(scene);
             ContactSolver::ResolveContacts(object);
         }
     }
 }
 
 glm::vec2 PhysicsSolver::GetAccelerationForObject(const Scene& scene, const SceneObject &object) const {
-    auto acceleration = object.accelerationAccumulated;
+    glm::vec2 acceleration = object.accelerationAccumulated;
 
     if (object.affectedByGravity) {
+        // apply global gravity
         acceleration += scene.globalGravity;
 
-        for (const auto& otherObject : scene.GetAllObjects()) {
+        for (const SceneObject* otherObject : scene.GetAllObjects()) {
             if (otherObject->id == object.id)
                 continue;
+
+            // calculate gravitational attraction
             if (otherObject->gravitates) {
-                // calculate gravitational attraction
                 glm::vec2 direction = otherObject->transform.position - object.transform.position;
                 const float distanceSquared = glm::dot(direction, direction);
                 // avoid singularity and extremely high accelerations
                 if (distanceSquared < 1e-3f)
                     continue;
 
+                // G is 1 for simplicity
                 constexpr float G = 1.0f;
 
                 // TODO - pairwise force caching for better performance
@@ -104,17 +107,17 @@ glm::vec2 PhysicsSolver::GetAccelerationForObject(const Scene& scene, const Scen
     return acceleration;
 }
 
-void PhysicsSolver::UpdatePhysics(const Scene* scene, const float deltaTime) const {
+void PhysicsSolver::UpdatePhysics(const Scene* scene, const float deltaTime) {
     if (!activePropagator_) {
         std::cout << "No physics propagator set!" << std::endl;
         return;
     }
-    float timeAccumulator = deltaTime;
+    timeAccumulator_ += deltaTime;
 
     // sub step the physics updates as often as necessary
-    while (timeAccumulator >= timeStep_) {
+    while (timeAccumulator_ >= timeStep_) {
         StepPropagation(scene);
-        timeAccumulator -= timeStep_;
+        timeAccumulator_ -= timeStep_;
     }
 
     // reset accumulated forces
@@ -129,12 +132,12 @@ void PhysicsSolver::UpdatePhysics(const Scene* scene, const float deltaTime) con
 std::vector<const char *> PhysicsSolver::GetPropagatorNames() {
     static std::vector<std::string> names;
     names.clear();
-    for (const auto& entry : propagators) {
+    for (const PropagatorEntry& entry : propagators) {
         names.push_back(entry.name);
     }
     static std::vector<const char*> cstrNames;
     cstrNames.clear();
-    for (const auto& name : names) {
+    for (const std::string& name : names) {
         cstrNames.push_back(name.c_str());
     }
     return cstrNames;

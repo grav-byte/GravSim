@@ -13,7 +13,7 @@ public:
     void SetTimeStep(float timeStep);
     float GetTimeStep() const;
 
-    void UpdatePhysics(const Scene *scene, float deltaTime) const;
+    void UpdatePhysics(const Scene *scene, float deltaTime);
 
     void DrawContactPoints();
 
@@ -29,6 +29,7 @@ public:
 
 private:
     std::unique_ptr<IPropagator> activePropagator_;
+    float timeAccumulator_;
     float timeStep_;
 
 };
