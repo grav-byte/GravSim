@@ -83,7 +83,6 @@ void TargetUI::SyncTargetsFromScene(const Scene& scene) {
 void TargetUI::CreateTarget(Scene& scene) {
     auto targetUq = std::make_unique<TargetObject>();
     targetUq->transform.position = spawnDefaultPos_;
-    targetUq->lastPosition       = spawnDefaultPos_;
 
     const uint32_t id = scene.AddObject(std::move(targetUq));
 
@@ -140,7 +139,6 @@ void TargetUI::DrawTargetsList(Scene& scene) {
         glm::vec2 pos = obj->transform.position;
         if (DrawFloat2Control("##Position", &pos, 0.1f)) {
             obj->transform.position = pos;
-            obj->lastPosition       = pos;
         }
 
         ImGui::SameLine();

@@ -24,6 +24,5 @@ void PlaceInteractor::OnRelease(Scene &scene, const glm::vec2 mousePos, bool lef
     if (Core::Application::Get().GetLayer<EngineLayer>()->IsRunningSimulation()) {
         float dt = 1.0f / static_cast<float>(Core::Application::Get().GetFramerate());
         obj->velocity = (world - lastMousePos) / dt;
-        obj->lastPosition = lastMousePos;
     }
 }

@@ -10,13 +10,11 @@
 #include "Propagators/RK4Propagator.h"
 #include "Propagators/SemiImplicitEulerPropagator.h"
 #include "Propagators/VelocityVerletPropagator.h"
-#include "Propagators/VerletPropagator.h"
 
 
 std::vector<PhysicsSolver::PropagatorEntry> PhysicsSolver::propagators = {
     {"Euler", [] { return std::make_unique<EulerPropagator>(); }},
     {"SI Euler", [] { return std::make_unique<SemiImplicitEulerPropagator>(); }},
-    {"Verlet", [] { return std::make_unique<VerletPropagator>(); }},
     {"Vel. Verlet", [] { return std::make_unique<VelocityVerletPropagator>(); }},
     {"RK4", [] { return std::make_unique<RK4Propagator>(); }},
 };
@@ -58,13 +56,8 @@ void PhysicsSolver::StepPropagation(const Scene *scene) const {
     const PhysicsContext context{ *scene, *this };
 
     for (SceneObject* object : scene->GetAllObjects()) {
-
         // propagate object
         activePropagator_->Propagate(*object, context, timeStep_);
-
-        // update last position
-        object->lastPosition = object->transform.position - object->velocity * timeStep_;
-        object->lastRotation = object->transform.rotation - object->angularVelocity * timeStep_;
 
         if (object->mass > 0.0f) {
             // apply constraints and resolve contacts for objects with mass
@@ -78,6 +71,7 @@ void PhysicsSolver::StepPropagation(const Scene *scene) const {
 }
 
 glm::vec2 PhysicsSolver::GetAccelerationForObject(const Scene& scene, const SceneObject &object) const {
+    // start with accumulated acceleration, this is forces that have been applied to the object directly
     glm::vec2 acceleration = object.accelerationAccumulated;
 
     if (object.affectedByGravity) {

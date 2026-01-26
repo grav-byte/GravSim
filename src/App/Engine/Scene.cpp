@@ -23,7 +23,6 @@ uint32_t Scene::CreateObject() {
 uint32_t Scene::CreateObject(const glm::vec2& pos) {
     auto obj = std::make_unique<SceneObject>(nextID_++, "Circle");
     obj->transform.position = pos;
-    obj->lastPosition = pos;
     sceneObjects_.push_back(std::move(obj));
     return nextID_ - 1;
 }

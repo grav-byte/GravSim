@@ -83,8 +83,6 @@ add_executable(GravSim
         src/App/Engine/Physics/Propagators/EulerPropagator.h
         src/App/Engine/Physics/Propagators/SemiImplicitEulerPropagator.cpp
         src/App/Engine/Physics/Propagators/SemiImplicitEulerPropagator.h
-        src/App/Engine/Physics/Propagators/VerletPropagator.cpp
-        src/App/Engine/Physics/Propagators/VerletPropagator.h
         src/App/Engine/Physics/Propagators/RK4Propagator.cpp
         src/App/Engine/Physics/Propagators/RK4Propagator.h
         src/App/Engine/Physics/Propagators/VelocityVerletPropagator.cpp

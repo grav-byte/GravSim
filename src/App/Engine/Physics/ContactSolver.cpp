@@ -90,19 +90,11 @@ void ContactSolver::ApplyCollisionImpulse(const ContactPoint &contact)
     if (otherObj) {
         otherObj->velocity -= J / otherObj->mass * contact.normal;
         otherObj->angularVelocity -= glm::degrees(J * otherRxn / otherObj->GetInertia());
-        // force verlet update
-        otherObj->lastPosition = otherObj->transform.position;
-        otherObj->lastRotation = otherObj->transform.rotation;
         otherObj->transform.position -= contact.normal * contact.penetrationDepth * .4f;
     }
 
     // positional correction to avoid sinking
     obj->transform.position += contact.normal * contact.penetrationDepth * .4f;
-
-
-    // force verlet update
-    obj->lastPosition = obj->transform.position;
-    obj->lastRotation = obj->transform.rotation;
 
     ApplyFriction(contact, J);
 }

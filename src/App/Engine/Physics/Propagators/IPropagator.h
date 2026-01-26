@@ -26,7 +26,7 @@ public:
         }
         return results;
     }
-
+    
     // accepts a PhysicsContext
     virtual void Propagate(SceneObject& object, const PhysicsContext& context, float deltaTime) = 0;
 

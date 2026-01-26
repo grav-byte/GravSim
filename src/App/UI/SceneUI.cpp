@@ -201,9 +201,7 @@ void SceneUI::DrawTransform(SceneObject* obj) {
     if (!ImGui::TreeNode("Transform"))
         return;
 
-    if (DrawFloat2Control("Position", &obj->transform.position)) {
-        obj->lastPosition = obj->transform.position;
-    }
+    DrawFloat2Control("Position", &obj->transform.position);
 
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("m");

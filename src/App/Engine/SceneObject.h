@@ -57,7 +57,7 @@ public:
     };
     std::vector<std::unique_ptr<DebugArrow>> debugArrows;
 
-    // needed for verlet
+    // deprecated - kept for loading old scenes with cereal
     glm::vec2 lastPosition;
     float lastRotation;
 
