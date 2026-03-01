@@ -1,4 +1,5 @@
-\documentclass[10pt, twocolumn]{article}
+\documentclass[9pt, twocolumn]{extarticle}
+\usepackage{tabularx}
 
 % Use Times-like font for pdfLaTeX
 \usepackage{mathptmx}
@@ -93,9 +94,32 @@ Zusätzlich soll die autonome Steuerung einer Rakete mit Schubvektorkontrolle si
     \item Definition von Zielpunkten für den Regelalgorithmus
 \end{itemize}
 \section{Umsetzung}
-
+Die Implementierung erfolgte in C++ unter Verwendung von objekt-orientierten Prinzipien. Der gesamte Code wurde eigenständig geschrieben, welche Bibliotheken verwendet wurden, ist in Tabelle \ref{tab:libs} im Anhang vermerkt. Die Umsetzung der grafischen Oberfläche erfolgt mit \textsc{GLFW} und \textsc{OpenGL}, wobei die Benutzerobfläche \textsc{ImGui} verwendet.
 
 
 \printbibliography
+
+\appendix
+
+\begin{table}
+\centering
+\caption{Verwendete Bibliotheken und deren Zweck}
+\begin{tabularx}{\columnwidth}{lX}
+
+\toprule
+\textbf{Bibliothek} & \textbf{Zweck} \\
+\midrule
+cereal & Serialisierung von C++-Objekten zur Speicherung \\
+glfw & Erstellung von Fenstern sowie Verwaltung von Eingaben \\
+imgui & UI-Bibliothek zur Erstellung der grafischen Benutzeroberfläche \\
+miniaudio & Plattformübergreifende Bibliothek zur Wiedergabe von Audio \\
+glew & OpenGL-Erweiterung \\
+glm & Mathematikbibliothek für Vektoren, etc.\\
+implot & Erweiterung von ImGui zur Darstellung von Plots \\
+stb & Header-only-Bibliothek zum Laden von Texturen \\
+\bottomrule
+\end{tabularx}
+\label{tab:libs}
+\end{table}
 
 \end{document}
