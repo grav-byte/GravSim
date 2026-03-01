@@ -1,0 +1,101 @@
+\documentclass[10pt, twocolumn]{article}
+
+% Use Times-like font for pdfLaTeX
+\usepackage{mathptmx}
+
+% Set up page geometry
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tikz} 
+\usepackage[ngerman]{babel} % Use 'english' for English text
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[backend=biber,style=numeric]{biblatex}
+\addbibresource{references.bib}
+\usepackage{geometry}
+\usepackage{booktabs} % For professional tables
+\usepackage{hyperref}
+\usepackage{parskip} % Space between paragraphs
+
+% Header and footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{Höhere Informatik}
+\fancyhead[C]{}
+\fancyhead[R]{Konrad Wehkamp, Lorenz Saalmann}
+\fancyfoot[C]{\thepage}
+
+\begin{document}
+
+\setlength{\parindent}{0pt}
+
+\begin{titlepage}%Schmutztitel; Grafiken mit Tikz erstellt; Signet eingebunden
+\begin{tikzpicture}[remember picture,overlay,shift={(current page.south)}]
+    \node [text width=10cm] at (0,25.5){\includegraphics[width = 1\textwidth]{images/THM_logo.eps}};
+\node [text width=13cm] at (0, 13.5)
+{
+\sffamily
+\begin{flushleft}
+    \Large
+    \text{Höhere Informatik}\\[1ex]
+    \small
+    \text{Prof. Probst}\\[3ex]
+    \vspace{.5cm}
+    \LARGE
+\color{black}
+\textbf{Software-Architektur einer Physik-Simulation in C++}\\[3ex]
+\vspace{.5cm}
+\Large
+\vspace{1cm}
+
+\text{Konrad Wehkamp () und Lorenz Saalmann (5391121)}\\[1ex]
+\small\text{SS 26}\\[.9ex]
+\end{flushleft}
+};
+\end{tikzpicture}
+\end{titlepage}
+
+\newpage
+
+
+\section{Zusammenfassung}
+
+\section{Einleitung}
+Simulationen können ein sehr nützliches Werkzeug sein, um komplexe Systeme zu untersuchen und vorherzusagen. Besonders in der Physik und den Ingeneurwissenschaften sind sie ein fester Bestandteil der Forschung und Entwicklung. Sie werden vor allem dann eingesetzt, wenn es schwierig oder unmöglich ist eine analytische Lösung zu finden, oder wenn es unrealistisch ist ein Experiment durchzuführen. Außerdem ermöglichen sie das Durchführen von Designstudien, da sie schnelle Iterationen und Tests von Konzepten möglich machen. Dieser Bericht beschäftigt sich mit der Software-Architektur einer Physik-Simulation in C++, die die grundlegende Dynamik von Objekt simuliert. Die Simulation löst, beschränkt auf zwei Dimensionen, die Bewegungsgleichungen für eine Vielzahl von Objekten zeitdiskret. Mittels verschiedener Integrationsverfahren kann die Position $x_0$ und Geschwindigkeit $v_0$ eines Objekts genutzt werden, um die Position $x_1$ und Geschwindigkeit $v_1$ zu einem späteren Zeitpunkt zu approximieren. Das simple Euler-Verfahren berechnet die Position beispielsweise wie folgt:
+\begin{equation}
+    x_1 = x_0 + v_0 * \Delta t 
+\end{equation}
+\begin{equation}
+    v_1 = v_0 + a_0 * \Delta t.
+\end{equation}
+Dabei ist $a_0$ die Beschleunigung zum Zeitpunkt $t_0$ und $\Delta t$ die Zeitschrittgröße. Die Beschleunigung eines Objekts wird durch die Summe aller Kräfte bestimmt und kann beispielsweise durch Gravitation oder Kollision mit anderen Objekten verursacht werden.
+
+Die Simulation bildet die Grundlage, um das Verhalten und die Steuerung einer Rakete mit Schubvektorkontrolle zu simulieren. Diese soll als Objekt in der Simulation normal teilnehmen, wobei die Schubkraft als zusätzliche Kraft wirkt.
+
+Diese Ausarbeitung beschreibt, wie die Simulation objekt-orientiert umgesetzt wurde und konzentriert sich dabei auf die höhere Struktur und Architektur der Anwendung. Zunächst werden die Ziele der Simulation konkret definiert, bevor die Umsetzung der Software-Architektur detailliert beschrieben wird. Abschließend werden die Ergebnisse und Erkenntnisse aus der Entwicklung der Simulation diskutiert.
+
+\section{Zielsetzung}
+Die Zielsetzung der Simulation ist es, eine flexible und erweiterbare Software-Architektur zu entwickeln, die es ermöglicht, verschiedene physikalische Szenarien zu simulieren. Die Position der Objekte soll in einem zweidimensionalen Raum grafisch visualisiert werden. Folgende Anforderungen wurden definiert:
+\begin{itemize}
+    \item Bewegung von Objekten nach newtonischen Bewegungsgleichungen
+    \item Kollisionserkennung und Lösung mit kreisförmigen Objekten
+    \item Krafteinwirkung auf ein Objekt an beliebiger Position
+    \item globale und von massebehaftenden Objekten ausgehende Gravitationskraft
+    \item Einstellung der Simulation durch den Nutzer (z.B. Zeitschrittgröße, Anzahl und Position der Objekte, etc.)
+    \item Implementierung verschiedener Integrationsverfahren 
+\end{itemize}
+
+Zusätzlich soll die autonome Steuerung einer Rakete mit Schubvektorkontrolle simuliert werden. Hierfür wurden folgende Ziele definiert:
+\begin{itemize}
+    \item Implementierung einer Rakete mit Schubvektorkontrolle als Objekt in der Simulation
+    \item Implementierung eines Regelalgorithmus, der die Schubvektorkontrolle der Rakete ermöglicht
+    \item Definition von Zielpunkten für den Regelalgorithmus
+\end{itemize}
+\section{Umsetzung}
+
+
+
+\printbibliography
+
+\end{document}
