@@ -94,7 +94,10 @@ Zusätzlich soll die autonome Steuerung einer Rakete mit Schubvektorkontrolle si
     \item Definition von Zielpunkten für den Regelalgorithmus
 \end{itemize}
 \section{Umsetzung}
-Die Implementierung erfolgte in C++ unter Verwendung von objekt-orientierten Prinzipien. Der gesamte Code wurde eigenständig geschrieben, welche Bibliotheken verwendet wurden, ist in Tabelle \ref{tab:libs} im Anhang vermerkt. Die Umsetzung der grafischen Oberfläche erfolgt mit \textsc{GLFW} und \textsc{OpenGL}, wobei die Benutzerobfläche \textsc{ImGui} verwendet.
+Die Implementierung erfolgte in C++ unter Verwendung von objekt-orientierten Prinzipien. Der gesamte Code wurde eigenständig geschrieben, welche Bibliotheken verwendet wurden, ist in Tabelle \ref{tab:libs} im Anhang vermerkt. Die Umsetzung der grafischen Oberfläche erfolgt mit \textsc{GLFW} und \textsc{OpenGL}, wobei die Benutzerobfläche \textsc{ImGui} verwendet. Der Code, sowie die gesamte Entwicklungshistorie können im GitHub Repository \footnote{\url{https://github.com/grav-byte/GravSim}} eingesehen werden.
+
+\subsection{Herangehensweise}
+Um möglichst wenig fehleranfälligen und gut erweiterbaren Code zu schreiben, wurden verschiedene Ansätze verfolgt. Grundsätzlich wurde das Projekt in möglichst unabhängige Module aufgeteilt, wie z.B. die Physik-Engine, die grafische Darstellung, die Benutzeroberfläche, etc. Zwischen den Modulen wurden möglichst kompakte Schnittstellen definiert. Einer der wichtigsten Aspekte war die Trennung von Daten, Logik und Darstellung. Wo immer möglich, wurden Schnittstellen benutzt, damit die übergeordnete Logik keine Annahmen über die Details der Implementierung der Module treffen muss. So konnte vermehrt Gebrauch vom Abhängigkeits-Inversions-Prinzip und dem Strategie-Muster gemacht werden.
 
 
 \printbibliography

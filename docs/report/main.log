@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.7.4)  1 MAR 2026 12:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.7.4)  1 MAR 2026 15:16
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -891,7 +891,7 @@ Package epstopdf Info: Source file: <images/THM_logo.eps>
 (epstopdf)             Command: <epstopdf --outfile=images/THM_logo-eps-converted-to.pdf images/THM_logo.eps>
 (epstopdf)             \includegraphics on input line 36.
 Package epstopdf Info: Output file is already uptodate.
-<images/THM_logo-eps-converted-to.pdf, id=23, 994.71625pt x 146.5475pt>
+<images/THM_logo-eps-converted-to.pdf, id=27, 994.71625pt x 146.5475pt>
 File: images/THM_logo-eps-converted-to.pdf Graphic file (type pdf)
 <use images/THM_logo-eps-converted-to.pdf>
 Package pdftex.def Info: images/THM_logo-eps-converted-to.pdf  used on input line 36.
@@ -946,11 +946,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 93--94
 []\T1/ptm/m/n/9 Implementierung ei-nes Re-gel-al-go-rith-mus, der die
  []
 
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 97.
+(/usr/local/texlive/2024/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
 
-LaTeX Warning: Empty bibliography on input line 100.
+LaTeX Warning: Empty bibliography on input line 103.
 
 
-Underfull \hbox (badness 3780) in paragraph at lines 121--121
+Underfull \hbox (badness 3780) in paragraph at lines 124--124
 []|\T1/ptm/m/n/9 Header-only-Bibliothek zum La-den von
  []
 
@@ -960,7 +964,7 @@ Underfull \hbox (badness 3780) in paragraph at lines 121--121
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.125 \end{document}
+l.128 \end{document}
                      [1{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 ] (./main.aux)
@@ -969,24 +973,24 @@ LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-05-27>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 23DD856330055B45213EFC08C6805B54;397.
+(rerunfilecheck)             Checksum: B7814FE95AEFDA9C72EE93B436603DA2;534.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 29104 strings out of 473584
- 552914 string characters out of 5728329
- 1945905 words of memory out of 5000000
- 51529 multiletter control sequences out of 15000+600000
- 590466 words of font info for 80 fonts, out of 8000000 for 9000
+ 29134 strings out of 473584
+ 553669 string characters out of 5728329
+ 1948905 words of memory out of 5000000
+ 51551 multiletter control sequences out of 15000+600000
+ 599592 words of font info for 87 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
  102i,11n,107p,1253b,2371s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfss1095.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfsx1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (2 pages, 127687 bytes).
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfss1095.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfsx1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (2 pages, 159229 bytes).
 PDF statistics:
- 98 PDF objects out of 1000 (max. 8388607)
- 71 compressed objects within 1 object stream
- 9 named destinations out of 1000 (max. 500000)
- 50 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 110 PDF objects out of 1000 (max. 8388607)
+ 81 compressed objects within 1 object stream
+ 11 named destinations out of 1000 (max. 500000)
+ 58 words of extra memory for PDF output out of 10000 (max. 10000000)
 
