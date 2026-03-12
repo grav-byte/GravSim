@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.7.4)  1 MAR 2026 15:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.7.4)  12 MAR 2026 18:45
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -891,7 +891,7 @@ Package epstopdf Info: Source file: <images/THM_logo.eps>
 (epstopdf)             Command: <epstopdf --outfile=images/THM_logo-eps-converted-to.pdf images/THM_logo.eps>
 (epstopdf)             \includegraphics on input line 36.
 Package epstopdf Info: Output file is already uptodate.
-<images/THM_logo-eps-converted-to.pdf, id=27, 994.71625pt x 146.5475pt>
+<images/THM_logo-eps-converted-to.pdf, id=31, 994.71625pt x 146.5475pt>
 File: images/THM_logo-eps-converted-to.pdf Graphic file (type pdf)
 <use images/THM_logo-eps-converted-to.pdf>
 Package pdftex.def Info: images/THM_logo-eps-converted-to.pdf  used on input line 36.
@@ -951,46 +951,58 @@ LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 97
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 
-LaTeX Warning: Empty bibliography on input line 103.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.108 
+       [1{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}
+
+]
+<images/overview.png, id=67, 2595.6975pt x 2839.60875pt>
+File: images/overview.png Graphic file (type png)
+<use images/overview.png>
+Package pdftex.def Info: images/overview.png  used on input line 114.
+(pdftex.def)             Requested size: 452.9679pt x 495.50912pt.
 
 
-Underfull \hbox (badness 3780) in paragraph at lines 124--124
+LaTeX Warning: Empty bibliography on input line 121.
+
+
+Underfull \hbox (badness 3780) in paragraph at lines 142--142
 []|\T1/ptm/m/n/9 Header-only-Bibliothek zum La-den von
  []
 
 
 
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.128 \end{document}
-                     [1{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
-] (./main.aux)
+[2
+
+] [3 <./images/overview.png>] (./main.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-05-27>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: B7814FE95AEFDA9C72EE93B436603DA2;534.
+(rerunfilecheck)             Checksum: 63004C9E867FBA0DF418FC40A0A1B5BC;631.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 29134 strings out of 473584
- 553669 string characters out of 5728329
- 1948905 words of memory out of 5000000
- 51551 multiletter control sequences out of 15000+600000
- 599592 words of font info for 87 fonts, out of 8000000 for 9000
+ 29152 strings out of 473584
+ 554008 string characters out of 5728329
+ 1949905 words of memory out of 5000000
+ 51563 multiletter control sequences out of 15000+600000
+ 599905 words of font info for 88 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
- 102i,11n,107p,1253b,2371s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfss1095.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfsx1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (2 pages, 159229 bytes).
+ 102i,11n,107p,1258b,2371s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfss1095.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfsx1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (4 pages, 773594 bytes).
 PDF statistics:
- 110 PDF objects out of 1000 (max. 8388607)
- 81 compressed objects within 1 object stream
- 11 named destinations out of 1000 (max. 500000)
- 58 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 137 PDF objects out of 1000 (max. 8388607)
+ 101 compressed objects within 2 object streams
+ 16 named destinations out of 1000 (max. 500000)
+ 71 words of extra memory for PDF output out of 10000 (max. 10000000)
 

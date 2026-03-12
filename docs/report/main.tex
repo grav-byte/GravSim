@@ -63,14 +63,14 @@
 \section{Zusammenfassung}
 
 \section{Einleitung}
-Simulationen können ein sehr nützliches Werkzeug sein, um komplexe Systeme zu untersuchen und vorherzusagen. Besonders in der Physik und den Ingeneurwissenschaften sind sie ein fester Bestandteil der Forschung und Entwicklung. Sie werden vor allem dann eingesetzt, wenn es schwierig oder unmöglich ist eine analytische Lösung zu finden, oder wenn es unrealistisch ist ein Experiment durchzuführen. Außerdem ermöglichen sie das Durchführen von Designstudien, da sie schnelle Iterationen und Tests von Konzepten möglich machen. Dieser Bericht beschäftigt sich mit der Software-Architektur einer Physik-Simulation in C++, die die grundlegende Dynamik von Objekt simuliert. Die Simulation löst, beschränkt auf zwei Dimensionen, die Bewegungsgleichungen für eine Vielzahl von Objekten zeitdiskret. Mittels verschiedener Integrationsverfahren kann die Position $x_0$ und Geschwindigkeit $v_0$ eines Objekts genutzt werden, um die Position $x_1$ und Geschwindigkeit $v_1$ zu einem späteren Zeitpunkt zu approximieren. Das simple Euler-Verfahren berechnet die Position beispielsweise wie folgt:
+Simulationen können ein sehr nützliches Werkzeug sein, um komplexe Systeme zu untersuchen und vorherzusagen. Besonders in der Physik und den Ingeneurwissenschaften sind sie ein fester Bestandteil der Forschung und Entwicklung. Sie werden vor allem dann eingesetzt, wenn es schwierig oder unmöglich ist eine analytische Lösung zu finden, oder wenn es unrealistisch ist ein Experiment durchzuführen. Außerdem ermöglichen sie das Durchführen von Designstudien, da sie schnelle Iterationen und Tests von Konzepten möglich machen. Dieser Bericht beschäftigt sich mit der Software-Architektur einer Physik-Simulation in C++, die die grundlegende Dynamik von Objekten simuliert. Die Simulation löst, beschränkt auf zwei Dimensionen, die Bewegungsgleichungen für eine Vielzahl von Objekten zeitdiskret. Mittels verschiedener Integrationsverfahren kann die Position $x_0$ und Geschwindigkeit $v_0$ eines Objekts genutzt werden, um die Position $x_1$ und Geschwindigkeit $v_1$ zu einem späteren Zeitpunkt zu approximieren. Das simple Euler-Verfahren berechnet die Position beispielsweise wie folgt:
 \begin{equation}
     x_1 = x_0 + v_0 * \Delta t 
 \end{equation}
 \begin{equation}
     v_1 = v_0 + a_0 * \Delta t.
 \end{equation}
-Dabei ist $a_0$ die Beschleunigung zum Zeitpunkt $t_0$ und $\Delta t$ die Zeitschrittgröße. Die Beschleunigung eines Objekts wird durch die Summe aller Kräfte bestimmt und kann beispielsweise durch Gravitation oder Kollision mit anderen Objekten verursacht werden.
+Dabei ist $a_0$ die Beschleunigung zum Zeitpunkt $t_0$ und $\Delta t$ die diskrete Zeitschrittgröße. Die Beschleunigung eines Objekts wird durch die Summe aller Kräfte bestimmt und kann beispielsweise durch Gravitation oder Kollision mit anderen Objekten verursacht werden.
 
 Die Simulation bildet die Grundlage, um das Verhalten und die Steuerung einer Rakete mit Schubvektorkontrolle zu simulieren. Diese soll als Objekt in der Simulation normal teilnehmen, wobei die Schubkraft als zusätzliche Kraft wirkt.
 
@@ -97,14 +97,32 @@ Zusätzlich soll die autonome Steuerung einer Rakete mit Schubvektorkontrolle si
 Die Implementierung erfolgte in C++ unter Verwendung von objekt-orientierten Prinzipien. Der gesamte Code wurde eigenständig geschrieben, welche Bibliotheken verwendet wurden, ist in Tabelle \ref{tab:libs} im Anhang vermerkt. Die Umsetzung der grafischen Oberfläche erfolgt mit \textsc{GLFW} und \textsc{OpenGL}, wobei die Benutzerobfläche \textsc{ImGui} verwendet. Der Code, sowie die gesamte Entwicklungshistorie können im GitHub Repository \footnote{\url{https://github.com/grav-byte/GravSim}} eingesehen werden.
 
 \subsection{Herangehensweise}
-Um möglichst wenig fehleranfälligen und gut erweiterbaren Code zu schreiben, wurden verschiedene Ansätze verfolgt. Grundsätzlich wurde das Projekt in möglichst unabhängige Module aufgeteilt, wie z.B. die Physik-Engine, die grafische Darstellung, die Benutzeroberfläche, etc. Zwischen den Modulen wurden möglichst kompakte Schnittstellen definiert. Einer der wichtigsten Aspekte war die Trennung von Daten, Logik und Darstellung. Wo immer möglich, wurden Schnittstellen benutzt, damit die übergeordnete Logik keine Annahmen über die Details der Implementierung der Module treffen muss. So konnte vermehrt Gebrauch vom Abhängigkeits-Inversions-Prinzip und dem Strategie-Muster gemacht werden.
+Um möglichst wenig fehleranfälligen und gut erweiterbaren Code zu schreiben, wurden verschiedene Ansätze verfolgt. Grundsätzlich wurde das Projekt in möglichst unabhängige Module aufgeteilt, wie z.B. die Physik-Engine, die grafische Darstellung, die Benutzeroberfläche, etc. Zwischen den Modulen wurden möglichst kompakte Schnittstellen definiert. Einer der wichtigsten Aspekte war die Trennung von Daten, Logik und Darstellung. Wo immer möglich, wurden Abhängigkeiten so gesetzt, dass die übergeordnete Logik keine Annahmen über die Details der Implementierung der Module treffen muss. So konnte vermehrt Gebrauch vom Abhängigkeits-Inversions-Prinzip und dem Strategie-Muster gemacht werden. 
+
+\subsection{Struktur}
+Die grundlegende Struktur der Klassen im Projekt ist in Abbildung \ref{fig:uml_overview} dargestellt. Der \texttt{namespace Core} beeinhaltet die Klasse \texttt{Application}, welche eine simple Hauptschleife ausführt und für einen \texttt{vector} von der Klasse \texttt{AppLayer} deren Ereignisfunktionen \texttt{OnInit}, \texttt{OnUpdate} und \texttt{OnRender} aufruft. Außerdem verwaltet sie ein Ereignis-Beobachter-System, mit dem die \texttt{AppLayer} Ereignisse abonnieren und auslösen kann. Der Code in dem \texttt{namespace Core} ist auf einem OpenSource Git-Repository \footnote{\url{https://github.com/TheCherno/Architecture}} basiert und wurde für diese Anwendung angepasst. Der Rest der Anwendung befindet sich im \texttt{namespace} App und besteht aus vier Klassen die \texttt{AppLayer} erweitern. Die Klasse \texttt{EngineLayer} bildet die Basis und verwaltet die Physiksimulation, das Rendering und die Daten. Die Klasse \texttt{UILayer} stellt die Benutzeroberfläche dar, mit der die Simulation gesteuert werden kann. Zusätzlich gibt es den AudioLayer, welcher die Wiedergabe von Audio ermöglicht, und den \texttt{ControlLayer}, welcher die 
+Steuerung einer Rakete in der Simulation übernimmt.
+Der \texttt{EngineLayer} hängt dabei überhaupt nicht von den anderen \texttt{AppLayern} ab.
+
+Die Daten der Simulation werden in der Klasse \texttt{Scene} verwaltet, welche einen \texttt{vector} von \texttt{SceneObject} enthält. Diese Objekte präsentieren physische Objekte in der Simulation und speichern eine Struktur \texttt{Transform}, die Position, Rotation und Größe festlegt, sowie Felder für Geschwindigkeit, Masse und andere vom Nutzer definierte Eigenschaften. Außerdem hat jedes Objekt ein \texttt{IVisual}, um Daten zur grafischen Darstellung zu speichern und eine Liste von \texttt{ColliderBase} für die Kollisionslösung.
+
+Die Struktur verwendet ein modulares MVC-Konzept, in dem die Model-, View- und Controller-Funktionen auf mehrere Klassen verteilt sind, die gemeinsam die jeweilige Schicht bilden. Das Model besteht aus der Klasse \texttt{EngineLayer} und den im vorherigen Abschnitt genannten Datenklassen. Der View wird durch alle Klassen des Rendering Moduls gebildet, welche nicht im Detail in dieser Ausarbeitung beschrieben werden, aber die grafische Darstellung der Simulation über OpenGL Shader umsetzen. Der Controller besteht aus der \texttt{UILayer}, welche die Benutzeroberfläche darstellt, und der \texttt{ControlLayer}, welche die Steuerung einer Rakete ermöglicht.
+
+
+\begin{figure*}[p]
+    \centering
+    \includegraphics[width = 1\textwidth]{images/overview.png}
+    \caption{Überblick über die oberste Struktur der Anwendung}
+    \label{fig:uml_overview}
+\end{figure*}
+
 
 
 \printbibliography
 
 \appendix
 
-\begin{table}
+\begin{table}[h]
 \centering
 \caption{Verwendete Bibliotheken und deren Zweck}
 \begin{tabularx}{\columnwidth}{lX}
