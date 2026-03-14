@@ -1,13 +1,12 @@
-\documentclass[9pt, twocolumn]{extarticle}
+\documentclass[10pt, twocolumn]{extarticle}
 \usepackage{tabularx}
-
-% Use Times-like font for pdfLaTeX
-\usepackage{mathptmx}
 
 % Set up page geometry
 \usepackage[a4paper, margin=1in]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
 \usepackage{tikz} 
 \usepackage[ngerman]{babel} % Use 'english' for English text
 \usepackage{amsmath}
@@ -18,49 +17,53 @@
 \usepackage{booktabs} % For professional tables
 \usepackage{hyperref}
 \usepackage{parskip} % Space between paragraphs
+\usepackage{indentfirst} % Indent the first paragraph of each section
+\setlength{\parindent}{0.38cm} % Adjust the indentation
+
+\usepackage{titlesec}
+
+\usepackage{setspace}
+
+\titleformat{\section}
+  {\centering\scshape\large}
+  {\Roman{section}}
+  {1em}
+  {}
+
+\titlespacing*{\section}
+  {0pt}
+  {8pt}
+  {4pt}
 
 % Header and footer
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\fancyhead[L]{Höhere Informatik}
-\fancyhead[C]{}
-\fancyhead[R]{Konrad Wehkamp, Lorenz Saalmann}
-\fancyfoot[C]{\thepage}
+\fancyhf{}              % löscht Kopf- und Fußzeile
+\fancyhead[R]{\thepage} % Seitenzahl oben rechts
+
+\renewcommand{\headrulewidth}{0pt} % keine Linie oben
+\renewcommand{\footrulewidth}{0pt} % keine Linie unten
 
 \begin{document}
 
-\setlength{\parindent}{0pt}
+\twocolumn[
+\begin{center}
 
-\begin{titlepage}%Schmutztitel; Grafiken mit Tikz erstellt; Signet eingebunden
-\begin{tikzpicture}[remember picture,overlay,shift={(current page.south)}]
-    \node [text width=10cm] at (0,25.5){\includegraphics[width = 1\textwidth]{images/THM_logo.eps}};
-\node [text width=13cm] at (0, 13.5)
-{
-\sffamily
-\begin{flushleft}
-    \Large
-    \text{Höhere Informatik}\\[1ex]
-    \small
-    \text{Prof. Probst}\\[3ex]
-    \vspace{.5cm}
-    \LARGE
-\color{black}
-\textbf{Software-Architektur einer Physik-Simulation in C++}\\[3ex]
-\vspace{.5cm}
-\Large
-\vspace{1cm}
+{\fontsize{24pt}{24pt}\selectfont Software-Architektur einer Physik-Simulation in C++\par}
+\vspace{6pt}
 
-\text{Konrad Wehkamp () und Lorenz Saalmann (5391121)}\\[1ex]
-\small\text{SS 26}\\[.9ex]
-\end{flushleft}
-};
-\end{tikzpicture}
-\end{titlepage}
+{\fontsize{14pt}{14pt}\selectfont \mbox{}\par}
 
-\newpage
+{\fontsize{10pt}{10pt}\selectfont \mbox{}\par}
 
+{\fontsize{10pt}{10pt}\selectfont Konrad Wehkamp (5391204) \& Lorenz Saalmann (5391121)\par}
 
-\section{Zusammenfassung}
+{\fontsize{10pt}{10pt}\selectfont \mbox{}\par}
+
+\end{center}
+]
+
+\textbf{Zusammenfassung--Lorem ipsum arsch geleckt}
 
 \section{Einleitung}
 Simulationen können ein sehr nützliches Werkzeug sein, um komplexe Systeme zu untersuchen und vorherzusagen. Besonders in der Physik und den Ingeneurwissenschaften sind sie ein fester Bestandteil der Forschung und Entwicklung. Sie werden vor allem dann eingesetzt, wenn es schwierig oder unmöglich ist eine analytische Lösung zu finden, oder wenn es unrealistisch ist ein Experiment durchzuführen. Außerdem ermöglichen sie das Durchführen von Designstudien, da sie schnelle Iterationen und Tests von Konzepten möglich machen. Dieser Bericht beschäftigt sich mit der Software-Architektur einer Physik-Simulation in C++, die die grundlegende Dynamik von Objekten simuliert. Die Simulation löst, beschränkt auf zwei Dimensionen, die Bewegungsgleichungen für eine Vielzahl von Objekten zeitdiskret. Mittels verschiedener Integrationsverfahren kann die Position $x_0$ und Geschwindigkeit $v_0$ eines Objekts genutzt werden, um die Position $x_1$ und Geschwindigkeit $v_1$ zu einem späteren Zeitpunkt zu approximieren. Das simple Euler-Verfahren berechnet die Position beispielsweise wie folgt:
