@@ -3,4 +3,11 @@
 build_vs
 .vs
 cmd.sh
-.clang-uml
+*.clang-uml
+*.pygtex
+*.gz
+*.aux
+*.fls
+*.log
+*.fdb_latexmk
+*.bbl
