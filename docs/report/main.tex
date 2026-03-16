@@ -12,6 +12,7 @@
 % =========================================================
 \usepackage{newtxtext}
 \usepackage{newtxmath}
+\usepackage{minted}
 
 % =========================================================
 %                     PAGE LAYOUT
@@ -207,9 +208,87 @@ Die Struktur verwendet ein modulares MVC-Konzept, in dem die Model-, View- und C
 
 \begin{figure*}[p]
 \centering
-\includegraphics[width=1\textwidth]{images/overview.png}
+\includegraphics[width=1\textwidth]{../manual_uml/overview.png}
 \caption{Überblick über die oberste Struktur der Anwendung}
 \label{fig:uml_overview}
+\end{figure*}
+
+\subsection{Programmablauf}
+Um die Funktionsweise der Applikation zu verdeutlichen, wird hier der Ablauf eines Schrittes der Hauptschleife beschrieben. Dieser beginnt damit die Zeit \texttt{simulationDeltaTime} seit dem letzten Schritt zu berechnen. Dann wird für jede \texttt{AppLayer} die Funktion \texttt{OnUpdate} aufgerufen:
+
+\begin{minted}[fontsize=\scriptsize, breaklines, style=tango]{cpp}
+// main layer update
+for (const std::unique_ptr<AppLayer>& layer :layerStack_)
+    layer->OnUpdate(simulationDeltaTime);
+\end{minted}
+
+Die Simulation wird über die \texttt{EngineLayer} aktualisiert, die einen \texttt{PhysicsSolver} besitzt. Diesem wird die aktuelle Szene und \texttt{deltaTime} übergeben, wenn die Simulation läuft und nicht pausiert ist:
+
+\begin{minted}[fontsize=\scriptsize, breaklines, style=tango]{cpp}
+void EngineLayer::OnUpdate(const float deltaTime) {
+    if (runningSimulation_ && !pausedSimulation_)
+        physicsSolver_->UpdatePhysics(scene_.get(), deltaTime);
+    ...
+}
+\end{minted}
+
+Da der Zeitschritt $\Delta t$, mit dem die Simulation läuft, unabhängig von der Bildrate sein soll, wird die Simulation in Zwischenschritten aktualisiert. Dafür wird die vergangene Zeit seit dem letzten Schritt in einem Akkumulator gespeichert und solange die Simulation aktualisiert, bis der Akkumulator kleiner als die Zeitschrittgröße ist:
+
+\begin{minted}[fontsize=\scriptsize, breaklines, style=tango]{cpp}
+void PhysicsSolver::UpdatePhysics(const Scene* scene, const float deltaTime) {
+    ...
+    // sub step the physics updates as often as necessary
+    while (timeAccumulator_ >= timeStep_) {
+        StepPropagation(scene);
+        timeAccumulator_ -= timeStep_;
+    }
+    ...
+}
+\end{minted}
+
+In einem Physikschritt muss die Propagation der Objekte und die Kollisionslösung durchgeführt werden. Dafür wird zunächst der \texttt{ContactSolver} verwendet, um die Kontakte zwischen den Objekten zu finden. Die Kontakte werden in den \texttt{SceneObjects} gespeichert. Dann wird für jedes Objekt die Propagation durchgeführt, welche die Position und Geschwindigkeit des Objekts aktualisiert. Hier wird keine Annahme über das Integrationsverfahren getroffen, da die Propagation über eine \texttt{IPropagator} Schnittstelle integriert ist. Danach werden die \texttt{Constraints} angewendet, sie bilden die Randbedingungen der Simulation ab. Zuletzt werden die Kontakte zwischen Objekten gelöst.
+
+\begin{minted}[fontsize=\tiny, breaklines, style=tango]{cpp}
+void PhysicsSolver::StepPropagation(const Scene *scene) const {
+    // find contacts
+    ContactSolver::ClearContacts(scene);
+    ContactSolver::FindContacts(scene);
+
+    // create context for propagation
+    const PhysicsContext context{ *scene, *this };
+
+    for (SceneObject* object : scene->GetAllObjects()) {
+        // propagate object
+        activePropagator_->Propagate(*object, context, timeStep_);
+
+        if (object->mass > 0.0f) {
+            // apply constraints and resolve contacts for objects with mass
+            for (const Constraint* constraint : scene->GetConstraints()) {
+                constraint->ApplyConstraint(object);
+            }
+
+            ContactSolver::ResolveContacts(object);
+        }
+    }
+}
+\end{minted}
+
+Dem \texttt{activePropagator} ist es möglich über einen \texttt{PhysicsContext} Zugriff auf die Szene und dem \texttt{PhysicsSolver} zu haben. So kann die Implementation der Propagation selbst bestimmen, wann und wie oft sie Kräfte mit der Methode \texttt{PhysicsSolver::GetAccelerationForObject} berechnen muss. Abbildung \ref{fig:call_stack} zeigt beispielhaft den Call-Stack für die Berechnung von Kräften während der Propagation eines Objekts.
+
+Die Interaktion mit der Simulation erfolgt einzig durch die Veränderung der Daten der Modell-Ebene. So kann die Simulation vollständig entkoppelt laufen, was ihren simplen Aufbau ermöglicht.
+
+\begin{figure}
+\centering
+\includegraphics[width=.49\textwidth]{images/call_stack.png}
+\caption{Aufrufstapel für die Berechnung von Kräften während der Propagation eines Objekts, dieser zeigt die verschachtelten Aufrufe von Methoden bis zur Berechnung der auf eine Objekt wirkenden Kräfte.}
+\label{fig:call_stack}
+\end{figure}
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=1\textwidth]{../manual_uml/physics.png}
+\caption{Überblick über die Struktur der Physik-Simulation, welche von der \texttt{EngineLayer} verwaltet wird}
+\label{fig:uml_physics}
 \end{figure*}
 
 % ---------------------------------------------------------
@@ -228,7 +307,7 @@ Alle dargestellten Objekte in der Simulation, wie z.B. die Rakete oder die Zielp
 
 \subsection{Regelalgorithmus}
 
-Die Steuerung der Rakete erfolgt über einen klassischen PID-Regler (Proportional–Integral–Derivative), der in jedem Simulationsschritt ausgewertet wird. Ziel des Reglers ist es, aus der Differenz zwischen einem gewünschten Sollwert und dem aktuellen Systemzustand eine geeignete Steuergröße zu berechnen, welche anschließend zur Anpassung des Schubvektors verwendet wird.
+Die Steuerung der Rakete erfolgt über einen klassischen PID-Regler (Proportional-Integral-Derivative), der in jedem Simulationsschritt ausgewertet wird. Ziel des Reglers ist es, aus der Differenz zwischen einem gewünschten Sollwert und dem aktuellen Systemzustand eine geeignete Steuergröße zu berechnen, welche anschließend zur Anpassung des Schubvektors verwendet wird.
 
 Der Regler berechnet zunächst den Fehler
 \begin{equation}
