@@ -120,6 +120,8 @@
 \end{center}
 ]
 
+\setlength{\parindent}{0pt}
+
 % =========================================================
 %                        ABSTRACT
 % =========================================================
@@ -197,7 +199,9 @@ Mit der manuellen Speicherverwaltung in C++ kommt auch die Verantwortung für di
 % ---------------------------------------------------------
 
 \subsection{Struktur}
-Die grundlegende Struktur der Klassen im Projekt ist in Abbildung \ref{fig:uml_overview} dargestellt. Der \texttt{namespace Core} beeinhaltet die Klasse \texttt{Application}, welche die Hauptschleife ausführt und für einen \texttt{vector} von der Klasse \texttt{AppLayer} deren Ereignisfunktionen \texttt{OnInit}, \texttt{OnUpdate} und \texttt{OnRender} aufruft. Außerdem verwaltet sie ein Ereignis-Beobachter-System, mit dem die \texttt{AppLayer} Ereignisse abonnieren und auslösen kann. Der Code in dem \texttt{namespace Core} ist auf einem OpenSource Git-Repository \footnote{\url{https://github.com/TheCherno/Architecture}} basiert und wurde für diese Anwendung angepasst. Der Rest der Anwendung befindet sich im \texttt{namespace App} und besteht aus vier Klassen die \texttt{AppLayer} erweitern. Die Klasse \texttt{EngineLayer} bildet die Basis und verwaltet die Physik-Simulation, das Rendering und die Daten. Die Klasse \texttt{UILayer} stellt die Benutzeroberfläche dar, mit der die Simulation gesteuert werden kann. Zusätzlich gibt es den \texttt{AudioLayer}, welcher die Wiedergabe von Audio ermöglicht, und den \texttt{ControlLayer}, welcher die 
+Die grundlegende Struktur der Klassen im Projekt ist in Abbildung \ref{fig:uml_overview} dargestellt. Der \texttt{namespace Core} beeinhaltet die Klasse \texttt{Application}, welche die Hauptschleife ausführt und für einen \texttt{vector} von der Klasse \texttt{AppLayer} deren Ereignisfunktionen \texttt{OnInit}, \texttt{OnUpdate} und \texttt{OnRender} aufruft. Außerdem verwaltet sie ein Ereignis-Beobachter-System, mit dem die \texttt{AppLayer} Ereignisse abonnieren und auslösen kann. Der Code in dem \texttt{namespace Core} ist auf einem OpenSource Git-Repository \footnote{\url{https://github.com/TheCherno/Architecture}} basiert und wurde für diese Anwendung angepasst. 
+
+Der Rest der Anwendung befindet sich im \texttt{namespace App} und besteht aus vier Klassen die \texttt{AppLayer} erweitern. Die Klasse \texttt{EngineLayer} bildet die Basis und verwaltet die Physik-Simulation, das Rendering und die Daten. Die Klasse \texttt{UILayer} stellt die Benutzeroberfläche dar, mit der die Simulation gesteuert werden kann. Zusätzlich gibt es den \texttt{AudioLayer}, welcher die Wiedergabe von Audio ermöglicht, und den \texttt{ControlLayer}, welcher die 
 Steuerung einer Rakete in der Simulation übernimmt.
 Der \texttt{EngineLayer} hängt dabei überhaupt nicht von den anderen \texttt{AppLayern} ab.
 
@@ -205,11 +209,27 @@ Die Daten der Simulation werden in der Klasse \texttt{Scene} verwaltet, welche e
 
 Die Struktur verwendet ein übergeordnetes modulares MVC-Konzept, in dem die Model-, View- und Controller-Funktionen auf mehrere Klassen verteilt sind, die gemeinsam die jeweilige Schicht bilden. Das Model besteht aus der Klasse \texttt{EngineLayer} und den im vorherigen Abschnitt genannten Datenklassen. Der View wird durch alle Klassen des Rendering Moduls gebildet, welche nicht im Detail in dieser Ausarbeitung beschrieben werden, aber im Anhang in Abbildung \ref{fig:uml_rendering} als UML-Diagramm dargestellt werden. Dort wird grafische Darstellung der Simulation über OpenGL Shader umgesetzt. Der Controller besteht aus der \texttt{UILayer}, welche die Benutzeroberfläche darstellt, und der \texttt{ControlLayer}, welche die Steuerung einer Rakete ermöglicht. Abhängigkeiten zwischen den Ebenen sind dabei so umgesetzt, dass \texttt{EngineLayer} unabhängig von den anderen Ebenen ist, während \texttt{UILayer} und \texttt{ControlLayer} von \texttt{EngineLayer} abhängen, um die Daten im Modell zu verändern.
 
+Die Physik-Simulation selbst ist in der Klasse \texttt{PhysicsSolver} implementiert, welche von \texttt{EngineLayer} verwaltet wird. Über eine Schnittstelle \texttt{IPropagator} werden verschiedene Integrationsverfahren implementiert, welche von \texttt{PhysicsSolver} genutzt werden können. Abbildung \ref{fig:uml_physics} zeigt die Struktur und konkreten Klassen der Physik-Simulation. Für die Randbedingungen der Simulation besitzt die Klasse \texttt{Scene} eine Liste von \texttt{Constraint} und für die Lösung von Kollisionen werden die Kontakte zwischen Objekten in \texttt{SceneObject} als \texttt{ContactPoint} gespeichert, welche von der Klasse \texttt{ContactSolver} verwaltet werden. Im Moment werden nur kreisförmige \texttt{CircleCollider}unterstützt, die Architektur ermöglicht aber die einfache Erweiterung um weitere Kollisionsformen, solange diese \texttt{ColliderBase} erweitern.
+
 \begin{figure*}[p]
 \centering
 \includegraphics[width=1\textwidth]{../manual_uml/overview.png}
 \caption{Überblick über die oberste Struktur der Anwendung}
 \label{fig:uml_overview}
+\end{figure*}
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=1\textwidth]{../manual_uml/physics.png}
+\caption{Überblick über die Struktur der Physik-Simulation, welche von der \texttt{EngineLayer} verwaltet wird}
+\label{fig:uml_physics}
+\end{figure*}
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=1\textwidth]{../manual_uml/rocket_control.png}
+\caption{Überblick über die Struktur der Raketensteuerung, welche von der \texttt{EngineLayer} verwaltet wird}
+\label{fig:uml_rocket_control}
 \end{figure*}
 
 \subsection{Programmablauf}
@@ -274,8 +294,6 @@ void PhysicsSolver::StepPropagation(const Scene *scene) const {
 
 Dem \texttt{activePropagator} ist es möglich über einen \texttt{PhysicsContext} Zugriff auf die Szene und dem \texttt{PhysicsSolver} zu haben. So kann die Implementation der Propagation selbst bestimmen, wann und wie oft sie Kräfte mit der Methode \texttt{PhysicsSolver::GetAccelerationForObject} berechnen muss. Abbildung \ref{fig:call_stack} zeigt beispielhaft den Call-Stack für die Berechnung von Kräften während der Propagation eines Objekts.
 
-Die Interaktion mit der Simulation erfolgt einzig durch die Veränderung der Daten der Modell-Ebene. So kann die Simulation vollständig entkoppelt laufen, was ihren simplen Aufbau ermöglicht.
-
 \begin{figure}
 \centering
 \includegraphics[width=.49\textwidth]{images/call_stack.png}
@@ -283,19 +301,61 @@ Die Interaktion mit der Simulation erfolgt einzig durch die Veränderung der Dat
 \label{fig:call_stack}
 \end{figure}
 
-\begin{figure*}[p]
-\centering
-\includegraphics[width=1\textwidth]{../manual_uml/physics.png}
-\caption{Überblick über die Struktur der Physik-Simulation, welche von der \texttt{EngineLayer} verwaltet wird}
-\label{fig:uml_physics}
-\end{figure*}
+Die Interaktion mit der Simulation erfolgt einzig durch die Veränderung der Daten der Modell-Ebene. So kann die Simulation vollständig entkoppelt laufen, was ihren simplen Aufbau ermöglicht. Als weiteres Beispiel soll das Laden einer Szene dieses Szenario demonstrieren. Wenn der Nutzer auf den Button "Load Scene" klickt, wird folgender Code ausgeführt, welcher den Pfad der ausgewählten Szene an die Methode \texttt{EngineLayer::LoadScene} übergibt:
+\begin{minted}[fontsize=\scriptsize, breaklines, style=tango]{cpp}
+if (ImGui::Button("Load Scene")) {
+  if (engine_->LoadScene(sceneSelector_->GetSelectedFile()))
+      ShowStatusMessage("Scene loaded successfully.");
+  ...
+}
+\end{minted}
 
-\begin{figure*}[p]
+Die Methode \texttt{EngineLayer::LoadScene} stoppt zunächst die Simulation, falls sie läuft, und versucht dann die Szene über die \texttt{Serialiser::LoadScene} Methode zu laden. Falls erfolgreich, wird die geladene Szene in der \texttt{EngineLayer} in die \texttt{unique\_ptr<Scene>} geschoben. Sie gehört jetzt \texttt{EngineLayer}. Danach wird die Methode \texttt{OnSceneLoaded} aufgerufen:
+\begin{minted}[fontsize=\scriptsize, breaklines, style=tango]{cpp}
+bool EngineLayer::LoadScene(const std::string &filePath) {
+    if (runningSimulation_)
+        StopSimulation();
+    ...
+
+    auto loadedScene = Serialiser::LoadScene(filePath);
+    if (!loadedScene)
+        return false;
+
+    scene_ = std::move(loadedScene);
+    OnSceneLoaded();
+    return true;
+}
+\end{minted}
+
+Die Methode \texttt{OnSceneLoaded} verwaltet ihre Abhängigkeiten, wie z.B. das Rendering-Modul. Um andere Ebenen über die neue Szene zu informieren, wird \texttt{SceneLoadedEvent}, ein Ereignis, ausgelöst. Dafür wird die Methode \texttt{Application::RaiseEvent} über ein Singleton-Muster aufgerufen:
+\begin{minted}[fontsize=\scriptsize, breaklines, style=tango]{cpp}
+void EngineLayer::OnSceneLoaded() const {
+    renderingSystem_->SetActiveCamera(scene_->GetCamera());
+
+    SceneLoadedEvent event(scene_.get());
+    Core::Application::Get().RaiseEvent(event);
+    ...
+}
+\end{minted}
+
+Die \texttt{UILayer} und andere Module können dieses Ereignis abonnieren, um über die neue Szene informiert zu werden. So kann beispielsweise die \texttt{UILayer} die Informationen der neuen Szene nutzen, um die Benutzeroberfläche entsprechend zu aktualisieren:
+\begin{minted}[fontsize=\scriptsize, breaklines, style=tango]{cpp}
+void SceneUI::OnEvent(Core::Event &event) {
+    // Listen for scene loaded events to update the scene pointer
+    if (event.GetEventType() == Core::SceneLoaded) {
+        scene_ = engine_->GetScene();
+    }
+}
+\end{minted}
+
+Der Aufrufstapel für das Laden einer Szene ist in Abbildung \ref{fig:call_stack_load_scene} dargestellt. 
+
+\begin{figure}
 \centering
-\includegraphics[width=1\textwidth]{../manual_uml/rocket_control.png}
-\caption{Überblick über die Struktur der Raketensteuerung, welche von der \texttt{EngineLayer} verwaltet wird}
-\label{fig:uml_rocket_control}
-\end{figure*}
+\includegraphics[width=.49\textwidth]{images/call_stack_load.png}
+\caption{Aufrufstapel für das Laden einer Szene, dieser zeigt die verschachtelten Aufrufe von Methoden bis zum Laden der Szene und der Aktualisierung der Benutzeroberfläche.}
+\label{fig:call_stack_load_scene}
+\end{figure}
 
 % ---------------------------------------------------------
 
@@ -357,10 +417,10 @@ In der Simulation wird die Rakete durch die Regelung der Schubstärke und -richt
 \clearpage
 \appendix
 
-\begin{table}[h]
+\begin{table*}[h]
 \centering
-\caption{Verwendete Bibliotheken und deren Zweck}
-\begin{tabularx}{\columnwidth}{lX}
+\caption{Verwendete Bibliotheken und deren Zweck. Die meisten Bibliotheken sind über Git-Submodule in das Projekt eingebunden. Beim Bauen der Anwendung werden die Bibliotheken eingebunden und kompiliert.}
+\begin{tabularx}{\textwidth}{lX}
 
 \toprule
 \textbf{Bibliothek} & \textbf{Zweck} \\
@@ -377,7 +437,14 @@ stb & Header-only-Bibliothek zum Laden von Texturen \\
 
 \end{tabularx}
 \label{tab:libs}
-\end{table}
+\end{table*}
+
+\begin{figure*}
+\centering
+\includegraphics[width=1\textwidth]{../manual_uml/interaction.png}
+\caption{Überblick über die Struktur der physischen Interaktion mit der Simulation}
+\label{fig:uml_interaction}
+\end{figure*}
 
 \begin{figure*}[p]
 \centering
@@ -393,11 +460,5 @@ stb & Header-only-Bibliothek zum Laden von Texturen \\
 \label{fig:uml_loading}
 \end{figure*}
 
-\begin{figure*}[p]
-\centering
-\includegraphics[width=1\textwidth]{../manual_uml/interaction.png}
-\caption{Überblick über die Struktur der physischen Interaktion mit der Simulation}
-\label{fig:uml_interaction}
-\end{figure*}
 
 \end{document}
