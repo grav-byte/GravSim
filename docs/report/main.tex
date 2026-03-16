@@ -1,4 +1,5 @@
 \documentclass[10pt,twocolumn]{extarticle}
+\usepackage[textsize=scriptsize]{todonotes}
 
 % =========================================================
 %                     ENCODING & LANGUAGE
@@ -189,22 +190,20 @@ Die Umsetzung der grafischen Oberfläche erfolgt mit \textsc{GLFW} und \textsc{O
 
 \subsection{Herangehensweise}
 
-Um möglichst wenig fehleranfälligen und gut erweiterbaren Code zu schreiben, wurden verschiedene Ansätze verfolgt. Grundsätzlich wurde das Projekt in möglichst unabhängige Module aufgeteilt, wie z.B. die Physik-Engine, die grafische Darstellung, die Benutzeroberfläche, etc.
+Um möglichst wenig fehleranfälligen und gut erweiterbaren Code zu schreiben, wurden verschiedene Ansätze verfolgt. Grundsätzlich wurde das Projekt in möglichst unabhängige Module aufgeteilt, wie z.B. die Physik-Engine, die grafische Darstellung, die Benutzeroberfläche, etc. Zwischen den Modulen wurden möglichst kompakte Schnittstellen definiert. Einer der wichtigsten Aspekte war die Trennung von Daten, Logik und Darstellung. Wo immer möglich, wurden Abhängigkeiten so gesetzt, dass die übergeordnete Logik keine Annahmen über die Details der Implementierung der Module treffen muss. So konnte vermehrt Gebrauch vom Abhängigkeits-Inversions-Prinzip und dem Strategie-Muster gemacht werden.
 
-Zwischen den Modulen wurden möglichst kompakte Schnittstellen definiert. Einer der wichtigsten Aspekte war die Trennung von Daten, Logik und Darstellung. Wo immer möglich, wurden Abhängigkeiten so gesetzt, dass die übergeordnete Logik keine Annahmen über die Details der Implementierung der Module treffen muss. So konnte vermehrt Gebrauch vom Abhängigkeits-Inversions-Prinzip und dem Strategie-Muster gemacht werden.
-
-Mit der manuellen Speicherverwaltung in C++ kommt auch die Verantwortung für die korrekte Verwaltung von Ressourcen einher. Fehleranfällig ist vor allem das Anlegen und Freigeben von Objekten im dynamischen Speicher (Heap), hier können leicht ungültige Zeiger, Speicherlecks oder doppelte Freigaben entstehen. Um diese Fehlerquellen zu minimieren, wurde konsequent der Besitz von Variablen mit dem Ownership-Modell festgelegt, welches C++ durch \texttt{unique\_ptr} ermöglicht. Mit einem \texttt{unique\_ptr} weist man der Variable alleinigen besitzt eines Zeigers zu. Durch den gelöschten Kopier-Konstruktor ist es nicht möglich den Zeiger zu kopieren und er kann lediglich übergeben werden. Der Speicher wird automatisch freigegeben, wenn der Zeiger aus dem Gültigkeitsbereich fällt. Ein weiterer Vorteil dieser Zeiger ist es, dass man Intent einer Variable klar kommunizieren kann, das macht den Code verständlicher.
+Mit der manuellen Speicherverwaltung in C++ kommt auch die Verantwortung für die korrekte Verwaltung von Ressourcen einher. Fehleranfällig ist vor allem das Anlegen und Freigeben von Objekten im dynamischen Speicher (Heap), hier können leicht ungültige Zeiger, Speicherlecks oder doppelte Freigaben entstehen. Um diese Fehlerquellen zu minimieren, wurde konsequent der Besitz von Variablen mit dem Ownership-Modell festgelegt, welches C++ durch \texttt{unique\_ptr} ermöglicht. Mit einem \texttt{unique\_ptr} weist man dem Objekt alleinigen besitzt eines Zeigers zu. Durch den gelöschten Kopier-Konstruktor ist es nicht möglich den Zeiger zu kopieren und er kann lediglich übergeben werden und der Speicher wird automatisch freigegeben, wenn der Zeiger aus dem Gültigkeitsbereich fällt. Ein weiterer Vorteil dieser Zeiger ist es, dass man Intent einer Variable klar kommunizieren kann, das macht den Code verständlicher.
 
 % ---------------------------------------------------------
 
 \subsection{Struktur}
-Die grundlegende Struktur der Klassen im Projekt ist in Abbildung \ref{fig:uml_overview} dargestellt. Der \texttt{namespace Core} beeinhaltet die Klasse \texttt{Application}, welche eine simple Hauptschleife ausführt und für einen \texttt{vector} von der Klasse \texttt{AppLayer} deren Ereignisfunktionen \texttt{OnInit}, \texttt{OnUpdate} und \texttt{OnRender} aufruft. Außerdem verwaltet sie ein Ereignis-Beobachter-System, mit dem die \texttt{AppLayer} Ereignisse abonnieren und auslösen kann. Der Code in dem \texttt{namespace Core} ist auf einem OpenSource Git-Repository \footnote{\url{https://github.com/TheCherno/Architecture}} basiert und wurde für diese Anwendung angepasst. Der Rest der Anwendung befindet sich im \texttt{namespace} App und besteht aus vier Klassen die \texttt{AppLayer} erweitern. Die Klasse \texttt{EngineLayer} bildet die Basis und verwaltet die Physiksimulation, das Rendering und die Daten. Die Klasse \texttt{UILayer} stellt die Benutzeroberfläche dar, mit der die Simulation gesteuert werden kann. Zusätzlich gibt es den AudioLayer, welcher die Wiedergabe von Audio ermöglicht, und den \texttt{ControlLayer}, welcher die 
+Die grundlegende Struktur der Klassen im Projekt ist in Abbildung \ref{fig:uml_overview} dargestellt. Der \texttt{namespace Core} beeinhaltet die Klasse \texttt{Application}, welche die Hauptschleife ausführt und für einen \texttt{vector} von der Klasse \texttt{AppLayer} deren Ereignisfunktionen \texttt{OnInit}, \texttt{OnUpdate} und \texttt{OnRender} aufruft. Außerdem verwaltet sie ein Ereignis-Beobachter-System, mit dem die \texttt{AppLayer} Ereignisse abonnieren und auslösen kann. Der Code in dem \texttt{namespace Core} ist auf einem OpenSource Git-Repository \footnote{\url{https://github.com/TheCherno/Architecture}} basiert und wurde für diese Anwendung angepasst. Der Rest der Anwendung befindet sich im \texttt{namespace App} und besteht aus vier Klassen die \texttt{AppLayer} erweitern. Die Klasse \texttt{EngineLayer} bildet die Basis und verwaltet die Physik-Simulation, das Rendering und die Daten. Die Klasse \texttt{UILayer} stellt die Benutzeroberfläche dar, mit der die Simulation gesteuert werden kann. Zusätzlich gibt es den \texttt{AudioLayer}, welcher die Wiedergabe von Audio ermöglicht, und den \texttt{ControlLayer}, welcher die 
 Steuerung einer Rakete in der Simulation übernimmt.
 Der \texttt{EngineLayer} hängt dabei überhaupt nicht von den anderen \texttt{AppLayern} ab.
 
-Die Daten der Simulation werden in der Klasse \texttt{Scene} verwaltet, welche einen \texttt{vector} von \texttt{SceneObject} enthält. Diese Objekte präsentieren physische Objekte in der Simulation und speichern eine Struktur \texttt{Transform}, die Position, Rotation und Größe festlegt, sowie Felder für Geschwindigkeit, Masse und andere vom Nutzer definierte Eigenschaften. Außerdem hat jedes Objekt ein \texttt{IVisual}, um Daten zur grafischen Darstellung zu speichern und eine Liste von \texttt{ColliderBase} für die Kollisionslösung.
+Die Daten der Simulation werden in der Klasse \texttt{Scene} verwaltet, welche einen \texttt{vector} von \texttt{SceneObject} enthält. Diese Objekte präsentieren physische Objekte in der Simulation und speichern eine Struktur \texttt{Transform}, die Position, Rotation und Größe festlegt, sowie Felder für Geschwindigkeit, Masse und andere vom Nutzer definierte Eigenschaften. Außerdem hat jedes Objekt ein \texttt{IVisual}, eine Schnittstelle um Daten zur grafischen Darstellung zu speichern und eine Liste von \texttt{ColliderBase} für die Kollisionslösung.
 
-Die Struktur verwendet ein modulares MVC-Konzept, in dem die Model-, View- und Controller-Funktionen auf mehrere Klassen verteilt sind, die gemeinsam die jeweilige Schicht bilden. Das Model besteht aus der Klasse \texttt{EngineLayer} und den im vorherigen Abschnitt genannten Datenklassen. Der View wird durch alle Klassen des Rendering Moduls gebildet, welche nicht im Detail in dieser Ausarbeitung beschrieben werden, aber die grafische Darstellung der Simulation über OpenGL Shader umsetzen. Der Controller besteht aus der \texttt{UILayer}, welche die Benutzeroberfläche darstellt, und der \texttt{ControlLayer}, welche die Steuerung einer Rakete ermöglicht. Abhängigkeiten zwischen den Ebenen sind dabei so umgesetzt, dass \texttt{EngineLayer} unabhängig von den anderen Ebenen ist, während \texttt{UILayer} und \texttt{ControlLayer} von \texttt{EngineLayer} abhängen, um die Simulation zu steuern.
+Die Struktur verwendet ein übergeordnetes modulares MVC-Konzept, in dem die Model-, View- und Controller-Funktionen auf mehrere Klassen verteilt sind, die gemeinsam die jeweilige Schicht bilden. Das Model besteht aus der Klasse \texttt{EngineLayer} und den im vorherigen Abschnitt genannten Datenklassen. Der View wird durch alle Klassen des Rendering Moduls gebildet, welche nicht im Detail in dieser Ausarbeitung beschrieben werden, aber im Anhang in Abbildung \ref{fig:uml_rendering} als UML-Diagramm dargestellt werden. Dort wird grafische Darstellung der Simulation über OpenGL Shader umgesetzt. Der Controller besteht aus der \texttt{UILayer}, welche die Benutzeroberfläche darstellt, und der \texttt{ControlLayer}, welche die Steuerung einer Rakete ermöglicht. Abhängigkeiten zwischen den Ebenen sind dabei so umgesetzt, dass \texttt{EngineLayer} unabhängig von den anderen Ebenen ist, während \texttt{UILayer} und \texttt{ControlLayer} von \texttt{EngineLayer} abhängen, um die Daten im Modell zu verändern.
 
 \begin{figure*}[p]
 \centering
@@ -214,7 +213,7 @@ Die Struktur verwendet ein modulares MVC-Konzept, in dem die Model-, View- und C
 \end{figure*}
 
 \subsection{Programmablauf}
-Um die Funktionsweise der Applikation zu verdeutlichen, wird hier der Ablauf eines Schrittes der Hauptschleife beschrieben. Dieser beginnt damit die Zeit \texttt{simulationDeltaTime} seit dem letzten Schritt zu berechnen. Dann wird für jede \texttt{AppLayer} die Funktion \texttt{OnUpdate} aufgerufen:
+Um die Funktionsweise der Applikation zu verdeutlichen, wird hier der Ablauf eines Schrittes der Physik-Simulation beschrieben. Dieser beginnt in der Hauptschleife in der Klasse \texttt{App}. Zunächst wird die Zeit \texttt{simulationDeltaTime} seit dem letzten Schritt berechnet. Dann wird für jede \texttt{AppLayer} die Funktion \texttt{OnUpdate} aufgerufen:
 
 \begin{minted}[fontsize=\scriptsize, breaklines, style=tango]{cpp}
 // main layer update
@@ -246,7 +245,7 @@ void PhysicsSolver::UpdatePhysics(const Scene* scene, const float deltaTime) {
 }
 \end{minted}
 
-In einem Physikschritt muss die Propagation der Objekte und die Kollisionslösung durchgeführt werden. Dafür wird zunächst der \texttt{ContactSolver} verwendet, um die Kontakte zwischen den Objekten zu finden. Die Kontakte werden in den \texttt{SceneObjects} gespeichert. Dann wird für jedes Objekt die Propagation durchgeführt, welche die Position und Geschwindigkeit des Objekts aktualisiert. Hier wird keine Annahme über das Integrationsverfahren getroffen, da die Propagation über eine \texttt{IPropagator} Schnittstelle integriert ist. Danach werden die \texttt{Constraints} angewendet, sie bilden die Randbedingungen der Simulation ab. Zuletzt werden die Kontakte zwischen Objekten gelöst.
+In einem Physikschritt muss die Propagation der Objekte und die Kollisionslösung durchgeführt werden. Dafür wird zunächst der \texttt{ContactSolver} verwendet, um die Kontakte zwischen den Objekten zu finden. Die Informationen der Kontakte werden dabei in den \texttt{SceneObjects} gespeichert und nicht direkt zurückgegeben. Dann wird für jedes Objekt die Propagation durchgeführt, welche die Position und Geschwindigkeit des Objekts aktualisiert. Hier wird keine Annahme über das Integrationsverfahren getroffen, da die Propagation über eine \texttt{IPropagator} Schnittstelle integriert ist. Danach werden die \texttt{Constraints} angewendet, sie bilden die Randbedingungen der Simulation ab. Zuletzt werden die Kontakte zwischen Objekten gelöst.
 
 \begin{minted}[fontsize=\tiny, breaklines, style=tango]{cpp}
 void PhysicsSolver::StepPropagation(const Scene *scene) const {
@@ -314,7 +313,7 @@ Alle dargestellten Objekte in der Simulation, wie z.B. die Rakete oder die Zielp
 
 \subsection{Regelalgorithmus}
 
-Die Steuerung der Rakete erfolgt über einen klassischen PID-Regler (Proportional-Integral-Derivative), der in jedem Simulationsschritt ausgewertet wird. Ziel des Reglers ist es, aus der Differenz zwischen einem gewünschten Sollwert und dem aktuellen Systemzustand eine geeignete Steuergröße zu berechnen, welche anschließend zur Anpassung des Schubvektors verwendet wird.
+Die Steuerung der Rakete erfolgt über drei klassische PID-Regler (Proportional-Integral-Differential-Regler), der in jedem Simulationsschritt ausgewertet wird. Ziel des Reglers ist es, aus der Differenz zwischen einem gewünschten Sollwert und dem aktuellen Systemzustand eine geeignete Steuergröße zu berechnen, welche anschließend zur Anpassung des Schubvektors verwendet wird.
 
 Der Regler berechnet zunächst den Fehler
 \begin{equation}
@@ -328,7 +327,7 @@ u = K_\text{P} e + K_\text{I} \int e\,dt + K_\text{D} \frac{de}{dt} + b,
 \end{equation}
 wobei $K_\text{P}$, $K_\text{I}$ und $K_\text{D}$ die jeweiligen Verstärkungsfaktoren darstellen und $b$ einen konstanten Bias-Term beschreibt.
 
-Der proportionale Anteil reagiert unmittelbar auf den aktuellen Fehler und sorgt für eine schnelle Annäherung an den Sollwert. Der integrale Anteil akkumuliert den Fehler über die Zeit und kompensiert bleibende Regelabweichungen. Um ein unbegrenztes Anwachsen dieses Terms zu verhindern, wird der Integrator durch eine Sättigung begrenzt, den sogennanten Anti-Windup. Der differentielle Anteil wirkt dem Trend der Fehleränderung entgegen und trägt zur Dämpfung des Systems bei.
+Der proportionale Anteil reagiert unmittelbar auf den aktuellen Fehler und sorgt für eine schnelle Annäherung an den Sollwert. Der integrale Anteil akkumuliert den Fehler über die Zeit und kompensiert bleibende Regelabweichungen. Um ein unbegrenztes Anwachsen dieses Terms zu verhindern, wird der Integrator durch eine Sättigung begrenzt, den sogenannten Anti-Windup. Der differentielle Anteil wirkt dem Trend der Fehleränderung entgegen und trägt zur Dämpfung des Systems bei. \todo{Lieber die Verbindung der Regelkreise erklären, die Basics können wir voraussetzen denke ich}
 
 Die resultierende Stellgröße wird abschließend auf einen Bereich von $[-1,1]$ begrenzt, um physikalisch unrealistische Steuerbefehle zu vermeiden.
 
@@ -349,7 +348,7 @@ In der Simulation wird die Rakete durch die Regelung der Schubstärke und -richt
 % =========================================================
 
 \newpage
-\printbibliography
+
 
 % =========================================================
 %                        APPENDIX
@@ -379,5 +378,26 @@ stb & Header-only-Bibliothek zum Laden von Texturen \\
 \end{tabularx}
 \label{tab:libs}
 \end{table}
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=1\textwidth]{../manual_uml/rendering.png}
+\caption{Überblick über die Struktur der grafischen Darstellung}
+\label{fig:uml_rendering}
+\end{figure*}
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=1\textwidth]{../manual_uml/loading.png}
+\caption{Überblick über die Struktur der Serialisierung und Speicherung von Szenen und Reglereinstellungen}
+\label{fig:uml_loading}
+\end{figure*}
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=1\textwidth]{../manual_uml/interaction.png}
+\caption{Überblick über die Struktur der physischen Interaktion mit der Simulation}
+\label{fig:uml_interaction}
+\end{figure*}
 
 \end{document}
