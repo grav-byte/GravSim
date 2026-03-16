@@ -441,7 +441,13 @@ INPUT ./images/overview.png
 INPUT ./images/overview.png
 INPUT ./images/overview.png
 INPUT ./images/overview.png
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/newtx/ntx-Italic-tlf-t1.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/newtx/ntx-Regular-tlf-t1.tfm
+INPUT ./images/PIDOverview.png
+INPUT ./images/PIDOverview.png
+INPUT ./images/PIDOverview.png
+INPUT ./images/PIDOverview.png
+INPUT ./images/PIDOverview.png
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/public/newtx/ntx-Regular-tlf-ot1.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/newtx/ntx-Regular-tlf-ot1r.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/public/newtx/ntxsy7.vf
@@ -449,11 +455,6 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/newtx/txsys.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/newtx/txex-bar.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/public/newtx/ntxexx.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/newtx/txexs.tfm
-INPUT ./images/PIDOverview.png
-INPUT ./images/PIDOverview.png
-INPUT ./images/PIDOverview.png
-INPUT ./images/PIDOverview.png
-INPUT ./images/PIDOverview.png
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out
@@ -467,3 +468,4 @@ INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/txsys.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/ztmb.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/ztmr.pfb
+INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/ztmri.pfb

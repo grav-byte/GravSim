@@ -214,6 +214,18 @@ Die Struktur verwendet ein modulares MVC-Konzept, in dem die Model-, View- und C
 
 % ---------------------------------------------------------
 
+\subsection{Verwendete Strukturmuster und Entwurfsentscheidungen}
+Neben der rein funktionalen Umsetzung wurden bei der Entwicklung der Simulation auch mehrere bewusste Strukturentscheidungen getroffen, um die Wartbarkeit, Erweiterbarkeit und Verständlichkeit des Codes zu verbessern. Dabei kamen sowohl etablierte Strukturmuster als auch projektspezifische Entwurfsentscheidungen zum Einsatz. Ein zentrales Strukturprinzip der Anwendung ist das im vorherigen Abschnitt beschriebene modulare MVC-Konzept, welches die Verantwortlichkeiten der Simulation klar voneinander trennt. So ist beispielsweise die Physik-Engine komplett von der grafischen Darstellung und der Benutzeroberfläche entkoppelt, was es ermöglicht, Änderungen an einem Modul vorzunehmen, ohne unbeabsichtigte Auswirkungen auf andere Module zu haben.
+
+Der zentrale Informationsfluss in der Anwendung orientiert sich an dem \textit{Observer Pattern}. So können verschiedene Module Ereignisse abonnieren und auslösen, ohne direkt voneinander abhängig zu sein. Beispielsweise kann die Benutzeroberfläche Ereignisse auslösen, um die Simulation zu steuern, ohne dass die Physik-Engine oder das Rendering-Modul davon wissen müssen. Der dadurch entstehende ereignisgesteuerte Informationsfluss und die lose Kopplung der Module tragen erheblich zur Flexibilität und Erweiterbarkeit der Anwendung um neue abfragende Funktionen oder neue Module bei.
+
+Da das Modell eine möglichst physikalische und realistische Simulation ermöglichen soll, ist es nötig Verfahren wie die Integration der Bewegungsgleichungen, die Kollisionslösung oder den Regelalgorithmus gegebenenfalls anzupassen oder auszutauschen. Um dies zu ermöglichen, wurden die entsprechenden Funktionen in Form von Interfaces oder abstrakten Basisklassen implementiert, welche von konkreten Implementierungen erweitert werden können, gemäß dem \textit{Strategy Pattern}. So kann beispielsweise die Klasse \texttt{Scene} verschiedene Integrationsverfahren unterstützen, indem sie eine abstrakte Methode definiert, welche von konkreten Integrationsklassen implementiert wird. Dadurch kann die Simulation leicht um neue Integrationsverfahren erweitert werden, ohne dass bestehender Code geändert werden muss.
+
+Alle dargestellten Objekte in der Simulation, wie z.B. die Rakete oder die Zielpunkte, sind von der Klasse \texttt{SceneObject} abgeleitet und über \textit{unique pointer} in der Klasse \texttt{Scene} gespeichert. Dadurch wird sichergestellt, dass die Objekte korrekt verwaltet und freigegeben werden, ohne dass es zu Speicherlecks oder doppelten Freigaben kommt. Außerdem ermöglicht die Verwendung von Polymorphismus, dass verschiedene Arten von Objekten in der Simulation auf die gleiche Weise behandelt werden können, was die Flexibilität und Erweiterbarkeit der Simulation erhöht. Die Verwendung von  \textit{Besitz- und Referenzmodellen} trägt somit zur Robustheit und Wartbarkeit der Anwendung bei, indem sie die Speicherverwaltung vereinfacht und die Interaktion zwischen den Objekten erleichtert.
+
+
+% ---------------------------------------------------------
+
 \subsection{Regelalgorithmus}
 
 Die Steuerung der Rakete erfolgt über einen klassischen PID-Regler (Proportional–Integral–Derivative), der in jedem Simulationsschritt ausgewertet wird. Ziel des Reglers ist es, aus der Differenz zwischen einem gewünschten Sollwert und dem aktuellen Systemzustand eine geeignete Steuergröße zu berechnen, welche anschließend zur Anpassung des Schubvektors verwendet wird.

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.14)  14 MAR 2026 19:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.14)  16 MAR 2026 10:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1210,37 +1210,38 @@ Underfull \hbox (badness 2809) in paragraph at lines 206--207
 
 
 
-<images/overview.png, id=55, 2595.6975pt x 2839.60875pt>
+<images/overview.png, id=59, 2595.6975pt x 2839.60875pt>
 File: images/overview.png Graphic file (type png)
 <use images/overview.png>
 Package pdftex.def Info: images/overview.png  used on input line 210.
 (pdftex.def)             Requested size: 452.9679pt x 495.50912pt.
-LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 5.5pt on input line 223.
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
+(Font)              scaled to size 10.0pt on input line 220.
 
 
 [2] [3 <./images/overview.png>]
-<images/PIDOverview.png, id=72, 1224.575pt x 800.9925pt>
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
+(Font)              scaled to size 5.5pt on input line 235.
+
+
+<images/PIDOverview.png, id=74, 1224.575pt x 800.9925pt>
 File: images/PIDOverview.png Graphic file (type png)
 <use images/PIDOverview.png>
-Package pdftex.def Info: images/PIDOverview.png  used on input line 244.
+Package pdftex.def Info: images/PIDOverview.png  used on input line 256.
 (pdftex.def)             Requested size: 221.48395pt x 144.86908pt.
 
 
+[4 <./images/PIDOverview.png>]
 
-LaTeX Warning: Empty bibliography on input line 254.
+LaTeX Warning: Empty bibliography on input line 266.
 
 
-
-[4
-
- <./images/PIDOverview.png>]
-Underfull \hbox (badness 1033) in paragraph at lines 281--281
+Underfull \hbox (badness 1033) in paragraph at lines 293--293
 []|\T1/ntxtlf/m/n/10 Mathematikbibliothek für Vek-to-ren,
  []
 
 
-Underfull \hbox (badness 2261) in paragraph at lines 281--281
+Underfull \hbox (badness 2261) in paragraph at lines 293--293
 []|\T1/ntxtlf/m/n/10 Header-only-Bibliothek zum La-den
  []
 
@@ -1257,17 +1258,17 @@ LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: EAB4A4A48C8D8917F4E8913B04DCB654;650.
+(rerunfilecheck)             Checksum: C2BC94760BA1BB799528C5D7B02D1452;976.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 33282 strings out of 467747
- 606160 string characters out of 5431116
+ 33286 strings out of 467747
+ 606224 string characters out of 5431116
  1451885 words of memory out of 5000000
- 61428 multiletter control sequences out of 15000+600000
- 682744 words of font info for 106 fonts, out of 8000000 for 9000
+ 61430 multiletter control sequences out of 15000+600000
+ 685601 words of font info for 107 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
  84i,12n,87p,1247b,2459s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
@@ -1276,11 +1277,11 @@ pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist,
 
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
 
-<c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/NewTXMI.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/tex-gyre/qtmr.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/txfonts/t1xtt.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/txexs.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/txsys.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/ztmb.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/ztmr.pfb>
-Output written on main.pdf (5 pages, 820425 bytes).
+<c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/NewTXMI.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/tex-gyre/qtmr.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/txfonts/t1xtt.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/txexs.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/txsys.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/ztmb.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/ztmr.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/ztmri.pfb>
+Output written on main.pdf (5 pages, 850470 bytes).
 PDF statistics:
- 133 PDF objects out of 1000 (max. 8388607)
- 102 compressed objects within 2 object streams
- 21 named destinations out of 1000 (max. 500000)
- 71 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 142 PDF objects out of 1000 (max. 8388607)
+ 109 compressed objects within 2 object streams
+ 22 named destinations out of 1000 (max. 500000)
+ 79 words of extra memory for PDF output out of 10000 (max. 10000000)
 
