@@ -1,0 +1,5 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// main layer update}
+\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{unique\PYGZus{}ptr}\PYG{o}{\PYGZlt{}}\PYG{n}{AppLayer}\PYG{o}{\PYGZgt{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{layer}\PYG{+w}{ }\PYG{o}{:}\PYG{n}{layerStack\PYGZus{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n}{layer}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{OnUpdate}\PYG{p}{(}\PYG{n}{simulationDeltaTime}\PYG{p}{);}
+\end{MintedVerbatim}

@@ -373,31 +373,22 @@ Alle dargestellten Objekte in der Simulation, wie z.B. die Rakete oder die Zielp
 
 \subsection{Regelalgorithmus}
 
-Die Steuerung der Rakete erfolgt über drei klassische PID-Regler (Proportional-Integral-Differential-Regler), der in jedem Simulationsschritt ausgewertet wird. Ziel des Reglers ist es, aus der Differenz zwischen einem gewünschten Sollwert und dem aktuellen Systemzustand eine geeignete Steuergröße zu berechnen, welche anschließend zur Anpassung des Schubvektors verwendet wird.
+Grundsätzlich wird zwischen der Regelung der Schubstärke und der Schubrichtung unterschieden. Für die Schubstärke dient der vertikale Abstand zum Zielpunkt als Fehlergröße, wodurch die Rakete ihre Höhe relativ zum Ziel anpasst. Parallel dazu wird aus der horizontalen Abweichung zunächst eine gewünschte Neigung der Rakete berechnet. Diese stellt einen Zwischensollwert dar, der von einem zweiten Regelkreis verarbeitet wird. Ein dritter Regler sorgt schließlich dafür, dass die tatsächliche Orientierung der Rakete dieser gewünschten Neigung folgt, indem der Winkel des schwenkbaren Triebwerks entsprechend angepasst wird.
 
-Der Regler berechnet zunächst den Fehler
-\begin{equation}
-e = x_\text{set} - x_\text{meas},
-\end{equation}
-wobei $x_\text{set}$ den Sollwert und $x_\text{meas}$ den gemessenen Zustand des Systems beschreibt. In Fällen, in denen Winkelgrößen geregelt werden, wird der Fehler zusätzlich auf den Bereich $[-180^\circ,180^\circ]$ normiert, da der zyklische Charakter von Winkeln berücksichtigt werden muss, um eine korrekte Regelung zu gewährleisten.
+Dieses kaskadierte Regelungskonzept ist in Abbildung \ref{fig:control} dargestellt. Die Aufteilung in mehrere gekoppelte Regelkreise erlaubt es, die komplexe nichtlineare Dynamik der Rakete in einfacher zu beherrschende Teilprobleme zu zerlegen. Insbesondere wird dadurch erreicht, dass Positionsabweichungen zunächst in gewünschte Orientierungen übersetzt werden, welche anschließend durch die Attitudenregelung umgesetzt werden.
 
-Die Stellgröße des Reglers ergibt sich aus der Summe der proportionalen, integralen und differentiellen Anteile
-\begin{equation}
-u = K_\text{P} e + K_\text{I} \int e\,dt + K_\text{D} \frac{de}{dt} + b,
-\end{equation}
-wobei $K_\text{P}$, $K_\text{I}$ und $K_\text{D}$ die jeweiligen Verstärkungsfaktoren darstellen und $b$ einen konstanten Bias-Term beschreibt.
+Die Wahl mehrerer PID-Regler anstelle eines globalen Reglers bietet dabei mehrere Vorteile. Zum einen können die einzelnen Regelkreise unabhängig voneinander parametrisiert und abgestimmt werden, was die Stabilität und Verständlichkeit des Systems erhöht. Zum anderen ermöglicht die modulare Struktur eine einfache Erweiterung oder Anpassung einzelner Regelkreise, ohne die gesamte Steuerlogik verändern zu müssen.
 
-Der proportionale Anteil reagiert unmittelbar auf den aktuellen Fehler und sorgt für eine schnelle Annäherung an den Sollwert. Der integrale Anteil akkumuliert den Fehler über die Zeit und kompensiert bleibende Regelabweichungen. Um ein unbegrenztes Anwachsen dieses Terms zu verhindern, wird der Integrator durch eine Sättigung begrenzt, den sogenannten Anti-Windup. Der differentielle Anteil wirkt dem Trend der Fehleränderung entgegen und trägt zur Dämpfung des Systems bei. \todo{Lieber die Verbindung der Regelkreise erklären, die Basics können wir voraussetzen denke ich}
+Die konkrete Berechnung der Stellgröße erfolgt in jedem Regler nach dem bekannten PID-Prinzip, wobei der Fehler zwischen Soll- und Istwert bestimmt und daraus ein Steuerwert berechnet wird. Zur Vermeidung von Instabilitäten wird der Integratoranteil begrenzt (Anti-Windup) und die resultierende Stellgröße auf einen definierten Bereich beschränkt.
 
-Die resultierende Stellgröße wird abschließend auf einen Bereich von $[-1,1]$ begrenzt, um physikalisch unrealistische Steuerbefehle zu vermeiden.
+Es kann zwischen verschiedenen Kontrollmodi gewählt werden, je nachdem, welche Steuerungsstrategie für das aktuelle Szenario am besten geeignet ist. Die automatisierte Zielpunktregelung erlaubt dem Nutzer, im UI-Interface Reglerparameter zu definieren. Diese werden in einer eigenen Datenstruktur gespeichert, welche die Verstärkungsfaktoren des PID-Reglers sowie einen optionalen Bias-Term enthält. Dadurch können verschiedene Scenarien gespeichert und geladen werden. Die manuelle Steuerung hingegen ermöglicht es, mit den Maustasten die Schubstärke sowie die Schubrichtung direkt zu steuern. 
 
-Die Parameter des Reglers werden in einer eigenen Datenstruktur gespeichert, welche die Verstärkungsfaktoren des PID-Reglers sowie einen optionalen Bias-Term enthält. Diese Parameter können über das UI gespeichert und geladen werden, um unterschiedliche Reglereinstellungen für verschiedene Szenarien zu ermöglichen.
+Um die verschiedenen Kontrollmodi zu unterstützen, ist die Steuerung abstrahiert, sodass die verschiedenen Regelkreise einfach implementiert und aktiviert werden können. Je nach gewähltem Modus bestimmen diese Regelkreise, welche Aspekte der Raketenbewegung aktiv geregelt werden und wie die Sollwerte generiert werden. Diese Abstraktion ermöglicht es, unterschiedliche Steuerungsstrategien innerhalb derselben Architektur zu realisieren, ohne die zugrunde liegenden Regler implementieren zu müssen. 
 
-Zur Analyse des Reglers während der Simulation werden die einzelnen Beiträge der P-, I- und D-Terme separat berechnet und grafisch dargestellt. Dadurch lässt sich das Verhalten des Reglers visuell nachvollziehen und das System leichter abstimmen.
-
-In der Simulation wird die Rakete durch die Regelung der Schubstärke und -richtung gesteuert, um bestimmte Zielpunkte zu erreichen. Dabei dient zur Schubstärkenregelung der vertikale Abstand zum Zielpunkt als Fehlergröße, während aus der horizontalen Abweichung zunächst die erforderte Neigung der Rakete berechnet wird, um anschließend den Winkel des schwenkbaren Triebwerks zu regeln. Dieses Regelungskonzept ist in Abbildung \ref{fig:control} dargestellt. In Kombination erzeugen diese drei Regelkreise eine effektive Schubvektorkontrolle, die es der Rakete ermöglicht, sich präzise zu den definierten Zielpunkten zu bewegen.
+Zur Analyse des Regelverhaltens werden die einzelnen Beiträge der P-, I- und D-Anteile separat berechnet und während der Simulation visualisiert. Dies erleichtert das Verständnis der Dynamik sowie die Parametrierung der einzelnen Regler erheblich.
 
 \begin{figure}[!ht]
+\centering
 \includegraphics[width=1\columnwidth]{images/PIDOverview.png}
 \caption{Regelungskonzept für die Schubvektorkontrolle}
 \label{fig:control}

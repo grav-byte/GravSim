@@ -1,0 +1,11 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{PhysicsSolver::UpdatePhysics}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{Scene}\PYG{o}{*}\PYG{+w}{ }\PYG{n}{scene}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{k+kt}{float}\PYG{+w}{ }\PYG{n}{deltaTime}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{p}{...}
+\PYG{+w}{    }\PYG{c+c1}{// sub step the physics updates as often as necessary}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{timeAccumulator\PYGZus{}}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{n}{timeStep\PYGZus{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{StepPropagation}\PYG{p}{(}\PYG{n}{scene}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{timeAccumulator\PYGZus{}}\PYG{+w}{ }\PYG{o}{\PYGZhy{}=}\PYG{+w}{ }\PYG{n}{timeStep\PYGZus{}}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{...}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

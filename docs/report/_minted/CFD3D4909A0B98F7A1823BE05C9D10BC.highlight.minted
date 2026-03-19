@@ -1,0 +1,7 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{EngineLayer::OnUpdate}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{k+kt}{float}\PYG{+w}{ }\PYG{n}{deltaTime}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{runningSimulation\PYGZus{}}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{o}{!}\PYG{n}{pausedSimulation\PYGZus{}}\PYG{p}{)}
+\PYG{+w}{        }\PYG{n}{physicsSolver\PYGZus{}}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{UpdatePhysics}\PYG{p}{(}\PYG{n}{scene\PYGZus{}}\PYG{p}{.}\PYG{n}{get}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{deltaTime}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{...}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

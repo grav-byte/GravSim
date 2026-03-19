@@ -1,0 +1,24 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{PhysicsSolver::StepPropagation}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{Scene}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{scene}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// find contacts}
+\PYG{+w}{    }\PYG{n}{ContactSolver}\PYG{o}{::}\PYG{n}{ClearContacts}\PYG{p}{(}\PYG{n}{scene}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{ContactSolver}\PYG{o}{::}\PYG{n}{FindContacts}\PYG{p}{(}\PYG{n}{scene}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// create context for propagation}
+\PYG{+w}{    }\PYG{k}{const}\PYG{+w}{ }\PYG{n}{PhysicsContext}\PYG{+w}{ }\PYG{n}{context}\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{scene}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{*}\PYG{k}{this}\PYG{+w}{ }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{SceneObject}\PYG{o}{*}\PYG{+w}{ }\PYG{n}{object}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{scene}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{GetAllObjects}\PYG{p}{())}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// propagate object}
+\PYG{+w}{        }\PYG{n}{activePropagator\PYGZus{}}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{Propagate}\PYG{p}{(}\PYG{o}{*}\PYG{n}{object}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{context}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{timeStep\PYGZus{}}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{object}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{mass}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0.0f}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// apply constraints and resolve contacts for objects with mass}
+\PYG{+w}{            }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{Constraint}\PYG{o}{*}\PYG{+w}{ }\PYG{n}{constraint}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{scene}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{GetConstraints}\PYG{p}{())}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{constraint}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{ApplyConstraint}\PYG{p}{(}\PYG{n}{object}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{n}{ContactSolver}\PYG{o}{::}\PYG{n}{ResolveContacts}\PYG{p}{(}\PYG{n}{object}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

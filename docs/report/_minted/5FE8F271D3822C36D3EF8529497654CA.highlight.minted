@@ -1,0 +1,7 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{ImGui}\PYG{o}{::}\PYG{n}{Button}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Load Scene\PYGZdq{}}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{engine\PYGZus{}}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{LoadScene}\PYG{p}{(}\PYG{n}{sceneSelector\PYGZus{}}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{GetSelectedFile}\PYG{p}{()))}
+\PYG{+w}{      }\PYG{n}{ShowStatusMessage}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Scene loaded successfully.\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{...}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

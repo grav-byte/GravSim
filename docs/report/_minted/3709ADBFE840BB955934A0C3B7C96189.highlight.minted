@@ -1,0 +1,9 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{EngineLayer::OnSceneLoaded}\PYG{p}{()}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{renderingSystem\PYGZus{}}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{SetActiveCamera}\PYG{p}{(}\PYG{n}{scene\PYGZus{}}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{GetCamera}\PYG{p}{());}
+
+\PYG{+w}{    }\PYG{n}{SceneLoadedEvent}\PYG{+w}{ }\PYG{n}{event}\PYG{p}{(}\PYG{n}{scene\PYGZus{}}\PYG{p}{.}\PYG{n}{get}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{Core}\PYG{o}{::}\PYG{n}{Application}\PYG{o}{::}\PYG{n}{Get}\PYG{p}{().}\PYG{n}{RaiseEvent}\PYG{p}{(}\PYG{n}{event}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{...}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}
