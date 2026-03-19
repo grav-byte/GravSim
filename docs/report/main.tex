@@ -385,7 +385,7 @@ Die Richtung der Abhängigkeiten ist bewusst so gewählt, dass der Kern der Anwe
 % ---------------------------------------------------------
 
 \subsection{Raketenreglung}
-Der \texttt{ControlLayer} ist als Erweiterung der Physik-Simulation implementiert, um die autonome Steuerung einer Rakete mit Schubvektorkontrolle zu ermöglichen. Die Schnittstelle \texttt{IRocketController} abstraktiert die Steuerungslogik, welche von verschiedenen konkreten Implementierungen erweitert werden kann.
+Der \texttt{ControlLayer} ist als Erweiterung der Physik-Simulation implementiert, um die autonome Steuerung einer Rakete mit Schubvektorkontrolle zu ermöglichen. Die Schnittstelle \texttt{IRocketController} abstrahiert die Steuerungslogik, welche von verschiedenen konkreten Implementierungen erweitert werden kann.
 Die automatisierte Zielpunktregelung erlaubt dem Nutzer, in der Benutzeroberfläche Reglerparameter zu definieren, mit welchen die Rakete autonom steuert. Diese werden in einer der Struktur \texttt{PIDData} gespeichert, welche die Verstärkungsfaktoren des PID-Reglers sowie einen optionalen Bias-Term enthält.
 Weitere Implementation der \texttt{IRocketController} Schnittstelle beeinhalten manuelle Steuerung, durch Nutzereingaben mit der Tastatur.
 
