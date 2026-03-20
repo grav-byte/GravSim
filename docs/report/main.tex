@@ -34,7 +34,7 @@
 % =========================================================
 \usepackage{parskip}
 \usepackage{indentfirst}
-\setlength{\parindent}{0.38cm}
+\setlength{\parindent}{0.3cm}
 
 % =========================================================
 %                     SECTION FORMATTING
@@ -120,7 +120,6 @@
 \end{center}
 ]
 
-\setlength{\parindent}{0pt}
 
 % =========================================================
 %                        ABSTRACT
@@ -236,6 +235,7 @@ Die Physik-Simulation selbst ist in der Klasse \texttt{PhysicsSolver} implementi
 \end{figure*}
 
 \subsection{Programmablauf}
+\label{sec:ablauf}
 Um die Funktionsweise der Applikation zu verdeutlichen, wird hier der Ablauf eines Schrittes der Physik-Simulation beschrieben. Dieser beginnt in der Hauptschleife in der Klasse \texttt{App}. Zunächst wird die Zeit \texttt{simulationDeltaTime} seit dem letzten Schritt berechnet. Dann wird für jede \texttt{AppLayer} die Funktion \texttt{OnUpdate} aufgerufen:
 
 \begin{minted}[fontsize=\scriptsize, breaklines, style=tango]{cpp}
@@ -319,7 +319,6 @@ bool EngineLayer::LoadScene(const std::string &filePath) {
     if (runningSimulation_)
         StopSimulation();
     ...
-
     auto loadedScene = Serialiser::LoadScene(filePath);
     if (!loadedScene)
         return false;
@@ -334,10 +333,22 @@ Die Methode \texttt{OnSceneLoaded} verwaltet ihre Abhängigkeiten, wie z.B. das 
 \begin{minted}[fontsize=\scriptsize, breaklines, style=tango]{cpp}
 void EngineLayer::OnSceneLoaded() const {
     renderingSystem_->SetActiveCamera(scene_->GetCamera());
-
     SceneLoadedEvent event(scene_.get());
     Core::Application::Get().RaiseEvent(event);
     ...
+}
+\end{minted}
+In der Methode \texttt{RaiseEvent} wird das Ereignis von oben nach unten durch die \texttt{OnEvent}-Methode der Ebenen geschoben, bis es von einer der Ebenen als bearbeitet (\texttt{handled}) markiert wird:
+
+\begin{minted}[fontsize=\scriptsize, breaklines, style=tango]{cpp}
+void Application::RaiseEvent(Event &event) const {
+    // go through in reverse
+    for (int i = static_cast<int>(layerStack_.size()) - 1; i >= 0; --i)
+    {
+        layerStack_[i]->OnEvent(event);
+        if (event.Handled)
+            break;
+    }
 }
 \end{minted}
 
@@ -361,28 +372,26 @@ Der Aufrufstapel für das Laden einer Szene ist in Abbildung \ref{fig:call_stack
 \end{figure}
 
 % ---------------------------------------------------------
-
-\subsection{Verwendete Strukturmuster und Entwurfsentscheidungen}
-Neben der rein funktionalen Umsetzung wurden bei der Entwicklung der Simulation auch mehrere bewusste Strukturentscheidungen getroffen, um die Wartbarkeit, Erweiterbarkeit und Verständlichkeit des Codes zu verbessern. Dabei kamen sowohl etablierte Strukturmuster als auch projektspezifische Entwurfsentscheidungen zum Einsatz. Ein zentrales Strukturprinzip der Anwendung ist das im vorherigen Abschnitt beschriebene modulare MVC-Konzept, welches die Verantwortlichkeiten der Simulation klar voneinander trennt. Im Folgenden werden weitere Strukturmuster und konkrete Entwurfsentscheidungen erläutert, die in der Simulation verwendet wurden.
 \newpage
+\subsection{Verwendete Strukturmuster}
+Im Folgenden wird der Einsatz von Strukturmustern und wichtige Entwurfsentscheidungen konkret erläutert.
 
-\textbf{\textit{Strategy Pattern}}
+\textbf{\textit{Strategie-Muster}}
 
-Das \textit{Strategy Pattern} wird in der Physik-Simulation bei der Wahl des Integrationsverfahrens eingesetzt. Die Klasse \texttt{PhysicsSolver} übernimmt dabei die Rolle des Kontexts, während \texttt{IPropagator} die gemeinsame Schnittstelle für konkrete Integrationsverfahren definiert. In \texttt{PhysicsSolver::StepPropagation(...)} wird die Propagation eines Objekts über den aktuell gesetzten Strategietyp mittels \texttt{activePropagator\_->Propagate(...)} ausgeführt. Dadurch kann das numerische Integrationsverfahren ausgetauscht werden, ohne den Ablauf der Physik-Simulation im \texttt{PhysicsSolver} ändern zu müssen. Dies ermöglicht insbesondere den direkten Vergleich verschiedener Integrationsverfahren innerhalb derselben Simulationsumgebung.
+Das \textit{Strategie-Muster} wird über das gesamte Projekt verteilt am meisten umgesetzt, überall dort, wo verschiedene Implementierungen eines Verhaltens möglich sind. Klassen, die eine Schnitstelle für ein Strategie-Muster bilden sind: \texttt{AppLayer}, \texttt{IUserInterface}, \texttt{IPropagator}, \texttt{ColliderBase}, \texttt{IRocketController}, \texttt{IInteractor}, \texttt{IRenderer} und \texttt{IVisual}. Durch die Schnittstelle, kann konkrete Logik entkoppelt und das Verhalten dynamisch angepasst werden. Dadurch kann ein System sehr einfach erweitert werden, ohne dass bestehender Code verändert werden muss. Ein Beispiel ist die Implementierung verschiedener Integrationsverfahren, welche alle die \texttt{IPropagator} Schnittstelle implementieren. Möchte man ein neues Verfahren hinzufügen, muss lediglich eine neue Klasse erstellt werden, welche die Schnittstelle implementiert, und dem Programmierer wird über die Schnittstelle klar kommuniziert, welche Methoden implementiert werden müssen.
 
-\textbf{\textit{Observer Pattern}}
+\textbf{\textit{Singleton- und Beobachter-Muster}}
 
-Das \textit{Observer Pattern} wird im Ereignissystem der Anwendung konkret durch die Klasse \texttt{Application} umgesetzt, welche Ereignisse zentral verteilt. Ein Beispiel ist das Laden einer Szene: Nachdem \texttt{EngineLayer::LoadScene(...)} eine neue Szene übernommen hat, erzeugt \texttt{EngineLayer::OnSceneLoaded()} ein \texttt{SceneLoadedEvent} und gibt dieses über \texttt{Application::RaiseEvent(...)} an das System weiter. Komponenten wie \texttt{SceneUI} können dieses Ereignis in \texttt{OnEvent(...)} abonnieren und darauf reagieren, ohne dass \texttt{EngineLayer} die konkreten Empfänger kennen muss. Dadurch entsteht ein lose gekoppelter, ereignisbasierter Informationsfluss, der die Erweiterbarkeit um zusätzliche Komponenten erleichtert.
+Das \textit{Beobachter-Muster} wird im Ereignissystem der Anwendung konkret durch die Klassen \texttt{Application} und \texttt{Event} umgesetzt, über die Ereignisse zentral verteilt werden. \texttt{Application} hat dabei eine statische Methode \texttt{Get()}, welche einen Pointer auf die Instanz der Klasse zurückgibt, wodurch sie als Singleton fungiert. Dadurch können alle Module der Anwendung auf die zentrale Instanz von \texttt{Application} ohne Referenz zugreifen, um Ereignisse auszulösen. Wichtig dafür ist, das es immer genau eine einzige Instanz der Klasse geben darf, wofür im Konstruktor gesorgt wird. Wie Logik durch ein Ereignis ausgeführt werden kann, ist in Kapitel \ref{sec:ablauf} gezeigt. Das Muster erlaubt einen lose gekoppelten, ereignisbasierten Informationsfluss, der die Abhängigkeiten reduziert und Klassen entkoppelt.
 
-\textbf{\textit{Ownership- und Referenzmodell}}
+\textbf{\textit{Besitz- und Referenzmodell}}
 
-Das Ownership-Modell der Anwendung trennt klar zwischen Besitz und Zugriff. Der \texttt{EngineLayer} besitzt die aktuelle Szene exklusiv über einen \texttt{std::unique\_ptr<Scene>}, was beim Laden einer Szene durch die Zuweisung \texttt{scene\_ = std::move(loadedScene);} sichtbar wird. Andere Komponenten erhalten dagegen nur nicht-besitzende Verweise, beispielsweise über \texttt{scene\_.get()} beim Erzeugen eines \texttt{SceneLoadedEvent}. Raw Pointer dienen hier nicht zur Besitzverwaltung, sondern ausschließlich als nicht-besitzende Referenzen auf Objekte mit eindeutig definierter Lebensdauer. Dadurch werden zirkuläre Besitzverhältnisse vermieden und die Speicherverwaltung bleibt zentralisiert und nachvollziehbar.
+Das Besitz-Modell der Anwendung trennt klar zwischen Besitz und Zugriff. 
+Ein Beispiel dafür die aktuelle Szene, welche \texttt{EngineLayer} über einen \texttt{std::unique\_ptr<Scene>} besitzt. Andere Komponenten erhalten dagegen nur nicht-besitzende Verweise, beispielsweise über \texttt{scene\_.get()} beim Erzeugen eines \texttt{SceneLoadedEvent}. So wird die Lebensdauer klar vom Besitzer verwaltet. Dadurch werden komplizierte Besitzverhältnisse vermieden und die Speicherverwaltung bleibt zentralisiert und nachvollziehbar.
 
 \textbf{\textit{Abhängigkeitsrichtung der Layer}}
 
-Die Richtung der Abhängigkeiten ist bewusst so gewählt, dass der Kern der Anwendung unabhängig bleibt. \texttt{EngineLayer} kapselt Modell, Physik und rendering-nahe Datenhaltung, ohne von \texttt{UILayer} oder \texttt{ControlLayer} abhängig zu sein. Umgekehrt greifen \texttt{UILayer} und \texttt{ControlLayer} auf die Engine zu, um den Zustand der Simulation zu lesen oder zu verändern. Diese einseitige Abhängigkeitsrichtung entspricht dem Prinzip der Abhängigkeitsinversion und verhindert, dass UI- oder steuerungsspezifische Logik in den Simulationskern eindringt. Dadurch wird die langfristige Wartbarkeit und Erweiterbarkeit der Anwendung deutlich verbessert.
-
-
+Die Richtung der Abhängigkeiten ist bewusst so gewählt, dass der Kern der Anwendung unabhängig bleibt. \texttt{EngineLayer} kapselt Modell, Physik und Datenhaltung, ohne von \texttt{UILayer} oder \texttt{ControlLayer} abhängig zu sein. Umgekehrt greifen \texttt{UILayer} und \texttt{ControlLayer} auf \texttt{EngineLayer} zu, um den Zustand der Simulation zu lesen oder zu verändern. Diese einseitige Abhängigkeitsrichtung entspricht dem Prinzip der Abhängigkeitsinversion und verhindert, dass die Benutzeroberfläche ein Bestandteil des Simulationskerns wird. Dadurch wird die langfristige Wartbarkeit und Erweiterbarkeit der Anwendung deutlich verbessert.
 % ---------------------------------------------------------
 
 \subsection{Raketenreglung}
