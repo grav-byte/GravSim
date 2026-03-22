@@ -58,7 +58,6 @@ void ControlLayer::FindRocket(Core::Event &event) {
             return;
         }
     }
-    std::cout << "Rocket object not found in scene!" << std::endl;
 }
 
 void ControlLayer::OnEvent(Core::Event &event) {
