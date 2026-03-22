@@ -39,7 +39,7 @@ void RocketControllerUI::Draw() {
             ImGui::BeginChild("ControlContent", ImVec2(0, 0), false);
             ImGui::Spacing();
             ImGui::Spacing();
-            const char* modes[] = { "Full Manual", "Orbit Mode", "Autonomous PID" };
+            const char* modes[] = { "Autonomous PID", "Orbit Mode", "Full Manual" };
 
             if (ImGui::BeginCombo("Control Mode", modes[currentMode_])) {
                 for (int n = 0; n < IM_ARRAYSIZE(modes); n++) {
@@ -49,14 +49,14 @@ void RocketControllerUI::Draw() {
 
                         // Activate the correct controller type
                         switch (currentMode_) {
-                            case 0: // Full Manual
-                                controlLayer_->SetActiveControl<ManualRocketController>();
+                            case 0: // Autonomous PID
+                                controlLayer_->SetActiveControl<AutonomousPIDRocketController>();
                                 break;
                             case 1: // Orbit Mode
                                 controlLayer_->SetActiveControl<OrbitRocketController>();
                                 break;
-                            case 2: // Autonomous PID
-                                controlLayer_->SetActiveControl<AutonomousPIDRocketController>();
+                            case 2: // Full Manual
+                                controlLayer_->SetActiveControl<ManualRocketController>();
                                 break;
                         }
                     }
@@ -66,7 +66,7 @@ void RocketControllerUI::Draw() {
                 ImGui::EndCombo();
             }
 
-            if (currentMode_ == 0 || currentMode_ == 1) {
+            if (currentMode_ == 2 || currentMode_ == 1) {
 
                 bool orbit = currentMode_ == 1;
                 ImGui::TextWrapped(orbit ? "Orbit mode active." : "Manual mode active.");

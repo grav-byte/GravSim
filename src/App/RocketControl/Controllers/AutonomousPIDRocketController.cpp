@@ -48,6 +48,21 @@ void AutonomousPIDRocketController::ApplyControlInputs(RocketObject *rocketObjec
 
 void AutonomousPIDRocketController::Start() const {
     verticalController_->Reset();
+    // default values:
+    verticalController_->pidData.pGain = 0.5f;
+    verticalController_->pidData.iGain = 0.01f;
+    verticalController_->pidData.dGain = 1.0f;
+    verticalController_->pidData.bias = .4f;
+
+    horizontalController_->pidData.pGain = 0.18f;
+    horizontalController_->pidData.iGain = 0.0f;
+    horizontalController_->pidData.dGain = .59f;
+    horizontalController_->pidData.bias = .0f;
+
+    attitudeController_->pidData.pGain = 0.15f;
+    attitudeController_->pidData.iGain = 0.0f;
+    attitudeController_->pidData.dGain = .15f;
+    attitudeController_->pidData.bias = 0.0f;
 }
 
 PIDController * AutonomousPIDRocketController::GetVerticalController() const { return verticalController_.get(); }

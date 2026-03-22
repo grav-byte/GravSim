@@ -16,7 +16,7 @@ ControlLayer::ControlLayer(): rocketObj_(nullptr), engine_(nullptr) {
 void ControlLayer::OnInit() {
     engine_ = Core::Application::Get().GetLayer<EngineLayer>();
 
-    activeControl_ = std::make_unique<ManualRocketController>(targetManager_.get());
+    activeControl_ = std::make_unique<AutonomousPIDRocketController>(targetManager_.get());
 
     if (UILayer* uiLayer = Core::Application::Get().GetLayer<UILayer>()) {
         // add uis
