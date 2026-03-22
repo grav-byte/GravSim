@@ -1,14 +1,14 @@
 {
-    "object": {
-        "value0": "Target Test",
+    "value0": {
+        "value0": "PID Test",
         "value1": {
             "ptr_wrapper": {
                 "valid": 1,
                 "data": {
                     "value0": {
                         "value0": {
-                            "value0": 8.51961898803711,
-                            "value1": 6.261765480041504
+                            "value0": -1.879141092300415,
+                            "value1": 8.183099746704102
                         },
                         "value1": 0.0,
                         "value2": {
@@ -16,11 +16,11 @@
                             "value1": 1.0
                         }
                     },
-                    "value1": 0.04533575847744942,
+                    "value1": 0.04177251085639,
                     "value2": {
-                        "value0": 0.0403224378824234,
-                        "value1": 0.05864188075065613,
-                        "value2": 0.08177906274795532,
+                        "value0": 0.12003827095031738,
+                        "value1": 0.11132178455591202,
+                        "value2": 0.10913091897964478,
                         "value3": 1.0
                     }
                 }
@@ -28,7 +28,7 @@
         },
         "value2": {
             "value0": 0.0,
-            "value1": -2.0
+            "value1": -3.0
         },
         "value3": [
             {
@@ -67,7 +67,9 @@
                             "ptr_wrapper": {
                                 "valid": 1,
                                 "data": {
-                                    "value0": {"value0":0},
+                                    "value0": {
+                                        "value0": 0
+                                    },
                                     "value1": "../assets/sprites/rocket_nozzle.png",
                                     "value2": {
                                         "value0": 1.0,
@@ -120,7 +122,9 @@
                             "ptr_wrapper": {
                                 "valid": 1,
                                 "data": {
-                                    "value0": {"value0":0},
+                                    "value0": {
+                                        "value0": 0
+                                    },
                                     "value1": "exhaust.frag",
                                     "value2": {
                                         "value0": [
@@ -164,7 +168,7 @@
                                 "value0": 0.0,
                                 "value1": 1.0
                             },
-                            "value4": 50.0,
+                            "value4": 5.0,
                             "value5": {
                                 "value0": 0.0,
                                 "value1": 0.0
@@ -269,7 +273,9 @@
                                 "ptr_wrapper": {
                                     "valid": 1,
                                     "data": {
-                                        "value0": {"value0":0},
+                                        "value0": {
+                                            "value0": 0
+                                        },
                                         "value1": "../assets/sprites/rocket_main.png",
                                         "value2": {
                                             "value0": 1.0,
@@ -282,7 +288,7 @@
                             },
                             "value10": false,
                             "value11": true,
-                            "value12": false
+                            "value12": true
                         },
                         "value1": 0.0,
                         "value2": 0.0,
@@ -298,12 +304,12 @@
                     "valid": 1,
                     "data": {
                         "value0": {
-                            "value0": 3,
+                            "value0": 4,
                             "value1": "Target",
                             "value2": {
                                 "value0": {
                                     "value0": 0.0,
-                                    "value1": 5.0
+                                    "value1": 10.0
                                 },
                                 "value1": 0.0,
                                 "value2": {
@@ -313,6 +319,152 @@
                             },
                             "value3": {
                                 "value0": 0.0,
+                                "value1": 10.0
+                            },
+                            "value4": 0.0,
+                            "value5": {
+                                "value0": 0.0,
+                                "value1": 0.0
+                            },
+                            "value6": [
+                                {
+                                    "polymorphic_id": 4,
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {},
+                                            "value1": {
+                                                "value0": 1.0,
+                                                "value1": 1.0
+                                            },
+                                            "value2": {
+                                                "value0": 0.0,
+                                                "value1": 0.0
+                                            },
+                                            "value3": 0.4000000059604645
+                                        }
+                                    }
+                                }
+                            ],
+                            "value7": 0.0,
+                            "value8": 0.0,
+                            "value9": {
+                                "polymorphic_id": 2,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {
+                                            "value0": -1
+                                        },
+                                        "value1": "target.frag",
+                                        "value2": {
+                                            "value0": [],
+                                            "value1": []
+                                        }
+                                    }
+                                }
+                            },
+                            "value10": false,
+                            "value11": false,
+                            "value12": false
+                        }
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 5,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": {
+                            "value0": 5,
+                            "value1": "Target",
+                            "value2": {
+                                "value0": {
+                                    "value0": 15.0,
+                                    "value1": 8.0
+                                },
+                                "value1": 0.0,
+                                "value2": {
+                                    "value0": 15.0,
+                                    "value1": 15.0
+                                }
+                            },
+                            "value3": {
+                                "value0": 15.0,
+                                "value1": 8.0
+                            },
+                            "value4": 0.0,
+                            "value5": {
+                                "value0": 0.0,
+                                "value1": 0.0
+                            },
+                            "value6": [
+                                {
+                                    "polymorphic_id": 4,
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {},
+                                            "value1": {
+                                                "value0": 1.0,
+                                                "value1": 1.0
+                                            },
+                                            "value2": {
+                                                "value0": 0.0,
+                                                "value1": 0.0
+                                            },
+                                            "value3": 0.4000000059604645
+                                        }
+                                    }
+                                }
+                            ],
+                            "value7": 0.0,
+                            "value8": 0.0,
+                            "value9": {
+                                "polymorphic_id": 2,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {
+                                            "value0": -1
+                                        },
+                                        "value1": "target.frag",
+                                        "value2": {
+                                            "value0": [],
+                                            "value1": []
+                                        }
+                                    }
+                                }
+                            },
+                            "value10": false,
+                            "value11": false,
+                            "value12": false
+                        }
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 5,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": {
+                            "value0": 6,
+                            "value1": "Target",
+                            "value2": {
+                                "value0": {
+                                    "value0": -20.0,
+                                    "value1": 5.0
+                                },
+                                "value1": 0.0,
+                                "value2": {
+                                    "value0": 15.0,
+                                    "value1": 15.0
+                                }
+                            },
+                            "value3": {
+                                "value0": -20.0,
                                 "value1": 5.0
                             },
                             "value4": 0.0,
@@ -347,7 +499,9 @@
                                 "ptr_wrapper": {
                                     "valid": 1,
                                     "data": {
-                                        "value0": {"value0":0},
+                                        "value0": {
+                                            "value0": -1
+                                        },
                                         "value1": "target.frag",
                                         "value2": {
                                             "value0": [],
@@ -369,12 +523,12 @@
                     "valid": 1,
                     "data": {
                         "value0": {
-                            "value0": 4,
+                            "value0": 7,
                             "value1": "Target",
                             "value2": {
                                 "value0": {
-                                    "value0": 27.100000381469728,
-                                    "value1": 21.5
+                                    "value0": -20.0,
+                                    "value1": 0.5
                                 },
                                 "value1": 0.0,
                                 "value2": {
@@ -383,8 +537,8 @@
                                 }
                             },
                             "value3": {
-                                "value0": 27.100000381469728,
-                                "value1": 21.5
+                                "value0": -20.0,
+                                "value1": 0.5
                             },
                             "value4": 0.0,
                             "value5": {
@@ -418,7 +572,9 @@
                                 "ptr_wrapper": {
                                     "valid": 1,
                                     "data": {
-                                        "value0": {"value0":0},
+                                        "value0": {
+                                            "value0": -1
+                                        },
                                         "value1": "target.frag",
                                         "value2": {
                                             "value0": [],
@@ -435,14 +591,24 @@
                 }
             }
         ],
-        "value4": [],
-        "value5": 5,
+        "value4": [
+            {
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 0.0,
+                        "value1": 2
+                    }
+                }
+            }
+        ],
+        "value5": 9,
         "value6": {
-            "value0": 0.9808704257011414,
-            "value1": 0.9808704257011414,
-            "value2": 0.9808704257011414,
-            "value3": 0.14901961386203767
+            "value0": 0.9803921580314636,
+            "value1": 0.9803921580314636,
+            "value2": 0.9803921580314636,
+            "value3": 0.125490203499794
         },
-        "value7": ""
+        "value7": "../assets/audio/portal2_soundtrack"
     }
 }
