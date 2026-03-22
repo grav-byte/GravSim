@@ -203,6 +203,9 @@ elseif(APPLE)
     set_target_properties(GravSim PROPERTIES
             MACOSX_BUNDLE TRUE
             MACOSX_BUNDLE_ICON_FILE app_icon.icns
+            RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/$<CONFIG>
+            LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/$<CONFIG>
+            ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/$<CONFIG>
     )
 
     # copy assets into the bundle
