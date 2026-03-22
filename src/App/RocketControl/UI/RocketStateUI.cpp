@@ -149,19 +149,20 @@ void RocketStateUI::ShowHistoryGraph() {
     availableWidth = ImGui::GetWindowWidth() - spacing - ImGui::GetStyle().WindowPadding.x * 2.0f;
     availableHeight = ImGui::GetWindowHeight() - spacing - ImGui::GetStyle().WindowPadding.y * 2.0f - 75.0f;
 
-    // Plot Thrust (red)
-    ImPlot::PushStyleColor(ImPlotCol_Line, IM_COL32(255, 0, 0, 255));
-    PlotHistory(thrustHistory_, {-.1, 1.1}, "Thrust");
-    ImPlot::PopStyleColor();
+    int length = velocityHistory_.size();
+    if (length > 50) {
+        // Plot Thrust (red)
+        ImPlot::PushStyleColor(ImPlotCol_Line, IM_COL32(255, 0, 0, 255));
+        PlotHistory(thrustHistory_, {-.1, 1.1}, "Thrust");
+        ImPlot::PopStyleColor();
 
-    ImGui::SameLine(availableWidth * .5f + spacing);
+        ImGui::SameLine(availableWidth * .5f + spacing);
 
-    // Plot Angle (blue)
-    PlotHistory(angleHistory_, {-21, 21}, "Angle in °");
-    auto length = velocityHistory_.size();
-    if (length != 0) {
+        // Plot Angle (blue)
+        PlotHistory(angleHistory_, {-21, 21}, "Angle in °");
+
         // find min and max for velocity and altitude to set y axis limits
-        const auto lastIdx = -1;
+        const auto lastIdx = length-1;
         float velMin = velocityHistory_[lastIdx] - 1.0f;
         float velMax = velocityHistory_[lastIdx] + 1.0f;
         float altMin = altitudeHistory_[lastIdx] - 1.0f;
