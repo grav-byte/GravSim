@@ -55,14 +55,14 @@ void RocketStateUI::Draw() {
     const auto rocketVelocityRel = glm::length(rocketObj->velocity - referenceVelocity);
     const auto rocketPosRel = glm::length(rocketObj->transform.position - referencePos);
     if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_DrawSelectedOverline)) {
-        if (ImGui::BeginTabItem("Current"))
-        {
-            ShowCurrentState(rocketObj, rocketVelocityRel, rocketPosRel);
-            ImGui::EndTabItem();
-        }
         if (ImGui::BeginTabItem("Graph"))
         {
             ShowHistoryGraph();
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Current"))
+        {
+            ShowCurrentState(rocketObj, rocketVelocityRel, rocketPosRel);
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
@@ -158,33 +158,35 @@ void RocketStateUI::ShowHistoryGraph() {
 
     // Plot Angle (blue)
     PlotHistory(angleHistory_, {-21, 21}, "Angle in °");
+    auto length = velocityHistory_.size();
+    if (length != 0) {
+        // find min and max for velocity and altitude to set y axis limits
+        const auto lastIdx = -1;
+        float velMin = velocityHistory_[lastIdx] - 1.0f;
+        float velMax = velocityHistory_[lastIdx] + 1.0f;
+        float altMin = altitudeHistory_[lastIdx] - 1.0f;
+        float altMax = altitudeHistory_[lastIdx] + 1.0f;
+        for (const auto& v : velocityHistory_) {
+            if (v < velMin) velMin = v;
+            if (v > velMax) velMax = v;
+        }
+        for (const auto& a : altitudeHistory_) {
+            if (a < altMin) altMin = a;
+            if (a > altMax) altMax = a;
+        }
 
-    // find min and max for velocity and altitude to set y axis limits
-    const auto lastIdx = velocityHistory_.size()-1;
-    float velMin = velocityHistory_[lastIdx] - 1.0f;
-    float velMax = velocityHistory_[lastIdx] + 1.0f;
-    float altMin = altitudeHistory_[lastIdx] - 1.0f;
-    float altMax = altitudeHistory_[lastIdx] + 1.0f;
-    for (const auto& v : velocityHistory_) {
-        if (v < velMin) velMin = v;
-        if (v > velMax) velMax = v;
+        // Plot Velocity (green)
+        ImPlot::PushStyleColor(ImPlotCol_Line, IM_COL32(0, 255, 0, 255));
+        PlotHistory(velocityHistory_, {velMin, velMax}, "Velocity in m/s");
+        ImPlot::PopStyleColor();
+
+        ImGui::SameLine(availableWidth * .5f + spacing);
+
+        // Plot Altitude (orange)
+        ImPlot::PushStyleColor(ImPlotCol_Line, IM_COL32(255, 165, 0, 255));
+        PlotHistory(altitudeHistory_, {altMin, altMax}, "Altitude in m");
+        ImPlot::PopStyleColor();
     }
-    for (const auto& a : altitudeHistory_) {
-        if (a < altMin) altMin = a;
-        if (a > altMax) altMax = a;
-    }
-
-    // Plot Velocity (green)
-    ImPlot::PushStyleColor(ImPlotCol_Line, IM_COL32(0, 255, 0, 255));
-    PlotHistory(velocityHistory_, {velMin, velMax}, "Velocity in m/s");
-    ImPlot::PopStyleColor();
-
-    ImGui::SameLine(availableWidth * .5f + spacing);
-
-    // Plot Altitude (orange)
-    ImPlot::PushStyleColor(ImPlotCol_Line, IM_COL32(255, 165, 0, 255));
-    PlotHistory(altitudeHistory_, {altMin, altMax}, "Altitude in m");
-    ImPlot::PopStyleColor();
 
     ImPlot::PopStyleVar(3);
 }
