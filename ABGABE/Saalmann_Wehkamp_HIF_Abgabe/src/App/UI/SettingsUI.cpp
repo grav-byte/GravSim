@@ -1,0 +1,88 @@
+#include "SettingsUI.h"
+
+#include "CustomImGuiStyle.h"
+#include "imgui.h"
+#include "Core/Application.h"
+
+class EngineLayer;
+
+SettingsUI::SettingsUI() {
+    audioLayer_ = Core::Application::Get().GetLayer<AudioLayer>();
+    engineLayer_ = Core::Application::Get().GetLayer<EngineLayer>();
+    volume_ = .5f;
+    zoomToMouse_ = true;
+    darkMode_ = true;
+    showGrid_ = true;
+    engineLayer_->GetCameraController()->SetZoomToMouse(zoomToMouse_);
+    audioLayer_->SetGlobalVolume(volume_ * .1f);
+}
+
+SettingsUI::~SettingsUI() = default;
+
+void SettingsUI::Draw() {
+
+    ImGui::Begin("Settings");
+    ImGui::Text("Settings");
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+
+    if (ImGui::Button(darkMode_ ? "Light Mode" : "Dark Mode")) {
+        darkMode_ = !darkMode_;
+        darkMode_ ? CustomImGuiStyle::ApplyStyleDarkMode() : CustomImGuiStyle::ApplyStyleLightMode();
+        const glm::vec4 bg = darkMode_ ? glm::vec4(0.05f, 0.05f, 0.05f, 1.0f) : glm::vec4(0.77f, 0.75f, 0.71f, 1.0f);
+        engineLayer_->GetScene()->GetCamera()->backgroundColor = bg;
+        const auto c = CustomImGuiStyle::ContrastColor;
+        engineLayer_->GetScene()->gridColor = glm::vec4(c.x, c.y, c.z, darkMode_ ? .15f : .6f);
+    }
+
+    ImGui::SeparatorText("Camera");
+    if (ImGui::Checkbox("Zoom to Mouse", &zoomToMouse_)) {
+        engineLayer_->GetCameraController()->SetZoomToMouse(zoomToMouse_);
+    }
+
+    ImGui::SeparatorText("Grid");
+    auto renderer = engineLayer_->GetSceneRenderer();
+    if (ImGui::Checkbox("Show Grid", &showGrid_)) {
+        renderer->showGrid = showGrid_;
+    }
+
+    // powers of 2
+    int logSpacing = std::log2(renderer->gridSpacing_);
+    if (ImGui::Button("-")) {
+        logSpacing = std::max(-5, logSpacing - 1);
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("+")) {
+        logSpacing = std::min(3, logSpacing + 1);
+    }
+    ImGui::SameLine();
+    ImGui::Text("Grid Spacing");
+    renderer->gridSpacing_ = std::pow(2, logSpacing);
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+
+    ImGui::SeparatorText("Audio");
+    if (ImGui::SliderFloat("Volume", &volume_, 0.0f, 1.0f)) {
+        audioLayer_->SetGlobalVolume(volume_ * .1f);
+    }
+    ImGui::TextWrapped("Now Playing: \n%s", audioLayer_->currentSongTitle.c_str());
+    if (ImGui::Button("Skip Song")) {
+        audioLayer_->NextSong();
+    }
+
+    ImGui::SeparatorText("Trails");
+    int length = TrailRenderer::MaxTrailLength;
+    if (ImGui::DragInt("Length", &length, 1, 1, 10000) ) {
+        TrailRenderer::MaxTrailLength = std::clamp(length, 1, 10000);
+    }
+
+
+    ImGui::End();
+}
+
+void SettingsUI::OnEvent(Core::Event &event) {
+    // No event handling needed for settings currently
+
+}

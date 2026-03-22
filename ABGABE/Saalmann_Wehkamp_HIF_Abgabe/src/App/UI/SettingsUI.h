@@ -1,0 +1,23 @@
+#pragma once
+
+#include "IUserInterface.h"
+#include "App/Layers/AudioLayer.h"
+#include "App/Layers/EngineLayer.h"
+
+
+class SettingsUI : public IUserInterface {
+public:
+    SettingsUI();
+    ~SettingsUI() override;
+
+    void Draw() override;
+    void OnEvent(Core::Event &event) override;
+
+private:
+    AudioLayer* audioLayer_;
+    EngineLayer* engineLayer_;
+    float volume_;
+    bool zoomToMouse_;
+    bool darkMode_;
+    bool showGrid_;
+};

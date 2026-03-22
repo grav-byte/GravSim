@@ -1,0 +1,99 @@
+#define IMGUI_IMPL_OPENGL_LOADER_GLEW
+
+#include "GL/glew.h"
+#include "ShaderLoader.h"
+
+GLuint ShaderLoader::LoadShader(const std::string &vertexPath, const std::string &fragmentPath) {
+    // check if already loaded
+    const auto it = loadedShaders_.find(vertexPath + "|" + fragmentPath);
+    if (it != loadedShaders_.end()) {
+        return it->second; // already loaded - return cached
+    }
+
+    // create shader program and compile and attach shaders
+    const GLuint program = glCreateProgram();
+
+    const char* vertexSource = LoadSource(vertexPath);
+    const char* fragmentSource = LoadSource(fragmentPath);
+
+    const unsigned int vertexShader = CompileShader(GL_VERTEX_SHADER, vertexSource);
+    const unsigned int fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
+
+    delete[] vertexSource;
+    delete[] fragmentSource;
+
+    glAttachShader(program, vertexShader);
+    glAttachShader(program, fragmentShader);
+    glLinkProgram(program);
+    glValidateProgram(program);
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+
+
+    // cache
+    if (program != 0)
+        loadedShaders_[vertexPath + "|" + fragmentPath] = program;
+
+    return program;
+}
+
+void ShaderLoader::UnloadShader(unsigned int sprite_shader_program) {
+    if (sprite_shader_program == 0)
+        return;
+
+    // delete and erase if found
+    for (auto it = loadedShaders_.begin(); it != loadedShaders_.end(); ) {
+        if (it->second == sprite_shader_program) {
+            glDeleteProgram(it->second);
+            it = loadedShaders_.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+char* ShaderLoader::LoadSource(std::string path) {
+    // load shader source from file path
+    const auto pathPrefix = "../assets/shaders/";
+    path = std::string(pathPrefix) + std::string(path);
+    FILE* file = fopen(path.c_str(), "rb");
+    if (!file) {
+        printf("Failed to open shader file: %s\n", path.c_str());
+        return nullptr;
+    }
+
+    fseek(file, 0, SEEK_END);
+    const long length = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    const auto buffer = new char[length + 1];
+    fread(buffer, 1, length, file);
+    buffer[length] = '\0';
+
+    fclose(file);
+    return buffer;
+}
+
+unsigned int ShaderLoader::CompileShader(const unsigned int type, const char* source) {
+    // create and compile shader
+    const unsigned int id = glCreateShader(type);
+    glShaderSource(id, 1, &source, nullptr);
+    glCompileShader(id);
+
+    // error handling
+    int result;
+    glGetShaderiv(id, GL_COMPILE_STATUS, &result);
+    if (result == GL_FALSE) {
+        int length;
+        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+        std::string message(length, '\0');
+        glGetShaderInfoLog(id, length, &length, message.data());
+        const char* shaderType = type == GL_VERTEX_SHADER ? "vertex" : "fragment";
+        printf("Failed to compile %s shader!\n%s\n", shaderType, message.c_str());
+        glDeleteShader(id);
+        return 0;
+    }
+
+    return id;
+}

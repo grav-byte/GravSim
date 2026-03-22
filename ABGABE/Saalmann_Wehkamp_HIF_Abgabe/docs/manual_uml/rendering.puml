@@ -1,0 +1,146 @@
+@startuml
+allowmixing
+skinparam classFontName Courier
+skinparam classFontSize 12
+'skinparam linetype ortho
+
+top to bottom direction
+
+package Rendering {
+    class Scene {}
+    class SceneObject {}
+    class Camera {}
+
+
+    class RenderingSystem {
+        +void SetActiveCamera(const Camera* camera)
+
+        +void CreateSceneFramebuffer()
+        +void StartFrame(vec4 backgroundColor) const
+        +void OutputFrameToScreen() const
+
+        +Camera* GetActiveCamera() const
+
+        -ivec2 frameSize
+
+        -unsigned int sceneFBO
+        -unsigned int sceneTexture
+        -unsigned int postFBO
+        -unsigned int postTexture
+
+        -const Camera* activeCamera_
+    }
+
+
+    EngineLayer *-- RenderingSystem : owns
+    RenderingSystem --> Camera : uses
+
+    package Renderers {
+        class SceneRenderer {
+            +SceneRenderer(RenderingSystem* system)
+
+            +void OnSceneLoaded()
+            +void RenderScene(const Scene* scene, bool showColliders)
+            +void ApplyPostProcess()
+
+            +void AddTemporaryPostProcessPass(const string& frag,
+                                             const ShaderUniforms& uniforms)
+
+            +bool showGrid
+            +float gridSpacing
+
+            -SpriteRenderer spriteRenderer_
+            -CircleRenderer circleRenderer_
+            -LineRenderer lineRenderer_
+            -ConstraintRenderer constraintRenderer_
+            -ShaderRenderer shaderRenderer_
+            -GridRenderer gridRenderer_
+            -ArrowRenderer arrowRenderer
+            -TrailRenderer trailRenderer_
+
+            -RenderingSystem* renderer_
+
+            -vector<unique_ptr<PostProcessPass>> passes
+            -vector<unique_ptr<PostProcessPass>> temporaryPasses
+        }
+
+        EngineLayer *-- SceneRenderer : owns
+
+        IRenderer <|-- CircleRenderer : implements
+        IRenderer <|-- SpriteRenderer : implements
+        IRenderer <|-- ConstraintRenderer : implements
+        IRenderer <|-- ShaderRenderer : implements
+        IRenderer <|-- GridRenderer : implements
+        IRenderer <|-- ArrowRenderer : implements
+        IRenderer <|-- TrailRenderer : implements
+        GridRenderer --> LineRenderer : uses
+        ArrowRenderer --> LineRenderer : uses
+        TrailRenderer --> LineRenderer : uses
+        SpriteRenderer <|-- LineRenderer : extends
+        ShaderRenderer <|-- PostProcessPass : extends
+
+
+        note right of IRenderer
+            Strategy Pattern
+        end note
+
+        SceneRenderer *-- IRenderer : owns
+        SceneRenderer --> Scene : uses
+        SceneRenderer --> RenderingSystem : uses
+    }
+
+
+    package Visuals {
+        class IVisual {
+            +vec4 color
+            +int drawOrder
+            +virtual VisualType GetType()
+        }
+
+        IVisual *-- VisualType : has
+        note right of IVisual
+            Strategy Pattern
+        end note
+
+        enum VisualType {
+            Circle,
+            Sprite,
+            Shader
+        }
+
+        class CircleVisual {
+            +VisualType GetType() override
+        }
+
+        class SpriteVisual {
+            +explicit SpriteVisual(const path& path)
+            +VisualType GetType() override
+            -path path_
+            -uint textureId_
+        }
+
+        class ShaderVisual {
+            +string shaderPath
+            +ShaderUniforms shaderData
+        }
+
+        struct ShaderUniforms {
+            +map<string, float> floats;
+            +map<string, string> textures;
+
+            +vec2 resolution;
+            +unsigned int screenBufferTex = 0;
+        }
+
+        ShaderVisual --> ShaderUniforms : has
+
+        IVisual <|-- CircleVisual : implements
+        IVisual <|-- SpriteVisual : implements
+        IVisual <|-- ShaderVisual : implements
+
+        SceneObject *-- IVisual : owns
+        Scene *-- SceneObject : owns
+        Scene *-- Camera : owns
+    }
+}
+@enduml

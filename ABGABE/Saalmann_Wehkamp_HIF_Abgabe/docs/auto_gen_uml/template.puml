@@ -1,0 +1,9 @@
+{% extends 'default.puml' %}
+
+{% block preamble %}
+
+title "GravSim UML Diagram (auto-generated)"
+skinparam linetype ortho
+
+skinparam classBackgroundColor #EAD4C2
+{% endblock %}

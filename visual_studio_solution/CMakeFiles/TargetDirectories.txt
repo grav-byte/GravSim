@@ -1,0 +1,12 @@
+D:/Projects/GravSim/visual_studio_solution/CMakeFiles/glew.dir
+D:/Projects/GravSim/visual_studio_solution/CMakeFiles/GravSim.dir
+D:/Projects/GravSim/visual_studio_solution/CMakeFiles/INSTALL.dir
+D:/Projects/GravSim/visual_studio_solution/CMakeFiles/ALL_BUILD.dir
+D:/Projects/GravSim/visual_studio_solution/CMakeFiles/ZERO_CHECK.dir
+D:/Projects/GravSim/visual_studio_solution/libraries/glfw/CMakeFiles/uninstall.dir
+D:/Projects/GravSim/visual_studio_solution/libraries/glfw/CMakeFiles/INSTALL.dir
+D:/Projects/GravSim/visual_studio_solution/libraries/glfw/CMakeFiles/ALL_BUILD.dir
+D:/Projects/GravSim/visual_studio_solution/libraries/glfw/src/CMakeFiles/glfw.dir
+D:/Projects/GravSim/visual_studio_solution/libraries/glfw/src/CMakeFiles/update_mappings.dir
+D:/Projects/GravSim/visual_studio_solution/libraries/glfw/src/CMakeFiles/INSTALL.dir
+D:/Projects/GravSim/visual_studio_solution/libraries/glfw/docs/CMakeFiles/INSTALL.dir

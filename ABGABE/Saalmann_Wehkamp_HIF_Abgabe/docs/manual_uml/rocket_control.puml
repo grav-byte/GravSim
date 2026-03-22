@@ -1,0 +1,270 @@
+@startuml
+allowmixing
+skinparam classFontName Courier
+skinparam classFontSize 12
+'skinparam linetype s
+
+top to bottom direction
+
+class AppLayer
+class IUserInterface
+class SceneObject
+class Serialiser
+
+package RocketControl {
+    class ControlLayer {
+        +ControlLayer()
+        +void OnInit()
+        +void OnUpdate(float deltaTime)
+        +void OnEvent(Core::Event &event)
+        +void OnRender()
+
+        +void FindRocket(Core::Event &event)
+        +RocketObject* GetRocketObject() const
+
+        template<typename T>
+        +void SetActiveControl()
+
+        IRocketController* GetActiveControl() const
+
+        -void CreateRocket(Scene *scene)
+        -std::unique_ptr<IRocketController> activeControl_;
+        -std::unique_ptr<TargetManager> targetManager_;
+        -RocketObject* rocketObj_
+        -EngineLayer* engine_
+    }
+
+    AppLayer <|-- ControlLayer : implements
+
+    class TargetManager {
+        +TargetManager()
+        +void SetActiveTarget(TargetObject* target, std::function<void()> targetReachedCallback)
+        +void CheckTargetReached(const RocketObject *rocketObject, float dt)
+
+        +glm::vec2 currentTargetPos
+        -std::function<void()> targetReachedCallback_
+        -TargetObject* target_
+        -float reachedTimer_
+    }
+
+    ControlLayer *-- TargetManager : owns
+
+    class RocketObject {
+        +explicit RocketObject(Scene& scene)
+
+        +float thrustPercent
+        +float thrustAngle
+
+        -SceneObject* nozzleObj_
+        -SceneObject* exhaustObj_
+        -ShaderUniforms* exhaustShaderData_
+        -unique_ptr<ma_sound> rocketSound_
+
+        +void UpdateVisualisation() const
+        +vec2 GetThrustPosition() const
+        +vec2 GetThrustVector() const
+
+        +float GetMaxThrustAngle() const
+        +float GetInertia() const
+
+        +void RelinkObjects(const Scene& scene)
+
+        +void StartSound()
+        +void StopSound()
+    }
+    SceneObject <|-- RocketObject : extends
+    
+    
+    class TargetObject {
+        +TargetObject()
+
+        +void MarkReached()
+        +bool IsReached() const
+
+        +static float reachRadius
+        +static float reachTime
+
+        -void PlayCompletionEffect() const
+        -bool reached_
+    }
+
+    SceneObject <|-- TargetObject : extends
+
+
+    package Controllers {
+        interface IRocketController {
+                + virtual void Start() const
+                + virtual void OnKeyPressed(int keyCode)
+                + virtual void OnKeyReleased(int keyCode)
+                + virtual void ApplyControlInputs(RocketObject *rocketObj, float deltaTime) const
+
+                + TargetManager* GetTargetManager() const
+
+                -TargetManager* targetManager_
+        }
+
+        ControlLayer *-- IRocketController : owns
+        note right of IRocketController
+            Strategy Pattern
+        end note
+        
+
+        class ManualRocketController {
+                +void Start() const override
+                +void OnKeyPressed(int keyCode) override
+                +void OnKeyReleased(int keyCode) override
+
+                +void ApplyControlInputs(RocketObject *rocketObj, float deltaTime) const override
+
+                -bool leftHeld_;
+                -bool rightHeld_;
+                -bool upHeld_;
+                -bool downHeld_;
+        }
+
+        IRocketController <|-- ManualRocketController : implements
+
+
+        class AutonomousPIDRocketController {
+            +void Start() const override
+            +void ApplyControlInputs(RocketObject* rocketObject, float deltaTime) const override
+
+            +PIDController* GetVerticalController() const
+            +PIDController* GetHorizontalController() const
+            +PIDController* GetAttitudeController() const
+
+            +float maxSteeringAngle
+
+            +bvec3 visualizePID
+
+            -std::unique_ptr<PIDController> verticalController_;
+            -std::unique_ptr<PIDController> horizontalController_;
+            -std::unique_ptr<PIDController> attitudeController_;
+        }
+
+        IRocketController <|-- AutonomousPIDRocketController : implements
+
+        class OrbitRocketController {
+            +void OnKeyPressed(int keyCode) override
+
+            +void ApplyControlInputs(RocketObject *rocketObj, float deltaTime) const override
+            -bool facePrograde_
+        }
+
+        IRocketController <|-- OrbitRocketController : implements
+
+        ControlLayer --> RocketObject : controls
+        TargetManager --> TargetObject : tracks
+    }
+
+
+
+
+    package PID {
+        class PIDData {
+            +PIDData(float p, float i, float d, float b)
+
+            +float pGain
+            +float iGain
+            +float dGain
+            +float bias
+            +string name
+        }
+
+        class PIDController {
+            +explicit PIDController(const PIDData &data)
+
+            +PIDData pidData
+
+            -bool useAngleDifference_
+            -float integral_
+            -float pTerm_
+            -float iTerm_
+            -float dTerm_
+            -float biasTerm_
+
+            +float Evaluate(float setpoint, float measuredValue, float derivative, float deltaTime)
+            +void SetUseAngleDifference(bool useAngleDifference)
+            +vec4 GetTerms() const
+            +void Reset()
+        }
+
+        class PIDConfig {
+            +explicit PIDConfig(const array<PIDData,3>& data, float steeringAngle)
+
+            +const PIDData& GetPIDData(int index) const
+            +float GetSteeringAngle() const
+
+            -array<PIDData,3> pidData_
+            -float steeringAngle_
+        }
+
+        class PIDVisualizer {
+            +static void DrawPIDArrows()
+        }
+
+
+
+        PIDController *-- PIDData : has
+        PIDConfig "1" *-- "3" PIDData : stores
+        
+        Serialiser ..> PIDConfig : serializes
+    }
+
+    AutonomousPIDRocketController "1" *-- "3" PIDController : owns
+    AutonomousPIDRocketController ..> PIDVisualizer : uses (visualize)
+
+    RocketObject -[hidden]->PID
+
+    package UI {
+        class RocketControllerUI {
+            +void Draw()
+            +void OnEvent(Core::Event &event)
+
+            -ControlLayer* controlLayer_
+            -EngineLayer* engineLayer_
+            -TargetUI targetUI_
+
+            -void DrawPIDSettings(AutonomousPIDRocketController *autoCtrl)
+            -void DrawPIDLoading(PIDController *(&pids)[3], float &steeringAngle)
+            -void SaveConfig(const AutonomousPIDRocketController *autoCtrl) const
+        }
+
+        IUserInterface <|-- RocketControllerUI : implements
+
+        RocketControllerUI *-- TargetUI : has
+
+
+
+        class RocketStateUI {
+            +void OnEvent(Core::Event &event)
+            +void RecordHistory(RocketObject *rocketObj
+            +float rocketVelocityRel, float rocketPosRel)
+            +void Draw()
+
+            -ControlLayer* controlLayer_
+            -EngineLayer* engineLayer_
+        }
+
+        IUserInterface <|-- RocketStateUI : implements
+
+
+        class TargetUI {
+            +void Draw(Scene *scene)
+            +void OnSceneLoaded(const Scene& scene)
+
+            -void SyncTargetsFromScene(const Scene& scene)
+            -void CreateTarget(Scene& scene)
+            -void DeleteTargetAt(Scene& scene, int index)
+
+            -void SetNextTarget()
+
+            -vector<TargetObject*> targets_
+        }
+
+        'TargetUI *-- TargetObject : references (Scene owns)
+
+        TargetUI --> TargetManager : controls
+    }
+}
+@enduml

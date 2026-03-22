@@ -1,0 +1,2068 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineSystem.cmake:212 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The system is: Windows - 10.0.22631 - AMD64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\PlasticSCM5\\server"
+        - "C:\\Program Files\\PlasticSCM5\\client"
+        - "C:\\Program Files\\Java\\jdk-17\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.312.7-hotspot\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Intel\\Shared Libraries\\redist\\intel64\\compiler"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "D:\\Programme\\QuickTime\\QTSystem\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "D:\\Programme\\apache-maven-3.6.2\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\PuTTY\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\GitHub CLI\\"
+        - "C:\\Program Files\\Git LFS"
+        - "D:\\Programme\\Git\\cmd"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "D:\\Programme\\Microsoft VS Code\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\npm"
+        - "C:\\Users\\lsspi\\.dotnet\\tools"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Users\\lsspi\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files (x86)\\Nmap"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      MSBuild version 17.14.23+b0019275e for .NET Framework
+      Build started 3/22/2026 5:40:11 PM.
+      
+      Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\4.2.0\\CompilerIdC\\CompilerIdC.vcxproj" on node 1 (default targets).
+      PrepareForBuild:
+        Creating directory "Debug\\".
+        Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+        Creating directory "Debug\\CompilerIdC.tlog\\".
+      InitializeBuildStatus:
+        Creating "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+        Touching "Debug\\CompilerIdC.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TC /FC /errorReport:queue CMakeCCompilerId.c
+        CMakeCCompilerId.c
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdC.lib" /MACHINE:X64 Debug\\CMakeCCompilerId.obj
+        CompilerIdC.vcxproj -> D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\4.2.0\\CompilerIdC\\CompilerIdC.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_C_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Deleting file "Debug\\CompilerIdC.tlog\\unsuccessfulbuild".
+        Touching "Debug\\CompilerIdC.tlog\\CompilerIdC.lastbuildstate".
+      Done Building Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\4.2.0\\CompilerIdC\\CompilerIdC.vcxproj" (default targets).
+      
+      Build succeeded.
+          0 Warning(s)
+          0 Error(s)
+      
+      Time Elapsed 00:00:00.51
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
+      
+      The C compiler identification is MSVC, found in:
+        D:/Projects/GravSim/visual_studio_solution/CMakeFiles/4.2.0/CompilerIdC/CompilerIdC.exe
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:103 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Program Files/PlasticSCM5/server/"
+      - "C:/Program Files/PlasticSCM5/client/"
+      - "C:/Program Files/Java/jdk-17/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "D:/Programme/QuickTime/QTSystem/"
+      - "D:/Programme/apache-maven-3.6.2/bin/"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files/PuTTY/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/GitHub CLI/"
+      - "C:/Program Files/Git LFS/"
+      - "D:/Programme/Git/cmd/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/"
+      - "D:/Programme/Microsoft VS Code/bin/"
+      - "C:/Users/lsspi/AppData/Roaming/npm/"
+      - "C:/Users/lsspi/.dotnet/tools/"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Program Files (x86)/Nmap/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.com"
+    found: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\PlasticSCM5\\server"
+        - "C:\\Program Files\\PlasticSCM5\\client"
+        - "C:\\Program Files\\Java\\jdk-17\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.312.7-hotspot\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Intel\\Shared Libraries\\redist\\intel64\\compiler"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "D:\\Programme\\QuickTime\\QTSystem\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "D:\\Programme\\apache-maven-3.6.2\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\PuTTY\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\GitHub CLI\\"
+        - "C:\\Program Files\\Git LFS"
+        - "D:\\Programme\\Git\\cmd"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "D:\\Programme\\Microsoft VS Code\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\npm"
+        - "C:\\Users\\lsspi\\.dotnet\\tools"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Users\\lsspi\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files (x86)\\Nmap"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Program Files/PlasticSCM5/server/"
+      - "C:/Program Files/PlasticSCM5/client/"
+      - "C:/Program Files/Java/jdk-17/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "D:/Programme/QuickTime/QTSystem/"
+      - "D:/Programme/apache-maven-3.6.2/bin/"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files/PuTTY/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/GitHub CLI/"
+      - "C:/Program Files/Git LFS/"
+      - "D:/Programme/Git/cmd/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/"
+      - "D:/Programme/Microsoft VS Code/bin/"
+      - "C:/Users/lsspi/AppData/Roaming/npm/"
+      - "C:/Users/lsspi/.dotnet/tools/"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Program Files (x86)/Nmap/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.com"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.exe"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link"
+      - "C:/Program Files/PlasticSCM5/server/lld-link.com"
+      - "C:/Program Files/PlasticSCM5/server/lld-link.exe"
+      - "C:/Program Files/PlasticSCM5/server/lld-link"
+      - "C:/Program Files/PlasticSCM5/client/lld-link.com"
+      - "C:/Program Files/PlasticSCM5/client/lld-link.exe"
+      - "C:/Program Files/PlasticSCM5/client/lld-link"
+      - "C:/Program Files/Java/jdk-17/bin/lld-link.com"
+      - "C:/Program Files/Java/jdk-17/bin/lld-link.exe"
+      - "C:/Program Files/Java/jdk-17/bin/lld-link"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/lld-link.com"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/lld-link.exe"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/lld-link"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "D:/Programme/QuickTime/QTSystem/lld-link.com"
+      - "D:/Programme/QuickTime/QTSystem/lld-link.exe"
+      - "D:/Programme/QuickTime/QTSystem/lld-link"
+      - "D:/Programme/apache-maven-3.6.2/bin/lld-link.com"
+      - "D:/Programme/apache-maven-3.6.2/bin/lld-link.exe"
+      - "D:/Programme/apache-maven-3.6.2/bin/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/lld-link"
+      - "C:/Program Files/PuTTY/lld-link.com"
+      - "C:/Program Files/PuTTY/lld-link.exe"
+      - "C:/Program Files/PuTTY/lld-link"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/lld-link.com"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/lld-link.exe"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/lld-link"
+      - "C:/Program Files/nodejs/lld-link.com"
+      - "C:/Program Files/nodejs/lld-link.exe"
+      - "C:/Program Files/nodejs/lld-link"
+      - "C:/Program Files/dotnet/lld-link.com"
+      - "C:/Program Files/dotnet/lld-link.exe"
+      - "C:/Program Files/dotnet/lld-link"
+      - "C:/Program Files/GitHub CLI/lld-link.com"
+      - "C:/Program Files/GitHub CLI/lld-link.exe"
+      - "C:/Program Files/GitHub CLI/lld-link"
+      - "C:/Program Files/Git LFS/lld-link.com"
+      - "C:/Program Files/Git LFS/lld-link.exe"
+      - "C:/Program Files/Git LFS/lld-link"
+      - "D:/Programme/Git/cmd/lld-link.com"
+      - "D:/Programme/Git/cmd/lld-link.exe"
+      - "D:/Programme/Git/cmd/lld-link"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/lld-link.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/lld-link.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/lld-link"
+      - "C:/Program Files/CMake/bin/lld-link.com"
+      - "C:/Program Files/CMake/bin/lld-link.exe"
+      - "C:/Program Files/CMake/bin/lld-link"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "D:/Programme/Microsoft VS Code/bin/lld-link.com"
+      - "D:/Programme/Microsoft VS Code/bin/lld-link.exe"
+      - "D:/Programme/Microsoft VS Code/bin/lld-link"
+      - "C:/Users/lsspi/AppData/Roaming/npm/lld-link.com"
+      - "C:/Users/lsspi/AppData/Roaming/npm/lld-link.exe"
+      - "C:/Users/lsspi/AppData/Roaming/npm/lld-link"
+      - "C:/Users/lsspi/.dotnet/tools/lld-link.com"
+      - "C:/Users/lsspi/.dotnet/tools/lld-link.exe"
+      - "C:/Users/lsspi/.dotnet/tools/lld-link"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/lld-link.com"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/lld-link.exe"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/lld-link"
+      - "C:/Program Files (x86)/Nmap/lld-link.com"
+      - "C:/Program Files (x86)/Nmap/lld-link.exe"
+      - "C:/Program Files (x86)/Nmap/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\PlasticSCM5\\server"
+        - "C:\\Program Files\\PlasticSCM5\\client"
+        - "C:\\Program Files\\Java\\jdk-17\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.312.7-hotspot\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Intel\\Shared Libraries\\redist\\intel64\\compiler"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "D:\\Programme\\QuickTime\\QTSystem\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "D:\\Programme\\apache-maven-3.6.2\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\PuTTY\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\GitHub CLI\\"
+        - "C:\\Program Files\\Git LFS"
+        - "D:\\Programme\\Git\\cmd"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "D:\\Programme\\Microsoft VS Code\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\npm"
+        - "C:\\Users\\lsspi\\.dotnet\\tools"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Users\\lsspi\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files (x86)\\Nmap"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Program Files/PlasticSCM5/server/"
+      - "C:/Program Files/PlasticSCM5/client/"
+      - "C:/Program Files/Java/jdk-17/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "D:/Programme/QuickTime/QTSystem/"
+      - "D:/Programme/apache-maven-3.6.2/bin/"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files/PuTTY/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/GitHub CLI/"
+      - "C:/Program Files/Git LFS/"
+      - "D:/Programme/Git/cmd/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/"
+      - "D:/Programme/Microsoft VS Code/bin/"
+      - "C:/Users/lsspi/AppData/Roaming/npm/"
+      - "C:/Users/lsspi/.dotnet/tools/"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Program Files (x86)/Nmap/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.com"
+    found: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\PlasticSCM5\\server"
+        - "C:\\Program Files\\PlasticSCM5\\client"
+        - "C:\\Program Files\\Java\\jdk-17\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.312.7-hotspot\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Intel\\Shared Libraries\\redist\\intel64\\compiler"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "D:\\Programme\\QuickTime\\QTSystem\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "D:\\Programme\\apache-maven-3.6.2\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\PuTTY\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\GitHub CLI\\"
+        - "C:\\Program Files\\Git LFS"
+        - "D:\\Programme\\Git\\cmd"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "D:\\Programme\\Microsoft VS Code\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\npm"
+        - "C:\\Users\\lsspi\\.dotnet\\tools"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Users\\lsspi\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files (x86)\\Nmap"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_MT"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "mt"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Program Files/PlasticSCM5/server/"
+      - "C:/Program Files/PlasticSCM5/client/"
+      - "C:/Program Files/Java/jdk-17/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "D:/Programme/QuickTime/QTSystem/"
+      - "D:/Programme/apache-maven-3.6.2/bin/"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files/PuTTY/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/GitHub CLI/"
+      - "C:/Program Files/Git LFS/"
+      - "D:/Programme/Git/cmd/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/"
+      - "D:/Programme/Microsoft VS Code/bin/"
+      - "C:/Users/lsspi/AppData/Roaming/npm/"
+      - "C:/Users/lsspi/.dotnet/tools/"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Program Files (x86)/Nmap/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/mt.com"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/mt.exe"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/mt"
+      - "C:/Program Files/PlasticSCM5/server/mt.com"
+      - "C:/Program Files/PlasticSCM5/server/mt.exe"
+      - "C:/Program Files/PlasticSCM5/server/mt"
+      - "C:/Program Files/PlasticSCM5/client/mt.com"
+      - "C:/Program Files/PlasticSCM5/client/mt.exe"
+      - "C:/Program Files/PlasticSCM5/client/mt"
+      - "C:/Program Files/Java/jdk-17/bin/mt.com"
+      - "C:/Program Files/Java/jdk-17/bin/mt.exe"
+      - "C:/Program Files/Java/jdk-17/bin/mt"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/mt.com"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/mt.exe"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/mt"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/mt.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/mt.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/mt"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/mt.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/mt.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/mt"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/mt.com"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/mt.exe"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/mt"
+      - "C:/Windows/System32/mt.com"
+      - "C:/Windows/System32/mt.exe"
+      - "C:/Windows/System32/mt"
+      - "C:/Windows/mt.com"
+      - "C:/Windows/mt.exe"
+      - "C:/Windows/mt"
+      - "C:/Windows/System32/wbem/mt.com"
+      - "C:/Windows/System32/wbem/mt.exe"
+      - "C:/Windows/System32/wbem/mt"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt"
+      - "C:/Windows/System32/OpenSSH/mt.com"
+      - "C:/Windows/System32/OpenSSH/mt.exe"
+      - "C:/Windows/System32/OpenSSH/mt"
+      - "D:/Programme/QuickTime/QTSystem/mt.com"
+      - "D:/Programme/QuickTime/QTSystem/mt.exe"
+      - "D:/Programme/QuickTime/QTSystem/mt"
+      - "D:/Programme/apache-maven-3.6.2/bin/mt.com"
+      - "D:/Programme/apache-maven-3.6.2/bin/mt.exe"
+      - "D:/Programme/apache-maven-3.6.2/bin/mt"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/mt.com"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/mt.exe"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/mt"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/mt.com"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/mt.exe"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/mt"
+      - "C:/Program Files/PuTTY/mt.com"
+      - "C:/Program Files/PuTTY/mt.exe"
+      - "C:/Program Files/PuTTY/mt"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/mt.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/mt.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/mt"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/mt.com"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/mt.exe"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/mt"
+      - "C:/Program Files/nodejs/mt.com"
+      - "C:/Program Files/nodejs/mt.exe"
+      - "C:/Program Files/nodejs/mt"
+      - "C:/Program Files/dotnet/mt.com"
+      - "C:/Program Files/dotnet/mt.exe"
+      - "C:/Program Files/dotnet/mt"
+      - "C:/Program Files/GitHub CLI/mt.com"
+      - "C:/Program Files/GitHub CLI/mt.exe"
+      - "C:/Program Files/GitHub CLI/mt"
+      - "C:/Program Files/Git LFS/mt.com"
+      - "C:/Program Files/Git LFS/mt.exe"
+      - "C:/Program Files/Git LFS/mt"
+      - "D:/Programme/Git/cmd/mt.com"
+      - "D:/Programme/Git/cmd/mt.exe"
+      - "D:/Programme/Git/cmd/mt"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/mt.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/mt.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/mt"
+      - "C:/Program Files/CMake/bin/mt.com"
+      - "C:/Program Files/CMake/bin/mt.exe"
+      - "C:/Program Files/CMake/bin/mt"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/mt.com"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/mt.exe"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/mt"
+      - "D:/Programme/Microsoft VS Code/bin/mt.com"
+      - "D:/Programme/Microsoft VS Code/bin/mt.exe"
+      - "D:/Programme/Microsoft VS Code/bin/mt"
+      - "C:/Users/lsspi/AppData/Roaming/npm/mt.com"
+      - "C:/Users/lsspi/AppData/Roaming/npm/mt.exe"
+      - "C:/Users/lsspi/AppData/Roaming/npm/mt"
+      - "C:/Users/lsspi/.dotnet/tools/mt.com"
+      - "C:/Users/lsspi/.dotnet/tools/mt.exe"
+      - "C:/Users/lsspi/.dotnet/tools/mt"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/mt.com"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/mt.exe"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/mt"
+      - "C:/Program Files (x86)/Nmap/mt.com"
+      - "C:/Program Files (x86)/Nmap/mt.exe"
+      - "C:/Program Files (x86)/Nmap/mt"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\PlasticSCM5\\server"
+        - "C:\\Program Files\\PlasticSCM5\\client"
+        - "C:\\Program Files\\Java\\jdk-17\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.312.7-hotspot\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Intel\\Shared Libraries\\redist\\intel64\\compiler"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "D:\\Programme\\QuickTime\\QTSystem\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "D:\\Programme\\apache-maven-3.6.2\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\PuTTY\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\GitHub CLI\\"
+        - "C:\\Program Files\\Git LFS"
+        - "D:\\Programme\\Git\\cmd"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "D:\\Programme\\Microsoft VS Code\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\npm"
+        - "C:\\Users\\lsspi\\.dotnet\\tools"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Users\\lsspi\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files (x86)\\Nmap"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_AR"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lib"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Program Files/PlasticSCM5/server/"
+      - "C:/Program Files/PlasticSCM5/client/"
+      - "C:/Program Files/Java/jdk-17/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "D:/Programme/QuickTime/QTSystem/"
+      - "D:/Programme/apache-maven-3.6.2/bin/"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files/PuTTY/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/GitHub CLI/"
+      - "C:/Program Files/Git LFS/"
+      - "D:/Programme/Git/cmd/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/"
+      - "D:/Programme/Microsoft VS Code/bin/"
+      - "C:/Users/lsspi/AppData/Roaming/npm/"
+      - "C:/Users/lsspi/.dotnet/tools/"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Program Files (x86)/Nmap/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lib.com"
+    found: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lib.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\PlasticSCM5\\server"
+        - "C:\\Program Files\\PlasticSCM5\\client"
+        - "C:\\Program Files\\Java\\jdk-17\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.312.7-hotspot\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Intel\\Shared Libraries\\redist\\intel64\\compiler"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "D:\\Programme\\QuickTime\\QTSystem\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "D:\\Programme\\apache-maven-3.6.2\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\PuTTY\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\GitHub CLI\\"
+        - "C:\\Program Files\\Git LFS"
+        - "D:\\Programme\\Git\\cmd"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "D:\\Programme\\Microsoft VS Code\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\npm"
+        - "C:\\Users\\lsspi\\.dotnet\\tools"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Users\\lsspi\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files (x86)\\Nmap"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\PlasticSCM5\\server"
+        - "C:\\Program Files\\PlasticSCM5\\client"
+        - "C:\\Program Files\\Java\\jdk-17\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.312.7-hotspot\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Intel\\Shared Libraries\\redist\\intel64\\compiler"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "D:\\Programme\\QuickTime\\QTSystem\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "D:\\Programme\\apache-maven-3.6.2\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\PuTTY\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\GitHub CLI\\"
+        - "C:\\Program Files\\Git LFS"
+        - "D:\\Programme\\Git\\cmd"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "D:\\Programme\\Microsoft VS Code\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\npm"
+        - "C:\\Users\\lsspi\\.dotnet\\tools"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Users\\lsspi\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files (x86)\\Nmap"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      MSBuild version 17.14.23+b0019275e for .NET Framework
+      Build started 3/22/2026 5:40:12 PM.
+      
+      Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\4.2.0\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
+      PrepareForBuild:
+        Creating directory "Debug\\".
+        Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+        Creating directory "Debug\\CompilerIdCXX.tlog\\".
+      InitializeBuildStatus:
+        Creating "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+        Touching "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
+        CompilerIdCXX.vcxproj -> D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\4.2.0\\CompilerIdCXX\\CompilerIdCXX.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_CXX_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Deleting file "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+        Touching "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate".
+      Done Building Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\4.2.0\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default targets).
+      
+      Build succeeded.
+          0 Warning(s)
+          0 Error(s)
+      
+      Time Elapsed 00:00:00.50
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+      
+      The CXX compiler identification is MSVC, found in:
+        D:/Projects/GravSim/visual_studio_solution/CMakeFiles/4.2.0/CompilerIdCXX/CompilerIdCXX.exe
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Program Files/PlasticSCM5/server/"
+      - "C:/Program Files/PlasticSCM5/client/"
+      - "C:/Program Files/Java/jdk-17/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "D:/Programme/QuickTime/QTSystem/"
+      - "D:/Programme/apache-maven-3.6.2/bin/"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files/PuTTY/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/GitHub CLI/"
+      - "C:/Program Files/Git LFS/"
+      - "D:/Programme/Git/cmd/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/"
+      - "D:/Programme/Microsoft VS Code/bin/"
+      - "C:/Users/lsspi/AppData/Roaming/npm/"
+      - "C:/Users/lsspi/.dotnet/tools/"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Program Files (x86)/Nmap/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.com"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.exe"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link"
+      - "C:/Program Files/PlasticSCM5/server/lld-link.com"
+      - "C:/Program Files/PlasticSCM5/server/lld-link.exe"
+      - "C:/Program Files/PlasticSCM5/server/lld-link"
+      - "C:/Program Files/PlasticSCM5/client/lld-link.com"
+      - "C:/Program Files/PlasticSCM5/client/lld-link.exe"
+      - "C:/Program Files/PlasticSCM5/client/lld-link"
+      - "C:/Program Files/Java/jdk-17/bin/lld-link.com"
+      - "C:/Program Files/Java/jdk-17/bin/lld-link.exe"
+      - "C:/Program Files/Java/jdk-17/bin/lld-link"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/lld-link.com"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/lld-link.exe"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/lld-link"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "D:/Programme/QuickTime/QTSystem/lld-link.com"
+      - "D:/Programme/QuickTime/QTSystem/lld-link.exe"
+      - "D:/Programme/QuickTime/QTSystem/lld-link"
+      - "D:/Programme/apache-maven-3.6.2/bin/lld-link.com"
+      - "D:/Programme/apache-maven-3.6.2/bin/lld-link.exe"
+      - "D:/Programme/apache-maven-3.6.2/bin/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/lld-link"
+      - "C:/Program Files/PuTTY/lld-link.com"
+      - "C:/Program Files/PuTTY/lld-link.exe"
+      - "C:/Program Files/PuTTY/lld-link"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/lld-link.com"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/lld-link.exe"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/lld-link"
+      - "C:/Program Files/nodejs/lld-link.com"
+      - "C:/Program Files/nodejs/lld-link.exe"
+      - "C:/Program Files/nodejs/lld-link"
+      - "C:/Program Files/dotnet/lld-link.com"
+      - "C:/Program Files/dotnet/lld-link.exe"
+      - "C:/Program Files/dotnet/lld-link"
+      - "C:/Program Files/GitHub CLI/lld-link.com"
+      - "C:/Program Files/GitHub CLI/lld-link.exe"
+      - "C:/Program Files/GitHub CLI/lld-link"
+      - "C:/Program Files/Git LFS/lld-link.com"
+      - "C:/Program Files/Git LFS/lld-link.exe"
+      - "C:/Program Files/Git LFS/lld-link"
+      - "D:/Programme/Git/cmd/lld-link.com"
+      - "D:/Programme/Git/cmd/lld-link.exe"
+      - "D:/Programme/Git/cmd/lld-link"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/lld-link.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/lld-link.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/lld-link"
+      - "C:/Program Files/CMake/bin/lld-link.com"
+      - "C:/Program Files/CMake/bin/lld-link.exe"
+      - "C:/Program Files/CMake/bin/lld-link"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "D:/Programme/Microsoft VS Code/bin/lld-link.com"
+      - "D:/Programme/Microsoft VS Code/bin/lld-link.exe"
+      - "D:/Programme/Microsoft VS Code/bin/lld-link"
+      - "C:/Users/lsspi/AppData/Roaming/npm/lld-link.com"
+      - "C:/Users/lsspi/AppData/Roaming/npm/lld-link.exe"
+      - "C:/Users/lsspi/AppData/Roaming/npm/lld-link"
+      - "C:/Users/lsspi/.dotnet/tools/lld-link.com"
+      - "C:/Users/lsspi/.dotnet/tools/lld-link.exe"
+      - "C:/Users/lsspi/.dotnet/tools/lld-link"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/lld-link.com"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/lld-link.exe"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/lld-link"
+      - "C:/Program Files (x86)/Nmap/lld-link.com"
+      - "C:/Program Files (x86)/Nmap/lld-link.exe"
+      - "C:/Program Files (x86)/Nmap/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\PlasticSCM5\\server"
+        - "C:\\Program Files\\PlasticSCM5\\client"
+        - "C:\\Program Files\\Java\\jdk-17\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.312.7-hotspot\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Intel\\Shared Libraries\\redist\\intel64\\compiler"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "D:\\Programme\\QuickTime\\QTSystem\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "D:\\Programme\\apache-maven-3.6.2\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\PuTTY\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\GitHub CLI\\"
+        - "C:\\Program Files\\Git LFS"
+        - "D:\\Programme\\Git\\cmd"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "D:\\Programme\\Microsoft VS Code\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\npm"
+        - "C:\\Users\\lsspi\\.dotnet\\tools"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Users\\lsspi\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files (x86)\\Nmap"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineRCCompiler.cmake:40 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Windows-MSVC.cmake:580 (enable_language)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Windows-MSVC.cmake:553 (__windows_compiler_msvc_enable_rc)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Windows-MSVC-C.cmake:5 (__windows_compiler_msvc)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCInformation.cmake:48 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_RC_COMPILER"
+    description: "RC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "rc"
+    candidate_directories:
+      - "C:/Program Files/PlasticSCM5/server/"
+      - "C:/Program Files/PlasticSCM5/client/"
+      - "C:/Program Files/Java/jdk-17/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "D:/Programme/QuickTime/QTSystem/"
+      - "D:/Programme/apache-maven-3.6.2/bin/"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files/PuTTY/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/GitHub CLI/"
+      - "C:/Program Files/Git LFS/"
+      - "D:/Programme/Git/cmd/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/"
+      - "D:/Programme/Microsoft VS Code/bin/"
+      - "C:/Users/lsspi/AppData/Roaming/npm/"
+      - "C:/Users/lsspi/.dotnet/tools/"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Program Files (x86)/Nmap/"
+      - "C:/Program Files/bin/"
+      - "C:/Program Files/sbin/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/bin/"
+      - "C:/Program Files (x86)/sbin/"
+      - "C:/Program Files (x86)/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/CMake/sbin/"
+      - "C:/Program Files/CMake/"
+      - "C:/Program Files (x86)/GravSim/bin/"
+      - "C:/Program Files (x86)/GravSim/sbin/"
+      - "C:/Program Files (x86)/GravSim/"
+    searched_directories:
+      - "C:/Program Files/PlasticSCM5/server/rc.com"
+      - "C:/Program Files/PlasticSCM5/server/rc.exe"
+      - "C:/Program Files/PlasticSCM5/server/rc"
+      - "C:/Program Files/PlasticSCM5/client/rc.com"
+      - "C:/Program Files/PlasticSCM5/client/rc.exe"
+      - "C:/Program Files/PlasticSCM5/client/rc"
+      - "C:/Program Files/Java/jdk-17/bin/rc.com"
+      - "C:/Program Files/Java/jdk-17/bin/rc.exe"
+      - "C:/Program Files/Java/jdk-17/bin/rc"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/rc.com"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/rc.exe"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/rc"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/rc.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/rc.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/rc"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/rc.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/rc.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/rc"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/rc.com"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/rc.exe"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/rc"
+      - "C:/Windows/System32/rc.com"
+      - "C:/Windows/System32/rc.exe"
+      - "C:/Windows/System32/rc"
+      - "C:/Windows/rc.com"
+      - "C:/Windows/rc.exe"
+      - "C:/Windows/rc"
+      - "C:/Windows/System32/wbem/rc.com"
+      - "C:/Windows/System32/wbem/rc.exe"
+      - "C:/Windows/System32/wbem/rc"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc"
+      - "C:/Windows/System32/OpenSSH/rc.com"
+      - "C:/Windows/System32/OpenSSH/rc.exe"
+      - "C:/Windows/System32/OpenSSH/rc"
+      - "D:/Programme/QuickTime/QTSystem/rc.com"
+      - "D:/Programme/QuickTime/QTSystem/rc.exe"
+      - "D:/Programme/QuickTime/QTSystem/rc"
+      - "D:/Programme/apache-maven-3.6.2/bin/rc.com"
+      - "D:/Programme/apache-maven-3.6.2/bin/rc.exe"
+      - "D:/Programme/apache-maven-3.6.2/bin/rc"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/rc.com"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/rc.exe"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/rc"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/rc.com"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/rc.exe"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/rc"
+      - "C:/Program Files/PuTTY/rc.com"
+      - "C:/Program Files/PuTTY/rc.exe"
+      - "C:/Program Files/PuTTY/rc"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/rc.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/rc.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/rc"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/rc.com"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/rc.exe"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/rc"
+      - "C:/Program Files/nodejs/rc.com"
+      - "C:/Program Files/nodejs/rc.exe"
+      - "C:/Program Files/nodejs/rc"
+      - "C:/Program Files/dotnet/rc.com"
+      - "C:/Program Files/dotnet/rc.exe"
+      - "C:/Program Files/dotnet/rc"
+      - "C:/Program Files/GitHub CLI/rc.com"
+      - "C:/Program Files/GitHub CLI/rc.exe"
+      - "C:/Program Files/GitHub CLI/rc"
+      - "C:/Program Files/Git LFS/rc.com"
+      - "C:/Program Files/Git LFS/rc.exe"
+      - "C:/Program Files/Git LFS/rc"
+      - "D:/Programme/Git/cmd/rc.com"
+      - "D:/Programme/Git/cmd/rc.exe"
+      - "D:/Programme/Git/cmd/rc"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/rc.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/rc.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/rc"
+      - "C:/Program Files/CMake/bin/rc.com"
+      - "C:/Program Files/CMake/bin/rc.exe"
+      - "C:/Program Files/CMake/bin/rc"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/rc.com"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/rc.exe"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/rc"
+      - "D:/Programme/Microsoft VS Code/bin/rc.com"
+      - "D:/Programme/Microsoft VS Code/bin/rc.exe"
+      - "D:/Programme/Microsoft VS Code/bin/rc"
+      - "C:/Users/lsspi/AppData/Roaming/npm/rc.com"
+      - "C:/Users/lsspi/AppData/Roaming/npm/rc.exe"
+      - "C:/Users/lsspi/AppData/Roaming/npm/rc"
+      - "C:/Users/lsspi/.dotnet/tools/rc.com"
+      - "C:/Users/lsspi/.dotnet/tools/rc.exe"
+      - "C:/Users/lsspi/.dotnet/tools/rc"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/rc.com"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/rc.exe"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/rc"
+      - "C:/Program Files (x86)/Nmap/rc.com"
+      - "C:/Program Files (x86)/Nmap/rc.exe"
+      - "C:/Program Files (x86)/Nmap/rc"
+      - "C:/Program Files/bin/rc.com"
+      - "C:/Program Files/bin/rc.exe"
+      - "C:/Program Files/bin/rc"
+      - "C:/Program Files/sbin/rc.com"
+      - "C:/Program Files/sbin/rc.exe"
+      - "C:/Program Files/sbin/rc"
+      - "C:/Program Files/rc.com"
+      - "C:/Program Files/rc.exe"
+      - "C:/Program Files/rc"
+      - "C:/Program Files (x86)/bin/rc.com"
+      - "C:/Program Files (x86)/bin/rc.exe"
+      - "C:/Program Files (x86)/bin/rc"
+      - "C:/Program Files (x86)/sbin/rc.com"
+      - "C:/Program Files (x86)/sbin/rc.exe"
+      - "C:/Program Files (x86)/sbin/rc"
+      - "C:/Program Files (x86)/rc.com"
+      - "C:/Program Files (x86)/rc.exe"
+      - "C:/Program Files (x86)/rc"
+      - "C:/Program Files/CMake/bin/rc.com"
+      - "C:/Program Files/CMake/bin/rc.exe"
+      - "C:/Program Files/CMake/bin/rc"
+      - "C:/Program Files/CMake/sbin/rc.com"
+      - "C:/Program Files/CMake/sbin/rc.exe"
+      - "C:/Program Files/CMake/sbin/rc"
+      - "C:/Program Files/CMake/rc.com"
+      - "C:/Program Files/CMake/rc.exe"
+      - "C:/Program Files/CMake/rc"
+      - "C:/Program Files (x86)/GravSim/bin/rc.com"
+      - "C:/Program Files (x86)/GravSim/bin/rc.exe"
+      - "C:/Program Files (x86)/GravSim/bin/rc"
+      - "C:/Program Files (x86)/GravSim/sbin/rc.com"
+      - "C:/Program Files (x86)/GravSim/sbin/rc.exe"
+      - "C:/Program Files (x86)/GravSim/sbin/rc"
+      - "C:/Program Files (x86)/GravSim/rc.com"
+      - "C:/Program Files (x86)/GravSim/rc.exe"
+      - "C:/Program Files (x86)/GravSim/rc"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\PlasticSCM5\\server"
+        - "C:\\Program Files\\PlasticSCM5\\client"
+        - "C:\\Program Files\\Java\\jdk-17\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.312.7-hotspot\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Intel\\Shared Libraries\\redist\\intel64\\compiler"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "D:\\Programme\\QuickTime\\QTSystem\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "D:\\Programme\\apache-maven-3.6.2\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\PuTTY\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\GitHub CLI\\"
+        - "C:\\Program Files\\Git LFS"
+        - "D:\\Programme\\Git\\cmd"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "D:\\Programme\\Microsoft VS Code\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\npm"
+        - "C:\\Users\\lsspi\\.dotnet\\tools"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Users\\lsspi\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files (x86)\\Nmap"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/GravSim"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/GravSim"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-ebrlqs"
+      binary: "D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-ebrlqs"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-ebrlqs'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_eec7e.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 3/22/2026 5:40:13 PM.
+        
+        Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-ebrlqs\\cmTC_eec7e.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-ebrlqs\\Debug\\".
+          Creating directory "cmTC_eec7e.dir\\Debug\\cmTC_eec7e.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_eec7e.dir\\Debug\\cmTC_eec7e.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_eec7e.dir\\Debug\\cmTC_eec7e.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_eec7e.dir\\Debug\\\\" /Fd"cmTC_eec7e.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+          Microsoft (R) C/C++-Optimierungscompiler Version 19.44.35221 für x64
+          Copyright (C) Microsoft Corporation. Alle Rechte vorbehalten.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_eec7e.dir\\Debug\\\\" /Fd"cmTC_eec7e.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+          CMakeCCompilerABI.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-ebrlqs\\Debug\\cmTC_eec7e.exe" /INCREMENTAL /ILK:"cmTC_eec7e.dir\\Debug\\cmTC_eec7e.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-ebrlqs/Debug/cmTC_eec7e.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-ebrlqs/Debug/cmTC_eec7e.lib" /MACHINE:X64  /machine:x64 cmTC_eec7e.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_eec7e.vcxproj -> D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-ebrlqs\\Debug\\cmTC_eec7e.exe
+        FinalizeBuildStatus:
+          Deleting file "cmTC_eec7e.dir\\Debug\\cmTC_eec7e.tlog\\unsuccessfulbuild".
+          Touching "cmTC_eec7e.dir\\Debug\\cmTC_eec7e.tlog\\cmTC_eec7e.lastbuildstate".
+        Done Building Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-ebrlqs\\cmTC_eec7e.vcxproj" (default targets).
+        
+        Build succeeded.
+            0 Warning(s)
+            0 Error(s)
+        
+        Time Elapsed 00:00:00.48
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'C': C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CMakeDetermineLinkerId.cmake:38 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the C compiler's linker: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.44.35221.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-wbun92"
+      binary: "D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-wbun92"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-wbun92'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_c09a1.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 3/22/2026 5:40:14 PM.
+        
+        Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-wbun92\\cmTC_c09a1.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-wbun92\\Debug\\".
+          Creating directory "cmTC_c09a1.dir\\Debug\\cmTC_c09a1.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_c09a1.dir\\Debug\\cmTC_c09a1.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_c09a1.dir\\Debug\\cmTC_c09a1.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_c09a1.dir\\Debug\\\\" /Fd"cmTC_c09a1.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+          Microsoft (R) C/C++-Optimierungscompiler Version 19.44.35221 für x64
+          Copyright (C) Microsoft Corporation. Alle Rechte vorbehalten.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_c09a1.dir\\Debug\\\\" /Fd"cmTC_c09a1.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+          CMakeCXXCompilerABI.cpp
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-wbun92\\Debug\\cmTC_c09a1.exe" /INCREMENTAL /ILK:"cmTC_c09a1.dir\\Debug\\cmTC_c09a1.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-wbun92/Debug/cmTC_c09a1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-wbun92/Debug/cmTC_c09a1.lib" /MACHINE:X64  /machine:x64 cmTC_c09a1.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_c09a1.vcxproj -> D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-wbun92\\Debug\\cmTC_c09a1.exe
+        FinalizeBuildStatus:
+          Deleting file "cmTC_c09a1.dir\\Debug\\cmTC_c09a1.tlog\\unsuccessfulbuild".
+          Touching "cmTC_c09a1.dir\\Debug\\cmTC_c09a1.tlog\\cmTC_c09a1.lastbuildstate".
+        Done Building Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-wbun92\\cmTC_c09a1.vcxproj" (default targets).
+        
+        Build succeeded.
+            0 Warning(s)
+            0 Error(s)
+        
+        Time Elapsed 00:00:00.47
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'CXX': C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CMakeDetermineLinkerId.cmake:38 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the CXX compiler's linker: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.44.35221.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CheckCSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake:160 (check_c_source_compiles)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake:226 (_threads_check_libc)"
+      - "libraries/glfw/CMakeLists.txt:48 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-md1uv3"
+      binary: "D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-md1uv3"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "D:/Projects/GravSim/libraries/glfw/CMake/modules"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-md1uv3'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_dc04c.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 3/22/2026 5:40:14 PM.
+        
+        Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-md1uv3\\cmTC_dc04c.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-md1uv3\\Debug\\".
+          Creating directory "cmTC_dc04c.dir\\Debug\\cmTC_dc04c.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_dc04c.dir\\Debug\\cmTC_dc04c.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_dc04c.dir\\Debug\\cmTC_dc04c.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_dc04c.dir\\Debug\\\\" /Fd"cmTC_dc04c.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-md1uv3\\src.c"
+          Copyright (C) Microsoft Corporation. Alle Rechte vorbehalten.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_dc04c.dir\\Debug\\\\" /Fd"cmTC_dc04c.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-md1uv3\\src.c"
+          src.c
+        D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-md1uv3\\src.c(1,10): error C1083: Datei (Include) kann nicht geöffnet werden: "pthread.h": No such file or directory [D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-md1uv3\\cmTC_dc04c.vcxproj]
+        Done Building Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-md1uv3\\cmTC_dc04c.vcxproj" (default targets) -- FAILED.
+        
+        Build FAILED.
+        
+        "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-md1uv3\\cmTC_dc04c.vcxproj" (default target) (1) ->
+        (ClCompile target) -> 
+          D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-md1uv3\\src.c(1,10): error C1083: Datei (Include) kann nicht geöffnet werden: "pthread.h": No such file or directory [D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-md1uv3\\cmTC_dc04c.vcxproj]
+        
+            0 Warning(s)
+            1 Error(s)
+        
+        Time Elapsed 00:00:00.30
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CheckLibraryExists.cmake:154 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake:175 (check_library_exists)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake:238 (_threads_check_lib)"
+      - "libraries/glfw/CMakeLists.txt:48 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthreads"
+    directories:
+      source: "D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-80jsbx"
+      binary: "D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-80jsbx"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "D:/Projects/GravSim/libraries/glfw/CMake/modules"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREADS_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-80jsbx'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_875f9.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 3/22/2026 5:40:15 PM.
+        
+        Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-80jsbx\\cmTC_875f9.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-80jsbx\\Debug\\".
+          Creating directory "cmTC_875f9.dir\\Debug\\cmTC_875f9.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_875f9.dir\\Debug\\cmTC_875f9.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_875f9.dir\\Debug\\cmTC_875f9.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_875f9.dir\\Debug\\\\" /Fd"cmTC_875f9.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-80jsbx\\CheckFunctionExists.c"
+          Microsoft (R) C/C++-Optimierungscompiler Version 19.44.35221 für x64
+          Copyright (C) Microsoft Corporation. Alle Rechte vorbehalten.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_875f9.dir\\Debug\\\\" /Fd"cmTC_875f9.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-80jsbx\\CheckFunctionExists.c"
+          CheckFunctionExists.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-80jsbx\\Debug\\cmTC_875f9.exe" /INCREMENTAL /ILK:"cmTC_875f9.dir\\Debug\\cmTC_875f9.ilk" /NOLOGO pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-80jsbx/Debug/cmTC_875f9.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-80jsbx/Debug/cmTC_875f9.lib" /MACHINE:X64  /machine:x64 cmTC_875f9.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: Datei "pthreads.lib" kann nicht geöffnet werden. [D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-80jsbx\\cmTC_875f9.vcxproj]
+        Done Building Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-80jsbx\\cmTC_875f9.vcxproj" (default targets) -- FAILED.
+        
+        Build FAILED.
+        
+        "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-80jsbx\\cmTC_875f9.vcxproj" (default target) (1) ->
+        (Link target) -> 
+          LINK : fatal error LNK1104: Datei "pthreads.lib" kann nicht geöffnet werden. [D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-80jsbx\\cmTC_875f9.vcxproj]
+        
+            0 Warning(s)
+            1 Error(s)
+        
+        Time Elapsed 00:00:00.39
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CheckLibraryExists.cmake:154 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake:175 (check_library_exists)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake:239 (_threads_check_lib)"
+      - "libraries/glfw/CMakeLists.txt:48 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthread"
+    directories:
+      source: "D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-1oyvx4"
+      binary: "D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-1oyvx4"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "D:/Projects/GravSim/libraries/glfw/CMake/modules"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREAD_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-1oyvx4'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_3a18d.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 3/22/2026 5:40:15 PM.
+        
+        Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-1oyvx4\\cmTC_3a18d.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-1oyvx4\\Debug\\".
+          Creating directory "cmTC_3a18d.dir\\Debug\\cmTC_3a18d.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_3a18d.dir\\Debug\\cmTC_3a18d.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_3a18d.dir\\Debug\\cmTC_3a18d.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_3a18d.dir\\Debug\\\\" /Fd"cmTC_3a18d.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-1oyvx4\\CheckFunctionExists.c"
+          Microsoft (R) C/C++-Optimierungscompiler Version 19.44.35221 für x64
+          Copyright (C) Microsoft Corporation. Alle Rechte vorbehalten.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_3a18d.dir\\Debug\\\\" /Fd"cmTC_3a18d.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-1oyvx4\\CheckFunctionExists.c"
+          CheckFunctionExists.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-1oyvx4\\Debug\\cmTC_3a18d.exe" /INCREMENTAL /ILK:"cmTC_3a18d.dir\\Debug\\cmTC_3a18d.ilk" /NOLOGO pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-1oyvx4/Debug/cmTC_3a18d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Projects/GravSim/visual_studio_solution/CMakeFiles/CMakeScratch/TryCompile-1oyvx4/Debug/cmTC_3a18d.lib" /MACHINE:X64  /machine:x64 cmTC_3a18d.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: Datei "pthread.lib" kann nicht geöffnet werden. [D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-1oyvx4\\cmTC_3a18d.vcxproj]
+        Done Building Project "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-1oyvx4\\cmTC_3a18d.vcxproj" (default targets) -- FAILED.
+        
+        Build FAILED.
+        
+        "D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-1oyvx4\\cmTC_3a18d.vcxproj" (default target) (1) ->
+        (Link target) -> 
+          LINK : fatal error LNK1104: Datei "pthread.lib" kann nicht geöffnet werden. [D:\\Projects\\GravSim\\visual_studio_solution\\CMakeFiles\\CMakeScratch\\TryCompile-1oyvx4\\cmTC_3a18d.vcxproj]
+        
+            0 Warning(s)
+            1 Error(s)
+        
+        Time Elapsed 00:00:00.38
+        
+      exitCode: 1
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindDoxygen.cmake:770 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindDoxygen.cmake:955 (_Doxygen_find_doxygen)"
+      - "libraries/glfw/docs/CMakeLists.txt:39 (find_package)"
+    mode: "program"
+    variable: "DOXYGEN_EXECUTABLE"
+    description: "Doxygen documentation generation tool (https://www.doxygen.nl)"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "doxygen"
+    candidate_directories:
+      - "C:/Program Files/PlasticSCM5/server/"
+      - "C:/Program Files/PlasticSCM5/client/"
+      - "C:/Program Files/Java/jdk-17/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "D:/Programme/QuickTime/QTSystem/"
+      - "D:/Programme/apache-maven-3.6.2/bin/"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files/PuTTY/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/GitHub CLI/"
+      - "C:/Program Files/Git LFS/"
+      - "D:/Programme/Git/cmd/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/"
+      - "D:/Programme/Microsoft VS Code/bin/"
+      - "C:/Users/lsspi/AppData/Roaming/npm/"
+      - "C:/Users/lsspi/.dotnet/tools/"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Program Files (x86)/Nmap/"
+      - "C:/Program Files/bin/"
+      - "C:/Program Files/sbin/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/bin/"
+      - "C:/Program Files (x86)/sbin/"
+      - "C:/Program Files (x86)/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/CMake/sbin/"
+      - "C:/Program Files/CMake/"
+      - "C:/Program Files (x86)/GravSim/bin/"
+      - "C:/Program Files (x86)/GravSim/sbin/"
+      - "C:/Program Files (x86)/GravSim/"
+      - "/REGISTRY-NOTFOUND/bin/"
+      - "/Applications/Doxygen.app/Contents/Resources/"
+      - "/Applications/Doxygen.app/Contents/MacOS/"
+      - "/Applications/Utilities/Doxygen.app/Contents/Resources/"
+      - "/Applications/Utilities/Doxygen.app/Contents/MacOS/"
+    searched_directories:
+      - "C:/Program Files/PlasticSCM5/server/doxygen.com"
+      - "C:/Program Files/PlasticSCM5/server/doxygen.exe"
+      - "C:/Program Files/PlasticSCM5/server/doxygen"
+      - "C:/Program Files/PlasticSCM5/client/doxygen.com"
+      - "C:/Program Files/PlasticSCM5/client/doxygen.exe"
+      - "C:/Program Files/PlasticSCM5/client/doxygen"
+      - "C:/Program Files/Java/jdk-17/bin/doxygen.com"
+      - "C:/Program Files/Java/jdk-17/bin/doxygen.exe"
+      - "C:/Program Files/Java/jdk-17/bin/doxygen"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/doxygen.com"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/doxygen.exe"
+      - "C:/Program Files/Eclipse Adoptium/jdk-8.0.312.7-hotspot/bin/doxygen"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/doxygen.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/doxygen.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/doxygen"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/doxygen.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/doxygen.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/doxygen"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/doxygen.com"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/doxygen.exe"
+      - "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler/doxygen"
+      - "C:/Windows/System32/doxygen.com"
+      - "C:/Windows/System32/doxygen.exe"
+      - "C:/Windows/System32/doxygen"
+      - "C:/Windows/doxygen.com"
+      - "C:/Windows/doxygen.exe"
+      - "C:/Windows/doxygen"
+      - "C:/Windows/System32/wbem/doxygen.com"
+      - "C:/Windows/System32/wbem/doxygen.exe"
+      - "C:/Windows/System32/wbem/doxygen"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/doxygen.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/doxygen.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/doxygen"
+      - "C:/Windows/System32/OpenSSH/doxygen.com"
+      - "C:/Windows/System32/OpenSSH/doxygen.exe"
+      - "C:/Windows/System32/OpenSSH/doxygen"
+      - "D:/Programme/QuickTime/QTSystem/doxygen.com"
+      - "D:/Programme/QuickTime/QTSystem/doxygen.exe"
+      - "D:/Programme/QuickTime/QTSystem/doxygen"
+      - "D:/Programme/apache-maven-3.6.2/bin/doxygen.com"
+      - "D:/Programme/apache-maven-3.6.2/bin/doxygen.exe"
+      - "D:/Programme/apache-maven-3.6.2/bin/doxygen"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/doxygen.com"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/doxygen.exe"
+      - "C:/Program Files/Microsoft SQL Server/130/Tools/Binn/doxygen"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/doxygen.com"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/doxygen.exe"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/doxygen"
+      - "C:/Program Files/PuTTY/doxygen.com"
+      - "C:/Program Files/PuTTY/doxygen.exe"
+      - "C:/Program Files/PuTTY/doxygen"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/doxygen.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/doxygen.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/doxygen"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/doxygen.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/doxygen.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/doxygen"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/doxygen.com"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/doxygen.exe"
+      - "C:/Users/lsspi/AppData/Roaming/nvm/doxygen"
+      - "C:/Program Files/nodejs/doxygen.com"
+      - "C:/Program Files/nodejs/doxygen.exe"
+      - "C:/Program Files/nodejs/doxygen"
+      - "C:/Program Files/dotnet/doxygen.com"
+      - "C:/Program Files/dotnet/doxygen.exe"
+      - "C:/Program Files/dotnet/doxygen"
+      - "C:/Program Files/GitHub CLI/doxygen.com"
+      - "C:/Program Files/GitHub CLI/doxygen.exe"
+      - "C:/Program Files/GitHub CLI/doxygen"
+      - "C:/Program Files/Git LFS/doxygen.com"
+      - "C:/Program Files/Git LFS/doxygen.exe"
+      - "C:/Program Files/Git LFS/doxygen"
+      - "D:/Programme/Git/cmd/doxygen.com"
+      - "D:/Programme/Git/cmd/doxygen.exe"
+      - "D:/Programme/Git/cmd/doxygen"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/doxygen.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/doxygen.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/doxygen"
+      - "C:/Program Files/CMake/bin/doxygen.com"
+      - "C:/Program Files/CMake/bin/doxygen.exe"
+      - "C:/Program Files/CMake/bin/doxygen"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/doxygen.com"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/doxygen.exe"
+      - "C:/Users/lsspi/AppData/Local/Microsoft/WindowsApps/doxygen"
+      - "D:/Programme/Microsoft VS Code/bin/doxygen.com"
+      - "D:/Programme/Microsoft VS Code/bin/doxygen.exe"
+      - "D:/Programme/Microsoft VS Code/bin/doxygen"
+      - "C:/Users/lsspi/AppData/Roaming/npm/doxygen.com"
+      - "C:/Users/lsspi/AppData/Roaming/npm/doxygen.exe"
+      - "C:/Users/lsspi/AppData/Roaming/npm/doxygen"
+      - "C:/Users/lsspi/.dotnet/tools/doxygen.com"
+      - "C:/Users/lsspi/.dotnet/tools/doxygen.exe"
+      - "C:/Users/lsspi/.dotnet/tools/doxygen"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/doxygen.com"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/doxygen.exe"
+      - "C:/Users/lsspi/AppData/Local/GitHubDesktop/bin/doxygen"
+      - "C:/Program Files (x86)/Nmap/doxygen.com"
+      - "C:/Program Files (x86)/Nmap/doxygen.exe"
+      - "C:/Program Files (x86)/Nmap/doxygen"
+      - "C:/Program Files/bin/doxygen.com"
+      - "C:/Program Files/bin/doxygen.exe"
+      - "C:/Program Files/bin/doxygen"
+      - "C:/Program Files/sbin/doxygen.com"
+      - "C:/Program Files/sbin/doxygen.exe"
+      - "C:/Program Files/sbin/doxygen"
+      - "C:/Program Files/doxygen.com"
+      - "C:/Program Files/doxygen.exe"
+      - "C:/Program Files/doxygen"
+      - "C:/Program Files (x86)/bin/doxygen.com"
+      - "C:/Program Files (x86)/bin/doxygen.exe"
+      - "C:/Program Files (x86)/bin/doxygen"
+      - "C:/Program Files (x86)/sbin/doxygen.com"
+      - "C:/Program Files (x86)/sbin/doxygen.exe"
+      - "C:/Program Files (x86)/sbin/doxygen"
+      - "C:/Program Files (x86)/doxygen.com"
+      - "C:/Program Files (x86)/doxygen.exe"
+      - "C:/Program Files (x86)/doxygen"
+      - "C:/Program Files/CMake/bin/doxygen.com"
+      - "C:/Program Files/CMake/bin/doxygen.exe"
+      - "C:/Program Files/CMake/bin/doxygen"
+      - "C:/Program Files/CMake/sbin/doxygen.com"
+      - "C:/Program Files/CMake/sbin/doxygen.exe"
+      - "C:/Program Files/CMake/sbin/doxygen"
+      - "C:/Program Files/CMake/doxygen.com"
+      - "C:/Program Files/CMake/doxygen.exe"
+      - "C:/Program Files/CMake/doxygen"
+      - "C:/Program Files (x86)/GravSim/bin/doxygen.com"
+      - "C:/Program Files (x86)/GravSim/bin/doxygen.exe"
+      - "C:/Program Files (x86)/GravSim/bin/doxygen"
+      - "C:/Program Files (x86)/GravSim/sbin/doxygen.com"
+      - "C:/Program Files (x86)/GravSim/sbin/doxygen.exe"
+      - "C:/Program Files (x86)/GravSim/sbin/doxygen"
+      - "C:/Program Files (x86)/GravSim/doxygen.com"
+      - "C:/Program Files (x86)/GravSim/doxygen.exe"
+      - "C:/Program Files (x86)/GravSim/doxygen"
+      - "/REGISTRY-NOTFOUND/bin/doxygen.com"
+      - "/REGISTRY-NOTFOUND/bin/doxygen.exe"
+      - "/REGISTRY-NOTFOUND/bin/doxygen"
+      - "/Applications/Doxygen.app/Contents/Resources/doxygen.com"
+      - "/Applications/Doxygen.app/Contents/Resources/doxygen.exe"
+      - "/Applications/Doxygen.app/Contents/Resources/doxygen"
+      - "/Applications/Doxygen.app/Contents/MacOS/doxygen.com"
+      - "/Applications/Doxygen.app/Contents/MacOS/doxygen.exe"
+      - "/Applications/Doxygen.app/Contents/MacOS/doxygen"
+      - "/Applications/Utilities/Doxygen.app/Contents/Resources/doxygen.com"
+      - "/Applications/Utilities/Doxygen.app/Contents/Resources/doxygen.exe"
+      - "/Applications/Utilities/Doxygen.app/Contents/Resources/doxygen"
+      - "/Applications/Utilities/Doxygen.app/Contents/MacOS/doxygen.com"
+      - "/Applications/Utilities/Doxygen.app/Contents/MacOS/doxygen.exe"
+      - "/Applications/Utilities/Doxygen.app/Contents/MacOS/doxygen"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\PlasticSCM5\\server"
+        - "C:\\Program Files\\PlasticSCM5\\client"
+        - "C:\\Program Files\\Java\\jdk-17\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.312.7-hotspot\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Intel\\Shared Libraries\\redist\\intel64\\compiler"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "D:\\Programme\\QuickTime\\QTSystem\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "D:\\Programme\\apache-maven-3.6.2\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\PuTTY\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\GitHub CLI\\"
+        - "C:\\Program Files\\Git LFS"
+        - "D:\\Programme\\Git\\cmd"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "D:\\Programme\\Microsoft VS Code\\bin"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\npm"
+        - "C:\\Users\\lsspi\\.dotnet\\tools"
+        - "C:\\Users\\lsspi\\AppData\\Roaming\\nvm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\Users\\lsspi\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files (x86)\\Nmap"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/GravSim"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/GravSim"
+...

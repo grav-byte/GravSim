@@ -1,0 +1,276 @@
+{
+    "value0": {
+        "value0": "Balls",
+        "value1": {
+            "ptr_wrapper": {
+                "valid": 1,
+                "data": {
+                    "value0": {
+                        "value0": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value1": 0.0,
+                        "value2": {
+                            "value0": 1.0,
+                            "value1": 1.0
+                        }
+                    },
+                    "value1": 0.062092125415802,
+                    "value2": {
+                        "value0": 0.06264948844909668,
+                        "value1": 0.05725641921162605,
+                        "value2": 0.05850990489125252,
+                        "value3": 1.0
+                    }
+                }
+            }
+        },
+        "value2": {
+            "value0": 0.0,
+            "value1": -10.0
+        },
+        "value3": [
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 0,
+                        "value1": "Circle",
+                        "value2": {
+                            "value0": {
+                                "value0": 0.0,
+                                "value1": 0.0
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 1.0,
+                                "value1": 1.0
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value4": 1.0,
+                        "value5": {
+                            "value0": 3.4000000953674318,
+                            "value1": 1.899999976158142
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 2147483649,
+                                "polymorphic_name": "CircleCollider",
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 0.8999999761581421,
+                                            "value1": 0.8999999761581421
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.8799999952316284
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2147483650,
+                            "polymorphic_name": "SpriteVisual",
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": "../assets/sprites/circle_dots.png",
+                                    "value2": {
+                                        "value0": 0.9473935961723328,
+                                        "value1": 0.7232904434204102,
+                                        "value2": 0.15450087189674378,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": false,
+                        "value11": true,
+                        "value12": false
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 2,
+                        "value1": "Circle",
+                        "value2": {
+                            "value0": {
+                                "value0": -2.799999952316284,
+                                "value1": 1.2999999523162842
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 1.100000023841858,
+                                "value1": 1.100000023841858
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value4": 1.7999999523162842,
+                        "value5": {
+                            "value0": 6.300000190734863,
+                            "value1": 3.200000047683716
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 0.8799999952316284,
+                                            "value1": 0.8799999952316284
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.4000000059604645
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 0.0,
+                        "value9": {
+                            "polymorphic_id": 2,
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": "../assets/sprites/circle_dots.png",
+                                    "value2": {
+                                        "value0": 0.6994146108627319,
+                                        "value1": 0.19608785212039948,
+                                        "value2": 0.9091343879699707,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": false,
+                        "value11": true,
+                        "value12": false
+                    }
+                }
+            },
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 3,
+                        "value1": "Circle",
+                        "value2": {
+                            "value0": {
+                                "value0": 3.0999999046325685,
+                                "value1": 3.799999952316284
+                            },
+                            "value1": 0.0,
+                            "value2": {
+                                "value0": 2.0,
+                                "value1": 2.0
+                            }
+                        },
+                        "value3": {
+                            "value0": 0.0,
+                            "value1": 0.0
+                        },
+                        "value4": 7.800000190734863,
+                        "value5": {
+                            "value0": 1.100000023841858,
+                            "value1": 4.400000095367432
+                        },
+                        "value6": [
+                            {
+                                "polymorphic_id": 1,
+                                "ptr_wrapper": {
+                                    "valid": 1,
+                                    "data": {
+                                        "value0": {},
+                                        "value1": {
+                                            "value0": 0.8600000143051148,
+                                            "value1": 0.8600000143051148
+                                        },
+                                        "value2": {
+                                            "value0": 0.0,
+                                            "value1": 0.0
+                                        },
+                                        "value3": 0.4000000059604645
+                                    }
+                                }
+                            }
+                        ],
+                        "value7": 0.0,
+                        "value8": 13.100000381469727,
+                        "value9": {
+                            "polymorphic_id": 2,
+                            "ptr_wrapper": {
+                                "valid": 1,
+                                "data": {
+                                    "value0": {
+                                        "value0": 0
+                                    },
+                                    "value1": "../assets/sprites/circle_dots.png",
+                                    "value2": {
+                                        "value0": 0.7704447507858276,
+                                        "value1": 0.2030201107263565,
+                                        "value2": 0.2030201107263565,
+                                        "value3": 1.0
+                                    }
+                                }
+                            }
+                        },
+                        "value10": false,
+                        "value11": true,
+                        "value12": false
+                    }
+                }
+            }
+        ],
+        "value4": [
+            {
+                "ptr_wrapper": {
+                    "valid": 1,
+                    "data": {
+                        "value0": 12.0,
+                        "value1": 4
+                    }
+                }
+            }
+        ],
+        "value5": 4,
+        "value6": {
+            "value0": 1.0,
+            "value1": 1.0,
+            "value2": 1.0,
+            "value3": 0.027450980618596078
+        },
+        "value7": ""
+    }
+}

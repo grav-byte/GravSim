@@ -1,0 +1,27 @@
+#pragma once
+
+#include "memory"
+#include "Window.h"
+
+
+namespace Core {
+    class Window;
+
+    class AppLayer {
+    public:
+        AppLayer() = default;
+        virtual ~AppLayer() = default;
+
+        void SetWindow(std::shared_ptr<Window> window) {
+            window_ = std::shared_ptr(window);
+        }
+
+        virtual void OnInit() = 0;
+        virtual void OnUpdate(float deltaTime) = 0;
+        virtual void OnEvent(Event& event) = 0;
+        virtual void OnRender() = 0;
+
+    protected:
+        std::shared_ptr<Window> window_;
+    };
+}

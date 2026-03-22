@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/Projects/GravSim/visual_studio_solution/cmake_install.cmake",
+		"D:/Projects/GravSim/visual_studio_solution/libraries/glfw/cmake_install.cmake",
+		"D:/Projects/GravSim/visual_studio_solution/libraries/glfw/src/cmake_install.cmake",
+		"D:/Projects/GravSim/visual_studio_solution/libraries/glfw/docs/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

@@ -1,0 +1,313 @@
+@startuml
+allowmixing
+skinparam classFontName Courier
+skinparam classFontSize 12
+'skinparam linetype ortho
+skinparam backgroundColor transparent
+
+
+package Core {
+    class Application {
+        +static Application& Get()
+        +void Run()
+        +TLayer* GetLayer()
+        +void RaiseEvent(Event& event)
+
+        -vector<unique_ptr<AppLayer>> layerStack_
+        -shared_ptr<Window> window_;
+    }
+
+    note right of Application
+        Singleton Pattern
+    end note
+
+    rectangle "Dieser namespace bestimmt die grundlegende Architektur der App.\nDie App wird in Ebenen (Layer) aufgeteilt, für die nacheinander OnUpdate, OnEvent und OnRender aus einer Hauptschleife aufgerufen wird.\nEr basiert auf diesem Repo: https://github.com/TheCherno/Architecture" as InfoNode
+
+    InfoNode -[hidden]-> Application
+
+    class AppLayer {
+        +virtual void OnInit() = 0
+        +virtual void OnUpdate(float deltaTime) = 0
+        +virtual void OnEvent(Event& event) = 0
+        +virtual void OnRender() = 0
+    }
+
+    Application "1" *-- "many" AppLayer : owns
+
+    note left of AppLayer
+        Strategy Pattern
+    end note
+
+    class Window {}
+
+    Application *-- Window : has
+
+    class Event {
+        +EventType type
+        +bool handled
+    }
+    Application ..> Event : raises
+
+    note top of Event
+        Observer Pattern
+    end note
+
+    enum EventType {
+            None,
+            WindowClosed, WindowResized,
+            KeyPressed, KeyReleased,
+            MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
+            SceneLoaded, ObjectDestroyed,
+            SimulationStarted, SimulationPaused, SimulationStopped, SimulationResumed, SimulationStepped
+        }
+
+    Event -- EventType : has
+}
+
+package App {
+    package Layers {
+        class UILayer {
+            -vector<unique_ptr<IUserInterface>> uiElements_
+            +void OnInit() override
+            +void OnUpdate(float deltaTime) override
+            +void OnEvent(Event& event) override
+            +void OnRender() override
+            +void AddUIElement(unique_ptr<IUserInterface> uiElement)
+        }
+        AppLayer <|-- UILayer : extends
+
+        class EngineLayer {
+            +void OnInit() override
+            +void OnUpdate(float deltaTime) override
+            +void OnEvent(Event& event) override
+            +void OnRender() override
+
+            +void NewScene()
+            +bool LoadScene(string& filepath)
+            +bool SaveScene()
+
+            +void StartSimulation()
+            +void PauseSimulation()
+            +void StepSimulation()
+            +void StopSimulation()
+
+            +bool IsRunningSimulation()
+            +bool IsSimulationPaused()
+
+            -bool runningSimulation_
+            -bool pausedSimulation_
+
+            -unique_ptr<Scene> scene_
+            -unique_ptr<SceneRenderer> sceneRenderer_
+            -unique_ptr<RenderingSystem> renderingSystem_
+            -unique_ptr<PhysicsSolver> physicsSolver_
+
+            -CameraController cameraController_
+        }
+        AppLayer <|-- EngineLayer : extends
+        EventType -[hidden]- EngineLayer
+
+        note right of EngineLayer
+            Facade Pattern: Einfacher Zugriff auf Subsysteme
+            MVC: Model
+        end note
+
+        class AudioLayer {
+            +void OnInit() override
+            +void OnUpdate(float deltaTime) override
+            +void OnEvent(Event &event) override
+            +void OnRender() override
+
+            +void PlaySound(const char* path, float volume = 1.0f)
+            +unique_ptr<ma_sound> PlaySoundRepeating(const char* path)
+
+            +void StopSound(unique_ptr<ma_sound> sound)
+            +void PlaySong(const char* path)
+            +void NextSong()
+            +void PlayRandomSongFromDirectory(const char* directoryPath)
+
+            +void SetGlobalVolume(float volume)
+            +float GetGlobalVolume()
+
+            -ma_engine engine_
+            -ma_sound currentSong_
+        }
+        AppLayer <|-- AudioLayer : extends
+    }
+
+    package UI {
+
+        rectangle "Alle UIs implementieren das IUserInterface,\nwelches nur die notwendigen Methoden des UILayers besitzt.\nDie konkreten Implementationen sind nicht dargestellt.\nDie UIs benutzen Methoden der Layer- und Engine-Klassen, um Input umzusetzen." as InfoNode2
+
+        TimeControlUI <-[hidden]- InfoNode2
+        class IUserInterface {
+            +virtual ~IUserInterface()
+            +virtual void OnEvent(Core::Event &event()
+            +virtual void Draw()
+        }
+
+        UILayer "1" *-- "many" IUserInterface : owns
+        
+        class SceneUI {}
+        IUserInterface <|-- SceneUI : implements
+
+        class SettingsUI {}
+        IUserInterface <|-- SettingsUI : implements
+
+        class TimeControlUI {}
+        IUserInterface <|-- TimeControlUI : implements
+
+        class SimulationUI {}
+        IUserInterface <|-- SimulationUI : implements
+
+        class FollowingUI {}
+        IUserInterface <|-- FollowingUI : implements
+
+        note left of IUserInterface
+            Strategy Pattern
+            Observer Pattern
+            MVC: Controller
+        end note
+    }
+    Layers -[hidden]-> UI
+
+    package Engine {
+        class Scene {
+            -string name_
+            -unique_ptr<Camera> camera_
+            -vector<unique_ptr<SceneObject>> sceneObjects_
+            -vector<unique_ptr<Constraint>> sceneConstraints_
+            
+            +vec2 globalGravity
+
+            +uint32_t CreateObject()
+            +uint32_t CreateObject(const vec2& pos)
+
+            +uint32_t AddObject(unique_ptr<SceneObject> obj)
+
+            +void AddConstraint(unique_ptr<Constraint> constraint)
+        
+            +vector<SceneObject*> GetAllObjects() const
+            +vector<Constraint*> GetConstraints() const
+            +SceneObject* GetObjById(uint32_t id) const
+            +string* GetName()
+            +Camera* GetCamera() const
+
+            +void RemoveConstraint(Constraint::ConstraintDirection direction)
+            +void DeleteObject(uint32_t id)
+        }
+        EngineLayer *-- Scene : owns
+
+
+        class CameraController {
+            +CameraController()
+
+            +void SetZoomToMouse(bool enabled)
+            +void Update() const
+            +void OnEvent(Event &event)
+
+            +SceneObject* GetFollowingObject() const
+            +void StopFollowing()
+
+            -void HandleMouseMoved(Event &event)
+            -void HandleMouseScrolled(Event &event)
+            -void HandleSceneLoaded(Event &event)
+            -void HandleMousePressed()
+            -void HandleMouseReleased()
+
+            -Camera* camera_
+            -SceneObject* followObj_
+            -bool zoomToMouse_
+        }
+
+        EngineLayer *-- CameraController : has
+
+        class Camera {
+            Transform transform
+            float zoom
+            vec4 backgroundColor
+        
+            mat4 GetProjectionMatrix() const
+            vec2 ScreenToWorld(const vec2& screenPos) const
+            vec2 WorldToScreen(const vec2& worldPos) const
+            vec2 ScreenToUV(const vec2& worldPos) const
+        }
+
+        Scene *-- Camera : owns
+        CameraController --> Camera : uses
+
+        class SceneObject {
+            +uint32_t id
+            +string name
+
+            +Transform transform
+
+            +float mass
+            +vec2 velocity
+            +float angularVelocity
+            +bool gravitates
+            +bool affectedByGravity
+
+            +unique_ptr<IVisual> visual
+            +bool renderTrail
+
+            +vector<unique_ptr<ColliderBase>> colliders
+            +vector<ContactPoint> contactPoints
+
+            +void ApplyForce(const vec2& force, const vec2& atPoint = vec2(0,0))
+            +void ResetAccumulatedForces()
+            +float GetInertia() const
+            +void AddCollider(ColliderType type)
+            +void RemoveCollider(int idx)
+            +void AddContactPoint(const ContactPoint& point)
+        }
+
+        note right of SceneObject
+            Composition
+        end note
+
+        Scene "1" *-- "many" SceneObject : owns
+
+        struct Transform {
+            +vec2 position
+            +float rotation
+            +vec2 scale
+
+            +mat4 GetMatrix() const
+        }
+
+        SceneObject *-- Transform : has
+        Camera *-- Transform : has
+
+        package Physics {
+            rectangle "Die Physics-Architektur ist in\neinem separaten Diagramm dargestellt\n(physics.puml)" as InfoNode3
+        }
+
+        Transform -[hidden]-> Physics
+
+        package Interaction {
+            rectangle "Die Interaction-Architektur ist in\neinem separaten Diagramm dargestellt\n(interaction.puml)" as InfoNode5
+        }
+
+        Transform -[hidden]-> Interaction
+
+        package Loading {
+            rectangle "Die Lade-Architektur ist in\neinem separaten Diagramm dargestellt\n(loading.puml)" as InfoNode4
+        }
+        Loading -[hidden]-> Physics
+
+    }
+
+    EngineLayer -[hidden]-> Engine
+
+    package Rendering {
+        rectangle "Das Rendering-System ist in einem separaten Diagramm dargestellt\n(rendering.puml)" as InfoNode6
+        note left of InfoNode6
+            MVC: View
+        end note
+    }
+
+
+    EngineLayer *-- InfoNode6 : owns
+}
+@enduml

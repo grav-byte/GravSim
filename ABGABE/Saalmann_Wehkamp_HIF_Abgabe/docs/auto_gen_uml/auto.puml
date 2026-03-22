@@ -1,0 +1,1436 @@
+@startuml
+
+
+
+title "GravSim UML Diagram (auto-generated)"
+skinparam linetype ortho
+
+skinparam classBackgroundColor #EAD4C2
+
+
+
+/' Objects '/
+
+class ArrowRenderer {
+	+ArrowRenderer(const LineRenderer& renderer, const RenderingSystem* renderingSystem)
+	-lineRenderer_ : LineRenderer
+	+RenderArrow(const SceneObject::DebugArrow& arrow, int width) : void {query}
+}
+
+
+class AudioLayer {
+	+AudioLayer()
+	+~AudioLayer()
+	-shouldPlayNextSong_ : bool
+	-musicDirectory_ : const char*
+	+GetGlobalVolume() : float
+	-engine_ : ma_engine
+	-currentSong_ : ma_sound
+	+currentSongTitle : std::string
+	+PlaySoundRepeating(const char* path) : std::unique_ptr<ma_sound>
+	-soundsToStop_ : std::vector<std::unique_ptr<ma_sound>>
+	+{static} AdjustSoundPitch(float pitch, ma_sound* sound) : void
+	+{static} AdjustSoundVolume(float volume, ma_sound* sound) : void
+	+NextSong() : void
+	+OnEvent(Core::Event& event) : void
+	+OnInit() : void
+	+OnRender() : void
+	+{static} OnSongFinished(void* data, ma_sound* p_sound) : void
+	+OnUpdate(float deltaTime) : void
+	+PlayRandomSongFromDirectory(const char* directoryPath, ma_sound_end_proc onEndCallback) : void
+	+PlaySong(const char* soundFilePath, ma_sound_end_proc onEndCallback) : void
+	+PlaySound(const char* path) : void
+	+SetGlobalVolume(float volume) : void
+	+StopSound(std::unique_ptr<ma_sound> ma_sound) : void
+}
+
+
+class AutonomousPIDRocketController {
+	+AutonomousPIDRocketController()
+	+~AutonomousPIDRocketController()
+	+GetAttitudeController() : PIDController* {query}
+	+GetHorizontalController() : PIDController* {query}
+	+GetVerticalController() : PIDController* {query}
+	-maxSteeringAngle : const float
+	+visualizePID : glm::bvec3
+	+targetPos : glm::vec2
+	-attitudeController_ : std::unique_ptr<PIDController>
+	-horizontalController_ : std::unique_ptr<PIDController>
+	-verticalController_ : std::unique_ptr<PIDController>
+	+ApplyControlInputs(RocketObject* rocketObject, float deltaTime) : void {query}
+	+Start() : void {query}
+}
+
+
+class BaseRenderer {
+	+BaseRenderer(const RenderingSystem* renderer)
+	+~BaseRenderer()
+	#renderingSys_ : const RenderingSystem*
+}
+
+
+class Camera {
+	+Camera()
+	+transform : Transform
+	+zoom : float
+	+GetProjectionMatrix() : glm::mat4 {query}
+	+ScreenToWorld(const glm::vec2& screenPos) : glm::vec2 {query}
+	+WorldToScreen(const glm::vec2& worldPos) : glm::vec2 {query}
+	+backgroundColor : glm::vec4
+	+serialize(Archive& ar) : void
+}
+
+
+class CameraController {
+	+CameraController()
+	-camera_ : Camera*
+	-scene_ : Scene*
+	+GetFollowingObject() : SceneObject* {query}
+	-followObj_ : SceneObject*
+	-shouldMove_ : bool
+	-zoomToMouse_ : bool
+	-doubleClickThreshold_ : float
+	-lastClickTime_ : float
+	-currentMouseScreenPos_ : glm::vec2
+	-lastMouseWorldPos_ : glm::vec2
+	+HandleMouseMoved(Core::Event& event) : void
+	+HandleMousePressed() : void
+	+HandleMouseReleased() : void
+	+HandleMouseScrolled(Core::Event& event) : void
+	+HandleSceneLoaded(Core::Event& event) : void
+	+OnEvent(Core::Event& event) : void
+	+SetZoomToMouse(bool enabled) : void
+	+StopFollowing() : void
+	+Update() : void {query}
+}
+
+
+class CircleCollider {
+	+CircleCollider()
+	+CircleCollider(SceneObject* parent)
+	+~CircleCollider()
+	+GetType() : ColliderType {query}
+	+CheckCollision(ColliderBase& other, ContactPoint& contact) : bool
+	+serialize(Archive& ar) : void
+}
+
+
+class CircleRenderer {
+	+CircleRenderer(const RenderingSystem* renderer)
+	+~CircleRenderer()
+	-circleSegments_ : int
+	-circleVertices_ : std::vector<glm::vec2>
+	-circleShaderProgram_ : unsigned int
+	-circleVao_ : unsigned int
+	-circleVbo_ : unsigned int
+	+BuildCircleVertices() : void
+	+RenderCircle(glm::mat4 matrix, glm::vec4 color) : void {query}
+	+UploadCircleToGPU() : void
+}
+
+
+class CircleVisual {
+	+CircleVisual()
+	+CircleVisual(glm::vec4 color)
+	+~CircleVisual()
+	+GetType() : VisualType
+	+serialize(Archive& ar) : void
+}
+
+
+abstract class ColliderBase {
+	+ColliderBase()
+	+ColliderBase(SceneObject* parent)
+	+~ColliderBase()
+	+parentObject : SceneObject*
+	+CheckCollision(ColliderBase& other, ContactPoint& contact) : bool
+	+elasticity : float
+	+friction : float
+	+GetTransformMatrix() : glm::mat4 {query}
+	+GetWorldPosition() : glm::vec2 {query}
+	+GetWorldSize() : glm::vec2 {query}
+	+localPosition : glm::vec2
+	+localSize : glm::vec2
+	+GetAABB() : glm::vec4 {query}
+	+{abstract} GetType() : int {query}
+	+serialize(Archive& ar) : void
+}
+
+
+class Constraint {
+	+Constraint()
+	+Constraint(float distance, ConstraintDirection direction)
+	+direction : ConstraintDirection
+	+distance : float
+	+ApplyConstraint(SceneObject* obj) : void {query}
+	+serialize(Archive& ar) : void
+}
+
+
+class ConstraintRenderer {
+	+ConstraintRenderer(const RenderingSystem* renderer)
+	+~ConstraintRenderer()
+	-constraintShaderProgram_ : unsigned int
+	-radialConstShaderProgram_ : unsigned int
+	+RenderConstraint(const Constraint* constraint, const glm::vec4& color) : void {query}
+}
+
+
+class ContactSolver {
+	-{static} ComputeRxN(const SceneObject* obj, const ContactPoint& contact) : float
+	-{static} ComputeRxT(const SceneObject* obj, const ContactPoint& contact, const glm::vec2& tangent) : float
+	-{static} GetContactVelocityAtPoint(const ColliderBase& collider, const glm::vec2& point) : glm::vec2
+	-{static} ApplyCollisionImpulse(const ContactPoint& contact) : void
+	-{static} ApplyFriction(const ContactPoint& contact, float J) : void
+	-{static} CheckAllColliders(SceneObject& objA, SceneObject& objB) : void
+	+{static} ClearContacts(const Scene* scene) : void
+	+{static} FindContacts(const Scene* scene) : void
+	+{static} ResolveContacts(const SceneObject* object) : void
+}
+
+
+class ControlLayer {
+	+ControlLayer()
+	+GetAutoControl() : AutonomousPIDRocketController* {query}
+	-engine_ : EngineLayer*
+	+GetRocketObject() : RocketObject* {query}
+	-rocketObj_ : RocketObject*
+	+manualControlEnabled : bool
+	-autonomousControl_ : std::unique_ptr<AutonomousPIDRocketController>
+	-userControl_ : std::unique_ptr<ManualRocketController>
+	-CreateRocket(Scene* scene) : void
+	+FindRocket(Core::Event& event) : void
+	+OnEvent(Core::Event& event) : void
+	+OnInit() : void
+	+OnRender() : void
+	+OnUpdate(float deltaTime) : void
+}
+
+
+class CustomImGuiStyle {
+	+{static} ApplyStyle() : void
+}
+
+
+class EngineLayer {
+	+EngineLayer()
+	+~EngineLayer()
+	-cameraController_ : CameraController
+	+GetCameraController() : CameraController*
+	+GetActivePropagator() : IPropagator* {query}
+	+GetScene() : Scene* {query}
+	+GetSceneRenderer() : SceneRenderer* {query}
+	+IsRunningSimulation() : bool {query}
+	+IsSimulationPaused() : bool {query}
+	+LoadScene(const std::string& filePath) : bool
+	+SaveScene() : bool {query}
+	-pausedSimulation_ : bool
+	-runningSimulation_ : bool
+	+showColliders : bool
+	+GetTimeStep() : float {query}
+	-physicsSolver_ : std::unique_ptr<PhysicsSolver>
+	-renderingSystem_ : std::unique_ptr<RenderingSystem>
+	-scene_ : std::unique_ptr<Scene>
+	-sceneRenderer_ : std::unique_ptr<SceneRenderer>
+	+CreateObject() : void {query}
+	+CreateObjectAt(const glm::vec2& worldPos) : void {query}
+	+NewScene() : void
+	+OnEvent(Core::Event& event) : void
+	+OnInit() : void
+	+OnRender() : void
+	-OnSceneLoaded() : void {query}
+	+OnUpdate(float deltaTime) : void
+	+PauseSimulation() : void
+	+SetSolverType(const char* typeName) : void {query}
+	+SetTimeStep(float timeStep) : void {query}
+	+StartSimulation() : void
+	+StepSimulation() : void {query}
+	+StopSimulation() : void
+}
+
+
+class EulerPropagator {
+	+Propagate(SceneObject& object, std::function<glm::vec2 ( const SceneObject& )> accelerationFunc, float deltaTime) : void
+}
+
+
+class FileSelector {
+	+FileSelector(std::string path)
+	+FileSelector(const std::filesystem::path& path)
+	-selectedIndex_ : int
+	+GetSelectedFile() : std::string {query}
+	-directory_ : std::string
+	-files_ : std::vector<std::string>
+	+Draw(const char* selectedFile) : void
+	+RefreshFiles() : void
+}
+
+
+class FollowingUI {
+	+FollowingUI()
+	-cameraController_ : CameraController*
+	+Draw() : void
+	+OnEvent(Core::Event& event) : void
+}
+
+
+class GridRenderer {
+	+GridRenderer(const LineRenderer& renderer, const RenderingSystem* renderingSystem)
+	-lineRenderer_ : LineRenderer
+	+RenderGrid(const glm::vec4& grid_color, float grid_spacing) : void {query}
+}
+
+
+abstract class IPropagator {
+	+~IPropagator()
+	+RunTest(const float timeStep, const float totalTime) : std::vector<Sample>
+	+{abstract} Propagate(SceneObject& object, std::function<glm::vec2 ( const SceneObject& )> accelerationFunc, float deltaTime) : void
+}
+
+
+abstract class IRocketController {
+	+~IRocketController()
+	-{abstract} ApplyControlInputs(RocketObject* rocketObj, float deltaTime) : void {query}
+}
+
+
+abstract class IUserInterface {
+	+~IUserInterface()
+	+{abstract} Draw() : void
+	+{abstract} OnEvent(Core::Event& event) : void
+}
+
+
+abstract class IVisual {
+	+~IVisual()
+	+color : glm::vec4
+	+{abstract} GetType() : int
+	+serialize(Archive& ar) : void
+}
+
+
+class InteractionUI {
+	+InteractionUI(InteractionState* state)
+	-engine_ : EngineLayer*
+	-previewScreenPos_ : ImVec2
+	-btnActiveColor_ : ImVec4
+	-btnBgColor_ : ImVec4
+	-btnDisabledColor_ : ImVec4
+	-btnTintColor_ : ImVec4
+	-state_ : InteractionState*
+	-activeMode_ : Mode
+	-ImageToggleButton(const std::string& texturePath, bool selected, const char* tooltip) : bool {query}
+	-clickToPlaceEnabled_ : bool
+	-isPreviewActive_ : bool
+	+Draw() : void
+	+OnEvent(Core::Event& event) : void
+}
+
+
+class LineRenderer {
+	+LineRenderer(const RenderingSystem* renderer)
+	+RenderLine(const glm::vec2& start, const glm::vec2& end, int lineThickPx, const glm::vec4& color) : void {query}
+}
+
+
+class ManualRocketController {
+	+~ManualRocketController()
+	+downHeld_ : bool
+	+leftHeld_ : bool
+	+rightHeld_ : bool
+	+upHeld_ : bool
+	+ApplyControlInputs(RocketObject* rocketObj, float deltaTime) : void {query}
+	+OnKeyPressed(int keyCode) : void
+	+OnKeyReleased(int keyCode) : void
+}
+
+
+class ObjectDestroyedEvent {
+	+ObjectDestroyedEvent(const uint32_t objectId)
+	+GetEventType() : Core::EventType {query}
+	+GetObjId() : uint32_t {query}
+	-objectId_ : uint32_t
+}
+
+
+class PIDConfig {
+	+PIDConfig()
+	+PIDConfig(const std::array<PIDData, 3>& data)
+	+GetPIDData(const int index) : PIDData& {query}
+	-pidData_ : std::array<PIDData, 3>
+	+serialize(Archive& ar) : void
+}
+
+
+class PIDController {
+	+PIDController()
+	+PIDController(PIDData data)
+	+pidData : PIDData
+	-useAngleDifference_ : bool
+	+Evaluate(float setpoint, float measuredValue, float derivative, float deltaTime) : float
+	-dTerm_ : float
+	-iTerm_ : float
+	-integral_ : float
+	-pTerm_ : float
+	+GetTerms() : glm::vec3 {query}
+	+Reset() : void
+	+SetUseAngleDifference(bool useAngleDifference) : void
+}
+
+
+class PIDData {
+	+PIDData()
+	+PIDData(const float p, const float i, const float d)
+	+dGain : float
+	+iGain : float
+	+pGain : float
+	+name : std::string
+	+serialize(Archive& ar) : void
+}
+
+
+class PIDVisualizer {
+	+{static} DrawAttitudeArrows(SceneObject* rocketObject, const glm::vec3& terms) : void
+	+{static} DrawHorizontalArrows(SceneObject* rocketObject, const glm::vec3& terms, float targetAngle) : void
+	+{static} DrawPIDArrows(std::vector<std::unique_ptr<SceneObject::DebugArrow>>& arrows, const glm::vec2& origin, const glm::vec2& dir, const glm::vec3& terms, float scale) : void
+	+{static} DrawVerticalArrows(SceneObject* rocketObject, const glm::vec3& terms) : void
+	+{static} PushArrow(std::vector<std::unique_ptr<SceneObject::DebugArrow>>& arrows, const glm::vec2& origin, const glm::vec2& dir, const glm::vec4& color, bool dashed, bool hasArrow) : void
+}
+
+
+class PhysicsSolver {
+	+PhysicsSolver()
+	+GetActivePropagator() : IPropagator* {query}
+	-currentScene_ : Scene*
+	+GetTimeStep() : float {query}
+	-timeAccumulator_ : float
+	-timeStep_ : float
+	-GetAccelerationForObject(const SceneObject& object) : glm::vec2 {query}
+	+{static} propagators : static std::vector<PropagatorEntry>
+	-activePropagator_ : std::unique_ptr<IPropagator>
+	+{static} GetPropagatorNames() : std::vector<const char*>
+	+DrawContactPoints() : void
+	+SetActivePropagator(const std::string& name) : void
+	+SetTimeStep(float timeStep) : void
+	+StepPropagation(Scene* scene) : void
+	+UpdatePhysics(Scene* scene, float deltaTime) : void
+}
+
+
+class PostProcessPass {
+	+PostProcessPass(const RenderingSystem* renderer, const std::string& fragPath)
+	-fragPath_ : std::string
+	+RenderPass(unsigned int inputTexture) : void {query}
+}
+
+
+class RK4Propagator {
+	+Propagate(SceneObject& object, std::function<glm::vec2 ( const SceneObject& )> accelerationFunc, float deltaTime) : void
+}
+
+
+class RenderingSystem {
+	+RenderingSystem()
+	+~RenderingSystem()
+	+GetActiveCamera() : Camera* {query}
+	-activeCamera_ : const Camera*
+	+frameSize : glm::ivec2
+	+quadVertices : std::vector<glm::vec4>
+	+postFBO : unsigned int
+	+postTexture : unsigned int
+	+quadVao : unsigned int
+	+quadVbo : unsigned int
+	+sceneDepthRBO : unsigned int
+	+sceneFBO : unsigned int
+	+sceneTexture : unsigned int
+	-BuildQuadVertices() : void
+	+CreateSceneFramebuffer() : void
+	+OutputFrameToScreen() : void {query}
+	+SetActiveCamera(const Camera* camera) : void
+	+StartFrame(glm::vec4 backgroundColor) : void {query}
+	-UploadQuadToGPU() : void
+}
+
+
+class RocketControllerUI {
+	+RocketControllerUI()
+	-controlLayer_ : ControlLayer*
+	-engineLayer_ : EngineLayer*
+	-pidFileSelector_ : FileSelector
+	-activePID : PIDController*
+	-GetTarget(Scene& scene) : SceneObject* {query}
+	-targetCreated_ : bool
+	-targetPos_ : glm::vec2
+	-{static} InvalidId : static constexpr uint32_t
+	-saveName : std::string
+	-targetId_ : uint32_t
+	-CreateTarget(Scene& scene) : void
+	-DeleteTarget(Scene& scene) : void
+	+Draw() : void
+	+DrawPIDLoading(PIDController* (& pids )) : void
+	-DrawPIDSettings(AutonomousPIDRocketController* autoCtrl) : void
+	-DrawTargetSettings(Scene* scene, AutonomousPIDRocketController* autoCtrl) : void
+	+OnEvent(Core::Event& event) : void
+	-SaveConfig(const AutonomousPIDRocketController* autoCtrl) : void {query}
+}
+
+
+class RocketObject {
+	+RocketObject()
+	+RocketObject(Scene& scene)
+	+~RocketObject()
+	-exhaustObj_ : SceneObject*
+	-nozzleObj_ : SceneObject*
+	-exhaustShaderData_ : ShaderUniforms*
+	-exhaustOffset : const float
+	-maxThrustAngle : const float
+	-maxTrustForce_ : const float
+	-nozzleOffset : const float
+	+GetMaxThrustAngle() : float {query}
+	+thrustAngle : float
+	+thrustPercent : float
+	+GetThrustPosition() : glm::vec2 {query}
+	+GetThrustVector() : glm::vec2 {query}
+	-rocketSound_ : std::unique_ptr<ma_sound>
+	-exhaustId_ : uint32_t
+	-nozzleId_ : uint32_t
+	+RelinkObjects(const Scene& scene) : void
+	+StartSound() : void
+	+StopSound() : void
+	+UpdateVisualisation() : void {query}
+	+serialize(Archive& ar) : void
+}
+
+
+class RocketStateUI {
+	+RocketStateUI()
+	-controlLayer_ : ControlLayer*
+	-engineLayer_ : EngineLayer*
+	-axisFlags : const ImPlotAxisFlags
+	-flags : const ImPlotFlags
+	-spacing : const float
+	-maxHistorySize_ : const int
+	-availableHeight : float
+	-availableWidth : float
+	-altitudeHistory_ : std::vector<float>
+	-angleHistory_ : std::vector<float>
+	-thrustHistory_ : std::vector<float>
+	-velocityHistory_ : std::vector<float>
+	-{static} ComputeReferenceFrame(int selectedIndex, const std::vector<SceneObject*>& objects, const SceneObject* rocketObj, glm::vec2& outVelocity, glm::vec2& outPosition) : void
+	+Draw() : void
+	-{static} DrawReferenceCombo(int& selectedIndex, const std::vector<SceneObject*>& objects) : void
+	+OnEvent(Core::Event& event) : void
+	-PlotHistory(const std::vector<float>& data, glm::vec2 yLimits, const char* title) : void {query}
+	+RecordHistory(RocketObject* rocketObj, float rocketVelocityRel, float rocketPosRel) : void
+	-{static} ShowCurrentState(RocketObject* rocketObj, float rocketVelocityRel, float rocketPosRel) : void
+	-ShowHistoryGraph() : void
+}
+
+
+class Scene {
+	+Scene()
+	+GetCamera() : Camera* {query}
+	+GetObjById(uint32_t uint32) : SceneObject* {query}
+	+globalGravity : glm::vec2
+	-name_ : std::string
+	+GetName() : std::string*
+	-camera_ : std::unique_ptr<Camera>
+	+GetConstraints() : std::vector<Constraint*> {query}
+	+GetAllObjects() : std::vector<SceneObject*> {query}
+	-sceneConstraints_ : std::vector<std::unique_ptr<Constraint>>
+	-sceneObjects_ : std::vector<std::unique_ptr<SceneObject>>
+	+AddObject(std::unique_ptr<SceneObject> obj) : uint32_t
+	+CreateObject() : uint32_t
+	+CreateObject(const glm::vec2& pos) : uint32_t
+	-nextID_ : uint32_t
+	+AddConstraint(std::unique_ptr<Constraint> constraint) : void
+	+DeleteObject(uint32_t id) : void
+	+RemoveConstraint(Constraint::ConstraintDirection direction) : void
+	+serialize(Archive& ar) : void
+}
+
+
+class SceneLoadedEvent {
+	+SceneLoadedEvent(Scene* scene)
+	+GetEventType() : Core::EventType {query}
+	+GetScene() : Scene* {query}
+	-scene_ : Scene*
+}
+
+
+class SceneObject {
+	+SceneObject()
+	+SceneObject(uint32_t objectId, const std::string& objectName)
+	+~SceneObject()
+	+transform : Transform
+	+affectedByGravity : bool
+	+canFocusCamera : bool
+	+gravitates : bool
+	+GetInertia() : float {query}
+	+angularAccelerationAccumulated : float
+	+angularVelocity : float
+	+lastRotation : float
+	+mass : float
+	+accelerationAccumulated : glm::vec2
+	+lastPosition : glm::vec2
+	+velocity : glm::vec2
+	+name : std::string
+	+visual : std::unique_ptr<IVisual>
+	+contactPoints : std::vector<ContactPoint>
+	+colliders : std::vector<std::unique_ptr<ColliderBase>>
+	+debugArrows : std::vector<std::unique_ptr<DebugArrow>>
+	+id : uint32_t
+	+AddCollider(ColliderType type) : void
+	+AddContactPoint(const ContactPoint& point) : void
+	+ApplyForce(const glm::vec2& force, const glm::vec2& atPoint) : void
+	+RemoveCollider(int idx) : void
+	+ResetAccumulatedForces() : void
+	+serialize(Archive& ar) : void
+}
+
+
+class SceneRenderer {
+	+SceneRenderer(RenderingSystem* system)
+	-arrowRenderer : ArrowRenderer
+	-circleRenderer_ : CircleRenderer
+	-constraintRenderer_ : ConstraintRenderer
+	-gridRenderer_ : GridRenderer
+	-lineRenderer_ : LineRenderer
+	-renderer_ : RenderingSystem*
+	-shaderRenderer_ : ShaderRenderer
+	-spriteRenderer_ : SpriteRenderer
+	+showGrid : bool
+	+gridSpacing_ : float
+	-colliderColor_ : glm::vec4
+	+gridColor_ : glm::vec4
+	-passes_ : std::vector<std::unique_ptr<PostProcessPass>>
+	+ApplyPostProcess() : void {query}
+	+RenderScene(const Scene* scene, bool showColliders) : void {query}
+}
+
+
+class SceneUI {
+	+SceneUI()
+	+~SceneUI()
+	-engine_ : EngineLayer*
+	-scene_ : Scene*
+	-DrawFloat2Control(const char* title, glm::vec2* vec2, float speed) : bool
+	-statusTimer_ : float
+	-statusMessage_ : std::string
+	-sceneSelector_ : std::unique_ptr<FileSelector>
+	-spriteSelector_ : std::unique_ptr<FileSelector>
+	+Draw() : void
+	-DrawCollidersUI(SceneObject* obj) : void
+	-DrawColorControl(const char* title, glm::vec4* color) : void
+	-DrawConstraints(Scene* scene) : void
+	-DrawObjectUI(SceneObject* obj) : void
+	-DrawPhysics(SceneObject* obj) : void
+	-DrawRendering(SceneObject* obj) : void
+	-DrawScene() : void
+	-DrawSceneLoading() : void
+	-DrawTransform(SceneObject* obj) : void
+	+OnEvent(Core::Event& event) : void
+	+ShowStatusMessage(const std::string& msg, float duration) : void
+}
+
+
+class SemiImplicitEulerPropagator {
+	+Propagate(SceneObject& object, std::function<glm::vec2 ( const SceneObject& )> accelerationFunc, float deltaTime) : void
+}
+
+
+class Serialiser {
+	-{static} SaveObjInternal(T& obj, std::filesystem::path& filePath) : bool
+	+{static} SavePIDConfig(PIDConfig& pid, const std::filesystem::path& filePath) : bool
+	+{static} SaveScene(Scene& scene) : bool
+	+{static} SaveTempScene(Scene& scene) : bool
+	+{static} sceneFolder : static std::string
+	+{static} LoadPIDConfig(const std::filesystem::path& filePath) : std::unique_ptr<PIDConfig>
+	+{static} LoadScene(const std::string& filepath) : std::unique_ptr<Scene>
+	+{static} LoadTempScene() : std::unique_ptr<Scene>
+	+{static} EnsureSceneFolderExists() : void
+}
+
+
+class SettingsUI {
+	+SettingsUI()
+	+~SettingsUI()
+	-audioLayer_ : AudioLayer*
+	-engineLayer_ : EngineLayer*
+	-showGrid_ : bool
+	-zoomToMouse_ : bool
+	-volume_ : float
+	+Draw() : void
+	+OnEvent(Core::Event& event) : void
+}
+
+
+class ShaderLoader {
+	-{static} LoadSource(std::string path) : char*
+	-{static} loadedShaders_ : inline static std::unordered_map<std::string, unsigned int>
+	-{static} CompileShader(unsigned int type, const char* source) : unsigned int
+	+{static} LoadShader(const std::string& vertexPath, const std::string& fragmentPath) : unsigned int
+	+{static} UnloadShader(unsigned int sprite_shader_program) : void
+}
+
+
+class ShaderRenderer {
+	+ShaderRenderer(const RenderingSystem* renderer)
+	#renderingSys_ : const RenderingSystem*
+	+Render(const Transform* transform, const std::string& fragPath, const ShaderUniforms& uniforms) : void {query}
+}
+
+
+class ShaderVisual {
+	+ShaderVisual()
+	+~ShaderVisual()
+	+shaderData : ShaderUniforms
+	+GetType() : VisualType
+	+shaderPath : std::string
+	+serialize(Archive& ar) : void
+}
+
+
+class SimulationPausedEvent {
+	+SimulationPausedEvent()
+	+GetEventType() : Core::EventType {query}
+}
+
+
+class SimulationResumedEvent {
+	+SimulationResumedEvent()
+	+GetEventType() : Core::EventType {query}
+}
+
+
+class SimulationStartedEvent {
+	+SimulationStartedEvent()
+	+GetEventType() : Core::EventType {query}
+}
+
+
+class SimulationSteppedEvent {
+	+SimulationSteppedEvent()
+	+GetEventType() : Core::EventType {query}
+}
+
+
+class SimulationStoppedEvent {
+	+SimulationStoppedEvent()
+	+GetEventType() : Core::EventType {query}
+}
+
+
+class SimulationUI {
+	+SimulationUI()
+	-engine_ : EngineLayer*
+	-btnBgColor_ : ImVec4
+	-btnDisabledColor_ : ImVec4
+	-btnTintColor_ : ImVec4
+	+ImageBtn(const std::string& texturePath, bool disabled, const char* tooltip) : bool {query}
+	-showPlot_ : bool
+	-plotHideTime_ : float
+	-activePropagatorIdx_ : int
+	-stepsPerSec_ : int
+	+Draw() : void
+	+OnEvent(Core::Event& event) : void
+	+RunTest(const char* name) : void
+}
+
+
+class SpriteRenderer {
+	+SpriteRenderer(const RenderingSystem* renderer)
+	+~SpriteRenderer()
+	#spriteShaderProgram_ : unsigned int
+	+RenderSprite(const SceneObject* obj) : void {query}
+}
+
+
+class SpriteVisual {
+	+SpriteVisual()
+	+SpriteVisual(const std::filesystem::path& path)
+	+~SpriteVisual()
+	+GetType() : VisualType
+	+GetTextureAspect() : float {query}
+	-aspectRatio_ : float
+	-path_ : std::filesystem::path
+	+GetPath() : std::filesystem::path& {query}
+	+GetTextureId() : unsigned int
+	-textureId_ : unsigned int
+	+SetPath(const std::filesystem::path& string) : void
+	+serialize(Archive& ar) : void
+}
+
+
+class TargetObject {
+	+TargetObject()
+	+serialize(Archive& ar) : void
+}
+
+
+class TextureLoader {
+	+{static} GetTexture(const std::filesystem::path& path) : TextureInfo
+	+{static} LoadTextureFromFile(const std::filesystem::path& path) : TextureInfo
+	-{static} loadedTextures_ : inline static std::unordered_map<std::filesystem::path, TextureInfo>
+	-{static} whiteTex_ : static unsigned int
+	+{static} GetWhiteTexture() : unsigned int
+	+{static} Clear() : void
+}
+
+
+class UILayer {
+	+UILayer()
+	+~UILayer()
+	-io_ : ImGuiIO*
+	-uiElements_ : std::vector<std::unique_ptr<IUserInterface>>
+	+AddUIElement(std::unique_ptr<IUserInterface> uiElement) : void
+	+{static} DockWindowsFirstFrame(ImGuiID mainId) : void
+	+DrawFPSCounter() : void
+	+OnEvent(Core::Event& event) : void
+	+OnInit() : void
+	+OnRender() : void
+	+OnUpdate(float deltaTime) : void
+}
+
+
+class VelocityVerletPropagator {
+	+Propagate(SceneObject& object, std::function<glm::vec2 ( const SceneObject& )> accelerationFunc, float deltaTime) : void
+}
+
+
+class VerletPropagator {
+	+Propagate(SceneObject& object, std::function<glm::vec2 ( const SceneObject& )> accelerationFunc, float deltaTime) : void
+}
+
+
+enum ColliderType {
+	Circle
+}
+
+
+enum Constraint::ConstraintDirection {
+	DOWN
+	LEFT
+	RADIAL
+	RIGHT
+	UP
+}
+
+
+enum InteractionUI::Mode {
+	ClickToConstraint
+	ClickToPlace
+	None
+}
+
+
+enum VisualType {
+	Circle
+	Shader
+	Sprite
+}
+
+
+class ContactPoint {
+	+ContactPoint()
+	+ContactPoint(const glm::vec2 position, const glm::vec2 normal, const float penetrationDepth, ColliderBase* collider, ColliderBase* otherCollider)
+	+collider : ColliderBase*
+	+otherCollider : ColliderBase*
+	+penetrationDepth : float
+	+normal : glm::vec2
+	+point : glm::vec2
+}
+
+
+class IPropagator::Sample {
+	+t : float
+	+v : float
+	+y : float
+}
+
+
+class InteractionState {
+	+sceneMinScreen : ImVec2
+	+sceneSize : ImVec2
+	+clickToPlaceEnabled : bool
+	+sceneHovered : bool
+	+mouseScreen : glm::vec2
+	+mouseScreen : glm::vec2
+}
+
+
+class PhysicsSolver::PropagatorEntry {
+	+>() : std::function<std::unique_ptr<IPropagator
+	+name : std::string
+}
+
+
+class SceneObject::DebugArrow {
+	+DebugArrow(const glm::vec2& orig, const glm::vec2& dir, const glm::vec4& col)
+	+dashed : bool
+	+hasArrow : bool
+	+direction : glm::vec2
+	+origin : glm::vec2
+	+color : glm::vec4
+}
+
+
+class ShaderUniforms {
+	+resolution : glm::vec2
+	+floats : std::map<std::string, float>
+	+textures : std::map<std::string, std::string>
+	+screenBufferTex : unsigned int
+	+serialize(Archive& ar) : void
+}
+
+
+class TextureLoader::TextureInfo {
+	+height : int
+	+width : int
+	+id : unsigned int
+}
+
+
+class Transform {
+	+rotation : float
+	+GetMatrix() : glm::mat4 {query}
+	+position : glm::vec2
+	+scale : glm::vec2
+	+serialize(Archive& ar) : void
+}
+
+
+namespace Core {
+	abstract class AppLayer {
+		+AppLayer()
+		+~AppLayer()
+		#window_ : std::shared_ptr<Window>
+		+{abstract} OnEvent(Event& event) : void
+		+{abstract} OnInit() : void
+		+{abstract} OnRender() : void
+		+{abstract} OnUpdate(float deltaTime) : void
+		+SetWindow(std::shared_ptr<Window> window) : void
+	}
+
+	class Application {
+		+Application(const AppConfig& app_config)
+		+~Application()
+		-config_ : AppConfig
+		+{static} Get() : Application&
+		+GetLayer() : TLayer*
+		-running_ : bool
+		+{static} GetTime() : float
+		-lastDeltaTimes_ : float[]
+		+{static} GetAppDataFolder() : fs::path
+		+GetFramerate() : int {query}
+		-deltaTimeIndex_ : int
+		-numFramerateSamples : int
+		+GetWindow() : std::shared_ptr<Window> {query}
+		-window_ : std::shared_ptr<Window>
+		-layerStack_ : std::vector<std::unique_ptr<AppLayer>>
+		+PushLayer() : void
+		+RaiseEvent(Event& event) : void {query}
+		+Run() : void
+		+Stop() : void
+	}
+
+	abstract class Event {
+		+~Event()
+		+Handled : bool
+		+{abstract} GetEventType() : int {query}
+	}
+
+	class KeyEvent {
+		#KeyEvent(const int keycode)
+		+GetEventType() : EventType {query}
+		+GetKeyCode() : int {query}
+		#keyCode_ : int
+	}
+
+	class KeyPressedEvent {
+		+KeyPressedEvent(const int keycode, const bool isRepeat)
+		+GetEventType() : EventType {query}
+		+IsRepeat() : bool {query}
+		-m_IsRepeat : bool
+	}
+
+	class KeyReleasedEvent {
+		+KeyReleasedEvent(const int keycode)
+		+GetEventType() : EventType {query}
+	}
+
+	class MouseButtonEvent {
+		#MouseButtonEvent(const int button)
+		+GetMouseButton() : int {query}
+		#button_ : int
+	}
+
+	class MouseButtonPressedEvent {
+		+MouseButtonPressedEvent(const int button)
+		+GetEventType() : EventType {query}
+	}
+
+	class MouseButtonReleasedEvent {
+		+MouseButtonReleasedEvent(int button)
+		+GetEventType() : EventType {query}
+	}
+
+	class MouseMovedEvent {
+		+MouseMovedEvent(const float x, const float y)
+		+GetEventType() : EventType {query}
+		+GetX() : float {query}
+		+GetY() : float {query}
+		-mouseX_ : float
+		-mouseY_ : float
+	}
+
+	class MouseScrolledEvent {
+		+MouseScrolledEvent(const float amount)
+		+GetEventType() : EventType {query}
+		+GetAmount() : float {query}
+		-scrollAmount_ : float
+	}
+
+	class Window {
+		+Window(const WindowConfig& config)
+		+~Window()
+		+GetHandle() : GLFWwindow* {query}
+		-handle_ : GLFWwindow*
+		-config_ : WindowConfig
+		+ShouldClose() : bool {query}
+		+GetFramebufferSize() : glm::ivec2 {query}
+		+Create() : void
+		+Destroy() : void
+		-OnResize() : void {query}
+		+RaiseEvent(Event& event) : void {query}
+		+SwapBuffers() : void {query}
+	}
+
+	class WindowClosedEvent {
+		+GetEventType() : EventType {query}
+	}
+
+	class WindowResizedEvent {
+		+WindowResizedEvent(int width, int height)
+		+GetEventType() : EventType {query}
+		-m_Height : int
+		-m_Width : int
+	}
+
+	enum EventType {
+		KeyPressed
+		KeyReleased
+		MouseButtonPressed
+		MouseButtonReleased
+		MouseMoved
+		MouseScrolled
+		None
+		ObjectDestroyed
+		SceneLoaded
+		SimulationPaused
+		SimulationResumed
+		SimulationStarted
+		SimulationStepped
+		SimulationStopped
+		WindowClosed
+		WindowResized
+	}
+
+	class AppConfig {
+		+WindowConfig : WindowConfig
+		+Title : const char*
+	}
+
+	class WindowConfig {
+		+function<void(Event &)
+		+IsResizeable : bool
+		+VSync : bool
+		+Title : const char*
+		+Height : int
+		+Width : int
+	}
+}
+
+
+
+
+
+/' Inheritance relationships '/
+
+Core.AppLayer <|-- AudioLayer
+
+
+Core.AppLayer <|-- ControlLayer
+
+
+Core.AppLayer <|-- EngineLayer
+
+
+Core.AppLayer <|-- UILayer
+
+
+BaseRenderer <|-- ArrowRenderer
+
+
+BaseRenderer <|-- CircleRenderer
+
+
+BaseRenderer <|-- ConstraintRenderer
+
+
+BaseRenderer <|-- GridRenderer
+
+
+BaseRenderer <|-- SpriteRenderer
+
+
+ColliderBase <|-- CircleCollider
+
+
+Core.Event <|-- Core.KeyEvent
+
+
+Core.Event <|-- Core.MouseButtonEvent
+
+
+Core.Event <|-- Core.MouseMovedEvent
+
+
+Core.Event <|-- Core.MouseScrolledEvent
+
+
+Core.Event <|-- ObjectDestroyedEvent
+
+
+Core.Event <|-- SceneLoadedEvent
+
+
+Core.Event <|-- SimulationPausedEvent
+
+
+Core.Event <|-- SimulationResumedEvent
+
+
+Core.Event <|-- SimulationStartedEvent
+
+
+Core.Event <|-- SimulationSteppedEvent
+
+
+Core.Event <|-- SimulationStoppedEvent
+
+
+Core.Event <|-- Core.WindowClosedEvent
+
+
+Core.Event <|-- Core.WindowResizedEvent
+
+
+IPropagator <|-- EulerPropagator
+
+
+IPropagator <|-- RK4Propagator
+
+
+IPropagator <|-- SemiImplicitEulerPropagator
+
+
+IPropagator <|-- VelocityVerletPropagator
+
+
+IPropagator <|-- VerletPropagator
+
+
+IRocketController <|-- AutonomousPIDRocketController
+
+
+IRocketController <|-- ManualRocketController
+
+
+IUserInterface <|-- FollowingUI
+
+
+IUserInterface <|-- InteractionUI
+
+
+IUserInterface <|-- RocketControllerUI
+
+
+IUserInterface <|-- RocketStateUI
+
+
+IUserInterface <|-- SceneUI
+
+
+IUserInterface <|-- SettingsUI
+
+
+IUserInterface <|-- SimulationUI
+
+
+IVisual <|-- CircleVisual
+
+
+IVisual <|-- ShaderVisual
+
+
+IVisual <|-- SpriteVisual
+
+
+Core.KeyEvent <|-- Core.KeyPressedEvent
+
+
+Core.KeyEvent <|-- Core.KeyReleasedEvent
+
+
+Core.MouseButtonEvent <|-- Core.MouseButtonPressedEvent
+
+
+Core.MouseButtonEvent <|-- Core.MouseButtonReleasedEvent
+
+
+SceneObject <|-- RocketObject
+
+
+SceneObject <|-- TargetObject
+
+
+ShaderRenderer <|-- PostProcessPass
+
+
+SpriteRenderer <|-- LineRenderer
+
+
+
+
+
+/' Aggregation relationships '/
+
+Core.AppConfig *-- Core.WindowConfig
+
+
+Core.AppLayer o-- Core.Window
+
+
+Core.Application *-- Core.AppConfig
+
+
+Core.Application o-- Core.AppLayer
+
+
+Core.Application o-- Core.Window
+
+
+ArrowRenderer *-- LineRenderer
+
+
+AutonomousPIDRocketController "3" o-- PIDController
+
+
+BaseRenderer o-- RenderingSystem
+
+
+Camera *-- Transform
+
+
+CameraController o-- Camera
+
+
+CameraController o-- Scene
+
+
+CameraController o-- SceneObject
+
+
+ColliderBase o-- SceneObject
+
+
+ContactPoint "2" o-- ColliderBase
+
+
+ControlLayer o-- AutonomousPIDRocketController
+
+
+ControlLayer o-- EngineLayer
+
+
+ControlLayer o-- ManualRocketController
+
+
+ControlLayer o-- RocketObject
+
+
+EngineLayer *-- CameraController
+
+
+EngineLayer o-- PhysicsSolver
+
+
+EngineLayer o-- RenderingSystem
+
+
+EngineLayer o-- Scene
+
+
+EngineLayer o-- SceneRenderer
+
+
+FollowingUI o-- CameraController
+
+
+GridRenderer *-- LineRenderer
+
+
+InteractionUI o-- EngineLayer
+
+
+InteractionUI o-- InteractionState
+
+
+PIDConfig *-- PIDData
+
+
+PIDController *-- PIDData
+
+
+PhysicsSolver o-- IPropagator
+
+
+PhysicsSolver o-- Scene
+
+
+RenderingSystem o-- Camera
+
+
+RocketControllerUI o-- ControlLayer
+
+
+RocketControllerUI o-- EngineLayer
+
+
+RocketControllerUI *-- FileSelector
+
+
+RocketControllerUI o-- PIDController
+
+
+RocketObject "2" o-- SceneObject
+
+
+RocketObject o-- ShaderUniforms
+
+
+RocketStateUI o-- ControlLayer
+
+
+RocketStateUI o-- EngineLayer
+
+
+Scene o-- Camera
+
+
+Scene o-- Constraint
+
+
+Scene o-- SceneObject
+
+
+SceneLoadedEvent o-- Scene
+
+
+SceneObject o-- ColliderBase
+
+
+SceneObject *-- ContactPoint
+
+
+SceneObject o-- IVisual
+
+
+SceneObject *-- Transform
+
+
+SceneRenderer *-- ArrowRenderer
+
+
+SceneRenderer *-- CircleRenderer
+
+
+SceneRenderer *-- ConstraintRenderer
+
+
+SceneRenderer *-- GridRenderer
+
+
+SceneRenderer *-- LineRenderer
+
+
+SceneRenderer o-- PostProcessPass
+
+
+SceneRenderer o-- RenderingSystem
+
+
+SceneRenderer *-- ShaderRenderer
+
+
+SceneRenderer *-- SpriteRenderer
+
+
+SceneUI o-- EngineLayer
+
+
+SceneUI "2" o-- FileSelector
+
+
+SceneUI o-- Scene
+
+
+SettingsUI o-- AudioLayer
+
+
+SettingsUI o-- EngineLayer
+
+
+ShaderRenderer o-- RenderingSystem
+
+
+ShaderVisual *-- ShaderUniforms
+
+
+SimulationUI o-- EngineLayer
+
+
+UILayer o-- IUserInterface
+
+
+Core.Window *-- Core.WindowConfig
+
+
+
+
+
+
+/' Nested objects '/
+
+Constraint +-- Constraint::ConstraintDirection
+
+
+IPropagator +-- IPropagator::Sample
+
+
+InteractionUI +-- InteractionUI::Mode
+
+
+PhysicsSolver +-- PhysicsSolver::PropagatorEntry
+
+
+SceneObject +-- SceneObject::DebugArrow
+
+
+TextureLoader +-- TextureLoader::TextureInfo
+
+
+
+
+@enduml

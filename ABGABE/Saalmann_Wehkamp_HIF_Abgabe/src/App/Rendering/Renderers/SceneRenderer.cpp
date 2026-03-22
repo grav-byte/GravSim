@@ -1,0 +1,113 @@
+#include "SceneRenderer.h"
+
+#include "App/Rendering/Visuals/ShaderVisual.h"
+#include "GL/glew.h"
+#include "Core/Application.h"
+
+SceneRenderer::SceneRenderer(RenderingSystem* system) :
+    spriteRenderer_(system),
+    circleRenderer_(system),
+    constraintRenderer_(system),
+    lineRenderer_(system),
+    gridRenderer_(lineRenderer_, system),
+    arrowRenderer(lineRenderer_, system),
+    trailRenderer_(lineRenderer_, system),
+    shaderRenderer_(system),
+    colliderColor_(glm::vec4(1.0f, 0.0f, 0.0f, 0.5f)),
+    renderer_(system)
+{
+    showGrid = true;
+    passes_.push_back(std::make_unique<PostProcessPass>(renderer_, "bloom.frag"));
+}
+
+void SceneRenderer::AddTemporaryPostProcessPass(const std::string& frag, const ShaderUniforms& uniforms) {
+    auto pass = std::make_unique<PostProcessPass>(renderer_, frag);
+    pass->uniforms = uniforms;
+    temporaryPasses_.push_back(std::move(pass));
+}
+
+void SceneRenderer::OnSceneLoaded() {
+    trailRenderer_.Clear();
+}
+
+void SceneRenderer::RenderScene(const Scene* scene, const bool showColliders) {
+    // render grid
+    if (showGrid)
+        gridRenderer_.RenderGrid(scene->gridColor, gridSpacing_);
+
+    // render constraints
+    for (const Constraint* c : scene->GetConstraints())
+        constraintRenderer_.RenderConstraint(c, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+    // get ordered objects
+    const auto orderedObjects = scene->GetAllObjectsOrderedByDrawOrder();
+
+    // render scene objs
+    for (const SceneObject* obj : orderedObjects) {
+        // render trail if enabled
+        if (obj->renderTrail) {
+            trailRenderer_.RenderTrail(*obj, 1);
+        }
+
+        if (!obj->visual) continue;
+
+        switch (obj->visual->GetType()) {
+            case VisualType::Circle:
+                circleRenderer_.RenderCircle(obj->transform.GetMatrix(), obj->visual->color);
+                break;
+            case VisualType::Sprite:
+                spriteRenderer_.RenderSprite(obj);
+                break;
+            case VisualType::Shader:
+                const auto visual = dynamic_cast<ShaderVisual*>(obj->visual.get());
+                shaderRenderer_.Render(&obj->transform, visual->shaderPath, visual->shaderData);
+                break;
+        }
+    }
+
+    // render debug info and colliders
+    for (const SceneObject* obj : scene->GetAllObjects()) {
+        for (auto& arrow : obj->debugArrows) {
+            arrowRenderer.RenderArrow(*arrow);
+        }
+
+        if (!showColliders) continue;
+
+        for (const auto& collider : obj->colliders)
+            circleRenderer_.RenderCircle(collider->GetTransformMatrix(), colliderColor_);
+        for (const auto& contact : obj->contactPoints) {
+            // render contact point
+            auto transform = glm::mat4(1.0f);
+            // position
+            transform = glm::translate(transform, glm::vec3(contact.point, 0.0f));
+            // scale
+            transform = glm::scale(transform, glm::vec3(0.1f));
+
+            circleRenderer_.RenderCircle(transform, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+        }
+    }
+}
+
+void SceneRenderer::ApplyPostProcess() {
+    unsigned int readFBO = renderer_->sceneFBO;
+    unsigned int writeFBO = renderer_->postFBO;
+
+    std::vector<PostProcessPass*> allPasses;
+    allPasses.reserve(passes_.size() + temporaryPasses_.size());
+
+    for (auto& pass : passes_) allPasses.push_back(pass.get());
+    for (auto& pass : temporaryPasses_) allPasses.push_back(pass.get());
+
+    for (auto* pass : allPasses) {
+        glBindFramebuffer(GL_FRAMEBUFFER, writeFBO);
+        glViewport(0, 0, renderer_->frameSize.x, renderer_->frameSize.y);
+
+        pass->RenderPass(readFBO);
+        std::swap(readFBO, writeFBO);
+    }
+
+    temporaryPasses_.clear();
+
+    // final output is always in readFBO
+    renderer_->finalFBO = readFBO;
+}

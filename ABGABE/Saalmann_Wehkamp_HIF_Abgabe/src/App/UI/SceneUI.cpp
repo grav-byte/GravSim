@@ -1,0 +1,416 @@
+#include "SceneUI.h"
+
+#include <iostream>
+
+#include "imgui.h"
+#include "App/Layers/EngineLayer.h"
+#include "App/Engine/Physics/Colliders/CircleCollider.h"
+#include "App/Rendering/Visuals/CircleVisual.h"
+#include "App/Rendering/Visuals/SpriteVisual.h"
+#include "Core/AppLayer.h"
+#include "Core/AppLayer.h"
+#include "misc/cpp/imgui_stdlib.h"
+#include "Core/Application.h"
+#include "App/RocketControl/TargetObject.h"
+
+
+SceneUI::SceneUI() {
+    scene_ = nullptr;
+    sceneSelector_ = std::make_unique<FileSelector>(std::filesystem::path("../assets/scenes"));
+    spriteSelector_ = std::make_unique<FileSelector>(std::filesystem::path("../assets/sprites"));
+    engine_ = Core::Application::Get().GetLayer<EngineLayer>();
+    statusMessage_ = "";
+    statusTimer_ = 0.0f;
+}
+
+#include <filesystem>
+
+SceneUI::~SceneUI() = default;
+
+void SceneUI::ShowStatusMessage(const std::string &msg, float duration = 5) {
+    statusMessage_ = msg;
+    statusTimer_ = duration;
+}
+
+void SceneUI::OnEvent(Core::Event &event) {
+    // Listen for scene loaded events to update the scene pointer
+    if (event.GetEventType() == Core::SceneLoaded) {
+        scene_ = engine_->GetScene();
+    }
+}
+
+void SceneUI::Draw() {
+    if (!scene_)
+        return;
+
+    ImGui::Begin("Scene");
+    ImGui::Text("Scene");
+
+    if (statusTimer_ > 0.0f) {
+        ImGui::Text("%s", statusMessage_.c_str());
+        statusTimer_ -= ImGui::GetIO().DeltaTime;
+        if (statusTimer_ < 0.0f)
+            statusTimer_ = 0.0f;
+    } else {
+        ImGui::Dummy(ImVec2(-1.0f, ImGui::GetTextLineHeightWithSpacing() * .7f));
+    }
+    ImGui::Spacing();
+
+    DrawSceneLoading();
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+    ImGui::Spacing();
+
+    DrawScene();
+
+    ImGui::End();
+}
+
+void SceneUI::DrawSceneLoading() {
+
+    ImGui::SeparatorText("Load Scenes");
+    ImGui::Spacing();
+
+
+    sceneSelector_->Draw();
+    if (!sceneSelector_->GetSelectedFile().empty()) {
+        if (ImGui::Button("Load Scene")) {
+            if (engine_->LoadScene(sceneSelector_->GetSelectedFile())) {
+                ShowStatusMessage("Scene loaded successfully.");
+            } else {
+                ShowStatusMessage("Failed to load scene.");
+            }
+        }
+        ImGui::SameLine();
+
+        if (ImGui::Button("Delete Scene")) {
+            const auto filePath = sceneSelector_->GetSelectedFile();
+            try {
+                if (std::filesystem::exists(filePath)) {
+                    std::filesystem::remove(filePath);
+                    sceneSelector_->RefreshFiles(); // update list
+                    ShowStatusMessage("Scene deleted successfully.");
+                } else {
+                    ShowStatusMessage("Scene file does not exist.");
+                }
+            } catch (const std::filesystem::filesystem_error& e) {
+                std::cerr << "Failed to delete scene: " << e.what() << std::endl;
+                ShowStatusMessage("Failed to delete scene.");
+            }
+        }
+    }
+
+    if (ImGui::Button("New Scene")) {
+        engine_ -> NewScene();
+        ShowStatusMessage("Scene cleared.", 3.0f);
+    }
+
+}
+
+void SceneUI::DrawScene() {
+    ImGui::Spacing();
+    ImGui::SeparatorText("Current Scene");
+    ImGui::Spacing();
+
+
+    ImGui::InputText("Name", scene_->GetName());
+    if (ImGui::Button("Save")) {
+        if (engine_->SaveScene()) {
+            ShowStatusMessage("Scene saved successfully.");
+        } else {
+            ShowStatusMessage("Failed to save scene.");
+        }
+    }
+
+    ImGui::Spacing();
+    ImGui::SeparatorText("Objects");
+    ImGui::Spacing();
+
+    // Use orange tints for object headers
+    ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.8f, 0.388f, 0.149f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.882f, 0.494f, 0.278f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(0.8f, 0.388f, 0.149f, 1.0f));
+    for (SceneObject *obj : scene_->GetAllObjects()) {
+        if (!obj) continue;
+        if (dynamic_cast<TargetObject*>(obj)) continue;
+        DrawObjectUI(obj);
+    }
+    ImGui::PopStyleColor(3);
+
+    ImGui::Spacing();
+
+    if (ImGui::Button("Add Object")) {
+        scene_->CreateObject();
+    }
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+
+    ImGui::SeparatorText("Camera");
+    ImGui::Spacing();
+
+    auto cam = scene_->GetCamera();
+    DrawFloat2Control("Position", &cam->transform.position);
+    ImGui::DragFloat("Zoom", &cam->zoom, .02f, 0.1f, 20.0f);
+    ImGui::Spacing();
+    ImGui::Spacing();
+    ImGui::SeparatorText("Scene Settings");
+    DrawFloat2Control("Global Gravity", &scene_->globalGravity);
+    DrawColorControl("Bg Color", &cam->backgroundColor);
+    DrawColorControl("Grid Color", &scene_->gridColor, true);
+
+    DrawConstraints(scene_);
+
+}
+
+void SceneUI::DrawObjectUI(SceneObject* obj) {
+    ImGui::PushID(static_cast<int>(obj->id));
+
+    bool keepAlive = true;
+    const std::string text = "[" + std::to_string(obj->id) + "] " + obj->name + "###ObjHeader" + std::to_string(obj->id);
+    if (ImGui::CollapsingHeader(text.c_str(), &keepAlive))
+    {
+        ImGui::Indent();
+        ImGui::InputTextWithHint("Name", "Object Name", &obj->name);
+
+        DrawTransform(obj);
+
+        ImGui::Spacing();
+
+        DrawPhysics(obj);
+
+        ImGui::Spacing();
+
+        DrawCollidersUI(obj);
+
+        ImGui::Spacing();
+
+        DrawRendering(obj);
+        ImGui::Unindent();
+    }
+    if (!keepAlive)
+        scene_->DeleteObject(obj->id);
+
+    ImGui::Separator();
+
+    ImGui::PopID();
+}
+
+void SceneUI::DrawTransform(SceneObject* obj) {
+    if (!ImGui::TreeNode("Transform"))
+        return;
+
+    DrawFloat2Control("Position", &obj->transform.position);
+
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("m");
+    }
+
+    // coupled scale
+    float scale = obj->transform.scale.x;
+    if (ImGui::DragFloat("Scale", &scale, .1f)) {
+        obj->transform.scale = glm::vec2(scale, scale);
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("m");
+    }
+
+    if (ImGui::DragFloat("Rotation", &obj->transform.rotation, .1f)) {
+        obj->lastRotation = obj->transform.rotation;
+    }
+
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("degrees");
+    }
+    ImGui::TreePop();
+}
+
+void SceneUI::DrawPhysics(SceneObject *obj) {
+    if (!ImGui::TreeNode("Physics"))
+        return;
+
+    ImGui::Checkbox("Gravitates", &obj->gravitates);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("Whether this object attracts others");
+    }
+    ImGui::SameLine();
+    ImGui::Checkbox("Affected By Gravity", &obj->affectedByGravity);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("Whether this object is attracted by others and global gravity");
+    }
+    ImGui::DragFloat("Mass", &obj->mass, .1f, 0.0f, 100000.0f);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("kg");
+    }
+    DrawFloat2Control("Velocity", &obj->velocity);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("m/s");
+    }
+    ImGui::DragFloat("A. Vel", &obj->angularVelocity, .1f);
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("degrees/s");
+    }
+    ImGui::TreePop();
+}
+
+void SceneUI::DrawCollidersUI(SceneObject *obj) {
+    if (!ImGui::TreeNode("Colliders"))
+        return;
+
+    ImGui::Checkbox("Show", &engine_->showColliders);
+
+    ImGui::SameLine(150.0f);
+
+    if (ImGui::Button("Add")) {
+        obj->AddCollider(ColliderType::Circle);
+    }
+
+    int idx = 0;
+    for (auto &collider : obj->colliders) {
+        if (ImGui::TreeNode(collider.get(), "Circle")) {
+            ImGui::SetNextItemWidth(150.0f);
+            if (ImGui::DragFloat("Size", &collider->localSize.x, .02f, 0.01f, 1000.0f))
+                collider->localSize.y = collider->localSize.x; // keep circle
+            ImGui::SetNextItemWidth(150.0f);
+            DrawFloat2Control("Local Pos", &collider->localPosition, .1f);
+            ImGui::SetNextItemWidth(150.0f);
+            ImGui::DragFloat("Elasticity", &collider->elasticity, .01f, 0.0f, 1.0f);
+            if (ImGui::Button("Remove")) {
+                obj->RemoveCollider(idx);
+            }
+            ImGui::TreePop();
+        }
+        idx++;
+    }
+
+    ImGui::TreePop();
+}
+
+void SceneUI::DrawRendering(SceneObject *obj) {
+    if (!ImGui::TreeNode("Rendering"))
+        return;
+    // Determine current visual type
+    VisualType currentVisual = VisualType::Circle;
+    if (dynamic_cast<CircleVisual*>(obj->visual.get())) currentVisual = VisualType::Circle;
+    else if (dynamic_cast<SpriteVisual*>(obj->visual.get())) currentVisual = VisualType::Sprite;
+
+    static const char* VisualNames[] = { "Circle", "Sprite" };
+    int currentVisualInt = static_cast<int>(currentVisual);
+    // Combo box
+    if (ImGui::Combo("Renderer", &currentVisualInt, VisualNames, IM_ARRAYSIZE(VisualNames))) {
+        currentVisual = static_cast<VisualType>(currentVisualInt);
+        // user changed visual type
+        glm::vec4 color = obj->visual->color; // preserve color
+
+        switch (currentVisual) {
+            case VisualType::Circle:
+                obj->visual = std::make_unique<CircleVisual>();
+                break;
+            case VisualType::Sprite:
+                obj->visual = std::make_unique<SpriteVisual>();
+                break;
+            default: ;
+        }
+
+        obj->visual->color = color; // restore color
+    }
+
+    ImGui::Spacing();
+
+    if (currentVisual == VisualType::Sprite) {
+        if (auto* sprite = dynamic_cast<SpriteVisual*>(obj->visual.get())) {
+            ImGui::Text("Select Sprite");
+            spriteSelector_->Draw(sprite->GetPath().filename().string().c_str());
+            sprite->SetPath(spriteSelector_->GetSelectedFile());
+        }
+    }
+
+    ImGui::Spacing();
+
+    DrawColorControl("Color", &obj->visual->color);
+
+    ImGui::Spacing();
+
+    ImGui::Checkbox("Trail", &obj->renderTrail);
+
+    ImGui::TreePop();
+}
+
+void SceneUI::DrawConstraints(Scene* scene)
+{
+    ImGui::Spacing();
+    ImGui::Text("Constraints");
+    ImGui::Separator();
+
+    struct DirUI { const char* label; Constraint::ConstraintDirection dir; };
+    static const DirUI dirs[] = {
+        {"UP", Constraint::UP},
+        {"DOWN", Constraint::DOWN},
+        {"LEFT", Constraint::LEFT},
+        {"RIGHT", Constraint::RIGHT},
+        {"RADIAL", Constraint::RADIAL}
+    };
+
+    for (const auto& d : dirs) {
+        bool hasDir = false;
+        for (Constraint* c : scene->GetConstraints()) {
+            if (c->direction == d.dir) {
+                hasDir = true;
+                break;
+            }
+        }
+        bool hadDir = hasDir;
+        if (ImGui::Checkbox(d.label, &hasDir)) {
+            if (!hasDir && hadDir) {
+                // remove constraint
+                scene->RemoveConstraint(d.dir);
+            } else if (hasDir && !hadDir) {
+                // add constraint with default distance
+                scene->AddConstraint(std::make_unique<Constraint>(1.0f, d.dir));
+            }
+        }
+
+        ImGui::SameLine(100.0f);
+        if (hasDir) {
+            ImGui::SetNextItemWidth(150.0f);
+            // show distance for this direction (first matching constraint)
+            for (Constraint* c : scene->GetConstraints()) {
+                if (c->direction == d.dir) {
+                    float lowerLimit = d.dir == Constraint::RADIAL ? 0.1f : -1000.0f;
+                    ImGui::DragFloat((std::string("Distance##") + d.label).c_str(), &c->distance, 0.1f, lowerLimit, 1000.0f);
+                    break;
+                }
+            }
+        } else {
+            ImGui::TextDisabled("No constraint");
+        }
+    }
+}
+
+void SceneUI::DrawColorControl(const char *title, glm::vec4 *color, bool includeAlpha) {
+    if (includeAlpha) {
+        float value[4] = { color->x, color->y, color->z, color->a };
+        if (ImGui::ColorEdit4(title, value)) {
+            // Update
+            *color = glm::vec4(value[0], value[1], value[2], value[3]);
+        }
+        return;
+    }
+    float value[3] = { color->x, color->y, color->z };
+    if (ImGui::ColorEdit3(title, value)) {
+        // Update
+        *color = glm::vec4(value[0], value[1], value[2], color->a);
+    }
+}
+
+bool SceneUI::DrawFloat2Control(const char *title, glm::vec2 *vec2, float speed) {
+
+    float value[2] = { vec2->x, vec2->y };
+    bool updated = ImGui::DragFloat2(title, value, speed);
+    if (updated) {
+        // Update
+        *vec2 = glm::vec2(value[0], value[1]);
+    }
+    return updated;
+}

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GravSim\visual_studio_solution\CMakeFiles\3223017fab999c7f6b71629aadd5da82\update_mappings.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projects\GravSim\libraries\glfw\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Projects\GravSim\libraries\glfw\src\mappings.h.in">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="D:\Projects\GravSim\libraries\glfw\CMake\GenerateMappings.cmake" />
+    <None Include="D:\Projects\GravSim\visual_studio_solution\libraries\glfw\src\CMakeFiles\update_mappings" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{3B0E4516-392C-3DE1-A08D-2731E09F6FA5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{D1EC73D0-19E4-3790-A0D2-0604A490862B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

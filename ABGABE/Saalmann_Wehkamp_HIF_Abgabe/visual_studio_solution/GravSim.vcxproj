@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FC4D5FCF-32E7-3740-8A2A-3DFA8360E71E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>GravSim</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projects\GravSim\visual_studio_solution\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GravSim.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GravSim</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Projects\GravSim\visual_studio_solution\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">GravSim.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">GravSim</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Projects\GravSim\visual_studio_solution\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">GravSim.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">GravSim</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Projects\GravSim\visual_studio_solution\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">GravSim.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">GravSim</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projects\GravSim\src;D:\Projects\GravSim\resources;D:\Projects\GravSim\libraries\glfw\include;D:\Projects\GravSim\libraries\imgui;D:\Projects\GravSim\libraries\imgui\backends;D:\Projects\GravSim\libraries\implot;D:\Projects\GravSim\libraries\implot\backends;D:\Projects\GravSim\libraries\cereal\include;D:\Projects\GravSim\libraries\tinyfiledialogs;D:\Projects\GravSim\libraries\glm;D:\Projects\GravSim\libraries\miniaudio;D:\Projects\GravSim\libraries\glew\include;D:\Projects\GravSim\libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;GLEW_STATIC;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;GLEW_STATIC;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\GravSim\src;D:\Projects\GravSim\resources;D:\Projects\GravSim\libraries\glfw\include;D:\Projects\GravSim\libraries\imgui;D:\Projects\GravSim\libraries\imgui\backends;D:\Projects\GravSim\libraries\implot;D:\Projects\GravSim\libraries\implot\backends;D:\Projects\GravSim\libraries\cereal\include;D:\Projects\GravSim\libraries\tinyfiledialogs;D:\Projects\GravSim\libraries\glm;D:\Projects\GravSim\libraries\miniaudio;D:\Projects\GravSim\libraries\glew\include;D:\Projects\GravSim\libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\GravSim\src;D:\Projects\GravSim\resources;D:\Projects\GravSim\libraries\glfw\include;D:\Projects\GravSim\libraries\imgui;D:\Projects\GravSim\libraries\imgui\backends;D:\Projects\GravSim\libraries\implot;D:\Projects\GravSim\libraries\implot\backends;D:\Projects\GravSim\libraries\cereal\include;D:\Projects\GravSim\libraries\tinyfiledialogs;D:\Projects\GravSim\libraries\glm;D:\Projects\GravSim\libraries\miniaudio;D:\Projects\GravSim\libraries\glew\include;D:\Projects\GravSim\libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory D:/Projects/GravSim/assets D:/Projects/GravSim/visual_studio_solution/Debug/../assets
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>libraries\glfw\src\Debug\glfw3.lib;Debug\glew.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Projects/GravSim/visual_studio_solution/Debug/GravSim.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Projects/GravSim/visual_studio_solution/Debug/GravSim.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projects\GravSim\src;D:\Projects\GravSim\resources;D:\Projects\GravSim\libraries\glfw\include;D:\Projects\GravSim\libraries\imgui;D:\Projects\GravSim\libraries\imgui\backends;D:\Projects\GravSim\libraries\implot;D:\Projects\GravSim\libraries\implot\backends;D:\Projects\GravSim\libraries\cereal\include;D:\Projects\GravSim\libraries\tinyfiledialogs;D:\Projects\GravSim\libraries\glm;D:\Projects\GravSim\libraries\miniaudio;D:\Projects\GravSim\libraries\glew\include;D:\Projects\GravSim\libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\GravSim\src;D:\Projects\GravSim\resources;D:\Projects\GravSim\libraries\glfw\include;D:\Projects\GravSim\libraries\imgui;D:\Projects\GravSim\libraries\imgui\backends;D:\Projects\GravSim\libraries\implot;D:\Projects\GravSim\libraries\implot\backends;D:\Projects\GravSim\libraries\cereal\include;D:\Projects\GravSim\libraries\tinyfiledialogs;D:\Projects\GravSim\libraries\glm;D:\Projects\GravSim\libraries\miniaudio;D:\Projects\GravSim\libraries\glew\include;D:\Projects\GravSim\libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\GravSim\src;D:\Projects\GravSim\resources;D:\Projects\GravSim\libraries\glfw\include;D:\Projects\GravSim\libraries\imgui;D:\Projects\GravSim\libraries\imgui\backends;D:\Projects\GravSim\libraries\implot;D:\Projects\GravSim\libraries\implot\backends;D:\Projects\GravSim\libraries\cereal\include;D:\Projects\GravSim\libraries\tinyfiledialogs;D:\Projects\GravSim\libraries\glm;D:\Projects\GravSim\libraries\miniaudio;D:\Projects\GravSim\libraries\glew\include;D:\Projects\GravSim\libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory D:/Projects/GravSim/assets D:/Projects/GravSim/visual_studio_solution/Release/../assets
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>libraries\glfw\src\Release\glfw3.lib;Release\glew.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Projects/GravSim/visual_studio_solution/Release/GravSim.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Projects/GravSim/visual_studio_solution/Release/GravSim.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projects\GravSim\src;D:\Projects\GravSim\resources;D:\Projects\GravSim\libraries\glfw\include;D:\Projects\GravSim\libraries\imgui;D:\Projects\GravSim\libraries\imgui\backends;D:\Projects\GravSim\libraries\implot;D:\Projects\GravSim\libraries\implot\backends;D:\Projects\GravSim\libraries\cereal\include;D:\Projects\GravSim\libraries\tinyfiledialogs;D:\Projects\GravSim\libraries\glm;D:\Projects\GravSim\libraries\miniaudio;D:\Projects\GravSim\libraries\glew\include;D:\Projects\GravSim\libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\GravSim\src;D:\Projects\GravSim\resources;D:\Projects\GravSim\libraries\glfw\include;D:\Projects\GravSim\libraries\imgui;D:\Projects\GravSim\libraries\imgui\backends;D:\Projects\GravSim\libraries\implot;D:\Projects\GravSim\libraries\implot\backends;D:\Projects\GravSim\libraries\cereal\include;D:\Projects\GravSim\libraries\tinyfiledialogs;D:\Projects\GravSim\libraries\glm;D:\Projects\GravSim\libraries\miniaudio;D:\Projects\GravSim\libraries\glew\include;D:\Projects\GravSim\libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\GravSim\src;D:\Projects\GravSim\resources;D:\Projects\GravSim\libraries\glfw\include;D:\Projects\GravSim\libraries\imgui;D:\Projects\GravSim\libraries\imgui\backends;D:\Projects\GravSim\libraries\implot;D:\Projects\GravSim\libraries\implot\backends;D:\Projects\GravSim\libraries\cereal\include;D:\Projects\GravSim\libraries\tinyfiledialogs;D:\Projects\GravSim\libraries\glm;D:\Projects\GravSim\libraries\miniaudio;D:\Projects\GravSim\libraries\glew\include;D:\Projects\GravSim\libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory D:/Projects/GravSim/assets D:/Projects/GravSim/visual_studio_solution/MinSizeRel/../assets
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>libraries\glfw\src\MinSizeRel\glfw3.lib;MinSizeRel\glew.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Projects/GravSim/visual_studio_solution/MinSizeRel/GravSim.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Projects/GravSim/visual_studio_solution/MinSizeRel/GravSim.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projects\GravSim\src;D:\Projects\GravSim\resources;D:\Projects\GravSim\libraries\glfw\include;D:\Projects\GravSim\libraries\imgui;D:\Projects\GravSim\libraries\imgui\backends;D:\Projects\GravSim\libraries\implot;D:\Projects\GravSim\libraries\implot\backends;D:\Projects\GravSim\libraries\cereal\include;D:\Projects\GravSim\libraries\tinyfiledialogs;D:\Projects\GravSim\libraries\glm;D:\Projects\GravSim\libraries\miniaudio;D:\Projects\GravSim\libraries\glew\include;D:\Projects\GravSim\libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\GravSim\src;D:\Projects\GravSim\resources;D:\Projects\GravSim\libraries\glfw\include;D:\Projects\GravSim\libraries\imgui;D:\Projects\GravSim\libraries\imgui\backends;D:\Projects\GravSim\libraries\implot;D:\Projects\GravSim\libraries\implot\backends;D:\Projects\GravSim\libraries\cereal\include;D:\Projects\GravSim\libraries\tinyfiledialogs;D:\Projects\GravSim\libraries\glm;D:\Projects\GravSim\libraries\miniaudio;D:\Projects\GravSim\libraries\glew\include;D:\Projects\GravSim\libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\GravSim\src;D:\Projects\GravSim\resources;D:\Projects\GravSim\libraries\glfw\include;D:\Projects\GravSim\libraries\imgui;D:\Projects\GravSim\libraries\imgui\backends;D:\Projects\GravSim\libraries\implot;D:\Projects\GravSim\libraries\implot\backends;D:\Projects\GravSim\libraries\cereal\include;D:\Projects\GravSim\libraries\tinyfiledialogs;D:\Projects\GravSim\libraries\glm;D:\Projects\GravSim\libraries\miniaudio;D:\Projects\GravSim\libraries\glew\include;D:\Projects\GravSim\libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory D:/Projects/GravSim/assets D:/Projects/GravSim/visual_studio_solution/RelWithDebInfo/../assets
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>libraries\glfw\src\RelWithDebInfo\glfw3.lib;RelWithDebInfo\glew.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Projects/GravSim/visual_studio_solution/RelWithDebInfo/GravSim.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Projects/GravSim/visual_studio_solution/RelWithDebInfo/GravSim.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GravSim\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Projects/GravSim/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Projects/GravSim -BD:/Projects/GravSim/visual_studio_solution --check-stamp-file D:/Projects/GravSim/visual_studio_solution/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCCompilerABI.c;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerSupport.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\CrayClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Diab-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GNU-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\HP-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\LCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\OrangeC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Renesas-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TIClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XL-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\zOS-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeDetermineLinkerId.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeInspectCLinker.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeInspectCXXLinker.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeCCompiler.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeCXXCompiler.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeRCCompiler.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projects\GravSim\visual_studio_solution\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Projects/GravSim/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Projects/GravSim -BD:/Projects/GravSim/visual_studio_solution --check-stamp-file D:/Projects/GravSim/visual_studio_solution/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCCompilerABI.c;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerSupport.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\CrayClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Diab-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GNU-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\HP-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\LCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\OrangeC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Renesas-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TIClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XL-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\zOS-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeDetermineLinkerId.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeInspectCLinker.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeInspectCXXLinker.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeCCompiler.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeCXXCompiler.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeRCCompiler.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Projects\GravSim\visual_studio_solution\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Projects/GravSim/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Projects/GravSim -BD:/Projects/GravSim/visual_studio_solution --check-stamp-file D:/Projects/GravSim/visual_studio_solution/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCCompilerABI.c;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerSupport.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\CrayClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Diab-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GNU-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\HP-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\LCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\OrangeC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Renesas-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TIClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XL-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\zOS-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeDetermineLinkerId.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeInspectCLinker.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeInspectCXXLinker.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeCCompiler.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeCXXCompiler.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeRCCompiler.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Projects\GravSim\visual_studio_solution\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Projects/GravSim/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Projects/GravSim -BD:/Projects/GravSim/visual_studio_solution --check-stamp-file D:/Projects/GravSim/visual_studio_solution/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCCompilerABI.c;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerSupport.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\CrayClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Diab-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GNU-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\HP-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\LCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\OrangeC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Renesas-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TIClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XL-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\zOS-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeDetermineLinkerId.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeInspectCLinker.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeInspectCXXLinker.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeCCompiler.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeCXXCompiler.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeRCCompiler.cmake;D:\Projects\GravSim\visual_studio_solution\CMakeFiles\4.2.0\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Projects\GravSim\visual_studio_solution\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Projects\GravSim\src\App\main.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\libraries\imgui\imgui.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\libraries\imgui\imgui_draw.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\libraries\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\libraries\imgui\imgui_tables.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\libraries\imgui\imgui_demo.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\libraries\imgui\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\libraries\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\libraries\imgui\misc\cpp\imgui_stdlib.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\libraries\implot\implot.h" />
+    <ClCompile Include="D:\Projects\GravSim\libraries\implot\implot_items.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\libraries\implot\implot.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\libraries\implot\implot_internal.h" />
+    <ClCompile Include="D:\Projects\GravSim\libraries\miniaudio\miniaudio.c" />
+    <ClCompile Include="D:\Projects\GravSim\src\core\Application.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\src\core\Window.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Layers\UILayer.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Layers\AudioLayer.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Layers\EngineLayer.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\UI\SettingsUI.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\RenderingSystem.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\RenderingSystem.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Scene.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Scene.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\SceneObject.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\SceneObject.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Physics\Colliders\ColliderBase.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Loading\ShaderLoader.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Loading\ShaderLoader.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Camera.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Camera.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\Visuals\CircleVisual.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Interaction\IInteractor.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Visuals\CircleVisual.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Transform.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\UI\SceneUI.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\UI\SceneUI.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\EngineEvents.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\CameraController.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\CameraController.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Loading\Serialiser.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Loading\Serialiser.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\UI\FileSelector.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\UI\FileSelector.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\Visuals\SpriteVisual.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Visuals\SpriteVisual.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Loading\TextureLoader.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Loading\TextureLoader.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\UI\CustomImGuiStyle.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\UI\SimulationUI.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\UI\SimulationUI.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Physics\PhysicsSolver.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Physics\PhysicsSolver.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Physics\Propagators\IPropagator.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Physics\Propagators\EulerPropagator.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Physics\Propagators\EulerPropagator.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Physics\Propagators\SemiImplicitEulerPropagator.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Physics\Propagators\SemiImplicitEulerPropagator.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Physics\Propagators\RK4Propagator.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Physics\Propagators\RK4Propagator.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Physics\Propagators\VelocityVerletPropagator.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Physics\Propagators\VelocityVerletPropagator.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\UI\FollowingUI.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\UI\FollowingUI.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\Renderers\GridRenderer.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Renderers\GridRenderer.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Physics\Constraint.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Physics\Constraint.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Physics\Colliders\CircleCollider.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Physics\Colliders\CircleCollider.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Physics\Colliders\ColliderBase.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\Renderers\SceneRenderer.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Renderers\SceneRenderer.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\Renderers\SpriteRenderer.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Renderers\SpriteRenderer.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\Renderers\CircleRenderer.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Renderers\CircleRenderer.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\Renderers\ConstraintRenderer.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Renderers\ConstraintRenderer.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\Renderers\LineRenderer.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Renderers\LineRenderer.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Renderers\IRenderer.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Renderers\PostProcessPass.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\UI\InteractionUI.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\UI\InteractionUI.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Physics\ContactPoint.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Physics\ContactSolver.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Physics\ContactSolver.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\Renderers\ShaderRenderer.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Renderers\ShaderRenderer.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Visuals\ShaderVisual.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\Visuals\ShaderVisual.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Loading\CerealHelpers.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\RocketControl\RocketObject.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\RocketObject.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\RocketControl\ControlLayer.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\ControlLayer.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\RocketControl\UI\RocketStateUI.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\UI\RocketStateUI.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\RocketControl\Controllers\ManualRocketController.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\Controllers\ManualRocketController.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\RocketControl\PID\PIDController.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\PID\PIDController.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\RocketControl\UI\RocketControllerUI.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\UI\RocketControllerUI.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\RocketControl\Controllers\AutonomousPIDRocketController.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\Controllers\AutonomousPIDRocketController.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\PID\PIDData.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\Renderers\ArrowRenderer.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Renderers\ArrowRenderer.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\RocketControl\TargetObject.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\TargetObject.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\RocketControl\UI\TargetUI.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\UI\TargetUI.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\RocketControl\PID\PIDVisualizer.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\PID\PIDVisualizer.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\Controllers\IRocketController.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Rendering\Renderers\TrailRenderer.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Rendering\Renderers\TrailRenderer.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\UI\TimeControlUI.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\UI\TimeControlUI.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Interaction\PlaceInteractor.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Interaction\PlaceInteractor.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Interaction\ApplyForceInteractor.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Interaction\ApplyForceInteractor.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Prediction\Predictor.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Prediction\Predictor.h" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\Engine\Physics\PhysicsContext.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\Engine\Physics\PhysicsContext.cpp" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\UI\PredictionUI.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\UI\PredictionUI.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\RocketControl\TargetManager.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\TargetManager.h" />
+    <ClCompile Include="D:\Projects\GravSim\src\App\RocketControl\Controllers\OrbitRocketController.cpp" />
+    <ClInclude Include="D:\Projects\GravSim\src\App\RocketControl\Controllers\OrbitRocketController.h" />
+    <ResourceCompile Include="D:\Projects\GravSim\resources\windows_icon.rc" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="D:\Projects\GravSim\visual_studio_solution\ZERO_CHECK.vcxproj">
+      <Project>{5AF0ADF7-7A64-3269-896F-B5C5FA9A9990}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\GravSim\visual_studio_solution\glew.vcxproj">
+      <Project>{45810E66-5666-39C4-B1CD-A3A32E0338A7}</Project>
+      <Name>glew</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\GravSim\visual_studio_solution\libraries\glfw\src\glfw.vcxproj">
+      <Project>{6F09A8A1-4773-32B4-8C93-DC1592917D53}</Project>
+      <Name>glfw</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

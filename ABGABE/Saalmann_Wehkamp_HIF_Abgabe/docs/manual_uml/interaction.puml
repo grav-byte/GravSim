@@ -1,0 +1,43 @@
+@startuml
+allowmixing
+skinparam classFontName Courier
+skinparam classFontSize 12
+'skinparam linetype ortho
+
+top to bottom direction
+
+class InteractionUI
+class Scene
+
+package Interaction {
+    class IInteractor {
+        +virtual void DrawPreview(Scene &scene, const vec2& worldPos)
+        +virtual void OnClick(Scene &scene, const vec2& worldPos, bool leftMouse)
+        +virtual void OnRelease(Scene &scene, const vec2& worldPos, bool leftMouse)
+    }
+
+    note right of IInteractor
+        Strategy Pattern
+    end note
+
+    InteractionUI "1" *-- "many" IInteractor : owns
+
+    class PlaceIneractor {
+        +void OnClick(Scene &scene, glm::vec2 mousePos, bool leftMouse) override
+        +void OnRelease(Scene &scene, glm::vec2 mousePos, bool leftMouse) override
+    }
+
+    IInteractor <|-- PlaceIneractor : implements
+    PlaceIneractor --> Scene : uses
+
+    class ApplyForceInteractor {
+        +void OnClick(Scene &scene, glm::vec2 mousePos, bool leftMouse) override
+        +void OnRelease(Scene &scene, glm::vec2 mousePos, bool leftMouse) override
+        -std::string effectShader_
+    }
+
+    IInteractor <|-- ApplyForceInteractor : implements
+    ApplyForceInteractor --> Scene : uses
+}
+
+@enduml
