@@ -330,6 +330,8 @@ bool EngineLayer::LoadScene(const std::string &filePath) {
 \end{minted}
 
 Die Methode \texttt{OnSceneLoaded} verwaltet ihre Abhängigkeiten, wie z.B. das Rendering-Modul. Um andere Ebenen über die neue Szene zu informieren, wird \texttt{SceneLoadedEvent}, ein Ereignis, ausgelöst. Dafür wird die Methode \texttt{Application::RaiseEvent} über ein Singleton-Muster aufgerufen:
+\newpage
+
 \begin{minted}[fontsize=\scriptsize, breaklines, style=tango]{cpp}
 void EngineLayer::OnSceneLoaded() const {
     renderingSystem_->SetActiveCamera(scene_->GetCamera());
